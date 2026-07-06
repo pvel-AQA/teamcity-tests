@@ -1,0 +1,87 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: teamcity-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: teamcity
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-teamcity_secret}
+      POSTGRES_DB: teamcity
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - teamcity-net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U teamcity -d teamcity" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  teamcity-server:
+    image: jetbrains/teamcity-server:2026.1.1
+    container_name: teamcity-server
+    user: "0:0"
+    restart: unless-stopped
+    ports:
+      - "8111:8111"
+    volumes:
+      - tc-server-data:/data/teamcity_server/datadir
+      - tc-server-logs:/opt/teamcity/logs
+      - ./database.properties:/data/teamcity_server/datadir/config/database.properties:ro
+      - ./jdbc/postgresql-42.7.3.jar:/data/teamcity_server/datadir/lib/jdbc/postgresql.jar:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - teamcity-net
+
+  teamcity-agent:
+    image: jetbrains/teamcity-agent:2026.1.1
+    container_name: teamcity-agent
+    restart: unless-stopped
+    environment:
+      SERVER_URL: "http://teamcity-server:8111"
+      # if Docker-in-Docker is needed for builds:
+      # AGENT_ENABLE_DOCKER: "true"
+    volumes:
+      - tc-agent-conf:/data/teamcity_agent/conf
+      # For Docker-images builds from the agent:
+      # - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - teamcity-server
+    networks:
+      - teamcity-net
+
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    ports:
+      - "4444:4444"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/:/etc/selenoid/:ro
+    command: [ "-container-network", "openmrs_default" ]
+    depends_on:
+      - teamcity-server
+    networks:
+      - teamcity-net
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui:latest
+    ports:
+      - "6567:8080"
+    command: [ "--selenoid-uri", "http://selenoid:4444" ]
+    depends_on:
+      - selenoid
+    networks:
+      - teamcity-net
+
+volumes:
+  pgdata:
+  tc-server-data:
+  tc-server-logs:
+  tc-agent-conf:
+
+networks:
+  teamcity-net:
