@@ -13,7 +13,7 @@ public class BaseTest {
     }
 
     @AfterEach
-    public void exit() {
+    public void afterTest() {
         this.softy.assertAll();
     }
 }

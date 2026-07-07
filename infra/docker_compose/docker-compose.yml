@@ -85,3 +85,4 @@ volumes:
 
 networks:
   teamcity-net:
+    name: teamcity-net
