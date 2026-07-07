@@ -1,0 +1,53 @@
+name: 'Pull and Cache Browser Images'
+description: 'Pull selenoid/vnc browser images and cache them via actions/cache'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Prepare paths and cache key
+      id: docker_cache
+      shell: bash
+      run: |
+        cd infra/docker_compose
+
+        BROWSERS_HASH=$(sha256sum config/browsers.json | cut -d' ' -f1)
+        CACHE_KEY="docker-browsers-${BROWSERS_HASH}"
+
+        echo "cache_key=${CACHE_KEY}" >> $GITHUB_OUTPUT
+
+        CACHE_DIR="./docker_cache"
+        mkdir -p "$CACHE_DIR"
+
+        # Check cache files
+        if [ -f "${CACHE_DIR}/chrome_128.0.tar" ] && [ -f "${CACHE_DIR}/firefox_125.0.tar" ]; then
+          echo "cache_hit=true" >> $GITHUB_OUTPUT
+          echo "Cache hit: loading browser images from cache"
+          docker image load --input "${CACHE_DIR}/chrome_128.0.tar"
+          docker image load --input "${CACHE_DIR}/firefox_125.0.tar"
+        else
+          echo "cache_hit=false" >> $GITHUB_OUTPUT
+          echo "Cache miss: pulling browser images"
+
+          docker pull selenoid/vnc:chrome_128.0
+          docker pull selenoid/vnc:firefox_125.0
+
+          docker image save selenoid/vnc:chrome_128.0 --output "${CACHE_DIR}/chrome_128.0.tar"
+          docker image save selenoid/vnc:firefox_125.0 --output "${CACHE_DIR}/firefox_125.0.tar"
+
+          echo "Browser images saved to cache"
+        fi
+
+    - name: Restore Docker browser images cache
+      if: steps.docker_cache.outputs.cache_hit == 'false'
+      uses: actions/cache/restore@v5
+      with:
+        path: infra/docker_compose/docker_cache
+        key: ${{ steps.docker_cache.outputs.cache_key }}
+        fail-on-cache-miss: false
+
+    - name: Save Docker browser images cache
+      if: steps.docker_cache.outputs.cache_hit == 'false'
+      uses: actions/cache/save@v5
+      with:
+        path: infra/docker_compose/docker_cache
+        key: ${{ steps.docker_cache.outputs.cache_key }}
