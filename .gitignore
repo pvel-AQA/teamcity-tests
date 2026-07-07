@@ -39,3 +39,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/infra/docker_compose/backups/
