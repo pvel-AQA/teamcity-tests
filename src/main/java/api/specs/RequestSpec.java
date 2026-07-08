@@ -36,12 +36,12 @@ public class RequestSpec {
     }
 
     public static RequestSpecification basicAuthSpec() {
-        return basicAuthSpec(Config.ADMIN_USERNAME, Config.ADMIN_PASSWORD);
+        return basicAuthSpec(Config.getProperty(Config.ADMIN_USERNAME), Config.getProperty(Config.ADMIN_PASSWORD));
     }
 
 
     public static RequestSpecification bearerSpec() {
-        return bearerSpec(Config.ADMIN_TOKEN);
+        return bearerSpec(Config.getProperty(Config.ADMIN_TOKEN));
     }
 
     public static RequestSpecification bearerSpec(String token) {

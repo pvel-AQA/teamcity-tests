@@ -25,8 +25,8 @@ public class AuthorizationUserTest {
     }
 
     public static Stream<Arguments> userInvalidData() {
-        String validUsername = Config.ADMIN_USERNAME;
-        String validPassword = Config.ADMIN_PASSWORD;
+        String validUsername = Config.getProperty(Config.ADMIN_USERNAME);
+        String validPassword = Config.getProperty(Config.ADMIN_PASSWORD);
 
         return Stream.of(
                 Arguments.of("wrong password", validUsername, RandomGenerator.generateString()),
