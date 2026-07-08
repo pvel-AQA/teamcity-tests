@@ -18,7 +18,9 @@ public class AuthorizationUserTest {
 
     @Test
     public void testBasicAuthAccess() {
-        new CrudRequester(RequestSpec.basicAuthSpec(), Endpoint.SERVER, ResponseSpec.isOk())
+        new CrudRequester(RequestSpec.basicAuthSpec(),
+                Endpoint.SERVER,
+                ResponseSpec.isOk())
                 .get();
     }
 
@@ -47,8 +49,8 @@ public class AuthorizationUserTest {
         new CrudRequester(
                 RequestSpec.oauthSpec(),
                 Endpoint.SERVER,
-                ResponseSpec.isOk()
-        ).get();
+                ResponseSpec.isOk())
+                .get();
     }
 
     @Test
@@ -56,7 +58,7 @@ public class AuthorizationUserTest {
         new CrudRequester(
                 RequestSpec.oauthSpec(RandomGenerator.generateString()),
                 Endpoint.SERVER,
-                ResponseSpec.isUnauthorized(ErrorMessage.OAUTH_FAILED)
-        ).get();
+                ResponseSpec.isUnauthorized(ErrorMessage.OAUTH_FAILED))
+                .get();
     }
 }
