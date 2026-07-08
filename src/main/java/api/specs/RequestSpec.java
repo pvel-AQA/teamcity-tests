@@ -36,17 +36,17 @@ public class RequestSpec {
     }
 
     public static RequestSpecification basicAuthSpec() {
-        return basicAuthSpec(Config.getProperty("admin.username"), Config.getProperty("admin.password"));
+        return basicAuthSpec(Config.ADMIN_USERNAME, Config.ADMIN_PASSWORD);
     }
 
 
-    public static RequestSpecification oauthSpec() {
-        return oauthSpec(Config.getProperty("admin.token"));
+    public static RequestSpecification bearerSpec() {
+        return bearerSpec(Config.ADMIN_TOKEN);
     }
 
-    public static RequestSpecification oauthSpec(String token) {
+    public static RequestSpecification bearerSpec(String token) {
         return defaultSpecBuilder()
-                .setAuth(RestAssured.oauth2(token))
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
     }
 }

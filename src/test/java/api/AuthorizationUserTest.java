@@ -1,7 +1,7 @@
 package api;
 
 import api.generators.RandomGenerator;
-import api.models.ErrorMessage;
+import api.models.AuthErrorMessage;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class AuthorizationUserTest {
 
     @Test
-    public void testBasicAuthAccess() {
+    public void basicAuthTest() {
         new CrudRequester(RequestSpec.basicAuthSpec(),
                 Endpoint.SERVER,
                 ResponseSpec.isOk())
@@ -25,40 +25,40 @@ public class AuthorizationUserTest {
     }
 
     public static Stream<Arguments> userInvalidData() {
-        String validUser = Config.getProperty("admin.username");
-        String validPass = Config.getProperty("admin.password");
+        String validUsername = Config.ADMIN_USERNAME;
+        String validPassword = Config.ADMIN_PASSWORD;
 
         return Stream.of(
-                Arguments.of("wrong password", validUser, RandomGenerator.generateString()),
-                Arguments.of("wrong username", RandomGenerator.generateString(), validPass),
+                Arguments.of("wrong password", validUsername, RandomGenerator.generateString()),
+                Arguments.of("wrong username", RandomGenerator.generateString(), validPassword),
                 Arguments.of("all wrong", RandomGenerator.generateString(), RandomGenerator.generateString())
         );
     }
 
     @MethodSource("userInvalidData")
     @ParameterizedTest(name = "Negative tests: {0}")
-    public void testBasicAuthInvalidData(String description, String username, String password) {
+    public void basicAuthInvalidDataTest(String description, String username, String password) {
         new CrudRequester(RequestSpec.basicAuthSpec(username, password),
                 Endpoint.SERVER,
-                ResponseSpec.isUnauthorized(ErrorMessage.BASIC_AUTH_FAILED))
+                ResponseSpec.isUnauthorized(AuthErrorMessage.BASIC_AUTH_FAILED))
                 .get();
     }
 
     @Test
-    public void testOAuthAccess() {
+    public void bearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.oauthSpec(),
+                RequestSpec.bearerSpec(),
                 Endpoint.SERVER,
                 ResponseSpec.isOk())
                 .get();
     }
 
     @Test
-    public void testOAuthInvalidToken() {
+    public void invalidBearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.oauthSpec(RandomGenerator.generateString()),
+                RequestSpec.bearerSpec(RandomGenerator.generateString()),
                 Endpoint.SERVER,
-                ResponseSpec.isUnauthorized(ErrorMessage.OAUTH_FAILED))
+                ResponseSpec.isUnauthorized(AuthErrorMessage.OAUTH_FAILED))
                 .get();
     }
 }
