@@ -36,7 +36,7 @@ public class RequestSpec {
     }
 
     public static RequestSpecification basicAuthSpec() {
-        return basicAuthSpec(Config.getProperty("admin.username"),Config.getProperty("admin.password"));
+        return basicAuthSpec(Config.getProperty("admin.username"), Config.getProperty("admin.password"));
     }
 
 
