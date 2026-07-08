@@ -1,8 +1,11 @@
 package api.specs;
 
+import api.models.AuthErrorMessage;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
+
+import static org.hamcrest.Matchers.*;
 
 public class ResponseSpec {
 
@@ -25,8 +28,11 @@ public class ResponseSpec {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_BAD_REQUEST).build();
     }
 
-    public static ResponseSpecification isUnauthorized() {
-        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_UNAUTHORIZED).build();
+    public static ResponseSpecification isUnauthorized(AuthErrorMessage error) {
+        return defaultSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)
+                .expectBody(containsString(error.getText()))
+                .build();
     }
 
     public static ResponseSpecification isForbidden() {

@@ -8,12 +8,12 @@ public class BaseTest {
     protected SoftAssertions softy;
 
     @BeforeEach
-    public void setUp() {
+    public void beforeEach() {
         this.softy = new SoftAssertions();
     }
 
     @AfterEach
-    public void afterTest() {
+    public void afterEach() {
         this.softy.assertAll();
     }
 }

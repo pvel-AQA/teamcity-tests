@@ -1,6 +1,8 @@
 package api.specs;
 
 import common.configs.Config;
+import io.restassured.RestAssured;
+import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -23,7 +25,28 @@ public class RequestSpec {
                 .setBaseUri(Config.getProperty("apiBaseUrl"));
     }
 
-    public static RequestSpecification userSpec() {
-        return defaultSpecBuilder().build();
+    public static RequestSpecification basicAuthSpec(String username, String password) {
+        PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
+        authScheme.setUserName(username);
+        authScheme.setPassword(password);
+
+        return defaultSpecBuilder()
+                .setAuth(authScheme)
+                .build();
+    }
+
+    public static RequestSpecification basicAuthSpec() {
+        return basicAuthSpec(Config.ADMIN_USERNAME, Config.ADMIN_PASSWORD);
+    }
+
+
+    public static RequestSpecification bearerSpec() {
+        return bearerSpec(Config.ADMIN_TOKEN);
+    }
+
+    public static RequestSpecification bearerSpec(String token) {
+        return defaultSpecBuilder()
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
     }
 }
