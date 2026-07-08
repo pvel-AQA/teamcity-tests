@@ -8,16 +8,16 @@ import ui.elements.BaseElement;
 import java.util.List;
 import java.util.function.Function;
 
+@SuppressWarnings("unchecked")
 public abstract class BasePage<T extends BasePage> {
 
 
     public abstract String url();
 
-    public abstract T waitForLoadPage();
+//    public abstract T waitForLoadPage();
 
     public T open() {
-        Selenide.open(url());
-        return waitForLoadPage();
+        return Selenide.open(url(), (Class<T>) this.getClass());
     }
 
     public T getPage(Class<T> pageClass) {

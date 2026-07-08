@@ -1,0 +1,100 @@
+name: 'Setup TeamCity CI'
+description: 'Starts postgres + teamcity-server, restores from backup, then starts agent and selenoid'
+inputs:
+  teamcity-backup-url:
+    description: 'Direct link to TeamCity backup ZIP'
+    required: true
+  docker-compose-dir:
+    description: 'Path to docker-compose directory'
+    required: false
+    default: 'infra/docker_compose'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up TeamCity (postgres + server)
+      shell: bash
+      run: |
+        cd ${{ inputs.docker-compose-dir }}
+        docker compose -p teamcity up -d postgres teamcity-server
+
+    - name: Wait for Postgres
+      shell: bash
+      run: |
+        until docker exec teamcity-postgres pg_isready -U teamcity -d teamcity; do
+          echo "Waiting for Postgres..."
+          sleep 2
+        done
+
+    - name: Download TeamCity backup from Google Drive
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.docker-compose-dir }}/backup
+        curl -L "${{ inputs.teamcity-backup-url }}" \
+          -o ${{ inputs.docker-compose-dir }}/backup/tc-backup.zip
+
+    - name: Verify TeamCity backup file
+      shell: bash
+      run: |
+        BACKUP_FILE="${{ inputs.docker-compose-dir }}/backup/tc-backup.zip"
+
+        if [ ! -f "$BACKUP_FILE" ]; then
+          echo "::error::Backup file not found: $BACKUP_FILE"
+          exit 1
+        fi
+
+        if [ ! -s "$BACKUP_FILE" ]; then
+          echo "::error::Backup file is empty: $BACKUP_FILE"
+          exit 1
+        fi
+
+        if ! unzip -tq "$BACKUP_FILE" > /dev/null 2>&1; then
+          echo "::error::Backup file is not a valid ZIP or is corrupted: $BACKUP_FILE"
+          exit 1
+        fi
+
+        FILE_SIZE=$(du -h "$BACKUP_FILE" | cut -f1)
+        echo "Backup file OK: $BACKUP_FILE (size: $FILE_SIZE)"
+        
+    - name: Create /temporary directory in container
+      shell: bash
+      run: |
+        docker exec teamcity-server mkdir -p /temporary
+
+    - name: Copy backup into container
+      shell: bash
+      run: |
+        docker cp ${{ inputs.docker-compose-dir }}/backup/tc-backup.zip teamcity-server:/temporary/tc-backup.zip
+
+    - name: Restore TeamCity from backup
+      shell: bash
+      run: |
+        docker exec teamcity-server bash -c '
+          set -e
+          cd /opt/teamcity/bin
+          ./maintainDB.sh restore \
+            -A /data/teamcity_server/datadir \
+            -F /temporary/tc-backup.zip \
+            -T /data/teamcity_server/datadir/config/database.properties
+        '
+
+    - name: Restart TeamCity after restore
+      shell: bash
+      run: |
+        cd ${{ inputs.docker-compose-dir }}
+        docker compose -p teamcity restart teamcity-server
+
+    - name: Wait for TeamCity to be ready
+      shell: bash
+      run: |
+        until curl -s http://localhost:8111/login.html > /dev/null; do
+          echo "Waiting for TeamCity..."
+          sleep 3
+        done
+        echo "TeamCity is ready"
+
+    - name: Start remaining services (agent, selenoid)
+      shell: bash
+      run: |
+        cd ${{ inputs.docker-compose-dir }}
+        docker compose -p teamcity up -d teamcity-agent selenoid selenoid-ui

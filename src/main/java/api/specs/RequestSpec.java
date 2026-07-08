@@ -14,7 +14,7 @@ public class RequestSpec {
     private RequestSpec() {
     }
 
-    private static RequestSpecBuilder defaultSpec() {
+    private static RequestSpecBuilder defaultSpecBuilder() {
         return new RequestSpecBuilder()
                 .setAccept(ContentType.JSON)
                 .setContentType(ContentType.JSON)
@@ -24,6 +24,6 @@ public class RequestSpec {
     }
 
     public static RequestSpecification userSpec() {
-        return defaultSpec().build();
+        return defaultSpecBuilder().build();
     }
 }
