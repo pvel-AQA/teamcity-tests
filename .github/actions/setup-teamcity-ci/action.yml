@@ -73,6 +73,7 @@ runs:
 
         docker run --rm \
           --network teamcity-net \
+          --user root \
           -v tc-server-data:/data/teamcity_server/datadir \
           -v "$(pwd)/backup/tc-backup.zip:/temporary/tc-backup.zip:ro" \
           -v /tmp/database.properties:/tmp/database.properties:ro \
