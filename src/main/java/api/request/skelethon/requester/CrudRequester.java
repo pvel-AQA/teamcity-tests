@@ -43,10 +43,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
-    public ValidatableResponse put(Integer id, BaseModel body) {
+    public ValidatableResponse put(Integer id, BaseModel model) {
         return given()
                 .spec(requestSpecification)
-                .body(body)
+                .body(model)
                 .when()
                 .put(endpoint.getUrl() + (id == null ? "" : "/" + id))
                 .then()
