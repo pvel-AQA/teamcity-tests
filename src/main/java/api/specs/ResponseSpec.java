@@ -25,8 +25,11 @@ public class ResponseSpec {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_BAD_REQUEST).build();
     }
 
-    public static ResponseSpecification isUnauthorized() {
-        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_UNAUTHORIZED).build();
+    public static ResponseSpecification isUnauthorized(ErrorMessage error) {
+        return defaultSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)
+                .expectBody(containsString(error.getText()))
+                .build();
     }
 
     public static ResponseSpecification isForbidden() {

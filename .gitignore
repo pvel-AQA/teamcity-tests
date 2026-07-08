@@ -39,4 +39,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+allure-results/
+allure-report/
+target/
 /infra/docker_compose/backups/
