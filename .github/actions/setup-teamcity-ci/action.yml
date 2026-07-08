@@ -80,6 +80,14 @@ runs:
           END \$\$;
         "
 
+    - name: Clear TeamCity config directory
+      shell: bash
+      run: |
+        docker exec teamcity-server bash -c '
+          set -e
+          rm -rf /data/teamcity_server/datadir/config/*
+        '
+
     - name: Restore TeamCity from backup
       shell: bash
       run: |
