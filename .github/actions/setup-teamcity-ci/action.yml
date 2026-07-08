@@ -55,6 +55,11 @@ runs:
 
         FILE_SIZE=$(du -h "$BACKUP_FILE" | cut -f1)
         echo "Backup file OK: $BACKUP_FILE (size: $FILE_SIZE)"
+        
+    - name: Create /temporary directory in container
+      shell: bash
+      run: |
+        docker exec teamcity-server mkdir -p /temporary
 
     - name: Copy backup into container
       shell: bash
