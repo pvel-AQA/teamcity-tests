@@ -1,4 +1,4 @@
-package api.models;
+package api.errors;
 
 import lombok.Getter;
 

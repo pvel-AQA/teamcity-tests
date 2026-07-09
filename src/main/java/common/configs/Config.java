@@ -10,6 +10,7 @@ public final class Config {
     public static final String ADMIN_TOKEN = "admin.token";
 
     private static final Config INSTANCE = new Config();
+    public static final String TEAMCITY_SERVER_NAME = getProperty("teamcity.server");
     private final Properties properties = new Properties();
 
     private Config() {

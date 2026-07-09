@@ -2,6 +2,11 @@ package api.request.skelethon;
 
 import api.models.BaseModel;
 import api.models.ServerInfoResponse;
+import api.models.project.AllProjectsResponse;
+import api.models.user.UserRequest;
+import api.models.project.ProjectRequest;
+import api.models.project.ProjectResponse;
+import api.models.user.UserResponse;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;
@@ -15,7 +20,20 @@ public enum Endpoint {
             "/server",
             BaseModel.class,
             ServerInfoResponse.class
-    );
+    ),
+    PROJECTS("projects",
+            ProjectRequest.class,
+            ProjectResponse.class
+    ),
+    ALL_PROJECTS("projects",
+            null,
+            AllProjectsResponse.class
+    ),
+    USERS("users",
+            UserRequest.class,
+            UserResponse.class
+    )
+    ;
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;

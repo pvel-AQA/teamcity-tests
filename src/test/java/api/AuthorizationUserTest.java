@@ -1,7 +1,7 @@
 package api;
 
 import api.generators.RandomGenerator;
-import api.models.AuthErrorMessage;
+import api.errors.AuthErrorMessage;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;

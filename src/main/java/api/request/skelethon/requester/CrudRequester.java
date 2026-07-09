@@ -19,10 +19,11 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse get(Integer id) {
+        var temp_id= id == null ? "" : id;
         return given()
                 .spec(requestSpecification)
                 .when()
-                .get(endpoint.getUrl() + (id == null ? "" : "/" + id))
+                .get(endpoint.getUrl() + temp_id)
                 .then()
                 .spec(responseSpecification);
     }
@@ -33,9 +34,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse post(BaseModel model) {
+        var body = model == null ? "" : model;
         return given()
                 .spec(requestSpecification)
-                .body(model == null ? "" : model)
+                .body(body)
                 .when()
                 .post(endpoint.getUrl())
                 .then()
@@ -43,23 +45,36 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
-    public ValidatableResponse put(Integer id, BaseModel model) {
+    public ValidatableResponse put(Integer id, BaseModel body) {
+        var url = id == null ? "" : "/" + id;
         return given()
                 .spec(requestSpecification)
-                .body(model)
+                .body(body)
                 .when()
-                .put(endpoint.getUrl() + (id == null ? "" : "/" + id))
+                .put(endpoint.getUrl() + url)
                 .then()
                 .spec(responseSpecification);
     }
 
     @Override
     public ValidatableResponse delete(Integer id, BaseModel model) {
+        var body = model == null ? "" : model;
         return given()
                 .spec(requestSpecification)
-                .body(model)
+                .body(body)
                 .when()
-                .post(endpoint.getUrl() + (id == null ? "" : "/" + id))
+                .delete(endpoint.getUrl() + "/" + id)
+                .then()
+                .spec(responseSpecification);
+    }
+
+    public ValidatableResponse delete(String id, BaseModel model) {
+        var body = model == null ? "" : model;
+        return given()
+                .spec(requestSpecification)
+                .body(body)
+                .when()
+                .delete(endpoint.getUrl() + "/" + id)
                 .then()
                 .spec(responseSpecification);
     }
