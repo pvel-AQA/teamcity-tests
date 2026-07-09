@@ -37,7 +37,8 @@ jobs:
       - name: Run tests
         run: ./mvnw clean test -P all -q
         env:
-          APIBASEURL: http://localhost:8111/app/rest
+          APIBASEURL: http://localhost:8111
+          API_PREFIX: /app/rest
           UIBASEURL: http://localhost:8111
           BROWSERREMOTE: http://localhost:4444/wd/hub
 
