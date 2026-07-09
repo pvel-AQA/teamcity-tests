@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","4247","basicAuthInvalidDataTest(String, String, String) Negative tests: wrong password","","2026-07-09","passed","2026-07-09","","api.AuthorizationUserTest","api.AuthorizationUserTest","basicAuthInvalidDataTest"
+"","4834","basicAuthTest()","","2026-07-09","passed","2026-07-09","","api.AuthorizationUserTest","api.AuthorizationUserTest","basicAuthTest"
+"","315","basicAuthInvalidDataTest(String, String, String) Negative tests: wrong username","","2026-07-09","passed","2026-07-09","","api.AuthorizationUserTest","api.AuthorizationUserTest","basicAuthInvalidDataTest"
+"","4832","bearerTokenAuthTest()","","2026-07-09","passed","2026-07-09","","api.AuthorizationUserTest","api.AuthorizationUserTest","bearerTokenAuthTest"
+"","4282","invalidBearerTokenAuthTest()","","2026-07-09","passed","2026-07-09","","api.AuthorizationUserTest","api.AuthorizationUserTest","invalidBearerTokenAuthTest"
+"","319","basicAuthInvalidDataTest(String, String, String) Negative tests: all wrong","","2026-07-09","passed","2026-07-09","","api.AuthorizationUserTest","api.AuthorizationUserTest","basicAuthInvalidDataTest"
