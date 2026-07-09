@@ -7,6 +7,7 @@ import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.request.skelethon.Endpoint;
+import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatableCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
@@ -42,16 +43,16 @@ public class UserSteps {
         ).get();
     }
 
-    public static ProjectResponse deleteProject(String username, String password, ProjectResponse projectResponse) {
-        return new ValidatableCrudRequester<ProjectResponse>(
+    public static void deleteProject(String username, String password, ProjectResponse projectResponse) {
+        new CrudRequester(
                 RequestSpec.authAsUserSpec(username, password),
                 Endpoint.PROJECTS,
                 ResponseSpec.deleted()
         ).delete(projectResponse.getId());
     }
 
-    public static ProjectResponse deleteProject(ProjectResponse projectResponse) {
-        return deleteProject(ADMIN_USERNAME, ADMIN_PASSWORD, projectResponse);
+    public static void deleteProject(ProjectResponse projectResponse) {
+         deleteProject(ADMIN_USERNAME, ADMIN_PASSWORD, projectResponse);
     }
 
     public static BuildConfigurationResponse createBuildConfiguration() {
