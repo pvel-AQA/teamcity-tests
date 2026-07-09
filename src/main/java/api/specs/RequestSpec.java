@@ -1,7 +1,6 @@
 package api.specs;
 
 import common.configs.Config;
-import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -12,6 +11,8 @@ import io.restassured.specification.RequestSpecification;
 import java.util.List;
 
 public class RequestSpec {
+
+    private static final String AUTHORIZATION = "Authorization";
 
     private RequestSpec() {
     }
@@ -40,13 +41,13 @@ public class RequestSpec {
     }
 
 
-    public static RequestSpecification bearerSpec() {
-        return bearerSpec(Config.ADMIN_TOKEN);
+    public static RequestSpecification adminSpec() {
+        return adminSpec(Config.ADMIN_TOKEN);
     }
 
-    public static RequestSpecification bearerSpec(String token) {
+    public static RequestSpecification adminSpec(String token) {
         return defaultSpecBuilder()
-                .addHeader("Authorization", "Bearer " + token)
+                .addHeader(AUTHORIZATION, "Bearer " + token)
                 .build();
     }
 }

@@ -47,7 +47,7 @@ public class AuthorizationUserTest {
     @Test
     public void bearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.bearerSpec(),
+                RequestSpec.adminSpec(),
                 Endpoint.SERVER,
                 ResponseSpec.isOk())
                 .get();
@@ -56,7 +56,7 @@ public class AuthorizationUserTest {
     @Test
     public void invalidBearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.bearerSpec(RandomGenerator.generateString()),
+                RequestSpec.adminSpec(RandomGenerator.generateString()),
                 Endpoint.SERVER,
                 ResponseSpec.isUnauthorized(AuthErrorMessage.OAUTH_FAILED))
                 .get();
