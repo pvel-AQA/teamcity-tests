@@ -22,11 +22,4 @@ public class BaseTest {
         this.softy.assertAll();
     }
 
-    public UserRequest getAdminUser() {
-        return UserRequest.builder()
-                .username(Config.getProperty(ADMIN_USERNAME))
-                .password(Config.getProperty(ADMIN_PASSWORD))
-                .build();
-    }
-
 }
