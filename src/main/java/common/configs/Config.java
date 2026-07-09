@@ -7,6 +7,9 @@ import java.util.Properties;
 public class Config {
 
     private static final Config INSTANSE = new Config();
+    public static final String TEAMCITY_SERVER_NAME = getProperty("teamcity.server");
+    public static final String ADMIN_NAME = getProperty("admin.username");
+    public static final String ADMIN_PASSWORD = getProperty("admin.password");
     private Properties properties = new Properties();
 
     private Config() {
