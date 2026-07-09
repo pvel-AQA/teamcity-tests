@@ -28,26 +28,22 @@ jobs:
       - name: Pull and cache browser images
         uses: ./.github/actions/pull-and-cache-browsers
 
-      - name: Set up services
-        run: |
-          cd infra/docker_compose
-          bash restart_docker.sh
-          cd ../..
-          
-#      - name: Wait for TeamCity to be ready
-#        timeout-minutes: 40
-#        uses: ./.github/actions/wait-for-openmrs
+      - name: Setup TeamCity for CI
+        uses: ./.github/actions/setup-teamcity-ci
+        with:
+          teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
+          docker-compose-dir: infra/docker_compose
 
       - name: Run tests
         run: ./mvnw clean test -P all -q
         env:
-          APIBASEURL: http://localhost:80/openmrs
+          APIBASEURL: http://localhost:8111/app/rest
           UIBASEURL: http://localhost:8111
           BROWSERREMOTE: http://localhost:4444/wd/hub
 
-#      - name: Run Swagger Coverage
-#        if: always()
-#        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s openmrs-swagger.json -i target/swagger-coverage-output
+      - name: Run Swagger Coverage
+        if: always()
+        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-extended.json -i target/swagger-coverage-output
 
       - name: Load test report history
         uses: actions/checkout@v6
@@ -80,24 +76,24 @@ jobs:
         if: always()
         run: cd infra/docker_compose && docker compose -p teamcity down
 
-#  notify:
-#    name: Telegram notification
-#    needs: [ run_tests ]
-#    runs-on: ubuntu-latest
-#    if: always()
-#    steps:
-#      - name: Send Telegram notification
-#        uses: appleboy/telegram-action@v1.0.1
-#        with:
-#          to: ${{ secrets.TELEGRAM_TO }}
-#          token: ${{ secrets.TELEGRAM_TOKEN }}
-#          format: html
-#          message: |
-#            <b>${{ needs.run_tests.result == 'success' && '✅ Passed' || '❌ Failed' }}</b> — OpenMRS test suite
-#            Branch: <code>${{ github.ref_name }}</code>
-#            Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
-#
-#            <b>📊 Reports:</b>
-#            Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
-#            Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
-#            <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
+  notify:
+    name: Telegram notification
+    needs: [ run_tests ]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send Telegram notification
+        uses: appleboy/telegram-action@v1.0.1
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>${{ needs.run_tests.result == 'success' && '✅ Passed' || '❌ Failed' }}</b> — Teamcity tests
+            Branch: <code>${{ github.ref_name }}</code>
+            Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
+
+            <b>📊 Reports:</b>
+            Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
+            Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
+            <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>

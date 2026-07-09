@@ -1,4 +1,4 @@
-package helpers;
+package common.helpers;
 
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;

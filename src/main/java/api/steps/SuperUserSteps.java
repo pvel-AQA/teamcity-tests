@@ -12,12 +12,15 @@ import common.configs.Config;
 
 import java.util.List;
 
+import static common.configs.Config.ADMIN_PASSWORD;
+import static common.configs.Config.ADMIN_USERNAME;
+
 public class SuperUserSteps {
 
     public static UserResponse createAdmin() {
         return createUser(UserRequest.builder()
-                .username(Config.ADMIN_NAME)
-                .password(Config.ADMIN_PASSWORD)
+                .username(Config.getProperty(ADMIN_USERNAME))
+                .password(Config.getProperty(ADMIN_PASSWORD))
                 .roles(Roles.builder()
                         .role(List.of(Role.builder()
                                 .build()))

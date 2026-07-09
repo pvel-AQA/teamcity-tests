@@ -1,18 +1,24 @@
 package api.specs;
 
-import api.models.user.UserRequest;
+import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import com.github.dockerjava.api.exception.NotFoundException;
 import common.configs.Config;
-import helpers.DockerLogsExtractor;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
+import io.restassured.authentication.PreemptiveBasicAuthScheme;
+import common.helpers.DockerLogsExtractor;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Matcher;
+
+import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
 
 public class RequestSpec {
 
@@ -21,27 +27,53 @@ public class RequestSpec {
     private RequestSpec() {
     }
 
-    private static RequestSpecBuilder defaultSpec() {
+    private static RequestSpecBuilder defaultSpecBuilder() {
         return new RequestSpecBuilder()
                 .setAccept(ContentType.JSON)
                 .setContentType(ContentType.JSON)
-                .addFilters(List.of(new RequestLoggingFilter(),
-                        new ResponseLoggingFilter()))
+                .addFilters(List.of(
+                        new RequestLoggingFilter(),
+                        new ResponseLoggingFilter(),
+                        new AllureRestAssured(),
+                        new SwaggerCoverageRestAssured(
+                                new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))
+                ))
                 .setBaseUri(Config.getProperty("apiBaseUrl"));
     }
 
-    public static RequestSpecification userSpec() {
-        return defaultSpec().build();
+    public static RequestSpecification basicAuthSpec(String username, String password) {
+        PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
+        authScheme.setUserName(username);
+        authScheme.setPassword(password);
+
+        return defaultSpecBuilder()
+                .setAuth(authScheme)
+                .build();
+    }
+
+    public static RequestSpecification basicAuthSpec() {
+        return basicAuthSpec(Config.getProperty(Config.ADMIN_USERNAME), Config.getProperty(Config.ADMIN_PASSWORD));
+    }
+
+
+    public static RequestSpecification bearerSpec() {
+        return bearerSpec(Config.getProperty(Config.ADMIN_TOKEN));
+    }
+
+    public static RequestSpecification bearerSpec(String token) {
+        return defaultSpecBuilder()
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
     }
 
     public static RequestSpecification superUserSpec() {
-        return defaultSpec()
+        return defaultSpecBuilder()
                 .setAuth(RestAssured.basic("", getSuperUserAuthToken()))
                 .build();
     }
 
     public static RequestSpecification authAsUserSpec(String username, String password) {
-        return defaultSpec()
+        return defaultSpecBuilder()
                 .setAuth(RestAssured.basic(username, password))
                 .build();
     }

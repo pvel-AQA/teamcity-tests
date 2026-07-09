@@ -1,6 +1,7 @@
 package api.request.skelethon;
 
 import api.models.BaseModel;
+import api.models.ServerInfoResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.user.UserRequest;
 import api.models.project.ProjectRequest;
@@ -15,10 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum Endpoint {
-    AUTH(
-            "test",
+    SERVER(
+            "/server",
             BaseModel.class,
-            BaseModel.class
+            ServerInfoResponse.class
     ),
     PROJECTS("projects",
             ProjectRequest.class,

@@ -27,14 +27,4 @@ public class ProjectTest extends BaseTest {
         UserSteps.deleteProject(projectResponse);
     }
 
-    @Test
-    public void adminCanCreateProjectWithOptionalParams() {
-        UserResponse admin = SuperUserSteps.createAdmin();
-        System.out.println();
-    }
-
-    public void adminCannotCreateProjectWithOptionalParams() {
-
-    }
-
 }

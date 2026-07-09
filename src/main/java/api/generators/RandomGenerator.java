@@ -90,4 +90,8 @@ public class RandomGenerator {
         }
         return Collections.emptyList();
     }
+
+    public static String generateString() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
 }

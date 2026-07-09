@@ -11,6 +11,7 @@ target/
 .idea/compiler.xml
 .idea/misc.xml
 .idea/libraries/
+.idea/vcs.xml
 *.iws
 *.iml
 *.ipr
@@ -39,4 +40,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+allure-results/
+allure-report/
+target/
 /infra/docker_compose/backups/

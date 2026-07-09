@@ -1,4 +1,4 @@
-package helpers;
+package common.helpers;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.LogContainerCmd;

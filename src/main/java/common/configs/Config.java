@@ -4,22 +4,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Config {
+public final class Config {
+    public static final String ADMIN_USERNAME = "admin.username";
+    public static final String ADMIN_PASSWORD = "admin.password";
+    public static final String ADMIN_TOKEN = "admin.token";
 
-    private static final Config INSTANSE = new Config();
+    private static final Config INSTANCE = new Config();
     public static final String TEAMCITY_SERVER_NAME = getProperty("teamcity.server");
-    public static final String ADMIN_NAME = getProperty("admin.username");
-    public static final String ADMIN_PASSWORD = getProperty("admin.password");
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
     private Config() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
             if (input == null) {
-                throw new RuntimeException("config.properties not founded");
+                throw new RuntimeException("config.properties not found in resources");
             }
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Fail to load config.properties", e);
+            throw new RuntimeException("Failed to load config.properties", e);
         }
     }
 
@@ -35,6 +36,6 @@ public class Config {
             return envValue;
         }
 
-        return INSTANSE.properties.getProperty(key);
+        return INSTANCE.properties.getProperty(key);
     }
 }

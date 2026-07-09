@@ -9,12 +9,13 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.configs.Config;
 
-import java.util.List;
+import static common.configs.Config.ADMIN_PASSWORD;
+import static common.configs.Config.ADMIN_USERNAME;
 
 public class UserSteps {
 
     public static ProjectResponse createProject(ProjectRequest projectRequest) {
-        return createProject(Config.ADMIN_NAME, Config.ADMIN_PASSWORD, projectRequest);
+        return createProject(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD), projectRequest);
     }
 
     public static ProjectResponse createProject(String username, String password, ProjectRequest projectRequest) {
@@ -27,7 +28,7 @@ public class UserSteps {
 
     public static AllProjectsResponse getProjects() {
         return new ValidatableCrudRequester<AllProjectsResponse>(
-                RequestSpec.authAsUserSpec(Config.ADMIN_NAME, Config.ADMIN_PASSWORD),
+                RequestSpec.authAsUserSpec(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD)),
                 Endpoint.ALL_PROJECTS,
                 ResponseSpec.isOk()
         ).get(null);
@@ -42,7 +43,7 @@ public class UserSteps {
     }
 
     public static ProjectResponse deleteProject(ProjectResponse projectResponse) {
-        return deleteProject(Config.ADMIN_NAME, Config.ADMIN_PASSWORD, projectResponse);
+        return deleteProject(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD), projectResponse);
     }
 
 }
