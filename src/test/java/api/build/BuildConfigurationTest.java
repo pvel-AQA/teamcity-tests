@@ -9,7 +9,6 @@ import api.models.CopyBuildConfigurationRequest;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatableCrudRequester;
-import api.request.steps.AdminSteps;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
@@ -84,7 +83,7 @@ public class BuildConfigurationTest {
                 ResponseSpec.isNoContent())
                 .delete("id:" + buildRequest.getId());
 
-        var builds = AdminSteps.getBuilds();
+        var builds = UserSteps.getBuilds();
 
         Assertions.assertThat(builds.getBuildType())
                 .extracting(BuildConfigurationResponse::getId)
