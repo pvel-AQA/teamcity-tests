@@ -1,7 +1,7 @@
 package api;
 
 import api.generators.RandomGenerator;
-import api.models.AuthErrorMessage;
+import api.errors.AuthErrorMessage;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
@@ -25,8 +25,8 @@ public class AuthorizationUserTest {
     }
 
     public static Stream<Arguments> userInvalidData() {
-        String validUsername = Config.ADMIN_USERNAME;
-        String validPassword = Config.ADMIN_PASSWORD;
+        String validUsername = Config.getProperty(Config.ADMIN_USERNAME);
+        String validPassword = Config.getProperty(Config.ADMIN_PASSWORD);
 
         return Stream.of(
                 Arguments.of("wrong password", validUsername, RandomGenerator.generateString()),

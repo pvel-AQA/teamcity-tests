@@ -64,6 +64,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java-core</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java-transport-httpclient5</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
             <version>${awaitility.version}</version>
@@ -194,8 +204,8 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <includes>
-                                <include>**/api/*Test.java</include>
-                                <include>**/ui/*Test.java</include>
+                                <include>**/api/**/*Test.java</include>
+                                <include>**/ui/**/*Test.java</include>
                             </includes>
                         </configuration>
                     </plugin>

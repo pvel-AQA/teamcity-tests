@@ -1,4 +1,4 @@
 package api.models;
 
-public class BaseModel {
+public abstract class BaseModel {
 }

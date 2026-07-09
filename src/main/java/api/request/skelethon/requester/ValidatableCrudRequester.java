@@ -40,6 +40,10 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
         return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
     }
 
+    public T delete(String id, BaseModel body) {
+        return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
+    }
+
     @Override
     public List<T> getAll(Class<?> clazz) {
         var d = (T[]) crudRequester.getAll(clazz).extract().as(clazz);

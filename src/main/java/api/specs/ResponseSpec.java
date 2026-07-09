@@ -1,9 +1,10 @@
 package api.specs;
 
-import api.models.AuthErrorMessage;
+import api.errors.AuthErrorMessage;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
+import org.hamcrest.Matchers;
 
 import static org.hamcrest.Matchers.*;
 
@@ -37,6 +38,19 @@ public class ResponseSpec {
 
     public static ResponseSpecification isForbidden() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_FORBIDDEN).build();
+    }
+
+    public static ResponseSpecification deleted() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NO_CONTENT)
+                .expectBody(Matchers.is(Matchers.emptyOrNullString()))
+                .build();
+    }
+
+    public static ResponseSpecification requestReturnsBadResponse(String errorKey, String errorValue) {
+        return defaultSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
+                .expectBody(errorKey, Matchers.hasItem(errorValue))
+                .build();
     }
 
 }

@@ -80,6 +80,7 @@ services:
 volumes:
   pgdata:
   tc-server-data:
+    name: tc-server-data
   tc-server-logs:
   tc-agent-conf:
 
