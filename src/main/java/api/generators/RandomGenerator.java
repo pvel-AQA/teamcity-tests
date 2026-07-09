@@ -91,7 +91,13 @@ public class RandomGenerator {
         return Collections.emptyList();
     }
 
+    public static String generateString(String prefix, int length) {
+        String randomPart = UUID.randomUUID().toString().substring(0, Math.min(length, 8));
+        return prefix + randomPart;
+    }
+
+
     public static String generateString() {
-        return UUID.randomUUID().toString().substring(0, 8);
+        return generateString("", 8);
     }
 }

@@ -20,6 +20,8 @@ import static common.configs.Config.ADMIN_TOKEN;
 
 public class BuildConfigurationTest {
 
+    private static final String[] IGNORED_BUILD_FIELDS = {"project", "settings"};
+
     @Test
     public void userCanCreateBuildConfiguration() {
         var projectResponse = UserSteps.createProject();
@@ -46,7 +48,7 @@ public class BuildConfigurationTest {
 
         Assertions.assertThat(buildResponse)
                 .usingRecursiveComparison()
-                .ignoringFields("project", "settings")
+                .ignoringFields(IGNORED_BUILD_FIELDS)
                 .isEqualTo(foundBuild);
     }
 
@@ -70,7 +72,7 @@ public class BuildConfigurationTest {
 
         Assertions.assertThat(copyBuildResponse)
                 .usingRecursiveComparison()
-                .ignoringFields("project", "settings")
+                .ignoringFields(IGNORED_BUILD_FIELDS)
                 .isEqualTo(foundBuild);
     }
 
@@ -111,7 +113,7 @@ public class BuildConfigurationTest {
     public void userCannotCreateBuildConfigurationWithInvalidId() {
         var invalidBuild = TeamCityDataGenerator.generateBuildConfigurationFor();
 
-        invalidBuild.setId("_invalidId123");
+        invalidBuild.setId(RandomGenerator.generateString("_",8));
 
         new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPES,
@@ -120,7 +122,7 @@ public class BuildConfigurationTest {
     }
 
 
-    public static BuildConfigurationResponse findBuild(BuildConfigurationResponse buildCollection, String targetId) {
+    private static BuildConfigurationResponse findBuild(BuildConfigurationResponse buildCollection, String targetId) {
         if (buildCollection == null || buildCollection.getBuildType() == null) {
             throw new AssertionError("Build list is empty or null. Cannot find build with ID: " + targetId);
         }
