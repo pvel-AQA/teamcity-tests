@@ -204,8 +204,8 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <includes>
-                                <include>**/api/*Test.java</include>
-                                <include>**/ui/*Test.java</include>
+                                <include>**/api/**/*Test.java</include>
+                                <include>**/ui/**/*Test.java</include>
                             </includes>
                         </configuration>
                     </plugin>
