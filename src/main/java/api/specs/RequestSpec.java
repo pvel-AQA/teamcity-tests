@@ -1,8 +1,8 @@
 package api.specs;
 
+import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
-import com.github.dockerjava.api.exception.NotFoundException;
 import common.configs.Config;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -52,15 +52,15 @@ public class RequestSpec {
     }
 
     public static RequestSpecification basicAuthSpec() {
-        return basicAuthSpec(Config.getProperty(Config.ADMIN_USERNAME), Config.getProperty(Config.ADMIN_PASSWORD));
+        return basicAuthSpec(Config.ADMIN_USERNAME, Config.ADMIN_PASSWORD);
     }
 
 
-    public static RequestSpecification bearerSpec() {
-        return bearerSpec(Config.getProperty(Config.ADMIN_TOKEN));
+    public static RequestSpecification adminSpec() {
+        return adminSpec(Config.ADMIN_TOKEN);
     }
 
-    public static RequestSpecification bearerSpec(String token) {
+    public static RequestSpecification adminSpec(String token) {
         return defaultSpecBuilder()
                 .addHeader("Authorization", "Bearer " + token)
                 .build();

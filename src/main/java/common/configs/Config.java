@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public final class Config {
-    public static final String ADMIN_USERNAME = "admin.username";
-    public static final String ADMIN_PASSWORD = "admin.password";
-    public static final String ADMIN_TOKEN = "admin.token";
+public class Config {
 
-    private static final Config INSTANCE = new Config();
+    private static final Config INSTANSE = new Config();
+    private Properties properties = new Properties();
+
+    public static final String ADMIN_USERNAME = Config.getProperty("admin.username");
+    public static final String ADMIN_PASSWORD = Config.getProperty("admin.password");
+    public static final String ADMIN_TOKEN = Config.getProperty("admin.token");
+    public static final String API_PREFIX = Config.getProperty("api.prefix");
     public static final String TEAMCITY_SERVER_NAME = getProperty("teamcity.server");
-    private final Properties properties = new Properties();
 
     private Config() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
@@ -36,6 +38,6 @@ public final class Config {
             return envValue;
         }
 
-        return INSTANCE.properties.getProperty(key);
+        return INSTANSE.properties.getProperty(key);
     }
 }

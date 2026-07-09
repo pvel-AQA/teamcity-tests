@@ -4,12 +4,12 @@ import api.models.BaseModel;
 
 public interface CrudEndpointInterface {
 
-    public Object get(Integer id);
+    public Object get(Object... pathParams);
 
     public Object post(BaseModel body);
 
-    public Object put(Integer id, BaseModel body);
+    public Object put(BaseModel body, Object... pathParams);
 
-    public Object delete(Integer id, BaseModel body);
+    public Object delete(Object... pathParams);
 
 }
