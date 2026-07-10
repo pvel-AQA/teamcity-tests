@@ -9,10 +9,6 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import static io.restassured.RestAssured.given;
 
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
@@ -25,7 +21,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     public ValidatableResponse get(Object... pathParams) {
         return prepareRequest(pathParams)
                 .when()
-                .get("")
+                .get(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }
@@ -39,7 +35,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         return prepareRequest(pathParams)
                 .body(model == null ? "" : model)
                 .when()
-                .post("")
+                .post(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }
@@ -49,7 +45,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         return prepareRequest(pathParams)
                 .body(model)
                 .when()
-                .put("")
+                .put(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }
@@ -58,7 +54,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     public ValidatableResponse delete(Object... pathParams) {
         return prepareRequest(pathParams)
                 .when()
-                .delete("")
+                .delete(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }

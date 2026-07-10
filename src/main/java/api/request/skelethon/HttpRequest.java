@@ -15,6 +15,8 @@ public abstract class HttpRequest {
     protected Endpoint endpoint;
     protected ResponseSpecification responseSpecification;
 
+    protected String targetUrl;
+
     public HttpRequest(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification responseSpecification) {
         this.requestSpecification = requestSpecification;
         this.endpoint = endpoint;
@@ -23,7 +25,7 @@ public abstract class HttpRequest {
 
     protected RequestSpecification prepareRequest(Map<String, Object> queryParams, Object... pathParams) {
         var request = given().spec(requestSpecification);
-        String url = endpoint.getUrl();
+        this.targetUrl = endpoint.getUrl();
 
         if (queryParams != null && !queryParams.isEmpty()) {
             request.queryParams(queryParams);
@@ -32,21 +34,18 @@ public abstract class HttpRequest {
         if (pathParams != null && pathParams.length > 0) {
             if (endpoint.isDynamic()) {
                 Map<String, Object> pathMap = new HashMap<>();
-                var matcher = Pattern.compile("\\{([^}]+)\\}").matcher(url);
+                var matcher = Pattern.compile("\\{([^}]+)\\}").matcher(targetUrl);
                 int i = 0;
                 while (matcher.find() && i < pathParams.length) {
                     pathMap.put(matcher.group(1), pathParams[i]);
                     i++;
                 }
                 request.pathParams(pathMap);
-                request.basePath(url);
             } else {
-                String paramName = "locator";
-                request.basePath(url + "/{" + paramName + "}");
+                String paramName = "projectLocator";
                 request.pathParam(paramName, pathParams[0]);
+                this.targetUrl = targetUrl + "/{" + paramName + "}";
             }
-        } else {
-            request.basePath(url);
         }
 
         return request;

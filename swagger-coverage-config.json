@@ -1,8 +1,0 @@
-{
-  "rules": {
-    "url-and-path": {
-      "ignoreExtensions": true,
-      "basePath": "/app/rest"
-    }
-  }
-}
