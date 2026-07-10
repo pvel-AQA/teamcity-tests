@@ -19,6 +19,6 @@ public class ParametersContainer {
     private String href;
     private int count;
     @JsonProperty("property")
-    private List<Object> property;
+    private List<PropertyItem> property;
 
 }
