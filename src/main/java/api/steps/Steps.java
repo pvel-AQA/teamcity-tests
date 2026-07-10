@@ -1,5 +1,6 @@
 package api.steps;
 
+import api.generators.RandomDataGenerator;
 import api.models.ProjectModel;
 import api.models.project.ProjectResponse;
 import api.models.projects.BuildTypeModel;
@@ -11,7 +12,7 @@ import api.specs.ResponseSpec;
 public class Steps {
     public static ProjectResponse createProject(){
         ProjectModel createProjectRequest = ProjectModel.builder()
-                .name("AutoProject14")
+                .name(RandomDataGenerator.randomSpecificString("AutoProject",5))
                 .parentProjectName("id:_Root")
                 .build();
 
@@ -24,7 +25,7 @@ public class Steps {
 
     public static BuildTypeModel createConfig(String projectName){
         BuildTypeModel createConfigRequest = BuildTypeModel.builder()
-                .name("AutoConfig")
+                .name(RandomDataGenerator.randomSpecificString("AutoConfig",5))
                 .projectId(projectName)
                 .build();
 

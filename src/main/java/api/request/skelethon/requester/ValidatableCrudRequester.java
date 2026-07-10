@@ -26,8 +26,23 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
     }
 
     @Override
+    public T get(String btLocator, String stepId){
+        return (T) crudRequester.get(btLocator,stepId).extract().as(endpoint.getResponseModel());
+    }
+
+    @Override
     public T post(BaseModel body) {
         return (T) crudRequester.post(body).extract().as(endpoint.getResponseModel());
+    }
+
+    @Override
+    public T post(BaseModel body, String btLocator) {
+        return (T) crudRequester.post(body, btLocator).extract().as(endpoint.getResponseModel());
+    }
+
+    @Override
+    public T put(BaseModel body, String btLocator, String stepId) {
+        return (T) crudRequester.put(body, btLocator, stepId).extract().as(endpoint.getResponseModel());
     }
 
     @Override

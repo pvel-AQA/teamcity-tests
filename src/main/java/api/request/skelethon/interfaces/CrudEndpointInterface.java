@@ -1,15 +1,26 @@
 package api.request.skelethon.interfaces;
 
 import api.models.BaseModel;
+import io.restassured.response.ValidatableResponse;
 
 public interface CrudEndpointInterface {
 
-    public Object get(Integer id);
+    Object get(Integer id);
 
-    public Object post(BaseModel body);
+    Object get(String btLocator, String stepId);
 
-    public Object put(Integer id, BaseModel body);
+    Object post(BaseModel body);
 
-    public Object delete(Integer id, BaseModel body);
+    Object post(BaseModel model, String btLocator);
+
+    Object put(Integer id, BaseModel body);
+
+    Object put(BaseModel model, String btLocator, String stepId);
+
+    Object delete(Integer id, BaseModel body);
+
+    Object delete(String id, BaseModel model);
+
+    //Object delete(String parameterName, String parameterValue);
 
 }

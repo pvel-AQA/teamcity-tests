@@ -40,26 +40,17 @@ public enum Endpoint {
             BaseModel.class,
             BuildTypeModel.class
     ),
-    BUILD_STEP(
+    BUILD_STEP_CREATE(
             "/buildTypes/{btLocator}/steps",
-            BaseModel.class,
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_RUD(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BuildTypeStepsModel.class,
             BuildTypeStepsModel.class
     );
-    /*SERVER(
-            "/server",
-            BaseModel.class,
-            ServerInfoResponse.class
-    ),
-    SERVER(
-            "/server",
-            BaseModel.class,
-            ServerInfoResponse.class
-    ),
-    SERVER(
-            "/server",
-            BaseModel.class,
-            ServerInfoResponse.class
-    );*/
+
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;
