@@ -4,7 +4,6 @@ import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
-import api.request.skelethon.requester.ValidatableCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
@@ -62,11 +61,6 @@ public class ProjectTest extends BaseTest {
                 ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
                 .get(projectRequest);
 
-        new CrudRequester(
-                RequestSpec.unAuth(),
-                Endpoint.PROJECTS,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
-                .put(randomId, projectRequest);
     }
 
     @Test

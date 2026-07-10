@@ -21,34 +21,36 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
     }
 
     @Override
-    public T get(Object id) {
-        return (T) crudRequester.get(id).extract().as(endpoint.getResponseModel());
+    public T get(Object... pathParams) {
+        return (T) crudRequester.get(pathParams).extract().as(endpoint.getResponseModel());
+    }
+
+    public T get() {
+        return get(null);
     }
 
     @Override
-    public T post(BaseModel body) {
-        return (T) crudRequester.post(body).extract().as(endpoint.getResponseModel());
+    public T post(BaseModel model) {
+        return (T) crudRequester.post(model).extract().as(endpoint.getResponseModel());
+    }
+
+    public T post(BaseModel model, Object... pathParams) {
+        return (T) crudRequester.post(model, pathParams).extract().as(endpoint.getResponseModel());
     }
 
     @Override
-    public T put(Integer id, BaseModel body) {
-        return (T) crudRequester.put(id, body).extract().as(endpoint.getResponseModel());
+    public T put(BaseModel model, Object... pathParams) {
+        return (T) crudRequester.put(model, pathParams).extract().as(endpoint.getResponseModel());
     }
 
     @Override
-    public T put(String id, BaseModel body) {
-        return (T) crudRequester.put(id, body).extract().as(endpoint.getResponseModel());
+    public T delete(Object... pathParams) {
+        return (T) crudRequester.delete(pathParams).extract().as(endpoint.getResponseModel());
     }
 
-    @Override
-    public T delete(Integer id, BaseModel body) {
-        return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
-    }
-
-    @Override
-    public void delete(String id, BaseModel body) {
-        crudRequester.delete(id, body);
-    }
+//    public T delete(String id, BaseModel body) {
+//        return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
+//    }
 
     @Override
     public List<T> getAll(Class<?> clazz) {

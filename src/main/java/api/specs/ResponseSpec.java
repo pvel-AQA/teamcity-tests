@@ -39,6 +39,14 @@ public class ResponseSpec {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_BAD_REQUEST).build();
     }
 
+    public static ResponseSpecification isNoContent() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NO_CONTENT).build();
+    }
+
+    public static ResponseSpecification isInternalServerError() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+    }
+
     public static ResponseSpecification isBadRequest(String errorMsg) {
         return defaultSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
