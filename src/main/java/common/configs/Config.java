@@ -36,6 +36,6 @@ public final class Config {
             return envValue;
         }
 
-        return INSTANSE.properties.getProperty(key);
+        return INSTANCE.properties.getProperty(key);
     }
 }
