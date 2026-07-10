@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Swagger Coverage
         if: always()
-        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-extended.json -i target/swagger-coverage-output
+        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
 
       - name: Load test report history
         uses: actions/checkout@v6
