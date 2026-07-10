@@ -35,12 +35,25 @@ public class UserSteps {
         ).post(projectRequest);
     }
 
-    public static AllProjectsResponse getProjects() {
+    public static AllProjectsResponse getAllProjects() {
         return new ValidatableCrudRequester<AllProjectsResponse>(
                 RequestSpec.authAsUserSpec(ADMIN_USERNAME, ADMIN_PASSWORD),
                 Endpoint.ALL_PROJECTS,
                 ResponseSpec.isOk()
         ).get();
+    }
+
+    public static ProjectResponse getProjectById(String id) {
+        return new ValidatableCrudRequester<ProjectResponse>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.PROJECTS,
+                ResponseSpec.isOk()
+        ).get(id);
+    }
+
+    public static boolean isProjectExists(String projectName) {
+        return UserSteps.getAllProjects().getProjects().stream()
+                .anyMatch(project -> project.getName().equals(projectName));
     }
 
     public static void deleteProject(String username, String password, ProjectResponse projectResponse) {

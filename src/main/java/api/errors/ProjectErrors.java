@@ -1,11 +1,15 @@
 package api.errors;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum ProjectErrors {
 
     PROJECT_NAME_CANNOT_BE_EMPTY("Project name cannot be empty."),
+    PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS("Pipeline with this name already exists:"),
+    NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID("No project found by name or internal/external id"),
     ;
     private String errorMsg;
 

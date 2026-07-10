@@ -25,6 +25,16 @@ public class ResponseSpec {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_CREATED).build();
     }
 
+    public static ResponseSpecification notFound() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NOT_FOUND).build();
+    }
+
+    public static ResponseSpecification notFound(String errorMsg) {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NOT_FOUND)
+                .expectBody(containsString(errorMsg))
+                .build();
+    }
+
     public static ResponseSpecification isBadRequest() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_BAD_REQUEST).build();
     }
@@ -35,6 +45,13 @@ public class ResponseSpec {
 
     public static ResponseSpecification isInternalServerError() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+    }
+
+    public static ResponseSpecification isBadRequest(String errorMsg) {
+        return defaultSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
+                .expectBody(containsString(errorMsg))
+                .build();
     }
 
     public static ResponseSpecification isUnauthorized(AuthErrorMessage error) {
