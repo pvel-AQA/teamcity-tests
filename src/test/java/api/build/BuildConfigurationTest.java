@@ -121,7 +121,6 @@ public class BuildConfigurationTest {
                 .post(invalidBuild);
     }
 
-
     private static BuildConfigurationResponse findBuild(BuildConfigurationResponse buildCollection, String targetId) {
         if (buildCollection == null || buildCollection.getBuildType() == null) {
             throw new AssertionError("Build list is empty or null. Cannot find build with ID: " + targetId);

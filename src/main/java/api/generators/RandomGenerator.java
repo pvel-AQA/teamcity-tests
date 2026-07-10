@@ -96,7 +96,6 @@ public class RandomGenerator {
         return prefix + randomPart;
     }
 
-
     public static String generateString() {
         return generateString("", 8);
     }
