@@ -9,6 +9,10 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import static io.restassured.RestAssured.given;
 
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
@@ -24,12 +28,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
-    public ValidatableResponse get(Integer id) {
-        var temp_id= id == null ? "" : id;
-        return given()
-                .spec(requestSpecification)
+    public ValidatableResponse get(Object... pathParams) {
+        return prepareRequest(pathParams)
                 .when()
-                .get(endpoint.getUrl() + temp_id)
+                .get("")
                 .then()
                 .spec(responseSpecification);
     }
@@ -48,12 +50,14 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse post(BaseModel model) {
-        var body = model == null ? "" : model;
-        return given()
-                .spec(requestSpecification)
-                .body(body)
+        return post(model, new Object[0]);
+    }
+
+    public ValidatableResponse post(BaseModel model, Object... pathParams) {
+        return prepareRequest(pathParams)
+                .body(model == null ? "" : model)
                 .when()
-                .post(endpoint.getUrl())
+                .post("")
                 .then()
                 .spec(responseSpecification);
     }
@@ -74,13 +78,11 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
-    public ValidatableResponse put(Integer id, BaseModel body) {
-        var url = id == null ? "" : "/" + id;
-        return given()
-                .spec(requestSpecification)
-                .body(body)
+    public ValidatableResponse put(BaseModel model, Object... pathParams) {
+        return prepareRequest(pathParams)
+                .body(model)
                 .when()
-                .put(endpoint.getUrl() + url)
+                .put("")
                 .then()
                 .spec(responseSpecification);
     }
@@ -117,12 +119,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
-    public ValidatableResponse delete(Integer id, BaseModel model) {
-        var body = model == null ? "" : model;
-        return given()
-                .spec(requestSpecification)
-                .body(body)
+    public ValidatableResponse delete(Object... pathParams) {
+        return prepareRequest(pathParams)
                 .when()
+                .delete("")
                 .delete(endpoint.getUrl() + "/" + id)
                 .then()
                 .spec(responseSpecification);

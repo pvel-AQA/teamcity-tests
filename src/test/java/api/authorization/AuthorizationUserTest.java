@@ -1,4 +1,4 @@
-package api;
+package api.authorization;
 
 import api.generators.RandomGenerator;
 import api.errors.AuthErrorMessage;
@@ -6,13 +6,15 @@ import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
-import common.configs.Config;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
+
+import static common.configs.Config.ADMIN_PASSWORD;
+import static common.configs.Config.ADMIN_USERNAME;
 
 public class AuthorizationUserTest {
 
@@ -25,12 +27,10 @@ public class AuthorizationUserTest {
     }
 
     public static Stream<Arguments> userInvalidData() {
-        String validUsername = Config.getProperty(Config.ADMIN_USERNAME);
-        String validPassword = Config.getProperty(Config.ADMIN_PASSWORD);
 
         return Stream.of(
-                Arguments.of("wrong password", validUsername, RandomGenerator.generateString()),
-                Arguments.of("wrong username", RandomGenerator.generateString(), validPassword),
+                Arguments.of("wrong password", ADMIN_USERNAME, RandomGenerator.generateString()),
+                Arguments.of("wrong username", RandomGenerator.generateString(), ADMIN_PASSWORD),
                 Arguments.of("all wrong", RandomGenerator.generateString(), RandomGenerator.generateString())
         );
     }
@@ -47,7 +47,7 @@ public class AuthorizationUserTest {
     @Test
     public void bearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.bearerSpec(),
+                RequestSpec.adminSpec(),
                 Endpoint.SERVER,
                 ResponseSpec.isOk())
                 .get();
@@ -56,7 +56,7 @@ public class AuthorizationUserTest {
     @Test
     public void invalidBearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.bearerSpec(RandomGenerator.generateString()),
+                RequestSpec.adminSpec(RandomGenerator.generateString()),
                 Endpoint.SERVER,
                 ResponseSpec.isUnauthorized(AuthErrorMessage.OAUTH_FAILED))
                 .get();

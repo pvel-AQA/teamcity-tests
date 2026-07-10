@@ -4,24 +4,12 @@ import api.models.BaseModel;
 
 public interface CrudEndpointInterface {
 
-    Object get(Integer id);
+    public Object get(Object... pathParams);
 
-    Object get(String btLocator, String stepId);
+    public Object post(BaseModel body);
 
-    Object post(BaseModel body);
+    public Object put(BaseModel body, Object... pathParams);
 
-    Object post(BaseModel model, String btLocator);
-
-    Object put(Integer id, BaseModel body);
-
-    Object put(BaseModel model, String stepId);
-
-    Object put(BaseModel model, String btLocator, String stepId);
-
-    Object delete(Integer id, BaseModel body);
-
-    Object delete(String id, BaseModel model);
-
-    Object delete(String parameterName, String parameterValue);
+    public Object delete(Object... pathParams);
 
 }

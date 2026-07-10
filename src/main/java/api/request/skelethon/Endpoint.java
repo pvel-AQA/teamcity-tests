@@ -1,11 +1,16 @@
 package api.request.skelethon;
 
+import api.models.*;
+import api.models.build.BuildConfigurationRequest;
+import api.models.build.BuildConfigurationResponse;
 import api.models.BaseModel;
 import api.models.BuildTypeStepsModel;
 import api.models.ServerInfoResponse;
 import api.models.project.AllProjectsResponse;
+import api.models.user.UserRequest;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
+import api.models.user.UserRequest;
 import api.models.projects.BuildTypeModel;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
@@ -35,6 +40,16 @@ public enum Endpoint {
             UserRequest.class,
             UserResponse.class
     ),
+    BUILD_TYPES(
+            API_PREFIX + "/buildTypes",
+            BuildConfigurationRequest.class,
+            BuildConfigurationResponse.class
+    ),
+    PROJECTS_BUILD_TYPES(
+            API_PREFIX + "/projects/id:{projectId}/buildTypes",
+            BaseModel.class,
+            BuildConfigurationResponse.class
+    ),
     BUILD_TYPE(
             "/buildTypes",
             BaseModel.class,
@@ -54,4 +69,8 @@ public enum Endpoint {
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;
+
+    public boolean isDynamic() {
+        return url.contains("{");
+    }
 }

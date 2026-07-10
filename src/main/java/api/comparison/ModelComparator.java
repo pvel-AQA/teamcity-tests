@@ -5,7 +5,26 @@ import java.util.*;
 
 public class ModelComparator {
 
-    public static Object getFieldValue(Object obj, String fieldName) {
+    public static Object getFieldValue(Object obj, String fieldPath) {
+        if (obj == null) {
+            return null;
+        }
+
+        String[] parts = fieldPath.split("\\.");
+        Object currentObj = obj;
+
+        for (String part : parts) {
+            currentObj = getSimpleFieldValue(currentObj, part);
+
+            if (currentObj == null) {
+                return null;
+            }
+        }
+
+        return currentObj;
+    }
+
+    private static Object getSimpleFieldValue(Object obj, String fieldName) {
         Class<?> clazz = obj.getClass();
         while (clazz != null) {
             try {
