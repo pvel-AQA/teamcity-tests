@@ -1,12 +1,13 @@
 package api.request.skelethon;
 
 import api.models.*;
+import api.models.build.BuildConfigurationRequest;
+import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
-import common.configs.Config;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;

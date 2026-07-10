@@ -1,8 +1,8 @@
 package api.steps;
 
 import api.generators.RandomGenerator;
-import api.models.BuildConfigurationRequest;
-import api.models.BuildConfigurationResponse;
+import api.models.build.BuildConfigurationRequest;
+import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;

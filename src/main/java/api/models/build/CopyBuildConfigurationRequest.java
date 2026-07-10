@@ -1,6 +1,7 @@
-package api.models;
+package api.models.build;
 
 import api.generators.RandomGenerator;
+import api.models.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

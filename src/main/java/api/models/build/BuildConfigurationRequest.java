@@ -1,6 +1,7 @@
-package api.models;
+package api.models.build;
 
 import api.generators.GeneratingRule;
+import api.models.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BuildConfigurationRequest extends BaseModel{
+public class BuildConfigurationRequest extends BaseModel {
 
     @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}")
     private String id;
