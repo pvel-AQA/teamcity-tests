@@ -41,7 +41,9 @@ public abstract class HttpRequest {
                 request.pathParams(pathMap);
                 request.basePath(url);
             } else {
-                request.basePath(url + "/" + pathParams[0]);
+                String paramName = "locator";
+                request.basePath(url + "/{" + paramName + "}");
+                request.pathParam(paramName, pathParams[0]);
             }
         } else {
             request.basePath(url);
