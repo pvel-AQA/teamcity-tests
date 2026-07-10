@@ -20,29 +20,29 @@ import static common.configs.Config.API_PREFIX;
 @NoArgsConstructor
 public enum Endpoint {
     SERVER(
-            API_PREFIX + "/server",
+            "/server",
             BaseModel.class,
             ServerInfoResponse.class
     ),
-    PROJECTS(API_PREFIX + "/projects",
+    PROJECTS("/projects",
             ProjectRequest.class,
             ProjectResponse.class
     ),
-    ALL_PROJECTS(API_PREFIX + "/projects",
+    ALL_PROJECTS("/projects",
             BaseModel.class,
             AllProjectsResponse.class
     ),
-    USERS(API_PREFIX + "/users",
+    USERS("/users",
             UserRequest.class,
             UserResponse.class
     ),
     BUILD_TYPES(
-            API_PREFIX + "/buildTypes",
+            "/buildTypes",
             BuildConfigurationRequest.class,
             BuildConfigurationResponse.class
     ),
     PROJECTS_BUILD_TYPES(
-            API_PREFIX + "/projects/id:{projectId}/buildTypes",
+            "/projects/id:{projectId}/buildTypes",
             BaseModel.class,
             BuildConfigurationResponse.class
     );
