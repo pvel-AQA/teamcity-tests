@@ -1,7 +1,6 @@
 package api.request.skelethon.interfaces;
 
 import api.models.BaseModel;
-import io.restassured.response.ValidatableResponse;
 
 public interface CrudEndpointInterface {
 
@@ -15,12 +14,14 @@ public interface CrudEndpointInterface {
 
     Object put(Integer id, BaseModel body);
 
+    Object put(BaseModel model, String stepId);
+
     Object put(BaseModel model, String btLocator, String stepId);
 
     Object delete(Integer id, BaseModel body);
 
     Object delete(String id, BaseModel model);
 
-    //Object delete(String parameterName, String parameterValue);
+    Object delete(String parameterName, String parameterValue);
 
 }

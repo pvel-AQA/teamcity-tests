@@ -29,6 +29,10 @@ public class ResponseSpec {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_BAD_REQUEST).build();
     }
 
+    public static ResponseSpecification NotFound_404() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NOT_FOUND).build();
+    }
+
     public static ResponseSpecification isUnauthorized(AuthErrorMessage error) {
         return defaultSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)

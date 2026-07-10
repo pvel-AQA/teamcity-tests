@@ -4,6 +4,7 @@ import api.comparison.ModelAssertions;
 import api.generators.RandomDataGenerator;
 import api.models.BuildTypeStepsModel;
 import api.request.skelethon.Endpoint;
+import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatableCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
@@ -48,124 +49,46 @@ public class ConfigStepsTest {
         ModelAssertions.assertThatModels(createStepResponse, getStepResponse).match();
     }
 
- /*   @Test
-    public void ConfigStepsCreationNegativeTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name("Step18")
-                .type("simpleRunner")
-                .build();
-
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.bearerSpec(),
-                Endpoint.BUILD_STEP,
-                ResponseSpec.isOk())
-                .post(createStepRequest,configName);
-
-        assertThat(createStepRequest.getName()).isEqualTo(createStepResponse.getName());
-
-        //get stepID and compare response with createStepResponse
-    }
-
-    @Test
-    public void ConfigStepsReadNegativeStatusTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name("Step18")
-                .type("simpleRunner")
-                .build();
-
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.bearerSpec(),
-                Endpoint.BUILD_STEP,
-                ResponseSpec.isOk())
-                .post(createStepRequest,configName);
-
-        assertThat(createStepRequest.getName()).isEqualTo(createStepResponse.getName());
-
-        //get stepID and compare response with createStepResponse
-    }
-//PUT
     @Test
     public void ConfigStepsSuccessfulUpdateTest() {
         String projectName = Steps.createProject().getName();
         String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name("Step18")
+        BuildTypeStepsModel createdStep =  Steps.createBuildTypeStep(configName);
+        BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
+                .name("UPDATED_"+ createdStep.getName())
                 .type("simpleRunner")
                 .build();
 
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
+        BuildTypeStepsModel updateStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.bearerSpec(),
-                Endpoint.BUILD_STEP,
+                Endpoint.BUILD_STEP_RUD,
                 ResponseSpec.isOk())
-                .post(createStepRequest,configName);
+                .put(updateStepRequest,configName,createdStep.getId());
 
-        assertThat(createStepRequest.getName()).isEqualTo(createStepResponse.getName());
+        assertThat(updateStepRequest.getName()).isEqualTo(updateStepResponse.getName());
 
-        //get stepID and compare response with createStepResponse
+        BuildTypeStepsModel checkUpdatedStep = Steps.getBuildTypeStep(configName,createdStep.getId());
+        ModelAssertions.assertThatModels(updateStepResponse, checkUpdatedStep).match();
     }
 
-    @Test
-    public void ConfigStepsNegativeUpdateTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name("Step18")
-                .type("simpleRunner")
-                .build();
-
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.bearerSpec(),
-                Endpoint.BUILD_STEP,
-                ResponseSpec.isOk())
-                .post(createStepRequest,configName);
-
-        assertThat(createStepRequest.getName()).isEqualTo(createStepResponse.getName());
-
-        //get stepID and compare response with createStepResponse
-    }
-
-    //DELETE
     @Test
     public void ConfigStepsSuccessfulDeleteTest() {
         String projectName = Steps.createProject().getName();
         String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name("Step18")
-                .type("simpleRunner")
-                .build();
+        String createdStepId = Steps.createBuildTypeStep(configName).getId();
 
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
+        new CrudRequester(
                 RequestSpec.bearerSpec(),
-                Endpoint.BUILD_STEP,
-                ResponseSpec.isOk())
-                .post(createStepRequest,configName);
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.deleted())
+                .delete(configName,createdStepId);
 
-        assertThat(createStepRequest.getName()).isEqualTo(createStepResponse.getName());
+        new ValidatableCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.bearerSpec(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.NotFound_404())
+                .get(configName, createdStepId);
 
-        //get stepID and compare response with createStepResponse
+
     }
-
-    @Test
-    public void ConfigStepsNegativeTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name("Step18")
-                .type("simpleRunner")
-                .build();
-
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.bearerSpec(),
-                Endpoint.BUILD_STEP,
-                ResponseSpec.isOk())
-                .post(createStepRequest,configName);
-
-        assertThat(createStepRequest.getName()).isEqualTo(createStepResponse.getName());
-
-        //get stepID and compare response with createStepResponse
-    }*/
 }

@@ -86,6 +86,21 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
+    public ValidatableResponse put(BaseModel model, String stepId) {
+        var body = model == null ? "{}" : model;
+
+        return given()
+                .spec(requestSpecification)
+                .pathParam(PATH_PARAM_STEPID, stepId)
+                .when()
+                .body(body)
+                .put(endpoint.getUrl())
+                .then()
+                .assertThat()
+                .spec(responseSpecification);
+    }
+
+    @Override
     public ValidatableResponse put(BaseModel model, String btLocator, String stepId) {
         var body = model == null ? "{}" : model;
 
@@ -125,10 +140,12 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .spec(responseSpecification);
     }
 
-    public ValidatableResponse delete(String parameterName, String parameterValue) {
+    @Override
+    public ValidatableResponse delete(String configName, String stepId) {
         return given()
                 .spec(requestSpecification)
-                .pathParam(parameterName, parameterValue)
+                .pathParam(PATH_PARAM_BTLOCATOR, configName)
+                .pathParam(PATH_PARAM_STEPID, stepId)
                 .when()
                 .delete(endpoint.getUrl())
                 .then()

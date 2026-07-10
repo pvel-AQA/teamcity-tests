@@ -1,6 +1,7 @@
 package api.steps;
 
 import api.generators.RandomDataGenerator;
+import api.models.BuildTypeStepsModel;
 import api.models.ProjectModel;
 import api.models.project.ProjectResponse;
 import api.models.projects.BuildTypeModel;
@@ -34,5 +35,26 @@ public class Steps {
                 Endpoint.BUILD_TYPE,
                 ResponseSpec.isOk())
                 .post(createConfigRequest);
+    }
+
+    public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
+        return new ValidatableCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.bearerSpec(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isOk())
+                .get(configName, stepId);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(String configName){
+        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep",3))
+                .type("simpleRunner")
+                .build();
+
+        return new ValidatableCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.bearerSpec(),
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.isOk())
+                .post(createStepRequest,configName);
     }
 }

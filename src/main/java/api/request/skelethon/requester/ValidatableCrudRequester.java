@@ -51,12 +51,21 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
     }
 
     @Override
+    public T put(BaseModel body, String stepId) {
+        return (T) crudRequester.put(body, stepId).extract().as(endpoint.getResponseModel());
+    }
+
+    @Override
     public T delete(Integer id, BaseModel body) {
         return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
     }
-
+    @Override
     public T delete(String id, BaseModel body) {
         return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
+    }
+    @Override
+    public T delete(String parameterName, String parameterValue) {
+        return (T) crudRequester.delete(parameterName, parameterValue).extract().as(endpoint.getResponseModel());
     }
 
     @Override

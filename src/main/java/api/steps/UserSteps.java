@@ -1,5 +1,6 @@
 package api.steps;
 
+import api.models.BaseModel;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -39,7 +40,7 @@ public class UserSteps {
                 RequestSpec.authAsUserSpec(username, password),
                 Endpoint.PROJECTS,
                 ResponseSpec.deleted()
-        ).delete(projectResponse.getId(), null);
+        ).delete(projectResponse.getId(), (BaseModel)null);
     }
 
     public static ProjectResponse deleteProject(ProjectResponse projectResponse) {
