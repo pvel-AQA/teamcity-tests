@@ -21,7 +21,7 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
     }
 
     @Override
-    public T get(Integer id) {
+    public T get(Object id) {
         return (T) crudRequester.get(id).extract().as(endpoint.getResponseModel());
     }
 
@@ -36,12 +36,18 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
     }
 
     @Override
+    public T put(String id, BaseModel body) {
+        return (T) crudRequester.put(id, body).extract().as(endpoint.getResponseModel());
+    }
+
+    @Override
     public T delete(Integer id, BaseModel body) {
         return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
     }
 
-    public T delete(String id, BaseModel body) {
-        return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
+    @Override
+    public void delete(String id, BaseModel body) {
+        crudRequester.delete(id, body);
     }
 
     @Override

@@ -60,6 +60,10 @@ public class RequestSpec {
         return bearerSpec(Config.getProperty(Config.ADMIN_TOKEN));
     }
 
+    public static RequestSpecification unAuth() {
+        return defaultSpecBuilder().build();
+    }
+
     public static RequestSpecification bearerSpec(String token) {
         return defaultSpecBuilder()
                 .addHeader("Authorization", "Bearer " + token)

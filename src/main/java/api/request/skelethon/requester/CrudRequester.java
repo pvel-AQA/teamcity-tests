@@ -18,12 +18,12 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
-    public ValidatableResponse get(Integer id) {
-        var temp_id= id == null ? "" : id;
+    public ValidatableResponse get(Object id) {
+        var temp_id = id == null ? "" : id;
         return given()
                 .spec(requestSpecification)
                 .when()
-                .get(endpoint.getUrl() + temp_id)
+                .get(endpoint.getUrl() + "/" + temp_id)
                 .then()
                 .spec(responseSpecification);
     }
@@ -57,6 +57,18 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
+    public ValidatableResponse put(String id, BaseModel body) {
+        var url = id == null ? "" : "/" + id;
+        return given()
+                .spec(requestSpecification)
+                .body(body)
+                .when()
+                .put(endpoint.getUrl() + url)
+                .then()
+                .spec(responseSpecification);
+    }
+
+    @Override
     public ValidatableResponse delete(Integer id, BaseModel model) {
         var body = model == null ? "" : model;
         return given()
@@ -68,9 +80,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .spec(responseSpecification);
     }
 
-    public ValidatableResponse delete(String id, BaseModel model) {
+    @Override
+    public void delete(String id, BaseModel model) {
         var body = model == null ? "" : model;
-        return given()
+        given()
                 .spec(requestSpecification)
                 .body(body)
                 .when()
@@ -88,4 +101,5 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .then()
                 .spec(responseSpecification);
     }
+
 }

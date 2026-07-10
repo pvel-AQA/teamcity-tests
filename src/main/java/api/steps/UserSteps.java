@@ -15,18 +15,22 @@ import static common.configs.Config.ADMIN_USERNAME;
 public class UserSteps {
 
     public static ProjectResponse createProject(ProjectRequest projectRequest) {
-        return createProject(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD), projectRequest);
-    }
-
-    public static ProjectResponse createProject(String username, String password, ProjectRequest projectRequest) {
         return new ValidatableCrudRequester<ProjectResponse>(
-                RequestSpec.authAsUserSpec(username, password),
+                RequestSpec.basicAuthSpec(),
                 Endpoint.PROJECTS,
                 ResponseSpec.isOk()
         ).post(projectRequest);
     }
 
-    public static AllProjectsResponse getProjects() {
+    public static ProjectResponse createProject(String username, String password, ProjectRequest projectRequest) {
+        return new ValidatableCrudRequester<ProjectResponse>(
+                RequestSpec.basicAuthSpec(username, password),
+                Endpoint.PROJECTS,
+                ResponseSpec.isOk()
+        ).post(projectRequest);
+    }
+
+    public static AllProjectsResponse getAllProjects() {
         return new ValidatableCrudRequester<AllProjectsResponse>(
                 RequestSpec.authAsUserSpec(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD)),
                 Endpoint.ALL_PROJECTS,
@@ -34,16 +38,29 @@ public class UserSteps {
         ).get(null);
     }
 
-    public static ProjectResponse deleteProject(String username, String password, ProjectResponse projectResponse) {
+    public static ProjectResponse getProjectById(String id) {
         return new ValidatableCrudRequester<ProjectResponse>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.PROJECTS,
+                ResponseSpec.isOk()
+        ).get(id);
+    }
+
+    public static boolean isProjectExists(String projectName) {
+        return UserSteps.getAllProjects().getProjects().stream()
+                .anyMatch(project -> project.getName().equals(projectName));
+    }
+
+    public static void deleteProject(String username, String password, ProjectResponse projectResponse) {
+        new ValidatableCrudRequester<ProjectResponse>(
                 RequestSpec.authAsUserSpec(username, password),
                 Endpoint.PROJECTS,
                 ResponseSpec.deleted()
         ).delete(projectResponse.getId(), null);
     }
 
-    public static ProjectResponse deleteProject(ProjectResponse projectResponse) {
-        return deleteProject(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD), projectResponse);
+    public static void deleteProject(ProjectResponse projectResponse) {
+        deleteProject(Config.getProperty(ADMIN_USERNAME), Config.getProperty(ADMIN_PASSWORD), projectResponse);
     }
 
 }
