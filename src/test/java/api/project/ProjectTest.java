@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static api.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
-import static api.errors.ProjectErrors.NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID;
-import static api.errors.ProjectErrors.PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS;
+import static api.enums.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
+import static api.enums.errors.ProjectErrors.NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID;
+import static api.enums.errors.ProjectErrors.PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS;
 
 public class ProjectTest extends BaseTest {
 
