@@ -28,9 +28,12 @@ public class AuthUserExtension implements BeforeEachCallback, AfterEachCallback 
 
     @Override
     public void afterEach(ExtensionContext context) {
-        SuperUserSteps.deleteUser(String.valueOf(user.get().getUsername()));
-        user.remove();
-        token.remove();
+        AuthUser annotation = context.getRequiredTestMethod().getAnnotation(AuthUser.class);
+        if (annotation != null) {
+            SuperUserSteps.deleteUser(String.valueOf(user.get().getUsername()));
+            user.remove();
+            token.remove();
+        }
     }
 
     public static UserTokenResponse getAuthUserToken() {
