@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static common.configs.Config.API_PREFIX;
 import static io.restassured.RestAssured.given;
 
 public abstract class HttpRequest {
@@ -25,7 +26,7 @@ public abstract class HttpRequest {
 
     protected RequestSpecification prepareRequest(Map<String, Object> queryParams, Object... pathParams) {
         var request = given().spec(requestSpecification);
-        this.targetUrl = endpoint.getUrl();
+        this.targetUrl = API_PREFIX + endpoint.getUrl();
 
         if (queryParams != null && !queryParams.isEmpty()) {
             request.queryParams(queryParams);
@@ -42,9 +43,7 @@ public abstract class HttpRequest {
                 }
                 request.pathParams(pathMap);
             } else {
-                String paramName = "projectLocator";
-                request.pathParam(paramName, pathParams[0]);
-                this.targetUrl = targetUrl + "/{" + paramName + "}";
+                this.targetUrl = this.targetUrl + "/" + pathParams[0];
             }
         }
 

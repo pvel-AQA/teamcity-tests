@@ -1,6 +1,7 @@
 package api.build;
 
 import api.comparison.ModelAssertions;
+import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.generators.TeamCityDataGenerator;
 import api.models.build.BuildConfigurationRequest;
@@ -81,16 +82,15 @@ public class BuildConfigurationTest {
         var buildRequest = UserSteps.createBuildConfiguration();
 
         new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
-                Endpoint.BUILD_TYPES,
+                Endpoint.BUILD_TYPE,
                 ResponseSpec.isNoContent())
-                .delete("id:" + buildRequest.getId());
+                .delete(LocatorType.ID + buildRequest.getId());
 
         var builds = UserSteps.getBuilds();
 
-        Assertions.assertThat(builds.getBuildType())
-                .extracting(BuildConfigurationResponse::getId)
-                .withFailMessage("Build with ID " + buildRequest.getId() + " still exist after delete")
-                .doesNotContain(buildRequest.getId());
+        Assertions.assertThat(countBuildsWithId(builds, buildRequest.getId()))
+                .as("Build with ID %s should be deleted", buildRequest.getId())
+                .isEqualTo(0);
     }
 
     @Test
@@ -107,18 +107,30 @@ public class BuildConfigurationTest {
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.isBadRequest())
                 .post(duplicateBuild);
+
+        var builds = UserSteps.getBuilds();
+
+        Assertions.assertThat(countBuildsWithId(builds, firstBuild.getId()))
+                .as("Build should not be duplicate")
+                .isEqualTo(1);
     }
 
     @Test
     public void userCannotCreateBuildConfigurationWithInvalidId() {
         var invalidBuild = TeamCityDataGenerator.generateBuildConfigurationFor();
 
-        invalidBuild.setId(RandomGenerator.generateString("_",8));
+        invalidBuild.setId(RandomGenerator.generateString("_", 8));
 
         new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.isInternalServerError())
                 .post(invalidBuild);
+
+        var builds = UserSteps.getBuilds();
+
+        Assertions.assertThat(countBuildsWithId(builds, invalidBuild.getId()))
+                .as("Build should not be created")
+                .isEqualTo(0);
     }
 
 
@@ -131,6 +143,13 @@ public class BuildConfigurationTest {
                 .filter(build -> build.getId().equals(targetId))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Build with ID " + targetId + " not founded"));
+    }
+
+    private static long countBuildsWithId(BuildConfigurationResponse builds, String targetId) {
+        if (builds == null || builds.getBuildType() == null) return 0;
+        return builds.getBuildType().stream()
+                .filter(b -> b.getId().equals(targetId))
+                .count();
     }
 
 }

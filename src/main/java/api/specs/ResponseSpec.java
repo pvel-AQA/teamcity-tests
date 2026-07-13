@@ -1,6 +1,6 @@
 package api.specs;
 
-import api.errors.AuthErrorMessage;
+import api.enums.errors.AuthErrorMessage;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
