@@ -4,6 +4,7 @@ import api.comparison.ModelAssertions;
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.generators.TeamCityDataGenerator;
+import api.models.BaseModel;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.build.CopyBuildConfigurationRequest;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import static common.configs.Config.ADMIN_TOKEN;
 
 
-public class BuildConfigurationTest {
+public class BuildConfigurationTest extends BaseModel {
 
     private static final String[] IGNORED_BUILD_FIELDS = {"project", "settings"};
 
@@ -63,7 +64,7 @@ public class BuildConfigurationTest {
                 (RequestSpec.adminSpec(ADMIN_TOKEN),
                         Endpoint.PROJECTS_BUILD_TYPES,
                         ResponseSpec.isOk())
-                .post(copyBuildRequest, buildResponse.getProject().getId());
+                .post(copyBuildRequest, buildResponse.getProject().getName());
 
         var builds = UserSteps.getBuilds();
 
@@ -90,7 +91,7 @@ public class BuildConfigurationTest {
 
         Assertions.assertThat(countBuildsWithId(builds, buildRequest.getId()))
                 .as("Build with ID %s should be deleted", buildRequest.getId())
-                .isEqualTo(0);
+                .isZero();
     }
 
     @Test
@@ -112,7 +113,7 @@ public class BuildConfigurationTest {
 
         Assertions.assertThat(countBuildsWithId(builds, firstBuild.getId()))
                 .as("Build should not be duplicate")
-                .isEqualTo(1);
+                .isOne();
     }
 
     @Test
@@ -130,7 +131,7 @@ public class BuildConfigurationTest {
 
         Assertions.assertThat(countBuildsWithId(builds, invalidBuild.getId()))
                 .as("Build should not be created")
-                .isEqualTo(0);
+                .isZero();
     }
 
 

@@ -1,9 +1,7 @@
 package api.enums.locators;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
 public enum LocatorType {
     ID("id:"),
@@ -16,5 +14,4 @@ public enum LocatorType {
     public String toString() {
         return this.prefix;
     }
-
 }

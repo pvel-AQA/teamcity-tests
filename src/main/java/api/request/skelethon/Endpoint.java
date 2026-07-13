@@ -55,7 +55,7 @@ public enum Endpoint {
             UserTokenResponse.class
     ),
     PROJECTS_BUILD_TYPES(
-            "/projects/id:{projectId}/buildTypes",
+            "/projects/{projectId}/buildTypes",
             BaseModel.class,
             BuildConfigurationResponse.class
     );
