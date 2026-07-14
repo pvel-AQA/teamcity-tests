@@ -1,5 +1,6 @@
 package api.steps;
 
+import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
@@ -108,7 +109,7 @@ public class UserSteps {
                 Endpoint.USER_TOKEN,
                 ResponseSpec.isOk())
                 .post(UserTokenRequest.builder().name(userRequest.getUsername()).build(),
-                        userRequest.getId());
+                        LocatorType.ID + userRequest.getId());
     }
 
 }
