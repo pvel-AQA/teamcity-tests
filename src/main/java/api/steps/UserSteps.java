@@ -1,11 +1,15 @@
 package api.steps;
 
 import api.generators.RandomGenerator;
+import api.models.UserTokenRequest;
+import api.models.UserTokenResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
+import api.models.user.UserRequest;
+import api.models.user.UserResponse;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatableCrudRequester;
@@ -30,6 +34,14 @@ public class UserSteps {
     public static ProjectResponse createProject(String username, String password, ProjectRequest projectRequest) {
         return new ValidatableCrudRequester<ProjectResponse>(
                 RequestSpec.authAsUserSpec(username, password),
+                Endpoint.PROJECTS,
+                ResponseSpec.isOk()
+        ).post(projectRequest);
+    }
+
+    public static ProjectResponse createProjectWithExtension(ProjectRequest projectRequest) {
+        return new ValidatableCrudRequester<ProjectResponse>(
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.isOk()
         ).post(projectRequest);
@@ -65,7 +77,7 @@ public class UserSteps {
     }
 
     public static void deleteProject(ProjectResponse projectResponse) {
-         deleteProject(ADMIN_USERNAME, ADMIN_PASSWORD, projectResponse);
+        deleteProject(ADMIN_USERNAME, ADMIN_PASSWORD, projectResponse);
     }
 
     public static BuildConfigurationResponse createBuildConfiguration() {
@@ -88,6 +100,15 @@ public class UserSteps {
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.isOk())
                 .get();
+    }
+
+    public static UserTokenResponse getUserToken(UserRequest userRequest) {
+        return new ValidatableCrudRequester<UserTokenResponse>(
+                RequestSpec.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword())
+                        .pathParam("id", userRequest.getUsername()),
+                Endpoint.USER_TOKEN,
+                ResponseSpec.isOk())
+                .post(UserTokenRequest.builder().name(userRequest.getUsername()).build());
     }
 
 }

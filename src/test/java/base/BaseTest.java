@@ -1,14 +1,12 @@
 package base;
 
-import api.models.user.UserRequest;
-import common.configs.Config;
+import common.extensions.AuthUserExtension;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static common.configs.Config.ADMIN_PASSWORD;
-import static common.configs.Config.ADMIN_USERNAME;
-
+@ExtendWith(AuthUserExtension.class)
 public class BaseTest {
     protected SoftAssertions softy;
 
