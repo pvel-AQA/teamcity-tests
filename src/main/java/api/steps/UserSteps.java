@@ -1,5 +1,6 @@
 package api.steps;
 
+import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
@@ -104,11 +105,11 @@ public class UserSteps {
 
     public static UserTokenResponse getUserToken(UserRequest userRequest) {
         return new ValidatableCrudRequester<UserTokenResponse>(
-                RequestSpec.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword())
-                        .pathParam("id", userRequest.getUsername()),
+                RequestSpec.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.USER_TOKEN,
                 ResponseSpec.isOk())
-                .post(UserTokenRequest.builder().name(userRequest.getUsername()).build());
+                .post(UserTokenRequest.builder().name(userRequest.getUsername()).build(),
+                        LocatorType.ID + userRequest.getId());
     }
 
 }

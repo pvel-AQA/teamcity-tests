@@ -1,11 +1,13 @@
 package api.authorization;
 
 import api.generators.RandomGenerator;
-import api.errors.AuthErrorMessage;
+import api.enums.errors.AuthErrorMessage;
+import api.models.BaseModel;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
+import base.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,7 +18,7 @@ import java.util.stream.Stream;
 import static common.configs.Config.ADMIN_PASSWORD;
 import static common.configs.Config.ADMIN_USERNAME;
 
-public class AuthorizationUserTest {
+public class AuthorizationUserTest extends BaseTest {
 
     @Test
     public void basicAuthTest() {

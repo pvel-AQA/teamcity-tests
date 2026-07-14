@@ -3,15 +3,9 @@ package api.request.skelethon;
 import api.models.*;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
-import api.models.BaseModel;
-import api.models.BuildTypeStepsModel;
-import api.models.ServerInfoResponse;
 import api.models.project.AllProjectsResponse;
-import api.models.user.UserRequest;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
-import api.models.user.UserRequest;
-import api.models.projects.BuildTypeModel;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import lombok.AllArgsConstructor;
@@ -26,56 +20,45 @@ import static common.configs.Config.API_PREFIX;
 @NoArgsConstructor
 public enum Endpoint {
     SERVER(
-            API_PREFIX + "/server",
+            "/server",
             BaseModel.class,
             ServerInfoResponse.class
     ),
     PROJECTS(
-            API_PREFIX + "/projects",
+            "/projects",
             ProjectRequest.class,
             ProjectResponse.class
     ),
     ALL_PROJECTS(
-            API_PREFIX + "/projects",
-            null,
+            "/projects",
+            BaseModel.class,
             AllProjectsResponse.class
     ),
     USERS(
-            API_PREFIX + "/users",
+            "/users",
             UserRequest.class,
             UserResponse.class
     ),
     BUILD_TYPES(
-            API_PREFIX + "/buildTypes",
+            "/buildTypes",
+            BuildConfigurationRequest.class,
+            BuildConfigurationResponse.class
+    ),
+    BUILD_TYPE(
+            "/buildTypes/{buildTypeLocator}",
             BuildConfigurationRequest.class,
             BuildConfigurationResponse.class
     ),
     USER_TOKEN(
-            API_PREFIX + "/users/{id}/tokens",
+            "/users/{userLocator}/tokens",
             UserTokenRequest.class,
             UserTokenResponse.class
     ),
     PROJECTS_BUILD_TYPES(
-            API_PREFIX + "/projects/id:{projectId}/buildTypes",
+            "/projects/{projectId}/buildTypes",
             BaseModel.class,
             BuildConfigurationResponse.class
-    ),
-    BUILD_TYPE(
-            API_PREFIX + "/buildTypes",
-            BaseModel.class,
-            BuildTypeModel.class
-    ),
-    BUILD_STEP_CREATE(
-            API_PREFIX + "/buildTypes/{btLocator}/steps",
-            BuildTypeStepsModel.class,
-            BuildTypeStepsModel.class
-    ),
-    BUILD_STEP_RUD(
-            API_PREFIX + "/buildTypes/{btLocator}/steps/{stepId}",
-            BuildTypeStepsModel.class,
-            BuildTypeStepsModel.class
     );
-
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;

@@ -9,41 +9,19 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import static io.restassured.RestAssured.given;
 
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
-    private static final String PATH_PARAM_BTLOCATOR = "btLocator";
-    private static final String PATH_PARAM_STEPID = "stepId";
 
     public CrudRequester(RequestSpecification requestSpec, Endpoint endpoint, ResponseSpecification responseSpec) {
         super(requestSpec, endpoint, responseSpec);
-    }
-
-    public ValidatableResponse get() {
-        return get(null);
     }
 
     @Override
     public ValidatableResponse get(Object... pathParams) {
         return prepareRequest(pathParams)
                 .when()
-                .get("")
-                .then()
-                .spec(responseSpecification);
-    }
-
-/*    @Override
-    public ValidatableResponse get(String btLocator, String stepId) {
-        return given()
-                .spec(requestSpecification)
-                .pathParam(PATH_PARAM_BTLOCATOR, btLocator)
-                .pathParam(PATH_PARAM_STEPID, stepId)
-                .when()
-                .get(endpoint.getUrl())
+                .get(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }
@@ -52,106 +30,36 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     public ValidatableResponse post(BaseModel model) {
         return post(model, new Object[0]);
     }
-*/
+
     public ValidatableResponse post(BaseModel model, Object... pathParams) {
         return prepareRequest(pathParams)
                 .body(model == null ? "" : model)
                 .when()
-                .post("")
+                .post(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }
-/*
-    @Override
-    public ValidatableResponse post(BaseModel model, String btLocator) {
-        var body = model == null ? "{}" : model;
 
-        return given()
-                .spec(requestSpecification)
-                .pathParam(PATH_PARAM_BTLOCATOR, btLocator)
-                .when()
-                .body(body)
-                .post(endpoint.getUrl())
-                .then()
-                .assertThat()
-                .spec(responseSpecification);
-    }
-*/
     @Override
     public ValidatableResponse put(BaseModel model, Object... pathParams) {
         return prepareRequest(pathParams)
                 .body(model)
                 .when()
-                .put("")
+                .put(targetUrl)
                 .then()
-                .spec(responseSpecification);
-    }
-/*
-    @Override
-    public ValidatableResponse put(BaseModel model, String stepId) {
-        var body = model == null ? "{}" : model;
-
-        return given()
-                .spec(requestSpecification)
-                .pathParam(PATH_PARAM_STEPID, stepId)
-                .when()
-                .body(body)
-                .put(endpoint.getUrl())
-                .then()
-                .assertThat()
                 .spec(responseSpecification);
     }
 
     @Override
-    public ValidatableResponse put(BaseModel model, String btLocator, String stepId) {
-        var body = model == null ? "{}" : model;
-
-        return given()
-                .spec(requestSpecification)
-                .pathParam(PATH_PARAM_BTLOCATOR, btLocator)
-                .pathParam(PATH_PARAM_STEPID, stepId)
-                .when()
-                .body(body)
-                .put(endpoint.getUrl())
-                .then()
-                .assertThat()
-                .spec(responseSpecification);
-    }
-*/
-
     public ValidatableResponse delete(Object... pathParams) {
         return prepareRequest(pathParams)
                 .when()
-                //.delete(endpoint.getUrl())
-                .delete("")
-                .then()
-                .spec(responseSpecification);
-    }
-/*
-    public ValidatableResponse delete(String id, BaseModel model) {
-        var body = model == null ? "" : model;
-        return given()
-                .spec(requestSpecification)
-                .pathParam(PATH_PARAM_STEPID, id)
-                .body(body)
-                .when()
-                .delete(endpoint.getUrl() + "/" + id)
+                .delete(targetUrl)
                 .then()
                 .spec(responseSpecification);
     }
 
-    @Override
-    public ValidatableResponse delete(String configName, String stepId) {
-        return given()
-                .spec(requestSpecification)
-                .pathParam(PATH_PARAM_BTLOCATOR, configName)
-                .pathParam(PATH_PARAM_STEPID, stepId)
-                .when()
-                .delete(endpoint.getUrl())
-                .then()
-                .spec(responseSpecification);
-    }
-*/
+
     @Override
     public ValidatableResponse getAll(Class<?> clazz) {
         return given()
