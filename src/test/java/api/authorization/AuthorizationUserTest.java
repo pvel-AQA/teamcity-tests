@@ -7,6 +7,7 @@ import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
+import base.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 import static common.configs.Config.ADMIN_PASSWORD;
 import static common.configs.Config.ADMIN_USERNAME;
 
-public class AuthorizationUserTest extends BaseModel {
+public class AuthorizationUserTest extends BaseTest {
 
     @Test
     public void basicAuthTest() {
