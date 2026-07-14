@@ -14,13 +14,14 @@ import api.request.skelethon.requester.ValidatableCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
+import base.BaseTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static common.configs.Config.ADMIN_TOKEN;
 
 
-public class BuildConfigurationTest extends BaseModel {
+public class BuildConfigurationTest extends BaseTest {
 
     private static final String[] IGNORED_BUILD_FIELDS = {"project", "settings"};
 
@@ -64,7 +65,7 @@ public class BuildConfigurationTest extends BaseModel {
                 (RequestSpec.adminSpec(ADMIN_TOKEN),
                         Endpoint.PROJECTS_BUILD_TYPES,
                         ResponseSpec.isOk())
-                .post(copyBuildRequest, buildResponse.getProject().getName());
+                .post(copyBuildRequest, buildResponse.getProject().getId());
 
         var builds = UserSteps.getBuilds();
 

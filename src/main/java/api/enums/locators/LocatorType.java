@@ -1,8 +1,10 @@
 package api.enums.locators;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum LocatorType {
     ID("id:"),
     NAME("name:"),
