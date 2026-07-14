@@ -71,8 +71,8 @@ public class ConfigStepsTest {
         ModelAssertions.assertThatModels(updateStepResponse, checkUpdatedStep).match();
     }
 
-    @Test
- /*   public void ConfigStepsSuccessfulDeleteTest() {
+ /*   @Test
+    public void ConfigStepsSuccessfulDeleteTest() {
         String projectName = Steps.createProject().getName();
         String configName = Steps.createConfig(projectName).getName();
         String createdStepId = Steps.createBuildTypeStep(configName).getId();

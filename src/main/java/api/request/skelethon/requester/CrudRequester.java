@@ -123,7 +123,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         return prepareRequest(pathParams)
                 .when()
                 //.delete(endpoint.getUrl())
-                .delete(endpoint.getUrl() + "/" + id)
+                .delete(endpoint.getUrl() + "/" /*+ id*/)
                 .then()
                 .spec(responseSpecification);
     }
