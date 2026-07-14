@@ -6,7 +6,7 @@ public interface CrudEndpointInterface {
 
     public Object get(Object... pathParams);
 
-    public Object post(BaseModel body);
+    public Object post(BaseModel body, Object... pathParams);
 
     public Object put(BaseModel body, Object... pathParams);
 

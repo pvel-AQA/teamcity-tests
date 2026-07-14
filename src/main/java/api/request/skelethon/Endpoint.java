@@ -19,24 +19,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static common.configs.Config.API_PREFIX;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public enum Endpoint {
     SERVER(
-            "/server",
+            API_PREFIX + "/server",
             BaseModel.class,
             ServerInfoResponse.class
     ),
-    PROJECTS("projects",
+    PROJECTS(
+            API_PREFIX + "/projects",
             ProjectRequest.class,
             ProjectResponse.class
     ),
-    ALL_PROJECTS("projects",
+    ALL_PROJECTS(
+            API_PREFIX + "/projects",
             null,
             AllProjectsResponse.class
     ),
-    USERS("users",
+    USERS(
+            API_PREFIX + "/users",
             UserRequest.class,
             UserResponse.class
     ),
@@ -51,17 +56,17 @@ public enum Endpoint {
             BuildConfigurationResponse.class
     ),
     BUILD_TYPE(
-            "/buildTypes",
+            API_PREFIX + "/buildTypes",
             BaseModel.class,
             BuildTypeModel.class
     ),
     BUILD_STEP_CREATE(
-            "/buildTypes/{btLocator}/steps",
+            API_PREFIX + "/buildTypes/{btLocator}/steps",
             BuildTypeStepsModel.class,
             BuildTypeStepsModel.class
     ),
     BUILD_STEP_RUD(
-            "/buildTypes/{btLocator}/steps/{stepId}",
+            API_PREFIX + "/buildTypes/{btLocator}/steps/{stepId}",
             BuildTypeStepsModel.class,
             BuildTypeStepsModel.class
     );

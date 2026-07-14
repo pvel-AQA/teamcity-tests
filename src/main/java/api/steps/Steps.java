@@ -18,7 +18,7 @@ public class Steps {
                 .build();
 
         return new ValidatableCrudRequester<ProjectResponse>(
-                RequestSpec.bearerSpec(),
+                RequestSpec.basicAuthSpec(),
                 Endpoint.PROJECTS,
                 ResponseSpec.isOk())
                 .post(createProjectRequest);
@@ -31,7 +31,7 @@ public class Steps {
                 .build();
 
         return new ValidatableCrudRequester<BuildTypeModel>(
-                RequestSpec.bearerSpec(),
+                RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_TYPE,
                 ResponseSpec.isOk())
                 .post(createConfigRequest);
@@ -39,7 +39,7 @@ public class Steps {
 
     public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
         return new ValidatableCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.bearerSpec(),
+                RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_RUD,
                 ResponseSpec.isOk())
                 .get(configName, stepId);
@@ -52,7 +52,7 @@ public class Steps {
                 .build();
 
         return new ValidatableCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.bearerSpec(),
+                RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.isOk())
                 .post(createStepRequest,configName);

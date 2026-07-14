@@ -29,21 +29,21 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
         return get(null);
     }
 
-    @Override
+    /*@Override
     public T get(String btLocator, String stepId){
         return (T) crudRequester.get(btLocator,stepId).extract().as(endpoint.getResponseModel());
     }
-
-    @Override
+*/
+    /*@Override
     public T post(BaseModel model) {
         return (T) crudRequester.post(model).extract().as(endpoint.getResponseModel());
     }
-
+*/
     public T post(BaseModel model, Object... pathParams) {
         return (T) crudRequester.post(model, pathParams).extract().as(endpoint.getResponseModel());
     }
 
-    @Override
+    /*@Override
     public T post(BaseModel body, String btLocator) {
         return (T) crudRequester.post(body, btLocator).extract().as(endpoint.getResponseModel());
     }
@@ -52,29 +52,28 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
     public T put(BaseModel body, String btLocator, String stepId) {
         return (T) crudRequester.put(body, btLocator, stepId).extract().as(endpoint.getResponseModel());
     }
-
-    @Override
+*/
     public T put(BaseModel model, Object... pathParams) {
         return (T) crudRequester.put(model, pathParams).extract().as(endpoint.getResponseModel());
     }
 
-    @Override
+   /* @Override
     public T put(BaseModel body, String stepId) {
         return (T) crudRequester.put(body, stepId).extract().as(endpoint.getResponseModel());
     }
-
+*/
     @Override
     public T delete(Object... pathParams) {
         return (T) crudRequester.delete(pathParams).extract().as(endpoint.getResponseModel());
     }
-    @Override
+    /*@Override
     public T delete(String id, BaseModel body) {
         return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
-    }
-    @Override
+    }*/
+    /*@Override
     public T delete(String parameterName, String parameterValue) {
         return (T) crudRequester.delete(parameterName, parameterValue).extract().as(endpoint.getResponseModel());
-    }
+    }*/
 
     @Override
     public List<T> getAll(Class<?> clazz) {
