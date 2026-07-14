@@ -50,6 +50,11 @@ public enum Endpoint {
             BuildConfigurationRequest.class,
             BuildConfigurationResponse.class
     ),
+    USER_TOKEN(
+            API_PREFIX + "/users/{id}/tokens",
+            UserTokenRequest.class,
+            UserTokenResponse.class
+    ),
     PROJECTS_BUILD_TYPES(
             API_PREFIX + "/projects/id:{projectId}/buildTypes",
             BaseModel.class,

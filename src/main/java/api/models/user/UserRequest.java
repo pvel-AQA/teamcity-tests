@@ -1,5 +1,6 @@
 package api.models.user;
 
+import api.generators.GeneratingRule;
 import api.models.BaseModel;
 import api.models.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,8 +17,11 @@ import lombok.NoArgsConstructor;
 public class UserRequest extends BaseModel {
 
     private String id;
+    @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}")
     private String username;
+    @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}")
     private String password;
+    @GeneratingRule(regex = "[a-zA-Z]{5,10}@(mail|gmail|yahoo)\\.(com|org|net)")
     private String email;
     private Roles roles;
 

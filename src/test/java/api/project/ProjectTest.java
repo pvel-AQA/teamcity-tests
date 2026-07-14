@@ -8,6 +8,8 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
 import base.BaseTest;
+import common.annotations.AuthUser;
+import common.enums.UserRoles;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -64,11 +66,12 @@ public class ProjectTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotCreateProjectWithTheSameNameTest() {
         ProjectRequest projectRequest = ProjectRequest.builder()
                 .name("Project" + UUID.randomUUID().toString().substring(0, 8))
                 .build();
-        ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
+        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.PROJECTS,

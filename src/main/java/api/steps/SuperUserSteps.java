@@ -1,14 +1,17 @@
 package api.steps;
 
+import api.generators.RandomGenerator;
 import api.models.Role;
 import api.models.Roles;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import api.request.skelethon.Endpoint;
+import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatableCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.configs.Config;
+import common.enums.UserRoles;
 
 import java.util.List;
 
@@ -34,6 +37,32 @@ public class SuperUserSteps {
                 Endpoint.USERS,
                 ResponseSpec.isOk()
         ).post(user);
+    }
+
+    public static UserRequest createUserWithRole(UserRoles role) {
+        UserRequest user = RandomGenerator.generate(UserRequest.class);
+        user.setId(null);
+        user.setRoles(Roles.builder()
+                .role(List.of(Role.builder()
+                        .roleId(role)
+                        .scope(role.getScope())
+                        .build()))
+                .build());
+        UserResponse response = new ValidatableCrudRequester<UserResponse>(
+                RequestSpec.superUserSpec(),
+                Endpoint.USERS,
+                ResponseSpec.isOk()
+        ).post(user);
+        user.setId(String.valueOf(response.getId()));
+        return user;
+    }
+
+    public static void deleteUser(String userName) {
+        new CrudRequester(
+                RequestSpec.superUserSpec(),
+                Endpoint.USERS,
+                ResponseSpec.deleted()
+        ).delete(userName);
     }
 
 }

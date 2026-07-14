@@ -1,9 +1,11 @@
 package api.specs;
 
+import api.steps.UserSteps;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import common.configs.Config;
+import common.extensions.AuthUserExtension;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
@@ -79,6 +81,12 @@ public class RequestSpec {
     public static RequestSpecification authAsUserSpec(String username, String password) {
         return defaultSpecBuilder()
                 .setAuth(RestAssured.basic(username, password))
+                .build();
+    }
+
+    public static RequestSpecification withAuthExtensionUser() {
+        return defaultSpecBuilder()
+                .setAuth(RestAssured.oauth2(AuthUserExtension.getAuthUserToken().getValue()))
                 .build();
     }
 
