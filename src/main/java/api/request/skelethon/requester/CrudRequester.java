@@ -5,6 +5,7 @@ import api.request.skelethon.Endpoint;
 import api.request.skelethon.HttpRequest;
 import api.request.skelethon.interfaces.CrudEndpointInterface;
 import api.request.skelethon.interfaces.GetAllEndpointInterface;
+import common.helpers.StepLogger;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -22,64 +23,78 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse get(Object... pathParams) {
-        return prepareRequest(pathParams)
-                .when()
-                .get(targetUrl)
-                .then()
-                .spec(responseSpecification);
+        return StepLogger.log("Get request to " + targetUrl, () -> {
+            return prepareRequest(pathParams)
+                    .when()
+                    .get(targetUrl)
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
     public ValidatableResponse get(Map<String, Object> queryParams) {
-        return prepareRequest(queryParams)
-                .when()
-                .get(targetUrl)
-                .then()
-                .spec(responseSpecification);
+        return StepLogger.log("Get request to " + targetUrl, () -> {
+            return prepareRequest(queryParams)
+                    .when()
+                    .get(targetUrl)
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
     public ValidatableResponse post(BaseModel model) {
-        return post(model, new Object[0]);
+        return StepLogger.log("Post request to" + targetUrl, () -> {
+            return post(model, new Object[0]);
+        });
     }
 
     public ValidatableResponse post(BaseModel model, Object... pathParams) {
-        return prepareRequest(pathParams)
-                .body(model == null ? "" : model)
-                .when()
-                .post(targetUrl)
-                .then()
-                .spec(responseSpecification);
+        return StepLogger.log("Post request to" + targetUrl, () -> {
+            return prepareRequest(pathParams)
+                    .body(model == null ? "" : model)
+                    .when()
+                    .post(targetUrl)
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
     public ValidatableResponse put(BaseModel model, Object... pathParams) {
-        return prepareRequest(pathParams)
-                .body(model)
-                .when()
-                .put(targetUrl)
-                .then()
-                .spec(responseSpecification);
+        return StepLogger.log("Put request to" + targetUrl, () -> {
+            return prepareRequest(pathParams)
+                    .body(model)
+                    .when()
+                    .put(targetUrl)
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
     public ValidatableResponse delete(Object... pathParams) {
-        return prepareRequest(pathParams)
-                .when()
-                .delete(targetUrl)
-                .then()
-                .spec(responseSpecification);
+        return StepLogger.log("Delete request to" + targetUrl, () -> {
+            return prepareRequest(pathParams)
+                    .when()
+                    .delete(targetUrl)
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
 
     @Override
     public ValidatableResponse getAll(Class<?> clazz) {
-        return given()
-                .spec(requestSpecification)
-                .when()
-                .get(endpoint.getUrl())
-                .then()
-                .spec(responseSpecification);
+        return StepLogger.log("GetAll request to" + targetUrl, () -> {
+            return given()
+                    .spec(requestSpecification)
+                    .when()
+                    .get(endpoint.getUrl())
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
     public static class QueryBuilder {
