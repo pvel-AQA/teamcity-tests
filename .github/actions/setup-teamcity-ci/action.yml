@@ -149,6 +149,9 @@ runs:
       shell: bash
       run: |
         cd ${{ inputs.docker-compose-dir }}
+        
+        docker volume rm tc-agent-conf 2>/dev/null || true
+        
         docker compose -p teamcity up -d teamcity-agent selenoid selenoid-ui
 
     - name: Wait for agent to connect

@@ -83,6 +83,7 @@ volumes:
     name: tc-server-data
   tc-server-logs:
   tc-agent-conf:
+    name: tc-agent-conf
 
 networks:
   teamcity-net:
