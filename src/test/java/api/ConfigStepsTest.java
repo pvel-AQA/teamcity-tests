@@ -73,7 +73,7 @@ public class ConfigStepsTest {
         ModelAssertions.assertThatModels(updateStepResponse, checkUpdatedStep).match();
     }
 
- /*   @Test
+    @Test
     public void ConfigStepsSuccessfulDeleteTest() {
         String projectName = Steps.createProject().getName();
         String configName = Steps.createConfig(projectName).getName();
@@ -90,5 +90,5 @@ public class ConfigStepsTest {
                 Endpoint.BUILD_STEP_RUD,
                 ResponseSpec.notFound())
                 .get(configName, createdStepId);
-    }*/
+    }
 }
