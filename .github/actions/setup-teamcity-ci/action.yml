@@ -145,6 +145,37 @@ runs:
         docker logs teamcity-server --tail 100
         exit 1
 
+    - name: Clean up old agents from server
+      shell: bash
+      env:
+        TC_TOKEN: ${{ steps.teamcity_token.outputs.TOKEN }}
+      run: |
+        echo "🧹 Cleaning up old agent records from server..."
+        
+        # Получаем всех агентов
+        RESPONSE=$(curl -s -u ":$TC_TOKEN" \
+          -H "Accept: application/json" \
+          "http://localhost:8111/app/rest/agents")
+        
+        if [ -n "$RESPONSE" ]; then
+          COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | sed 's/"count"://' | head -1)
+          echo "Found $COUNT agent(s) in database"
+        
+          if [ "${COUNT:-0}" -gt 0 ]; then
+            # Получаем ID всех агентов
+            AGENT_IDS=$(echo "$RESPONSE" | grep -o '"id":[0-9]*' | sed 's/"id"://')
+        
+            for ID in $AGENT_IDS; do
+              echo "Deleting agent ID: $ID"
+              curl -s -X DELETE -u ":$TC_TOKEN" \
+                "http://localhost:8111/app/rest/agents/$ID"
+              echo "✅ Agent $ID deleted"
+            done
+        
+            echo "✅ All old agents cleaned up from server"
+          fi
+        fi        
+
     - name: Start remaining services (agent, selenoid)
       shell: bash
       run: |
