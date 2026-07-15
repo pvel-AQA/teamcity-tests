@@ -7,7 +7,7 @@ import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
-import api.request.skelethon.requester.ValidatableCrudRequester;
+import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.configs.Config;
@@ -32,10 +32,10 @@ public class SuperUserSteps {
     }
 
     public static UserResponse createUser(UserRequest user) {
-        return new ValidatableCrudRequester<UserResponse>(
+        return new ValidatedCrudRequester<UserResponse>(
                 RequestSpec.superUserSpec(),
                 Endpoint.USERS,
-                ResponseSpec.isOk()
+                ResponseSpec.returnsOk()
         ).post(user);
     }
 
@@ -48,10 +48,10 @@ public class SuperUserSteps {
                         .scope(role.getScope())
                         .build()))
                 .build());
-        UserResponse response = new ValidatableCrudRequester<UserResponse>(
+        UserResponse response = new ValidatedCrudRequester<UserResponse>(
                 RequestSpec.superUserSpec(),
                 Endpoint.USERS,
-                ResponseSpec.isOk()
+                ResponseSpec.returnsOk()
         ).post(user);
         user.setId(String.valueOf(response.getId()));
         return user;
@@ -61,7 +61,7 @@ public class SuperUserSteps {
         new CrudRequester(
                 RequestSpec.superUserSpec(),
                 Endpoint.USERS,
-                ResponseSpec.deleted()
+                ResponseSpec.returnsDeleted()
         ).delete(userName);
     }
 
