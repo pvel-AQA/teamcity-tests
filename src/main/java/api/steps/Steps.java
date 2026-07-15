@@ -3,6 +3,7 @@ package api.steps;
 import api.generators.RandomDataGenerator;
 import api.models.BuildTypeStepsModel;
 import api.models.ProjectModel;
+import api.models.build.BuildConfigurationResponse;
 import api.models.project.ProjectResponse;
 import api.models.projects.BuildTypeModel;
 import api.request.skelethon.Endpoint;
@@ -24,13 +25,13 @@ public class Steps {
                 .post(createProjectRequest);
     }
 
-    public static BuildTypeModel createConfig(String projectName){
+    public static BuildConfigurationResponse createConfig(String projectName){
         BuildTypeModel createConfigRequest = BuildTypeModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoConfig",5))
                 .projectId(projectName)
                 .build();
 
-        return new ValidatedCrudRequester<BuildTypeModel>(
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
