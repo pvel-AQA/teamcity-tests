@@ -32,7 +32,7 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
     }
 
     public T get() {
-        return get((Object) null);
+        return get(new Object[0]);
     }
 
     @Override
