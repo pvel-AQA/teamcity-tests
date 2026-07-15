@@ -83,7 +83,7 @@ public class ConfigStepsTest {
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_RUD,
                 ResponseSpec.deleted())
-                .delete("buildType:" + configName,"id:" + createdStepId);
+                .delete(configName,createdStepId);
 
         new ValidatableCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
