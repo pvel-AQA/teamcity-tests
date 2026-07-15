@@ -4,13 +4,12 @@ import api.comparison.ModelAssertions;
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.generators.TeamCityDataGenerator;
-import api.models.BaseModel;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.build.CopyBuildConfigurationRequest;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
-import api.request.skelethon.requester.ValidatableCrudRequester;
+import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
@@ -32,17 +31,17 @@ public class BuildConfigurationTest extends BaseTest {
         var buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
         buildRequest.getProject().setId(projectResponse.getId());
 
-        var buildResponse = new ValidatableCrudRequester<BuildConfigurationResponse>
+        var buildResponse = new ValidatedCrudRequester<BuildConfigurationResponse>
                 (RequestSpec.adminSpec(ADMIN_TOKEN),
                         Endpoint.BUILD_TYPES,
-                        ResponseSpec.isOk())
+                        ResponseSpec.returnsOk())
                 .post(buildRequest);
 
 
-        var builds = new ValidatableCrudRequester<BuildConfigurationResponse>
+        var builds = new ValidatedCrudRequester<BuildConfigurationResponse>
                 (RequestSpec.adminSpec(ADMIN_TOKEN),
                         Endpoint.BUILD_TYPES,
-                        ResponseSpec.isOk())
+                        ResponseSpec.returnsOk())
                 .get();
 
         var foundBuild = findBuild(builds, buildRequest.getId());
@@ -61,10 +60,10 @@ public class BuildConfigurationTest extends BaseTest {
 
         var copyBuildRequest = CopyBuildConfigurationRequest.createFrom(buildResponse);
 
-        var copyBuildResponse = new ValidatableCrudRequester<BuildConfigurationResponse>
+        var copyBuildResponse = new ValidatedCrudRequester<BuildConfigurationResponse>
                 (RequestSpec.adminSpec(ADMIN_TOKEN),
                         Endpoint.PROJECTS_BUILD_TYPES,
-                        ResponseSpec.isOk())
+                        ResponseSpec.returnsOk())
                 .post(copyBuildRequest, buildResponse.getProject().getId());
 
         var builds = UserSteps.getBuilds();
@@ -85,7 +84,7 @@ public class BuildConfigurationTest extends BaseTest {
 
         new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPE,
-                ResponseSpec.isNoContent())
+                ResponseSpec.returnsNoContent())
                 .delete(LocatorType.ID + buildRequest.getId());
 
         var builds = UserSteps.getBuilds();
@@ -107,7 +106,7 @@ public class BuildConfigurationTest extends BaseTest {
 
         new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPES,
-                ResponseSpec.isBadRequest())
+                ResponseSpec.returnsBadRequest())
                 .post(duplicateBuild);
 
         var builds = UserSteps.getBuilds();
@@ -125,7 +124,7 @@ public class BuildConfigurationTest extends BaseTest {
 
         new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPES,
-                ResponseSpec.isInternalServerError())
+                ResponseSpec.returnsInternalServerError())
                 .post(invalidBuild);
 
         var builds = UserSteps.getBuilds();

@@ -10,12 +10,13 @@ import io.restassured.specification.ResponseSpecification;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
+public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
 
     private CrudRequester crudRequester;
 
-    public ValidatableCrudRequester(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification responseSpecification) {
+    public ValidatedCrudRequester(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification responseSpecification) {
         super(requestSpecification, endpoint, responseSpecification);
         this.crudRequester = new CrudRequester(requestSpecification, endpoint, responseSpecification);
     }
@@ -25,8 +26,13 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
         return (T) crudRequester.get(pathParams).extract().as(endpoint.getResponseModel());
     }
 
+    @Override
+    public T get(Map<String, Object> queryParams) {
+        return (T) crudRequester.get(queryParams).extract().as(endpoint.getResponseModel());
+    }
+
     public T get() {
-        return get(null);
+        return get((Object) null);
     }
 
     @Override

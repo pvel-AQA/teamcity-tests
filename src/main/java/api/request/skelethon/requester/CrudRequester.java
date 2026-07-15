@@ -9,6 +9,9 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
@@ -20,6 +23,15 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     @Override
     public ValidatableResponse get(Object... pathParams) {
         return prepareRequest(pathParams)
+                .when()
+                .get(targetUrl)
+                .then()
+                .spec(responseSpecification);
+    }
+
+    @Override
+    public ValidatableResponse get(Map<String, Object> queryParams) {
+        return prepareRequest(queryParams)
                 .when()
                 .get(targetUrl)
                 .then()
@@ -68,6 +80,28 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .get(endpoint.getUrl())
                 .then()
                 .spec(responseSpecification);
+    }
+
+    public static class QueryBuilder {
+        private final Map<String, Object> params = new HashMap<>();
+
+        public QueryBuilder add(String key, Object value) {
+            params.put(key, value);
+
+            return this;
+        }
+
+        public Map<String, Object> build() {
+            return params;
+        }
+
+        public QueryBuilder locator(String locator) {
+            return add("locator", locator);
+        }
+
+        public QueryBuilder locatorEqualsAuthorizedAny() {
+            return locator("authorized:any");
+        }
     }
 
 }

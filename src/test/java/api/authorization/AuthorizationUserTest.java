@@ -2,7 +2,6 @@ package api.authorization;
 
 import api.generators.RandomGenerator;
 import api.enums.errors.AuthErrorMessage;
-import api.models.BaseModel;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
@@ -24,7 +23,7 @@ public class AuthorizationUserTest extends BaseTest {
     public void basicAuthTest() {
         new CrudRequester(RequestSpec.basicAuthSpec(),
                 Endpoint.SERVER,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .get();
     }
 
@@ -42,7 +41,7 @@ public class AuthorizationUserTest extends BaseTest {
     public void basicAuthInvalidDataTest(String description, String username, String password) {
         new CrudRequester(RequestSpec.basicAuthSpec(username, password),
                 Endpoint.SERVER,
-                ResponseSpec.isUnauthorized(AuthErrorMessage.BASIC_AUTH_FAILED))
+                ResponseSpec.returnsUnauthorized(AuthErrorMessage.BASIC_AUTH_FAILED))
                 .get();
     }
 
@@ -51,7 +50,7 @@ public class AuthorizationUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.adminSpec(),
                 Endpoint.SERVER,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .get();
     }
 
@@ -60,7 +59,7 @@ public class AuthorizationUserTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.adminSpec(RandomGenerator.generateString()),
                 Endpoint.SERVER,
-                ResponseSpec.isUnauthorized(AuthErrorMessage.OAUTH_FAILED))
+                ResponseSpec.returnsUnauthorized(AuthErrorMessage.OAUTH_FAILED))
                 .get();
     }
 }

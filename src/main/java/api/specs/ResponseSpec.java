@@ -17,57 +17,32 @@ public class ResponseSpec {
         return new ResponseSpecBuilder();
     }
 
-    public static ResponseSpecification isOk() {
+    public static ResponseSpecification returnsOk() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_OK).build();
     }
 
-    public static ResponseSpecification isCreated() {
+    public static ResponseSpecification returnsCreated() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_CREATED).build();
     }
 
-    public static ResponseSpecification notFound() {
+    public static ResponseSpecification returnsNotFound() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NOT_FOUND).build();
     }
 
-    public static ResponseSpecification notFound(String errorMsg) {
+    public static ResponseSpecification returnsNotFound(String errorMsg) {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NOT_FOUND)
                 .expectBody(containsString(errorMsg))
                 .build();
     }
 
-    public static ResponseSpecification isBadRequest() {
+    public static ResponseSpecification returnsBadRequest() {
         return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_BAD_REQUEST).build();
     }
 
-    public static ResponseSpecification isNoContent() {
-        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NO_CONTENT).build();
-    }
-
-    public static ResponseSpecification isInternalServerError() {
-        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
-    }
-
-    public static ResponseSpecification isBadRequest(String errorMsg) {
+    public static ResponseSpecification returnsBadRequest(String errorMsg) {
         return defaultSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
                 .expectBody(containsString(errorMsg))
-                .build();
-    }
-
-    public static ResponseSpecification isUnauthorized(AuthErrorMessage error) {
-        return defaultSpecBuilder()
-                .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)
-                .expectBody(containsString(error.getText()))
-                .build();
-    }
-
-    public static ResponseSpecification isForbidden() {
-        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_FORBIDDEN).build();
-    }
-
-    public static ResponseSpecification deleted() {
-        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NO_CONTENT)
-                .expectBody(Matchers.is(Matchers.emptyOrNullString()))
                 .build();
     }
 
@@ -78,4 +53,28 @@ public class ResponseSpec {
                 .build();
     }
 
+    public static ResponseSpecification returnsNoContent() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NO_CONTENT).build();
+    }
+
+    public static ResponseSpecification returnsInternalServerError() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+    }
+
+    public static ResponseSpecification returnsUnauthorized(AuthErrorMessage error) {
+        return defaultSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)
+                .expectBody(containsString(error.getText()))
+                .build();
+    }
+
+    public static ResponseSpecification returnsForbidden() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_FORBIDDEN).build();
+    }
+
+    public static ResponseSpecification returnsDeleted() {
+        return defaultSpecBuilder().expectStatusCode(HttpStatus.SC_NO_CONTENT)
+                .expectBody(Matchers.is(Matchers.emptyOrNullString()))
+                .build();
+    }
 }
