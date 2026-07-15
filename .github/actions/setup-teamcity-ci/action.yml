@@ -150,3 +150,30 @@ runs:
       run: |
         cd ${{ inputs.docker-compose-dir }}
         docker compose -p teamcity up -d teamcity-agent selenoid selenoid-ui
+
+    - name: Wait for agent to connect
+      shell: bash
+      run: |
+        TOKEN="${{ steps.teamcity_token.outputs.TOKEN }}"
+    
+        echo "⏳ Waiting for agent to connect..."
+    
+        for i in {1..60}; do
+          COUNT=$(curl -s -H "Authorization: Bearer $TOKEN" \
+            "http://localhost:8111/app/rest/agents?locator=connected:true" \
+            | jq '.count // 0')
+    
+          echo "Attempt $i/60: Found $COUNT agent(s)"
+    
+          if [ "$COUNT" -ge 1 ]; then
+            echo "✅ Agent connected!"
+            exit 0
+          fi
+    
+          sleep 5
+        done
+    
+        echo "❌ Agent did not connect within timeout"
+        echo "=== Agent logs ==="
+        docker logs teamcity-agent --tail 50
+        exit 1
