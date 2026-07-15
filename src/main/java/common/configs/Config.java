@@ -11,8 +11,7 @@ public class Config {
 
     public static final String ADMIN_USERNAME = Config.getProperty("admin.username");
     public static final String ADMIN_PASSWORD = Config.getProperty("admin.password");
-    //public static final String ADMIN_TOKEN = Config.getProperty("admin.token");
-    public static final String ADMIN_TOKEN = Config.getProperty("teamcity.auth.token");
+    public static final String ADMIN_TOKEN = Config.getProperty("admin.token");
     public static final String API_PREFIX = Config.getProperty("api.prefix");
     public static final String TEAMCITY_SERVER_NAME = getProperty("teamcity.server");
 
