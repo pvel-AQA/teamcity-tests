@@ -12,10 +12,11 @@ import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 
 public class AgentTest extends BaseTest {
+
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void AgentCanBeConnectedToTheServerTest() {
-//        final String queryParamFields = "agent(id,name,connected)";
+        final String expectedAgentName = "teamcity-agent";
 
         var getAgentsResponse = new ValidatedCrudRequester<GetAgentsResponse>(
                 RequestSpec.withAuthExtensionUser(),
@@ -25,6 +26,8 @@ public class AgentTest extends BaseTest {
                 .locatorEqualsAuthorizedAny()
                 .build());
 
-        softy.assertThat(getAgentsResponse.getCount()).isEqualTo(2);
+        softly.assertThat(getAgentsResponse.getCount()).isOne();
+        softly.assertThat(getAgentsResponse.getAgent().getFirst().getId()).isOne();
+        softly.assertThat(getAgentsResponse.getAgent().getFirst().getName()).isEqualTo(expectedAgentName);
     }
 }

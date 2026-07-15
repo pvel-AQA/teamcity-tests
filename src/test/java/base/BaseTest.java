@@ -8,16 +8,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(AuthUserExtension.class)
 public class BaseTest {
-    protected SoftAssertions softy;
+    protected SoftAssertions softly;
 
     @BeforeEach
     public void beforeEach() {
-        this.softy = new SoftAssertions();
+        this.softly = new SoftAssertions();
     }
 
     @AfterEach
     public void afterEach() {
-        this.softy.assertAll();
+        this.softly.assertAll();
     }
 
 }
