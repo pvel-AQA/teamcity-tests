@@ -5,10 +5,6 @@ import lombok.*;
 
 import java.util.List;
 
-/**
- * Collection wrapper returned by GET /buildTypes/{btLocator}/steps.
- * TeamCity shape: {"count": N, "step": [ ... ]}.
- */
 @Builder
 @Getter
 @AllArgsConstructor

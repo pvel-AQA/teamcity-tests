@@ -23,13 +23,6 @@ import static api.enums.errors.AuthErrorMessage.OAUTH_FAILED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigStepsTest extends BaseTest {
-    //-400 - missing/empty buildType, malformed JSON, or a bad field.
-    //401 - wrong token or Auth: No Auth
-    //403 - try to access with token of restricted user
-    //404 - send in body non-existing info
-    //500 - http://localhost:8111/app/rest/buildQueue/ with no body=>
-    //Cannot read field "name" because "descriptor" is null
-    //-
 
     @Test
     public void ConfigStepsSuccessfullyCreatedTest() {
