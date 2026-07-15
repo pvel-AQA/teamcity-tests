@@ -173,7 +173,7 @@ runs:
         for i in {1..60}; do
           RESPONSE=$(curl -s -u ":$TC_TOKEN" \
             -H "Accept: application/json" \
-            "http://localhost:8111/app/rest/agents?locator=connected:true")
+            "http://localhost:8111/app/rest/agents?locator=authorized:any")
 
           if [ -n "$RESPONSE" ] && echo "$RESPONSE" | grep -q '"count"'; then
             COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | sed 's/"count"://')
