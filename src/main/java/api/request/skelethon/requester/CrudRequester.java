@@ -26,10 +26,11 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .spec(responseSpecification);
     }
 
-    @Override
+
     public ValidatableResponse post(BaseModel model) {
         return post(model, new Object[0]);
     }
+
 
     public ValidatableResponse post(BaseModel model, Object... pathParams) {
         return prepareRequest(pathParams)

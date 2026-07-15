@@ -34,11 +34,10 @@ public class ValidatableCrudRequester<T extends BaseModel> extends HttpRequest i
         return (T) crudRequester.get(btLocator,stepId).extract().as(endpoint.getResponseModel());
     }
 */
-    /*@Override
+    @Override
     public T post(BaseModel model) {
         return (T) crudRequester.post(model).extract().as(endpoint.getResponseModel());
     }
-*/
     public T post(BaseModel model, Object... pathParams) {
         return (T) crudRequester.post(model, pathParams).extract().as(endpoint.getResponseModel());
     }

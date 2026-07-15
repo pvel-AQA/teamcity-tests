@@ -25,7 +25,9 @@ public class ConfigStepsTest {
     @Test
     public void ConfigStepsSuccessfullyCreatedTest() {
         String projectName = Steps.createProject().getName();
+        System.out.println("Project Name = " + projectName);
         String configName = Steps.createConfig(projectName).getName();
+
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep",3))
                 .type("simpleRunner")

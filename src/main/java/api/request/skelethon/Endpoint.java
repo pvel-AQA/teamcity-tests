@@ -6,6 +6,7 @@ import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
+import api.models.projects.BuildTypeModel;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import lombok.AllArgsConstructor;
@@ -58,7 +59,23 @@ public enum Endpoint {
             "/projects/{projectId}/buildTypes",
             BaseModel.class,
             BuildConfigurationResponse.class
+    ),
+    BUILD_TYPESS(
+            "/buildTypes",
+            BaseModel.class,
+            BuildTypeModel.class
+    ),
+    BUILD_STEP_CREATE(
+            "/buildTypes/{btLocator}/steps",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_RUD(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
     );
+
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;

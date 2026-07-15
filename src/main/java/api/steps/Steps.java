@@ -32,7 +32,7 @@ public class Steps {
 
         return new ValidatableCrudRequester<BuildTypeModel>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_TYPE,
+                Endpoint.BUILD_TYPESS,
                 ResponseSpec.isOk())
                 .post(createConfigRequest);
     }
