@@ -157,45 +157,43 @@ runs:
         TC_TOKEN: ${{ steps.teamcity_token.outputs.TOKEN }}
       run: |
         echo "⏳ Waiting for agent to connect..."
-        
+
+        echo "Verifying token..."
+        if ! curl -s -f -u ":$TC_TOKEN" \
+          -H "Accept: application/json" \
+          "http://localhost:8111/app/rest/server" > /dev/null 2>&1; then
+          echo "❌ Super user token is invalid or server not ready"
+          echo "Token length: ${#TC_TOKEN}"
+          docker logs teamcity-server --tail 30 | grep -i "token" || echo "No token in logs"
+          exit 1
+        fi
+
+        echo "✅ Token verified, waiting for agent..."
+
         for i in {1..60}; do
-          # Получаем ответ
-          RESPONSE=$(curl -s -H "Authorization: Bearer $TC_TOKEN" \
+          RESPONSE=$(curl -s -u ":$TC_TOKEN" \
+            -H "Accept: application/json" \
             "http://localhost:8111/app/rest/agents?locator=connected:true")
-        
-          # Проверяем, что ответ не пустой и содержит "count"
+
           if [ -n "$RESPONSE" ] && echo "$RESPONSE" | grep -q '"count"'; then
-            # Извлекаем count через grep и sed (без jq)
             COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | sed 's/"count"://')
-        
-            # Если count не найден, ставим 0
-            if [ -z "$COUNT" ]; then
-              COUNT=0
-            fi
-        
-            echo "Attempt $i/60: Found $COUNT agent(s)"
-        
-            if [ "$COUNT" -ge 1 ]; then
+            echo "Attempt $i/60: Found ${COUNT:-0} agent(s)"
+
+            if [ "${COUNT:-0}" -ge 1 ]; then
               echo "✅ Agent connected!"
-              echo "Agent details:"
-              echo "$RESPONSE" | grep -o '"name":"[^"]*"' | head -1
+              echo "$RESPONSE" | grep -o '"id":[0-9]*,"name":"[^"]*"' | head -3
               exit 0
             fi
           else
-            # Сервер не вернул JSON - возможно еще не готов
-            echo "Attempt $i/60: Server not ready or invalid response"
-            # Показываем первые 100 символов ответа для диагностики
-            if [ -n "$RESPONSE" ]; then
-              echo "Response preview: ${RESPONSE:0:100}"
-            fi
+            echo "Attempt $i/60: Waiting for agent to register..."
           fi
-        
+
           sleep 5
         done
-        
+
         echo "❌ Agent did not connect within timeout"
         echo "=== Agent logs ==="
         docker logs teamcity-agent --tail 50
-        echo "=== Server logs (last 20 lines) ==="
-        docker logs teamcity-server --tail 20
+        echo "=== Server logs (agents) ==="
+        docker logs teamcity-server --tail 30 | grep -i agent || echo "No agent logs"
         exit 1
