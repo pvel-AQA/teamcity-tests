@@ -15,7 +15,7 @@ public class AgentTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void AgentCanBeConnectedToTheServerTest() {
-        final String queryParamFields = "agent(id,name,connected)";
+//        final String queryParamFields = "agent(id,name,connected)";
 
         var getAgentsResponse = new ValidatedCrudRequester<GetAgentsResponse>(
                 RequestSpec.withAuthExtensionUser(),
@@ -23,7 +23,7 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).get(new CrudRequester.QueryBuilder()
                 .locatorEqualsAuthorizedAny()
-                .fields(queryParamFields).build());
+                .build());
 
         softy.assertThat(getAgentsResponse.getCount()).isEqualTo(2);
     }
