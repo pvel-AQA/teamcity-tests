@@ -6,7 +6,7 @@ import api.models.ProjectModel;
 import api.models.project.ProjectResponse;
 import api.models.projects.BuildTypeModel;
 import api.request.skelethon.Endpoint;
-import api.request.skelethon.requester.ValidatableCrudRequester;
+import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 
@@ -17,10 +17,10 @@ public class Steps {
                 .parentProjectName("id:_Root")
                 .build();
 
-        return new ValidatableCrudRequester<ProjectResponse>(
+        return new ValidatedCrudRequester<ProjectResponse>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .post(createProjectRequest);
     }
 
@@ -30,18 +30,18 @@ public class Steps {
                 .projectId(projectName)
                 .build();
 
-        return new ValidatableCrudRequester<BuildTypeModel>(
+        return new ValidatedCrudRequester<BuildTypeModel>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_TYPESS,
-                ResponseSpec.isOk())
+                Endpoint.BUILD_TYPES,
+                ResponseSpec.returnsOk())
                 .post(createConfigRequest);
     }
 
     public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
-        return new ValidatableCrudRequester<BuildTypeStepsModel>(
+        return new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isOk())
+                Endpoint.BUILD_STEP_READ,
+                ResponseSpec.returnsOk())
                 .get(configName, stepId);
     }
 
@@ -51,10 +51,10 @@ public class Steps {
                 .type("simpleRunner")
                 .build();
 
-        return new ValidatableCrudRequester<BuildTypeStepsModel>(
+        return new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .post(createStepRequest,configName);
     }
 }

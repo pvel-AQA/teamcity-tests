@@ -7,7 +7,7 @@ import api.models.BuildTypeStepsList;
 import api.models.BuildTypeStepsModel;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
-import api.request.skelethon.requester.ValidatableCrudRequester;
+import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.Steps;
@@ -41,19 +41,19 @@ public class ConfigStepsTest extends BaseTest {
                 .type("simpleRunner")
                 .build();
 
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
+        BuildTypeStepsModel createStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .post(createStepRequest,configName);
 
         ModelAssertions.assertThatModels(createStepResponse, createStepRequest).match();
 
         String createdStepId = createStepResponse.getId();
-        BuildTypeStepsModel getStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
+        BuildTypeStepsModel getStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isOk())
+                Endpoint.BUILD_STEP_READ,
+                ResponseSpec.returnsOk())
                 .get(configName, createdStepId);
 
         ModelAssertions.assertThatModels(createStepResponse, getStepResponse).match();
@@ -69,10 +69,10 @@ public class ConfigStepsTest extends BaseTest {
                 .type("simpleRunner")
                 .build();
 
-        BuildTypeStepsModel updateStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
+        BuildTypeStepsModel updateStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isOk())
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsOk())
                 .put(updateStepRequest,configName,createdStep.getId());
 
         assertThat(updateStepRequest.getName()).isEqualTo(updateStepResponse.getName());
@@ -89,14 +89,14 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.deleted())
+                Endpoint.BUILD_STEP_DELETE,
+                ResponseSpec.returnsDeleted())
                 .delete(configName,createdStepId);
 
-        new ValidatableCrudRequester<BuildTypeStepsModel>(
+        new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.notFound())
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsNotFound())
                 .get(configName, createdStepId);
     }
 
@@ -109,10 +109,10 @@ public class ConfigStepsTest extends BaseTest {
                 .type("simpleRunner")
                 .build();
 
-        BuildTypeStepsModel createStepResponse = new ValidatableCrudRequester<BuildTypeStepsModel>(
+        BuildTypeStepsModel createStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .post(createStepRequest, configName);
 
         String createdStepId = createStepResponse.getId();
@@ -123,7 +123,7 @@ public class ConfigStepsTest extends BaseTest {
         BuildTypeStepsList steps = new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .get(configName)
                 .extract().as(BuildTypeStepsList.class);
 
@@ -145,13 +145,13 @@ public class ConfigStepsTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isBadRequest(StepErrors.STEP_TYPE_CANNOT_BE_EMPTY.getErrorMsg()))
+                ResponseSpec.returnsBadRequest(StepErrors.STEP_TYPE_CANNOT_BE_EMPTY.getErrorMsg()))
                 .post(createStepRequest, configName);
 
         BuildTypeStepsList steps = new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .get(configName)
                 .extract().as(BuildTypeStepsList.class);
 
@@ -168,8 +168,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.notFound())
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsNotFound())
                 .get(configName, nonExistingStepId);
     }
 
@@ -186,8 +186,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.notFound())
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsNotFound())
                 .put(updateStepRequest, configName, nonExistingStepId);
     }
 
@@ -199,8 +199,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.notFound())
+                Endpoint.BUILD_STEP_DELETE,
+                ResponseSpec.returnsNotFound())
                 .delete(configName, nonExistingStepId);
     }
 
@@ -216,14 +216,13 @@ public class ConfigStepsTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.notFound())
+                ResponseSpec.returnsNotFound())
                 .post(createStepRequest, nonExistingConfig);
     }
 
     @Test
     public void ConfigStepsCannotCreateWithoutAuthTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
-        String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
         BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
                 .type("simpleRunner")
@@ -232,7 +231,7 @@ public class ConfigStepsTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.unAuth(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .post(stepRequest, configLocator);
     }
 
@@ -247,8 +246,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.unAuth(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .put(stepRequest, configLocator, stepLocator);
     }
 
@@ -256,15 +255,16 @@ public class ConfigStepsTest extends BaseTest {
     public void ConfigStepsCannotDeleteWithoutAuthTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
         String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
-        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+
+        BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
                 .type("simpleRunner")
                 .build();
 
         new CrudRequester(
                 RequestSpec.unAuth(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                Endpoint.BUILD_STEP_DELETE,
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .delete(configLocator, stepLocator);
     }
 
@@ -275,8 +275,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.unAuth(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                Endpoint.BUILD_STEP_READ,
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .get(configLocator, stepLocator);
     }
 
@@ -293,7 +293,7 @@ public class ConfigStepsTest extends BaseTest {
                         RandomDataGenerator.randomString(10),
                         RandomDataGenerator.randomString(10)),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isUnauthorized(BASIC_AUTH_FAILED))
+                ResponseSpec.returnsUnauthorized(BASIC_AUTH_FAILED))
                 .post(stepRequest, configLocator);
     }
 
@@ -311,7 +311,7 @@ public class ConfigStepsTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isForbidden())
+                ResponseSpec.returnsForbidden())
                 .post(createStepRequest, configName);
     }
 
@@ -329,8 +329,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isForbidden())
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsForbidden())
                 .put(updateStepRequest, configName, createdStep.getId());
     }
 
@@ -343,8 +343,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isForbidden())
+                Endpoint.BUILD_STEP_DELETE,
+                ResponseSpec.returnsForbidden())
                 .delete(configName, createdStepId);
     }
 
@@ -357,8 +357,8 @@ public class ConfigStepsTest extends BaseTest {
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
-                Endpoint.BUILD_STEP_RUD,
-                ResponseSpec.isForbidden())
+                Endpoint.BUILD_STEP_DELETE,
+                ResponseSpec.returnsForbidden())
                 .delete(configName, createdStepId);
     }
 
@@ -373,7 +373,7 @@ public class ConfigStepsTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.adminSpec(RandomDataGenerator.randomString(20)),
                 Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.isUnauthorized(OAUTH_FAILED))
+                ResponseSpec.returnsUnauthorized(OAUTH_FAILED))
                 .post(stepRequest, configLocator);
     }
 }

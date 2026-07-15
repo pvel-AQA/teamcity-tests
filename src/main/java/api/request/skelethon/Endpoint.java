@@ -14,8 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static common.configs.Config.API_PREFIX;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -64,6 +62,26 @@ public enum Endpoint {
             "/agents",
             BaseModel.class,
             GetAgentsResponse.class
+    ),
+    BUILD_STEP_CREATE(
+            "/buildTypes/{btLocator}/steps",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_READ(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_UPDATE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_DELETE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BaseModel.class
     );
     private String url;
     private Class<?> requestModel;
