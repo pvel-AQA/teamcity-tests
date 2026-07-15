@@ -11,7 +11,7 @@ import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
-import api.steps.Steps;
+import api.steps.UserSteps;
 import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
@@ -33,9 +33,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsSuccessfullyCreatedTest() {
-        String projectName = Steps.createProject().getName();
-        System.out.println("Project Name = " + projectName);
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep",3))
@@ -62,9 +60,8 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsSuccessfulUpdateTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createdStep =  Steps.createBuildTypeStep(configName);
+        String configName = UserSteps.createBuildConfiguration().getName();
+        BuildTypeStepsModel createdStep =  UserSteps.createBuildTypeStep(configName);
         BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
                 .name("UPDATED_"+ createdStep.getName())
                 .type("simpleRunner")
@@ -78,15 +75,14 @@ public class ConfigStepsTest extends BaseTest {
 
         assertThat(updateStepRequest.getName()).isEqualTo(updateStepResponse.getName());
 
-        BuildTypeStepsModel checkUpdatedStep = Steps.getBuildTypeStep(configName,createdStep.getId());
+        BuildTypeStepsModel checkUpdatedStep = UserSteps.getBuildTypeStep(configName,createdStep.getId());
         ModelAssertions.assertThatModels(updateStepResponse, checkUpdatedStep).match();
     }
 
     @Test
     public void ConfigStepsSuccessfulDeleteTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        String createdStepId = Steps.createBuildTypeStep(configName).getId();
+        String configName = UserSteps.createBuildConfiguration().getName();
+        String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
@@ -103,8 +99,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsCanCreateStepWithoutNameTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
                 .type("simpleRunner")
@@ -136,8 +131,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsCannotCreateStepWithoutTypeTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
@@ -163,8 +157,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsCannotGetNonExistingStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomDataGenerator.randomSpecificString("NoStep", 8);
 
         new CrudRequester(
@@ -176,8 +169,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsCannotUpdateNonExistingStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomDataGenerator.randomSpecificString("NoStep", 8);
 
         BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
@@ -194,8 +186,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsCannotDeleteNonExistingStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomDataGenerator.randomSpecificString("NoStep", 8);
 
         new CrudRequester(
@@ -301,8 +292,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void ConfigStepsViewerCannotCreateStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
+        String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
@@ -319,9 +309,8 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void ConfigStepsViewerCannotUpdateStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        BuildTypeStepsModel createdStep = Steps.createBuildTypeStep(configName);
+        String configName = UserSteps.createBuildConfiguration().getName();
+        BuildTypeStepsModel createdStep = UserSteps.createBuildTypeStep(configName);
 
         BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
                 .name("UPDATED_" + createdStep.getName())
@@ -338,9 +327,8 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void ConfigStepsViewerCannotDeleteStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        String createdStepId = Steps.createBuildTypeStep(configName).getId();
+        String configName = UserSteps.createBuildConfiguration().getName();
+        String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
@@ -352,9 +340,8 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_DEVELOPER)
     public void ConfigStepsDeveloperCannotDeleteStepTest() {
-        String projectName = Steps.createProject().getName();
-        String configName = Steps.createConfig(projectName).getName();
-        String createdStepId = Steps.createBuildTypeStep(configName).getId();
+        String configName = UserSteps.createBuildConfiguration().getName();
+        String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),

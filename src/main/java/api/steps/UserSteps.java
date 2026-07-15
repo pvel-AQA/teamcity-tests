@@ -1,7 +1,9 @@
 package api.steps;
 
 import api.enums.locators.LocatorType;
+import api.generators.RandomDataGenerator;
 import api.generators.RandomGenerator;
+import api.models.BuildTypeStepsModel;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
 import api.models.build.BuildConfigurationRequest;
@@ -93,6 +95,27 @@ public class UserSteps {
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .post(buildConf);
+    }
+
+    public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
+        return new ValidatedCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.BUILD_STEP_READ,
+                ResponseSpec.returnsOk())
+                .get(configName, stepId);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(String configName){
+        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        return new ValidatedCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.returnsOk())
+                .post(createStepRequest,configName);
     }
 
     public static BuildConfigurationResponse getBuilds() {
