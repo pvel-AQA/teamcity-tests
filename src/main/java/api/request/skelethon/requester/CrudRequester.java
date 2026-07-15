@@ -99,6 +99,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
             return add("locator", locator);
         }
 
+        public QueryBuilder fields(String fields) {
+            return add("fields", fields);
+        }
+
         public QueryBuilder locatorEqualsAuthorizedAny() {
             return locator("authorized:any");
         }
