@@ -12,6 +12,8 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.Steps;
 import base.BaseTest;
+import common.annotations.AuthUser;
+import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 
 import static api.enums.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
@@ -293,6 +295,71 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.isUnauthorized(BASIC_AUTH_FAILED))
                 .post(stepRequest, configLocator);
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.PROJECT_VIEWER)
+    public void ConfigStepsViewerCannotCreateStepTest() {
+        String projectName = Steps.createProject().getName();
+        String configName = Steps.createConfig(projectName).getName();
+
+        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.isForbidden())
+                .post(createStepRequest, configName);
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.PROJECT_VIEWER)
+    public void ConfigStepsViewerCannotUpdateStepTest() {
+        String projectName = Steps.createProject().getName();
+        String configName = Steps.createConfig(projectName).getName();
+        BuildTypeStepsModel createdStep = Steps.createBuildTypeStep(configName);
+
+        BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
+                .name("UPDATED_" + createdStep.getName())
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isForbidden())
+                .put(updateStepRequest, configName, createdStep.getId());
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.PROJECT_VIEWER)
+    public void ConfigStepsViewerCannotDeleteStepTest() {
+        String projectName = Steps.createProject().getName();
+        String configName = Steps.createConfig(projectName).getName();
+        String createdStepId = Steps.createBuildTypeStep(configName).getId();
+
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isForbidden())
+                .delete(configName, createdStepId);
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.PROJECT_DEVELOPER)
+    public void ConfigStepsDeveloperCannotDeleteStepTest() {
+        String projectName = Steps.createProject().getName();
+        String configName = Steps.createConfig(projectName).getName();
+        String createdStepId = Steps.createBuildTypeStep(configName).getId();
+
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isForbidden())
+                .delete(configName, createdStepId);
     }
 
     @Test
