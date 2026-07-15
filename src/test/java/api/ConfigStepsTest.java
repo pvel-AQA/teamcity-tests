@@ -5,6 +5,7 @@ import api.enums.errors.StepErrors;
 import api.generators.RandomDataGenerator;
 import api.models.BuildTypeStepsList;
 import api.models.BuildTypeStepsModel;
+import api.models.projects.BuildTypeModel;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
@@ -365,7 +366,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     public void ConfigStepsCannotCreateStepWithInvalidBearerTokenTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
-        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+        BuildTypeModel stepRequest = BuildTypeModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
                 .type("simpleRunner")
                 .build();
