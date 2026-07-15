@@ -14,6 +14,9 @@ import api.steps.Steps;
 import base.BaseTest;
 import org.junit.jupiter.api.Test;
 
+import static api.enums.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
+import static api.enums.errors.AuthErrorMessage.BASIC_AUTH_FAILED;
+import static api.enums.errors.AuthErrorMessage.OAUTH_FAILED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigStepsTest extends BaseTest {
@@ -213,5 +216,97 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.notFound())
                 .post(createStepRequest, nonExistingConfig);
+    }
+
+    @Test
+    public void ConfigStepsCannotCreateWithoutAuthTest() {
+        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
+        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.unAuth(),
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                .post(stepRequest, configLocator);
+    }
+
+    @Test
+    public void ConfigStepsCannotUpdateWithoutAuthTest() {
+        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
+        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.unAuth(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                .put(stepRequest, configLocator, stepLocator);
+    }
+
+    @Test
+    public void ConfigStepsCannotDeleteWithoutAuthTest() {
+        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
+        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.unAuth(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                .delete(configLocator, stepLocator);
+    }
+
+    @Test
+    public void ConfigStepsCannotGetStepWithoutAuthTest() {
+        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
+
+        new CrudRequester(
+                RequestSpec.unAuth(),
+                Endpoint.BUILD_STEP_RUD,
+                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                .get(configLocator, stepLocator);
+    }
+
+    @Test
+    public void ConfigStepsCannotCreateStepWithInvalidBasicCredentialsTest() {
+        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.basicAuthSpec(
+                        RandomDataGenerator.randomString(10),
+                        RandomDataGenerator.randomString(10)),
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.isUnauthorized(BASIC_AUTH_FAILED))
+                .post(stepRequest, configLocator);
+    }
+
+    @Test
+    public void ConfigStepsCannotCreateStepWithInvalidBearerTokenTest() {
+        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
+                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .type("simpleRunner")
+                .build();
+
+        new CrudRequester(
+                RequestSpec.adminSpec(RandomDataGenerator.randomString(20)),
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.isUnauthorized(OAUTH_FAILED))
+                .post(stepRequest, configLocator);
     }
 }
