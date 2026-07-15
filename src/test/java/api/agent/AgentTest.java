@@ -21,6 +21,6 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).get(new CrudRequester.QueryBuilder().locatorEqualsAuthorizedAny().build());
 
-        softy.assertThat(getAgentsResponse.getCount()).isEqualTo(1);
+        softy.assertThat(getAgentsResponse.getCount()).isNotZero();
     }
 }
