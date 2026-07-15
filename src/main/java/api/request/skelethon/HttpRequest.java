@@ -53,4 +53,8 @@ public abstract class HttpRequest {
     protected RequestSpecification prepareRequest(Object... pathParams) {
         return prepareRequest(Collections.emptyMap(), pathParams);
     }
+
+    protected RequestSpecification prepareRequest(Map<String, Object> queryParams) {
+        return prepareRequest(queryParams, new Object[0]);
+    }
 }

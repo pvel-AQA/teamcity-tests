@@ -1,6 +1,7 @@
 package api.request.skelethon;
 
 import api.models.*;
+import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
@@ -58,6 +59,11 @@ public enum Endpoint {
             "/projects/{projectId}/buildTypes",
             BaseModel.class,
             BuildConfigurationResponse.class
+    ),
+    AGENTS(
+            "/agents",
+            BaseModel.class,
+            GetAgentsResponse.class
     );
     private String url;
     private Class<?> requestModel;
