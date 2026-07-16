@@ -6,7 +6,6 @@ import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
 import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
-import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;

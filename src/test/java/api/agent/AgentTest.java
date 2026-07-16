@@ -2,7 +2,10 @@ package api.agent;
 
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
-import api.models.agent.*;
+import api.models.agent.AuthorizeAgentRequest;
+import api.models.agent.AuthorizeAgentResponse;
+import api.models.agent.GetAgentsResponse;
+import api.models.agent.UnauthorizeAgentRequest;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
@@ -52,7 +55,8 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).put(unauthorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
 
-        Assertions.assertThat(UserSteps.getAgentInfo(agentId).isAuthorized()).isFalse();
+        var agentInfo = UserSteps.getAgentInfo(agentId);
+        Assertions.assertThat(agentInfo.isAuthorized()).isFalse();
 
         var authorizeAgentResponse = new ValidatedCrudRequester<AuthorizeAgentResponse>(
                 RequestSpec.withAuthExtensionUser(),
@@ -82,7 +86,8 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
 
-        Assertions.assertThat(UserSteps.getAgentInfo(agentId).isAuthorized()).isTrue();
+        var agentInfo = UserSteps.getAgentInfo(agentId);
+        Assertions.assertThat(agentInfo.isAuthorized()).isTrue();
 
         var authorizeAgentResponse = new ValidatedCrudRequester<AuthorizeAgentResponse>(
                 RequestSpec.withAuthExtensionUser(),
