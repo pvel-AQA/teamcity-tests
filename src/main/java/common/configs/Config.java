@@ -14,6 +14,7 @@ public class Config {
     public static final String ADMIN_TOKEN = Config.getProperty("admin.token");
     public static final String API_PREFIX = Config.getProperty("api.prefix");
     public static final String TEAMCITY_SERVER_NAME = getProperty("teamcity.server");
+    public static final String SUPER_USER_AUTH_TOKEN = getProperty("teamcity.auth.token");
 
     private Config() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {

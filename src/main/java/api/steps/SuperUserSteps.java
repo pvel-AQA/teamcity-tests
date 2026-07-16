@@ -1,8 +1,11 @@
 package api.steps;
 
+import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.models.Role;
 import api.models.Roles;
+import api.models.agent.AuthorizeAgentRequest;
+import api.models.agent.GetAgentsResponse;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import api.request.skelethon.Endpoint;
@@ -12,6 +15,7 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.configs.Config;
 import common.enums.UserRoles;
+import common.helpers.StepLogger;
 
 import java.util.List;
 
@@ -63,6 +67,29 @@ public class SuperUserSteps {
                 Endpoint.USERS,
                 ResponseSpec.returnsDeleted()
         ).delete(userName);
+    }
+
+    public static int getAgentId() {
+        return StepLogger.log("Get Agent id", () -> {
+            return new ValidatedCrudRequester<GetAgentsResponse>(
+                    RequestSpec.superUserSpec(),
+                    Endpoint.AGENTS,
+                    ResponseSpec.returnsOk()
+            ).get(new CrudRequester.QueryBuilder()
+                            .locatorEqualsAuthorizedAny()
+                            .locatorEqualsConnectedTrue().build())
+                    .getAgent().getFirst().getId();
+        });
+    }
+
+    public static void authorizeAgent(int agentId) {
+        var authorizeAgentRequest = RandomGenerator.generate(AuthorizeAgentRequest.class);
+
+        new CrudRequester(
+                RequestSpec.superUserSpec(),
+                Endpoint.AGENTS_AUTHORIZED_INFO,
+                ResponseSpec.returnsOk()
+        ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
     }
 
 }

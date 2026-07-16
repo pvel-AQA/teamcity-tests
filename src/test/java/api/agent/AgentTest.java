@@ -10,6 +10,7 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
 import base.BaseTest;
+import common.annotations.AuthAgentAfterTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
@@ -51,7 +52,7 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).put(unauthorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
 
-        Assertions.assertThat(checkAgentIsAuthorized(agentId)).isFalse();
+        Assertions.assertThat(UserSteps.getAgentInfo(agentId).isAuthorized()).isFalse();
 
         var authorizeAgentResponse = new ValidatedCrudRequester<AuthorizeAgentResponse>(
                 RequestSpec.withAuthExtensionUser(),
@@ -61,11 +62,7 @@ public class AgentTest extends BaseTest {
 
         Assertions.assertThat(authorizeAgentResponse.isStatus()).isTrue();
 
-        var authorizedAgent = new ValidatedCrudRequester<Agent>(
-                RequestSpec.withAuthExtensionUser(),
-                Endpoint.AGENTS_WITH_LOCATOR,
-                ResponseSpec.returnsOk()
-        ).get(LocatorType.ID.getPrefix() + agentId);
+        var authorizedAgent = UserSteps.getAgentInfo(agentId);
 
         softly.assertThat(authorizedAgent.isAuthorized()).isEqualTo(authorizeAgentResponse.isStatus());
         softly.assertThat(authorizedAgent.getAuthorizedInfo().isStatus()).isEqualTo(authorizeAgentResponse.isStatus());
@@ -73,6 +70,7 @@ public class AgentTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
+    @AuthAgentAfterTest
     public void agentCanBeUnauthorized() {
         var agentId = UserSteps.getAgentId();
         var authorizeAgentRequest = RandomGenerator.generate(AuthorizeAgentRequest.class);
@@ -84,7 +82,7 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
 
-        Assertions.assertThat(checkAgentIsAuthorized(agentId)).isTrue();
+        Assertions.assertThat(UserSteps.getAgentInfo(agentId).isAuthorized()).isTrue();
 
         var authorizeAgentResponse = new ValidatedCrudRequester<AuthorizeAgentResponse>(
                 RequestSpec.withAuthExtensionUser(),
@@ -94,21 +92,9 @@ public class AgentTest extends BaseTest {
 
         Assertions.assertThat(authorizeAgentResponse.isStatus()).isFalse();
 
-        var unauthorizedAgent = new ValidatedCrudRequester<Agent>(
-                RequestSpec.withAuthExtensionUser(),
-                Endpoint.AGENTS_WITH_LOCATOR,
-                ResponseSpec.returnsOk()
-        ).get(LocatorType.ID.getPrefix() + agentId);
+        var unauthorizedAgent = UserSteps.getAgentInfo(agentId);
 
         softly.assertThat(unauthorizedAgent.isAuthorized()).isEqualTo(authorizeAgentResponse.isStatus());
         softly.assertThat(unauthorizedAgent.getAuthorizedInfo().isStatus()).isEqualTo(authorizeAgentResponse.isStatus());
-    }
-
-    private static boolean checkAgentIsAuthorized(int agentId) {
-        return new ValidatedCrudRequester<Agent>(
-                RequestSpec.withAuthExtensionUser(),
-                Endpoint.AGENTS_WITH_LOCATOR,
-                ResponseSpec.returnsOk()
-        ).get(LocatorType.ID.getPrefix() + agentId).isAuthorized();
     }
 }

@@ -73,7 +73,7 @@ public class RequestSpec {
 
     public static RequestSpecification superUserSpec() {
         return defaultSpecBuilder()
-                .setAuth(RestAssured.basic("", getSuperUserAuthToken()))
+                .setAuth(RestAssured.basic("", Config.SUPER_USER_AUTH_TOKEN))
                 .build();
     }
 
