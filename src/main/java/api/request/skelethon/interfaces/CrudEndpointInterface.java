@@ -2,14 +2,17 @@ package api.request.skelethon.interfaces;
 
 import api.models.BaseModel;
 
+import java.util.Map;
+
 public interface CrudEndpointInterface {
 
-    public Object get(Object... pathParams);
+    Object get(Object... pathParams);
+    Object get(Map<String, Object> queryParams);
 
-    public Object post(BaseModel body);
+    Object post(BaseModel body);
 
-    public Object put(BaseModel body, Object... pathParams);
+    Object put(BaseModel body, Object... pathParams);
 
-    public Object delete(Object... pathParams);
+    Object delete(Object... pathParams);
 
 }

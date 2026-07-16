@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static api.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
-import static api.errors.ProjectErrors.NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID;
-import static api.errors.ProjectErrors.PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS;
+import static api.enums.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
+import static api.enums.errors.ProjectErrors.NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID;
+import static api.enums.errors.ProjectErrors.PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS;
 
 public class ProjectTest extends BaseTest {
 
@@ -49,19 +49,19 @@ public class ProjectTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.unAuth(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .post(projectRequest);
 
         new CrudRequester(
                 RequestSpec.unAuth(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .delete(randomId, null);
 
         new CrudRequester(
                 RequestSpec.unAuth(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isUnauthorized(AUTHENTICATION_REQUIRED))
+                ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .get(projectRequest);
 
     }
@@ -76,7 +76,7 @@ public class ProjectTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isBadRequest(PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS.getErrorMsg()
+                ResponseSpec.returnsBadRequest(PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS.getErrorMsg()
                         + " " + projectRequest.getName()))
                 .post(projectRequest);
 
@@ -103,7 +103,7 @@ public class ProjectTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.notFound(NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID.getErrorMsg()
+                ResponseSpec.returnsNotFound(NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID.getErrorMsg()
                         + " " + StringUtils.wrap(projectToDelete, "'"))
         ).get(projectToDelete);
     }
@@ -115,7 +115,7 @@ public class ProjectTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.notFound(NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID.getErrorMsg()
+                ResponseSpec.returnsNotFound(NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID.getErrorMsg()
                         + " " + StringUtils.wrap(projectToDelete, "'"))
         ).delete(projectToDelete, null);
     }
@@ -126,7 +126,7 @@ public class ProjectTest extends BaseTest {
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isBadRequest()
+                ResponseSpec.returnsBadRequest()
         ).get("locator=count:" + UUID.randomUUID().toString().substring(0, 4));
     }
 }

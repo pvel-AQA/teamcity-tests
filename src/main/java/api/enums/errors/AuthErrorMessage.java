@@ -1,4 +1,4 @@
-package api.errors;
+package api.enums.errors;
 
 import lombok.Getter;
 

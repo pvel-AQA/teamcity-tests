@@ -1,15 +1,14 @@
 package api.specs;
 
-import api.steps.UserSteps;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import common.configs.Config;
 import common.extensions.AuthUserExtension;
+import common.helpers.DockerLogsExtractor;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
-import common.helpers.DockerLogsExtractor;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;

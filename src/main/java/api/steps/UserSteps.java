@@ -1,5 +1,6 @@
 package api.steps;
 
+import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
@@ -9,10 +10,9 @@ import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.models.user.UserRequest;
-import api.models.user.UserResponse;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
-import api.request.skelethon.requester.ValidatableCrudRequester;
+import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 
@@ -32,34 +32,34 @@ public class UserSteps {
     }
 
     public static ProjectResponse createProject(String username, String password, ProjectRequest projectRequest) {
-        return new ValidatableCrudRequester<ProjectResponse>(
+        return new ValidatedCrudRequester<ProjectResponse>(
                 RequestSpec.authAsUserSpec(username, password),
                 Endpoint.PROJECTS,
-                ResponseSpec.isOk()
+                ResponseSpec.returnsOk()
         ).post(projectRequest);
     }
 
     public static ProjectResponse createProjectWithExtension(ProjectRequest projectRequest) {
-        return new ValidatableCrudRequester<ProjectResponse>(
+        return new ValidatedCrudRequester<ProjectResponse>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isOk()
+                ResponseSpec.returnsOk()
         ).post(projectRequest);
     }
 
     public static AllProjectsResponse getAllProjects() {
-        return new ValidatableCrudRequester<AllProjectsResponse>(
+        return new ValidatedCrudRequester<AllProjectsResponse>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.ALL_PROJECTS,
-                ResponseSpec.isOk()
+                ResponseSpec.returnsOk()
         ).get();
     }
 
     public static ProjectResponse getProjectById(String id) {
-        return new ValidatableCrudRequester<ProjectResponse>(
+        return new ValidatedCrudRequester<ProjectResponse>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.isOk()
+                ResponseSpec.returnsOk()
         ).get(id);
     }
 
@@ -72,7 +72,7 @@ public class UserSteps {
         new CrudRequester(
                 RequestSpec.authAsUserSpec(username, password),
                 Endpoint.PROJECTS,
-                ResponseSpec.deleted()
+                ResponseSpec.returnsDeleted()
         ).delete(projectResponse.getId());
     }
 
@@ -89,26 +89,26 @@ public class UserSteps {
     }
 
     public static BuildConfigurationResponse createBuildConfiguration(BuildConfigurationRequest buildConf) {
-        return new ValidatableCrudRequester<BuildConfigurationResponse>(RequestSpec.adminSpec(ADMIN_TOKEN),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPES,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .post(buildConf);
     }
 
     public static BuildConfigurationResponse getBuilds() {
-        return new ValidatableCrudRequester<BuildConfigurationResponse>(RequestSpec.adminSpec(ADMIN_TOKEN),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_TYPES,
-                ResponseSpec.isOk())
+                ResponseSpec.returnsOk())
                 .get();
     }
 
     public static UserTokenResponse getUserToken(UserRequest userRequest) {
-        return new ValidatableCrudRequester<UserTokenResponse>(
-                RequestSpec.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword())
-                        .pathParam("id", userRequest.getUsername()),
+        return new ValidatedCrudRequester<UserTokenResponse>(
+                RequestSpec.authAsUserSpec(userRequest.getUsername(), userRequest.getPassword()),
                 Endpoint.USER_TOKEN,
-                ResponseSpec.isOk())
-                .post(UserTokenRequest.builder().name(userRequest.getUsername()).build());
+                ResponseSpec.returnsOk())
+                .post(UserTokenRequest.builder().name(userRequest.getUsername()).build(),
+                        LocatorType.ID + userRequest.getId());
     }
 
 }
