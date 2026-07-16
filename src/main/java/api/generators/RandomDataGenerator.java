@@ -12,28 +12,23 @@ public final class RandomDataGenerator {
     }
 
     public static String randomString(int length) {
-        String letters = "abcdefghijklmnopqrstuvwxyz";
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(letters.charAt(RANDOM.nextInt(letters.length())));
-        }
+        char[] lowercaseAlphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
-        return sb.toString();
+        return RandomStringUtils.insecure().next(length, lowercaseAlphabet);
     }
 
     public static String randomSpecificString(String start, int length) {
-        String letters = "abcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(letters.charAt(RANDOM.nextInt(letters.length())));
-        }
+        String alphanumeric = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-        return start + sb;
+        return start + RandomStringUtils.insecure().next(length, alphanumeric);
     }
 
     public static String getIncorrectPassword(){
-        return RandomStringUtils.randomAlphanumeric(3).toUpperCase() +
-                RandomStringUtils.randomAlphanumeric(3).toLowerCase() +
-                RandomStringUtils.randomNumeric(2) + "!@#";
+        String letters = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+
+        return RandomStringUtils.insecure().next(3, letters).toUpperCase() +
+                RandomStringUtils.insecure().next(3, letters).toLowerCase() +
+                RandomStringUtils.insecure().next(3, digits)+ "!@#";
     }
 }
