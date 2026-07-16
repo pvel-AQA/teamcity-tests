@@ -17,6 +17,7 @@ import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
+import common.helpers.StepLogger;
 
 import static common.configs.Config.*;
 
@@ -114,14 +115,16 @@ public class UserSteps {
     }
 
     public static int getAgentId() {
-        return new ValidatedCrudRequester<GetAgentsResponse>(
-                RequestSpec.withAuthExtensionUser(),
-                Endpoint.AGENTS,
-                ResponseSpec.returnsOk()
-        ).get(new CrudRequester.QueryBuilder()
-                        .locatorEqualsAuthorizedAny()
-                        .locatorEqualsConnectedTrue().build())
-                .getAgent().getFirst().getId();
+        return StepLogger.log("Get Agent id", () -> {
+            return new ValidatedCrudRequester<GetAgentsResponse>(
+                    RequestSpec.withAuthExtensionUser(),
+                    Endpoint.AGENTS,
+                    ResponseSpec.returnsOk()
+            ).get(new CrudRequester.QueryBuilder()
+                            .locatorEqualsAuthorizedAny()
+                            .locatorEqualsConnectedTrue().build())
+                    .getAgent().getFirst().getId();
+        });
     }
 
     public static boolean getAgentAuthorizedStatus(int agentId) {

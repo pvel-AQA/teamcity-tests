@@ -10,7 +10,9 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
@@ -97,6 +99,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     public static class QueryBuilder {
         private final Map<String, Object> params = new HashMap<>();
+        private final List<String> locatorConditions = new ArrayList<>();
 
         public QueryBuilder add(String key, Object value) {
             params.put(key, value);
@@ -105,11 +108,16 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         }
 
         public Map<String, Object> build() {
-            return params;
+            Map<String, Object> result = new HashMap<>(params);
+            if (!locatorConditions.isEmpty()) {
+                result.put("locator", String.join(",", locatorConditions));
+            }
+            return result;
         }
 
         public QueryBuilder locator(String locator) {
-            return add("locator", locator);
+            locatorConditions.add(locator);
+            return this;
         }
 
         public QueryBuilder fields(String fields) {
