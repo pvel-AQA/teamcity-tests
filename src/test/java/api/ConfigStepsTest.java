@@ -3,6 +3,7 @@ package api;
 import api.comparison.ModelAssertions;
 import api.enums.errors.StepErrors;
 import api.generators.RandomDataGenerator;
+import api.generators.TeamCityDataGenerator;
 import api.models.BuildTypeStepsList;
 import api.models.BuildTypeStepsModel;
 import api.models.projects.BuildTypeModel;
@@ -164,11 +165,7 @@ public class ConfigStepsTest extends BaseTest {
     public void ConfigStepsCannotUpdateNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomDataGenerator.randomSpecificString("NoStep", 8);
-
-        BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel updateStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("");
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
@@ -192,11 +189,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     public void ConfigStepsCannotCreateStepUnderNonExistingConfigTest() {
         String nonExistingConfig = RandomDataGenerator.randomSpecificString("NoConfig", 8);
-
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel createStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
@@ -208,10 +201,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     public void ConfigStepsCannotCreateWithoutAuthTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
-        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
                 RequestSpec.unAuth(),
@@ -224,10 +214,7 @@ public class ConfigStepsTest extends BaseTest {
     public void ConfigStepsCannotUpdateWithoutAuthTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
         String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
-        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
                 RequestSpec.unAuth(),
@@ -240,11 +227,6 @@ public class ConfigStepsTest extends BaseTest {
     public void ConfigStepsCannotDeleteWithoutAuthTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
         String stepLocator = RandomDataGenerator.randomSpecificString("NoStep", 8);
-
-        BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
 
         new CrudRequester(
                 RequestSpec.unAuth(),
@@ -268,10 +250,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     public void ConfigStepsCannotCreateStepWithInvalidBasicCredentialsTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
-        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(
@@ -287,10 +266,7 @@ public class ConfigStepsTest extends BaseTest {
     public void ConfigStepsViewerCannotCreateStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel createStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
@@ -305,10 +281,7 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
         BuildTypeStepsModel createdStep = UserSteps.createBuildTypeStep(configName);
 
-        BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
-                .name("UPDATED_" + createdStep.getName())
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel updateStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("UPDATED_" + createdStep.getName());
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
@@ -346,10 +319,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     public void ConfigStepsCannotCreateStepWithInvalidBearerTokenTest() {
         String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
-        BuildTypeModel stepRequest = BuildTypeModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
-                .type("simpleRunner")
-                .build();
+        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
                 RequestSpec.adminSpec(RandomDataGenerator.randomString(20)),
