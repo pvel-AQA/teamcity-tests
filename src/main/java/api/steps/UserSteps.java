@@ -118,7 +118,9 @@ public class UserSteps {
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.AGENTS,
                 ResponseSpec.returnsOk()
-        ).get(new CrudRequester.QueryBuilder().locatorEqualsAuthorizedAny().build())
+        ).get(new CrudRequester.QueryBuilder()
+                        .locatorEqualsAuthorizedAny()
+                        .locatorEqualsConnectedTrue().build())
                 .getAgent().getFirst().getId();
     }
 
