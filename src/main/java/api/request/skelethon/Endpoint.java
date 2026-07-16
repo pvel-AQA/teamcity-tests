@@ -42,7 +42,7 @@ public enum Endpoint {
             BuildConfigurationResponse.class
     ),
     USER_TOKEN(
-            API_PREFIX + "/users/{id}/tokens",
+            API_PREFIX + "/users/{userLocator}/tokens",
             UserTokenRequest.class,
             UserTokenResponse.class
     ),

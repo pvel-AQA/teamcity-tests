@@ -49,7 +49,7 @@ public class UserSteps {
 
     public static AllProjectsResponse getAllProjects() {
         return new ValidatableCrudRequester<AllProjectsResponse>(
-                RequestSpec.authAsUserSpec(ADMIN_USERNAME, ADMIN_PASSWORD),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.ALL_PROJECTS,
                 ResponseSpec.isOk()
         ).get();
@@ -57,7 +57,7 @@ public class UserSteps {
 
     public static ProjectResponse getProjectById(String id) {
         return new ValidatableCrudRequester<ProjectResponse>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.isOk()
         ).get(id);

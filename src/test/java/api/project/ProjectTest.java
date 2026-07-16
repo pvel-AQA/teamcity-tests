@@ -23,6 +23,7 @@ import static api.errors.ProjectErrors.PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS;
 public class ProjectTest extends BaseTest {
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateProjectOnlyWithMandatoryParamsTest() {
         ProjectRequest projectRequest = ProjectRequest.builder()
                 .name("Project" + UUID.randomUUID().toString().substring(0, 8))
@@ -73,7 +74,7 @@ public class ProjectTest extends BaseTest {
                 .build();
         ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.isBadRequest(PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS.getErrorMsg()
                         + " " + projectRequest.getName()))
@@ -83,6 +84,7 @@ public class ProjectTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateProjectAndGetItByIdTest() {
         ProjectRequest projectRequest = ProjectRequest.builder()
                 .name("Project" + UUID.randomUUID().toString().substring(0, 8))
@@ -95,10 +97,11 @@ public class ProjectTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotGetNotExistingProjectByIdTest() {
         String projectToDelete = UUID.randomUUID().toString().substring(0, 8);
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.notFound(NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID.getErrorMsg()
                         + " " + StringUtils.wrap(projectToDelete, "'"))
@@ -106,10 +109,11 @@ public class ProjectTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotDeleteNotExistingProjectByIdTest() {
         String projectToDelete = UUID.randomUUID().toString().substring(0, 8);
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.notFound(NO_PROJECT_FOUND_BY_NAME_OR_INTERNAL_EXTERNAL_ID.getErrorMsg()
                         + " " + StringUtils.wrap(projectToDelete, "'"))
@@ -117,9 +121,10 @@ public class ProjectTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotGetProjectWithWrongLocator() {
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.isBadRequest()
         ).get("locator=count:" + UUID.randomUUID().toString().substring(0, 4));
