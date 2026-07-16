@@ -61,7 +61,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/:/etc/selenoid/:ro
-    command: [ "-container-network", "openmrs_default" ]
+    command: [ "-container-network", "teamcity-net" ]
     depends_on:
       - teamcity-server
     networks:
@@ -83,6 +83,7 @@ volumes:
     name: tc-server-data
   tc-server-logs:
   tc-agent-conf:
+    name: tc-agent-conf
 
 networks:
   teamcity-net:
