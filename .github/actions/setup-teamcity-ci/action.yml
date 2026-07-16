@@ -190,7 +190,7 @@ runs:
       env:
         TC_TOKEN: ${{ steps.teamcity_token.outputs.TOKEN }}
       run: |
-        echo "⏳ Waiting for agent to connect..."
+        echo "⏳ Waiting for exactly 2 agents to connect..."
 
         echo "Verifying token..."
         if ! curl -s -f -u ":$TC_TOKEN" \
@@ -202,32 +202,38 @@ runs:
           exit 1
         fi
 
-        echo "✅ Token verified, waiting for agent..."
+        echo "✅ Token verified, waiting for exactly 2 agents..."
 
-        for i in {1..60}; do
+        for i in {1..90}; do
           RESPONSE=$(curl -s -u ":$TC_TOKEN" \
             -H "Accept: application/json" \
-            "http://localhost:8111/app/rest/agents?locator=authorized:any")
+            "http://localhost:8111/app/rest/agents?locator=authorized:any,connected:true")
 
           if [ -n "$RESPONSE" ] && echo "$RESPONSE" | grep -q '"count"'; then
-            COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | sed 's/"count"://')
-            echo "Attempt $i/60: Found ${COUNT:-0} agent(s)"
+            COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | sed 's/"count"://' | head -1)
+            echo "Attempt $i/90: Found ${COUNT:-0} agent(s)"
 
-            if [ "${COUNT:-0}" -ge 1 ]; then
-              echo "✅ Agent connected!"
-              echo "$RESPONSE" | grep -o '"id":[0-9]*,"name":"[^"]*"' | head -3
+            if [ "${COUNT:-0}" -eq 2 ]; then
+              echo "✅✅✅ Exactly 2 agents connected! ✅✅✅"
+              echo "$RESPONSE" | grep -o '"id":[0-9]*,"name":"[^"]*"' | head -5
               exit 0
+            elif [ "${COUNT:-0}" -gt 2 ]; then
+              echo "⚠️ Found $COUNT agents (expected 2), will continue waiting..."
             fi
           else
-            echo "Attempt $i/60: Waiting for agent to register..."
+            echo "Attempt $i/90: Waiting for agents to register..."
           fi
 
           sleep 5
         done
 
-        echo "❌ Agent did not connect within timeout"
+        echo "❌ Timeout: Expected 2 agents, but got ${COUNT:-0}"
         echo "=== Agent logs ==="
         docker logs teamcity-agent --tail 50
         echo "=== Server logs (agents) ==="
         docker logs teamcity-server --tail 30 | grep -i agent || echo "No agent logs"
+        echo "=== Current agents ==="
+        curl -s -u ":$TC_TOKEN" -H "Accept: application/json" \
+          "http://localhost:8111/app/rest/agents?locator=authorized:any,connected:true" \
+          | head -200
         exit 1
