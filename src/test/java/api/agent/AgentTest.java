@@ -30,6 +30,7 @@ public class AgentTest extends BaseTest {
                 ResponseSpec.returnsOk()
         ).get(new CrudRequester.QueryBuilder()
                 .locatorEqualsAuthorizedAny()
+                .locatorEqualsConnectedTrue()
                 .build());
 
         softly.assertThat(getAgentsResponse.getCount()).isOne();
