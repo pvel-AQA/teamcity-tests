@@ -1,5 +1,6 @@
 package api.models;
 
+import api.models.build.StepProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -15,7 +16,7 @@ public class BuildTypeStepsModel extends BaseModel {
     private Boolean disabled;
     private Boolean inherited;
     private String href;
-    //private Properties properties;
+    private StepProperties properties;
     private String shortDescription;
 
 }

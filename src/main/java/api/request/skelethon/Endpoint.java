@@ -5,8 +5,10 @@ import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
+import api.models.build.Build;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
+import api.models.build.BuildRequest;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -103,6 +105,16 @@ public enum Endpoint {
             "/buildTypes/{btLocator}/steps/{stepId}",
             BaseModel.class,
             BaseModel.class
+    ),
+    BUILD_QUEUE(
+            "/buildQueue",
+            BuildRequest.class,
+            Build.class
+    ),
+    BUILD(
+            "/builds/{buildLocator}",
+            BaseModel.class,
+            Build.class
     );
 
     private String url;
