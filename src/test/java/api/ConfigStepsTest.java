@@ -139,6 +139,7 @@ public class ConfigStepsTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsCannotCreateStepWithoutTypeTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
@@ -147,13 +148,13 @@ public class ConfigStepsTest extends BaseTest {
                 .build();
 
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsBadRequest(StepErrors.STEP_TYPE_CANNOT_BE_EMPTY.getErrorMsg()))
                 .post(createStepRequest, configName);
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
@@ -176,37 +177,44 @@ public class ConfigStepsTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsCannotUpdateNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomDataGenerator.randomSpecificString("NoStep", 8);
         BuildTypeStepsModel updateStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("");
 
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_UPDATE,
                 ResponseSpec.returnsNotFound())
                 .put(updateStepRequest, configName, nonExistingStepId);
+
+        //check there is no step with this name
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsCannotDeleteNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomDataGenerator.randomSpecificString("NoStep", 8);
 
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_DELETE,
                 ResponseSpec.returnsNotFound())
                 .delete(configName, nonExistingStepId);
+
+        //check error response?
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsCannotCreateStepUnderNonExistingConfigTest() {
         String nonExistingConfig = RandomDataGenerator.randomSpecificString("NoConfig", 8);
         BuildTypeStepsModel createStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsNotFound())
                 .post(createStepRequest, nonExistingConfig);
