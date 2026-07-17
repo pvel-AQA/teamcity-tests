@@ -1,0 +1,27 @@
+package api.models.build;
+
+import api.models.project.PropertyItem;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+/**
+ * The {@code properties} node of a build step (e.g. the command-line runner's script settings).
+ */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class StepProperties {
+
+    private Integer count;
+
+    @JsonProperty("property")
+    private List<PropertyItem> property;
+}
