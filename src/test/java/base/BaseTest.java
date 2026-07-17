@@ -1,6 +1,7 @@
 package base;
 
 import common.extensions.AuthUserExtension;
+import common.helpers.EntityStorage;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +14,13 @@ public class BaseTest {
     @BeforeEach
     public void beforeEach() {
         this.softy = new SoftAssertions();
+        EntityStorage.init();
     }
 
     @AfterEach
     public void afterEach() {
         this.softy.assertAll();
+        EntityStorage.clear();
     }
 
 }
