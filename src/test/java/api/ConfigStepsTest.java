@@ -18,6 +18,7 @@ import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 
 import static api.enums.errors.AuthErrorMessage.*;
+import static common.configs.Config.ADMIN_TOKEN;
 
 public class ConfigStepsTest extends BaseTest {
 
@@ -270,7 +271,7 @@ public class ConfigStepsTest extends BaseTest {
                 .post(stepRequest, configName);
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
