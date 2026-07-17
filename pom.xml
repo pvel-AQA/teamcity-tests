@@ -13,6 +13,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <hikari.version>7.0.2</hikari.version>
         <jooq.version>3.21.4</jooq.version>
+        <junit.pioneer.version>2.3.0</junit.pioneer.version>
         <awaitility.version>4.3.0</awaitility.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -63,6 +64,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Source: https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer -->
+        <dependency>
+            <groupId>org.junit-pioneer</groupId>
+            <artifactId>junit-pioneer</artifactId>
+            <version>${junit.pioneer.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java-core</artifactId>

@@ -6,6 +6,7 @@ import api.request.skelethon.HttpRequest;
 import api.request.skelethon.interfaces.CrudEndpointInterface;
 import api.request.skelethon.interfaces.GetAllEndpointInterface;
 import common.helpers.StepLogger;
+import common.helpers.EntityStorage;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
 
@@ -52,13 +54,27 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     public ValidatableResponse post(BaseModel model, Object... pathParams) {
         return StepLogger.log("Post request to" + targetUrl, () -> {
-            return prepareRequest(pathParams)
+            ValidatableResponse response = prepareRequest(pathParams)
                     .body(model == null ? "" : model)
                     .when()
                     .post(targetUrl)
                     .then()
                     .spec(responseSpecification);
+            extractUrlToStorage(response, targetUrl);
+            return response;
         });
+    }
+
+    private void extractUrlToStorage(ValidatableResponse response, String targetUrl) {
+        if (response.extract().contentType().contains("json")) {
+            String href = response.extract().jsonPath().getString("href");
+            if (href != null && !href.isEmpty()) {
+                EntityStorage.addUrl(href);
+            } else {
+                Optional.ofNullable(response.extract().jsonPath().getString("id"))
+                        .ifPresent(id -> EntityStorage.addUrl(targetUrl + "/" + id));
+            }
+        }
     }
 
     @Override
@@ -76,14 +92,32 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     @Override
     public ValidatableResponse delete(Object... pathParams) {
         return StepLogger.log("Delete request to" + targetUrl, () -> {
-            return prepareRequest(pathParams)
-                    .when()
-                    .delete(targetUrl)
-                    .then()
-                    .spec(responseSpecification);
+            ValidatableResponse response =
+                    prepareRequest(pathParams)
+                            .when()
+                            .delete(targetUrl)
+                            .then()
+                            .spec(responseSpecification);
+            EntityStorage.removeUrlFromListIfExists(targetUrl);
+            return response;
         });
     }
 
+    public ValidatableResponse deleteMethodForStorage(String urlWithId) {
+        return prepareRequest()
+                .when()
+                .delete(urlWithId)
+                .then()
+                .spec(responseSpecification);
+    }
+
+    public ValidatableResponse patch(Object... pathParams) {
+        return prepareRequest(pathParams)
+                .when()
+                .patch(targetUrl)
+                .then()
+                .spec(responseSpecification);
+    }
 
     @Override
     public ValidatableResponse getAll(Class<?> clazz) {
