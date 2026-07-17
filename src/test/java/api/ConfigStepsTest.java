@@ -18,7 +18,6 @@ import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 
 import static api.enums.errors.AuthErrorMessage.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigStepsTest extends BaseTest {
 
@@ -38,6 +37,13 @@ public class ConfigStepsTest extends BaseTest {
                 .post(createStepRequest,configName);
 
         ModelAssertions.assertThatModels(createStepResponse, createStepRequest).match();
+
+        softly.assertThat(createStepResponse.getId())
+                .as("Server assigns an id to a created step")
+                .isNotBlank();
+        softly.assertThat(createStepResponse.getHref())
+                .as("Server populates href for a created step")
+                .isNotBlank();
 
         String createdStepId = createStepResponse.getId();
         BuildTypeStepsModel getStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
@@ -64,7 +70,9 @@ public class ConfigStepsTest extends BaseTest {
                 ResponseSpec.returnsOk())
                 .put(updateStepRequest,configName,createdStep.getId());
 
-        assertThat(updateStepRequest.getName()).isEqualTo(updateStepResponse.getName());
+        softly.assertThat(updateStepResponse.getName())
+                .as("Update changes the step name")
+                .isEqualTo(updateStepRequest.getName());
 
         BuildTypeStepsModel checkUpdatedStep = UserSteps.getBuildTypeStep(configName,createdStep.getId());
         ModelAssertions.assertThatModels(updateStepResponse, checkUpdatedStep).match();
@@ -75,17 +83,26 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
         String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
-        new CrudRequester(
+       /* new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_DELETE,
                 ResponseSpec.returnsDeleted())
-                .delete(configName,createdStepId);
+                .delete(configName,createdStepId);*/
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_UPDATE,
                 ResponseSpec.returnsNotFound())
                 .get(configName, createdStepId);
+
+        BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.BUILD_STEPS_READ,
+                ResponseSpec.returnsOk())
+                .get(configName);
+        softly.assertThat(steps.getCount())
+                .as("Step should be deleted")
+                .isZero();
     }
 
     @Test
@@ -244,7 +261,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     public void ConfigStepsCannotCreateStepWithInvalidBasicCredentialsTest() {
-        String configLocator = RandomDataGenerator.randomSpecificString("NoConfig", 8);
+        String configName = RandomDataGenerator.randomSpecificString("NoConfig", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
@@ -253,7 +270,17 @@ public class ConfigStepsTest extends BaseTest {
                         RandomDataGenerator.randomString(10)),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsUnauthorized(BASIC_AUTH_FAILED))
-                .post(stepRequest, configLocator);
+                .post(stepRequest, configName);
+
+        BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.BUILD_STEPS_READ,
+                ResponseSpec.returnsOk())
+                .get(configName);
+
+        softly.assertThat(steps.getCount())
+                .as("A viewer must not be able to create a step")
+                .isEqualTo(0);
     }
 
     @Test
@@ -268,6 +295,16 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsForbidden())
                 .post(createStepRequest, configName);
+
+        BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
+                RequestSpec.basicAuthSpec(),
+                Endpoint.BUILD_STEPS_READ,
+                ResponseSpec.returnsOk())
+                .get(configName);
+
+        softly.assertThat(steps.getCount())
+                .as("A viewer must not be able to create a step")
+                .isEqualTo(0);
     }
 
     @Test
@@ -283,6 +320,14 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEP_UPDATE,
                 ResponseSpec.returnsForbidden())
                 .put(updateStepRequest, configName, createdStep.getId());
+
+        BuildTypeStepsModel stepAfter = UserSteps.getBuildTypeStep(configName, createdStep.getId());
+        softly.assertThat(stepAfter.getName())
+                .as("A viewer must not be able to change the step name")
+                .isEqualTo(createdStep.getName());
+        softly.assertThat(stepAfter.getType())
+                .as("A viewer must not be able to change the step type")
+                .isEqualTo(createdStep.getType());
     }
 
     @Test
@@ -296,6 +341,11 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEP_DELETE,
                 ResponseSpec.returnsForbidden())
                 .delete(configName, createdStepId);
+
+        BuildTypeStepsModel stepAfter = UserSteps.getBuildTypeStep(configName, createdStepId);
+        softly.assertThat(stepAfter.getId())
+                .as("A viewer must not be able to delete the step")
+                .isEqualTo(createdStepId);
     }
 
     @Test
@@ -309,6 +359,11 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEP_DELETE,
                 ResponseSpec.returnsForbidden())
                 .delete(configName, createdStepId);
+
+        BuildTypeStepsModel stepAfter = UserSteps.getBuildTypeStep(configName, createdStepId);
+        softly.assertThat(stepAfter.getId())
+                .as("A developer must not be able to delete the step")
+                .isEqualTo(createdStepId);
     }
 
     @Test
