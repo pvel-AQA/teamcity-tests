@@ -31,11 +31,15 @@ public class EntityStorage {
     public static void clear() {
         String url;
         while ((url = endpointsToDelete.get().pollLast()) != null) {
-            new CrudRequester(
-                    RequestSpec.withAuthExtensionUser(),
-                    Endpoint.PROJECTS,
-                    new ResponseSpecBuilder().build()
-            ).deleteMethodForStorage(url);
+            try {
+                new CrudRequester(
+                        RequestSpec.withAuthExtensionUser(),
+                        Endpoint.PROJECTS,
+                        new ResponseSpecBuilder().build()
+                ).deleteMethodForStorage(url);
+            } catch (Exception e) {
+                System.err.println("Failed to clean up entity at " + url + ": " + e.getMessage());
+            }
         }
         endpointsToDelete.remove();
     }

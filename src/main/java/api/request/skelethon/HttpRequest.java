@@ -4,8 +4,8 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static common.configs.Config.API_PREFIX;
@@ -34,14 +34,15 @@ public abstract class HttpRequest {
 
         if (pathParams != null && pathParams.length > 0) {
             if (endpoint.isDynamic()) {
-                Map<String, Object> pathMap = new HashMap<>();
                 var matcher = Pattern.compile("\\{([^}]+)\\}").matcher(targetUrl);
+                StringBuilder resolved = new StringBuilder();
                 int i = 0;
                 while (matcher.find() && i < pathParams.length) {
-                    pathMap.put(matcher.group(1), pathParams[i]);
+                    matcher.appendReplacement(resolved, Matcher.quoteReplacement(String.valueOf(pathParams[i])));
                     i++;
                 }
-                request.pathParams(pathMap);
+                matcher.appendTail(resolved);
+                this.targetUrl = resolved.toString();
             } else {
                 this.targetUrl = this.targetUrl + "/" + pathParams[0];
             }
