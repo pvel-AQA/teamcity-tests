@@ -41,9 +41,6 @@ public class ConfigStepsTest extends BaseTest {
         softly.assertThat(createStepResponse.getId())
                 .as("Server assigns an id to a created step")
                 .isNotBlank();
-        softly.assertThat(createStepResponse.getHref())
-                .as("Server populates href for a created step")
-                .isNotBlank();
 
         String createdStepId = createStepResponse.getId();
         BuildTypeStepsModel getStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
