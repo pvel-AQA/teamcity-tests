@@ -58,7 +58,7 @@ public class GetProjectTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateProjectAndGetItByIdTest() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
+        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
         Assertions.assertThat(UserSteps.getProjectById(projectResponse.getId()).getName())
                 .isEqualTo(projectRequest.getName());
     }
@@ -67,7 +67,7 @@ public class GetProjectTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanGetProjectByNameTest() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
+        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
 
         ProjectResponse projectByName = UserSteps.getProjectById(projectRequest.getName());
         Assertions.assertThat(projectByName.getId()).isEqualTo(projectResponse.getId());

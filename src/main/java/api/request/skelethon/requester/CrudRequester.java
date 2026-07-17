@@ -52,11 +52,20 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .post(targetUrl)
                 .then()
                 .spec(responseSpecification);
-        if (response.extract().contentType().contains("json")) {
-            Optional.ofNullable(response.extract().jsonPath().getString("id"))
-                    .ifPresent(id -> EntityStorage.addUrl(targetUrl + "/" + id));
-        }
+        extractUrlToStorage(response, targetUrl);
         return response;
+    }
+
+    private void extractUrlToStorage(ValidatableResponse response, String targetUrl) {
+        if (response.extract().contentType().contains("json")) {
+            String href = response.extract().jsonPath().getString("href");
+            if (href != null && !href.isEmpty()) {
+                EntityStorage.addUrl(href);
+            } else {
+                Optional.ofNullable(response.extract().jsonPath().getString("id"))
+                        .ifPresent(id -> EntityStorage.addUrl(targetUrl + "/" + id));
+            }
+        }
     }
 
     @Override

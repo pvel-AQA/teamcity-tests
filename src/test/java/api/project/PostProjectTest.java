@@ -22,24 +22,6 @@ import static api.enums.errors.ProjectErrors.PIPELINE_WITH_THIS_NAME_ALREADY_EXI
 public class PostProjectTest extends BaseTest {
 
     @Test
-    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void adminCanCreateProjectOnlyWithMandatoryParamsTest() {
-        ProjectRequest projectRequest = ProjectRequest.builder()
-                .name("Project" + UUID.randomUUID().toString().substring(0, 8))
-                .build();
-        ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
-        Assertions.assertThat(projectRequest.getName()).isEqualTo(projectResponse.getName());
-        boolean projectExists = UserSteps.isProjectExists(projectRequest.getName());
-        Assertions.assertThat(projectExists).isTrue()
-                .as("Created project should exists, trying to find it with getAll");
-
-        UserSteps.deleteProject(projectResponse);
-        projectExists = UserSteps.isProjectExists(projectRequest.getName());
-        Assertions.assertThat(projectExists).isFalse()
-                .as("Deleted project shouldn't exist");
-    }
-
-    @Test
     public void adminCannotCreateProjectWithoutAuthTest() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
         new CrudRequester(
@@ -54,7 +36,7 @@ public class PostProjectTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotCreateProjectWithTheSameNameTest() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
+        UserSteps.createProjectWithExtension(projectRequest);
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
@@ -65,9 +47,27 @@ public class PostProjectTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
+    public void adminCanCreateProjectOnlyWithMandatoryParamsTest() {
+        ProjectRequest projectRequest = ProjectRequest.builder()
+                .name("Project" + UUID.randomUUID().toString().substring(0, 8))
+                .build();
+        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
+        Assertions.assertThat(projectRequest.getName()).isEqualTo(projectResponse.getName());
+        boolean projectExists = UserSteps.isProjectExists(projectRequest.getName());
+        Assertions.assertThat(projectExists).isTrue()
+                .as("Created project should exists, trying to find it with getAll");
+
+        UserSteps.deleteProjectWithAuthExtensionUser(projectResponse);
+        projectExists = UserSteps.isProjectExists(projectRequest.getName());
+        Assertions.assertThat(projectExists).isFalse()
+                .as("Deleted project shouldn't exist");
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateProjectWithAllParamsTest() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
+        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
         Assertions.assertThat(projectRequest.getName()).isEqualTo(projectResponse.getName());
         boolean projectExists = UserSteps.isProjectExists(projectRequest.getName());
         Assertions.assertThat(projectExists).isTrue()

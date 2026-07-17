@@ -59,8 +59,8 @@ public class DeleteProjectTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanDeleteProjectTest() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
-        UserSteps.deleteProject(projectResponse);
+        ProjectResponse projectResponse = UserSteps.createProjectWithExtension(projectRequest);
+        UserSteps.deleteProjectWithAuthExtensionUser(projectResponse);
 
         boolean projectExists = UserSteps.isProjectExists(projectRequest.getName());
         Assertions.assertThat(projectExists).isFalse()
