@@ -1,11 +1,9 @@
 package base;
 
 import api.steps.SuperUserSteps;
-import api.steps.UserSteps;
-import common.annotations.AuthUser;
-import common.enums.UserRoles;
 import common.extensions.AuthUserExtension;
 import common.extensions.TimingExtension;
+import common.helpers.EntityStorage;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,11 +24,13 @@ public class BaseTest {
     @BeforeEach
     public void beforeEach() {
         this.softly = new SoftAssertions();
+        EntityStorage.init();
     }
 
     @AfterEach
     public void afterEach() {
         this.softly.assertAll();
+        EntityStorage.clear();
     }
 
 }

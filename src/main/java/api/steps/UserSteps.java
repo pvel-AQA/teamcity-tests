@@ -25,22 +25,8 @@ import static common.configs.Config.*;
 public class UserSteps {
 
     public static ProjectResponse createProject() {
-        ProjectRequest projectRequest = ProjectRequest.builder()
-                .name("Project" + RandomGenerator.generateString())
-                .build();
-        return createProject(projectRequest);
-    }
-
-    public static ProjectResponse createProject(ProjectRequest projectRequest) {
-        return createProject(ADMIN_USERNAME, ADMIN_PASSWORD, projectRequest);
-    }
-
-    public static ProjectResponse createProject(String username, String password, ProjectRequest projectRequest) {
-        return new ValidatedCrudRequester<ProjectResponse>(
-                RequestSpec.authAsUserSpec(username, password),
-                Endpoint.PROJECTS,
-                ResponseSpec.returnsOk()
-        ).post(projectRequest);
+        ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
+        return createProjectWithExtension(projectRequest);
     }
 
     public static ProjectResponse createProjectWithExtension(ProjectRequest projectRequest) {
@@ -53,7 +39,7 @@ public class UserSteps {
 
     public static AllProjectsResponse getAllProjects() {
         return new ValidatedCrudRequester<AllProjectsResponse>(
-                RequestSpec.authAsUserSpec(ADMIN_USERNAME, ADMIN_PASSWORD),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.ALL_PROJECTS,
                 ResponseSpec.returnsOk()
         ).get();
@@ -61,7 +47,7 @@ public class UserSteps {
 
     public static ProjectResponse getProjectById(String id) {
         return new ValidatedCrudRequester<ProjectResponse>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsOk()
         ).get(id);
@@ -70,6 +56,14 @@ public class UserSteps {
     public static boolean isProjectExists(String projectName) {
         return UserSteps.getAllProjects().getProjects().stream()
                 .anyMatch(project -> project.getName().equals(projectName));
+    }
+
+    public static void deleteProjectWithAuthExtensionUser(ProjectResponse projectResponse) {
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.PROJECTS,
+                ResponseSpec.returnsDeleted()
+        ).delete(projectResponse.getId());
     }
 
     public static void deleteProject(String username, String password, ProjectResponse projectResponse) {
@@ -93,14 +87,14 @@ public class UserSteps {
     }
 
     public static BuildConfigurationResponse createBuildConfiguration(BuildConfigurationRequest buildConf) {
-        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.adminSpec(ADMIN_TOKEN),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .post(buildConf);
     }
 
     public static BuildConfigurationResponse getBuilds() {
-        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.adminSpec(ADMIN_TOKEN),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .get();
