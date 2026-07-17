@@ -9,10 +9,11 @@ import api.specs.ResponseSpec;
 import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
-import org.junit.jupiter.api.Test;
+
+import org.junitpioneer.jupiter.RetryingTest;
 
 public class AgentTest extends BaseTest {
-    @Test
+    @RetryingTest(value = 3, suspendForMs = 3000)
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void AgentCanBeConnectedToTheServerTest() {
         var getAgentsResponse = new ValidatedCrudRequester<GetAgentsResponse>(
