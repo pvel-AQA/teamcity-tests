@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeamCity Tests — Current Testing Pyramid</title>
+<style>
+  :root {
+    --bg: #0f1420; --card: #171e2e; --ink: #e6ebf5; --muted: #94a2bd;
+    --line: #26314a; --accent: #4c8dff;
+    --e2e: #e05a5a; --ui: #b0653e; --api: #3f7fd6; --unit: #4c9a6b;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f5f7fb; --card: #ffffff; --ink: #1a2233; --muted: #5b6982;
+      --line: #e2e7f0; --accent: #2b6ce6;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2.5rem 1.25rem 4rem;
+    background: var(--bg); color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 940px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 .3rem; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 2.2rem; }
+  h2 { font-size: 1.25rem; margin: 2.6rem 0 1rem; }
+  .note { color: var(--muted); font-size: .92rem; }
+
+  /* Pyramid */
+  .pyramid { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 1.5rem 0 .5rem; }
+  .tier {
+    color: #fff; border-radius: 8px; text-align: center;
+    padding: .8rem 1rem; position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,.18);
+  }
+  .tier .lbl { font-weight: 700; font-size: 1.02rem; }
+  .tier .meta { font-size: .82rem; opacity: .92; }
+  .t-e2e  { width: 30%; background: linear-gradient(135deg,#e05a5a,#c23b3b); }
+  .t-ui   { width: 50%; background: linear-gradient(135deg,#b0653e,#8f4d2c); }
+  .t-api  { width: 80%; background: linear-gradient(135deg,#3f7fd6,#2a5fb0); }
+  .t-unit { width: 100%; background: linear-gradient(135deg,#4c9a6b,#367a51); opacity:.55; }
+  .t-empty { outline: 2px dashed rgba(255,255,255,.45); outline-offset: -6px; }
+
+  .callout {
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  }
+  .callout strong { color: var(--ink); }
+
+  table { width: 100%; border-collapse: collapse; margin: .5rem 0 1rem; font-size: .93rem;
+    display: block; overflow-x: auto; }
+  th, td { text-align: left; padding: .55rem .7rem; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  code { background: rgba(127,140,170,.16); padding: .1rem .35rem; border-radius: 4px; font-size: .88em; }
+
+  /* Intent bars */
+  .bars { display: grid; gap: .7rem; margin: 1rem 0; }
+  .bar-row { display: grid; grid-template-columns: 190px 1fr 44px; align-items: center; gap: .8rem; }
+  .bar-row .name { font-size: .9rem; }
+  .track { background: rgba(127,140,170,.16); border-radius: 6px; height: 22px; overflow: hidden; }
+  .fill { height: 100%; border-radius: 6px; }
+  .bar-row .pct { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: .88rem; }
+  .c-pos { background: #4c9a6b; }
+  .c-neg { background: #d99a3c; }
+  .c-sec { background: #7a6bd6; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: .8rem; margin: 1rem 0; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; text-align: center; }
+  .kpi .big { font-size: 2rem; font-weight: 800; letter-spacing: -.02em; }
+  .kpi .cap { color: var(--muted); font-size: .82rem; margin-top: .15rem; }
+  ul.obs { padding-left: 1.1rem; }
+  ul.obs li { margin: .45rem 0; }
+  footer { margin-top: 3rem; color: var(--muted); font-size: .82rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>TeamCity Tests — Current Testing Pyramid</h1>
+  <p class="sub">Descriptive snapshot of the automated tests in this repository &middot; 2026-07-17</p>
+
+  <div class="cards">
+    <div class="kpi"><div class="big">51</div><div class="cap">test methods</div></div>
+    <div class="kpi"><div class="big">50</div><div class="cap">API / integration</div></div>
+    <div class="kpi"><div class="big">1</div><div class="cap">E2E scenario</div></div>
+    <div class="kpi"><div class="big">0</div><div class="cap">unit &amp; UI tests</div></div>
+  </div>
+
+  <div class="pyramid">
+    <div class="tier t-e2e"><div class="lbl">E2E &mdash; 1</div><div class="meta">BasicFlowsTest</div></div>
+    <div class="tier t-ui t-empty"><div class="lbl">UI &mdash; 0</div><div class="meta">BaseUiTest scaffolding only</div></div>
+    <div class="tier t-api"><div class="lbl">API / Integration &mdash; 50</div><div class="meta">6 classes &middot; single-endpoint checks + short CRUD chains</div></div>
+    <div class="tier t-unit t-empty"><div class="lbl">Unit &mdash; 0</div><div class="meta">no isolated unit tests</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>Reality check:</strong> the suite is <strong>API-heavy</strong>, not a classic broad-based pyramid.
+    ~98% of coverage sits in the API/integration band, the unit base is empty, UI is scaffolding only,
+    and the apex is a single deep scenario. Effective for an API-first product, but a unit base would
+    improve speed and failure isolation.
+  </div>
+
+  <h2>Layer breakdown</h2>
+  <table>
+    <thead><tr><th>Layer</th><th class="n">Tests</th><th>Location</th><th>Covers</th></tr></thead>
+    <tbody>
+      <tr><td><strong>E2E</strong> (apex)</td><td class="n">1</td><td><code>api/e2e/BasicFlowsTest</code></td><td>Full flow: auth → project → build config → step → queue → agent → execution → result → log</td></tr>
+      <tr><td><strong>UI</strong></td><td class="n">0</td><td><code>ui/BaseUiTest</code></td><td>Selenide/Selenoid setup exists; no UI test classes yet</td></tr>
+      <tr><td><strong>API / Integration</strong> (base)</td><td class="n">50</td><td>6 classes</td><td>Contract checks &amp; short CRUD chains against the live REST API</td></tr>
+      <tr><td><strong>Unit</strong></td><td class="n">0</td><td>&mdash;</td><td>No isolated unit tests</td></tr>
+      <tr><td><strong>Total</strong></td><td class="n"><strong>51</strong></td><td colspan="2" class="note">~53 executions incl. 3 parameterized cases</td></tr>
+    </tbody>
+  </table>
+
+  <h2>API layer detail (the 50)</h2>
+  <table>
+    <thead><tr><th>Class</th><th class="n">Tests</th><th>Focus</th></tr></thead>
+    <tbody>
+      <tr><td><code>api/ConfigStepsTest</code></td><td class="n">19</td><td>Build-step CRUD, validation, role/auth restrictions</td></tr>
+      <tr><td><code>api/user/UserTest</code></td><td class="n">12</td><td>User CRUD, duplicate/missing-field validation, auth</td></tr>
+      <tr><td><code>api/project/ProjectTest</code></td><td class="n">7</td><td>Project create/get/delete, bad locators, auth</td></tr>
+      <tr><td><code>api/build/BuildConfigurationTest</code></td><td class="n">5</td><td>Build config create/copy/delete, duplicate/invalid id</td></tr>
+      <tr><td><code>api/agent/AgentTest</code></td><td class="n">3</td><td>Agent connect / authorize / unauthorize lifecycle</td></tr>
+      <tr><td><code>api/authorization/AuthorizationUserTest</code></td><td class="n">4</td><td>Basic &amp; bearer auth; 1 parameterized negative (3 cases)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>API tests by intent</h2>
+  <p class="note">Every test lives in the API band, but they split into three near-equal concerns:</p>
+  <div class="bars">
+    <div class="bar-row"><span class="name">Positive / happy-path</span><div class="track"><div class="fill c-pos" style="width:36%"></div></div><span class="pct">18</span></div>
+    <div class="bar-row"><span class="name">Negative / validation</span><div class="track"><div class="fill c-neg" style="width:30%"></div></div><span class="pct">15</span></div>
+    <div class="bar-row"><span class="name">Security — auth &amp; RBAC</span><div class="track"><div class="fill c-sec" style="width:34%"></div></div><span class="pct">17</span></div>
+  </div>
+
+  <h2>Observations &amp; gaps</h2>
+  <ul class="obs">
+    <li><strong>No unit layer.</strong> Helpers (locator/spec builders, generators, <code>WaitUtils</code>) are exercised only indirectly through API tests.</li>
+    <li><strong>UI is scaffolding only.</strong> <code>BaseUiTest</code> wires up Selenide + Selenoid, but no UI test class uses it yet.</li>
+    <li><strong>E2E is thin by design.</strong> One deep scenario at the apex is the right call — keep it few and slow.</li>
+    <li><strong>Strong security coverage.</strong> ~34% of API tests assert auth/RBAC behaviour (401/403, roles, invalid credentials/tokens).</li>
+    <li><strong>Inverted-ish shape.</strong> Value is concentrated in the middle band — common for API-first products; a unit base would round it out.</li>
+  </ul>
+
+  <footer>
+    Counts are of <code>@Test</code>/<code>@ParameterizedTest</code> methods under <code>src/test/java</code>.
+    This is a snapshot of what exists, not a target design — for the aspirational P1 target see
+    <code>src/main/TeamCity_API_Test_Pyramid_P1.md</code>.
+  </footer>
+</main>
+</body>
+</html>
