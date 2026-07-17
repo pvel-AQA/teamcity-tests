@@ -82,6 +82,11 @@ public enum Endpoint {
     BUILD_STEP_CREATE(
             "/buildTypes/{btLocator}/steps",
             BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEPS_READ(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
             BuildTypeStepsList.class
     ),
     BUILD_STEP_READ(

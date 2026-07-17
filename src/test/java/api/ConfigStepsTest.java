@@ -109,7 +109,7 @@ public class ConfigStepsTest extends BaseTest {
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_CREATE,
+                Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
 
@@ -135,7 +135,7 @@ public class ConfigStepsTest extends BaseTest {
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
                 RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_CREATE,
+                Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
 
