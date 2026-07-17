@@ -1,6 +1,9 @@
 package api.request.skelethon;
 
 import api.models.*;
+import api.models.agent.Agent;
+import api.models.agent.AuthorizeAgentRequest;
+import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
@@ -13,6 +16,8 @@ import lombok.AllArgsConstructor;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import static common.configs.Config.API_PREFIX;
 
 @Getter
 @AllArgsConstructor
@@ -63,6 +68,17 @@ public enum Endpoint {
             BaseModel.class,
             GetAgentsResponse.class
     ),
+    AGENTS_WITH_LOCATOR(
+            "/agents/{locator}",
+            BaseModel.class,
+            Agent.class
+    ),
+    AGENTS_AUTHORIZED_INFO(
+            "/agents/{agentLocator}/authorizedInfo",
+            AuthorizeAgentRequest.class,
+            AuthorizeAgentResponse.class
+
+    ),
     BUILD_STEP_CREATE(
             "/buildTypes/{btLocator}/steps",
             BuildTypeStepsModel.class,
@@ -83,6 +99,7 @@ public enum Endpoint {
             BaseModel.class,
             BaseModel.class
     );
+
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;

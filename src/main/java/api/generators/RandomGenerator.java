@@ -73,6 +73,8 @@ public class RandomGenerator {
             return Long.parseLong(result);
         } else if (type.equals(Double.class) || type.equals(double.class)) {
             return Double.parseDouble(result);
+        } else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
+            return Boolean.parseBoolean(result);
         } else {
             return result;
         }

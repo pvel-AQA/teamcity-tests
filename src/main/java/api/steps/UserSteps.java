@@ -6,6 +6,9 @@ import api.generators.RandomGenerator;
 import api.models.BuildTypeStepsModel;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
+import api.models.agent.Agent;
+import api.models.agent.AuthorizeAgentRequest;
+import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
@@ -17,6 +20,7 @@ import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
+import common.helpers.StepLogger;
 
 import static common.configs.Config.*;
 
@@ -132,6 +136,46 @@ public class UserSteps {
                 ResponseSpec.returnsOk())
                 .post(UserTokenRequest.builder().name(userRequest.getUsername()).build(),
                         LocatorType.ID + userRequest.getId());
+    }
+
+    public static int getAgentId() {
+        return StepLogger.log("Get Agent id", () -> {
+            return new ValidatedCrudRequester<GetAgentsResponse>(
+                    RequestSpec.withAuthExtensionUser(),
+                    Endpoint.AGENTS,
+                    ResponseSpec.returnsOk()
+            ).get(new CrudRequester.QueryBuilder()
+                            .locatorEqualsAuthorizedAny()
+                            .locatorEqualsConnectedTrue().build())
+                    .getAgent().getFirst().getId();
+        });
+    }
+
+    public static boolean getAgentAuthorizedStatus(int agentId) {
+        return new ValidatedCrudRequester<Agent>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.AGENTS_WITH_LOCATOR,
+                ResponseSpec.returnsOk()
+        ).get(LocatorType.ID.getPrefix() + agentId)
+                .getAuthorizedInfo().isStatus();
+    }
+
+    public static void authorizeAgent(int agentId) {
+        var authorizeAgentRequest = RandomGenerator.generate(AuthorizeAgentRequest.class);
+
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.AGENTS_AUTHORIZED_INFO,
+                ResponseSpec.returnsOk()
+        ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
+    }
+
+    public static Agent getAgentInfo(int agentId) {
+        return new ValidatedCrudRequester<Agent>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.AGENTS_WITH_LOCATOR,
+                ResponseSpec.returnsOk()
+        ).get(LocatorType.ID.getPrefix() + agentId);
     }
 
 }
