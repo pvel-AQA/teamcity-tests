@@ -30,7 +30,6 @@ public class GetProjectTest extends BaseTest {
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsUnauthorized(AUTHENTICATION_REQUIRED))
                 .get(projectRequest);
-
     }
 
     @Test
@@ -62,8 +61,6 @@ public class GetProjectTest extends BaseTest {
         ProjectResponse projectResponse = UserSteps.createProject(projectRequest);
         Assertions.assertThat(UserSteps.getProjectById(projectResponse.getId()).getName())
                 .isEqualTo(projectRequest.getName());
-
-        UserSteps.deleteProject(projectResponse);
     }
 
     @Test
@@ -75,8 +72,6 @@ public class GetProjectTest extends BaseTest {
         ProjectResponse projectByName = UserSteps.getProjectById(projectRequest.getName());
         Assertions.assertThat(projectByName.getId()).isEqualTo(projectResponse.getId());
         Assertions.assertThat(projectByName.getName()).isEqualTo(projectRequest.getName());
-
-        UserSteps.deleteProject(projectResponse);
     }
 
 }

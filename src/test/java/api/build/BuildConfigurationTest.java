@@ -14,6 +14,8 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
 import base.BaseTest;
+import common.annotations.AuthUser;
+import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +27,7 @@ public class BuildConfigurationTest extends BaseTest {
     private static final String[] IGNORED_BUILD_FIELDS = {"project", "settings"};
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCanCreateBuildConfiguration() {
         var projectResponse = UserSteps.createProject();
 
@@ -55,6 +58,7 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCanCopyBuildConfiguration() {
         var buildResponse = UserSteps.createBuildConfiguration();
 
@@ -79,6 +83,7 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCanDeleteBuildConfiguration() {
         var buildRequest = UserSteps.createBuildConfiguration();
 
@@ -95,6 +100,7 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCannotCreateBuildConfigurationWithDuplicateId() {
         var project = UserSteps.createProject();
         var firstBuild = TeamCityDataGenerator.generateBuildConfigurationFor(project.getId());
@@ -117,6 +123,7 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCannotCreateBuildConfigurationWithInvalidId() {
         var invalidBuild = TeamCityDataGenerator.generateBuildConfigurationFor();
 

@@ -52,8 +52,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .post(targetUrl)
                 .then()
                 .spec(responseSpecification);
-        Optional.ofNullable(response.extract().jsonPath().getString("id"))
-                .ifPresent(id -> EntityStorage.addUrl(targetUrl + "/" + id));
+        if (response.extract().contentType().contains("json")) {
+            Optional.ofNullable(response.extract().jsonPath().getString("id"))
+                    .ifPresent(id -> EntityStorage.addUrl(targetUrl + "/" + id));
+        }
         return response;
     }
 
@@ -69,12 +71,14 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse delete(Object... pathParams) {
+        ValidatableResponse response =
+                prepareRequest(pathParams)
+                        .when()
+                        .delete(targetUrl)
+                        .then()
+                        .spec(responseSpecification);
         EntityStorage.removeUrlFromListIfExists(targetUrl);
-        return prepareRequest(pathParams)
-                .when()
-                .delete(targetUrl)
-                .then()
-                .spec(responseSpecification);
+        return response;
     }
 
     public ValidatableResponse deleteMethodForStorage(String urlWithId) {

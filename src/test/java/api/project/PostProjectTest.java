@@ -61,8 +61,6 @@ public class PostProjectTest extends BaseTest {
                 ResponseSpec.returnsBadRequest(PIPELINE_WITH_THIS_NAME_ALREADY_EXISTS.getErrorMsg()
                         + " " + projectRequest.getName()))
                 .post(projectRequest);
-
-        //UserSteps.deleteProject(projectResponse);
     }
 
     @Test
@@ -74,8 +72,6 @@ public class PostProjectTest extends BaseTest {
         boolean projectExists = UserSteps.isProjectExists(projectRequest.getName());
         Assertions.assertThat(projectExists).isTrue()
                 .as("Created project should exists, trying to find it with getAll");
-
-        //UserSteps.deleteProject(projectResponse);
     }
 
 }

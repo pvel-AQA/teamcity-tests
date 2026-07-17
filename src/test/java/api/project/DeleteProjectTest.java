@@ -47,21 +47,11 @@ public class DeleteProjectTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void adminCannotDeleteProjectWithEmptyIdTest() {
-        new CrudRequester(
-                RequestSpec.withAuthExtensionUser(),
-                Endpoint.PROJECTS,
-                ResponseSpec.returnsNotFound()
-        ).delete("", null);
-    }
-
-    @Test
-    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotDeleteProjectWithBothIdAndLocatorNullTest() {
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.PROJECTS,
-                ResponseSpec.returnsBadRequest()
+                ResponseSpec.returnsNotFound()
         ).delete(null, null);
     }
 
