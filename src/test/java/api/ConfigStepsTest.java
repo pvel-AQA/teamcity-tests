@@ -23,6 +23,7 @@ import static common.configs.Config.ADMIN_TOKEN;
 public class ConfigStepsTest extends BaseTest {
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsSuccessfullyCreatedTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
@@ -32,7 +33,7 @@ public class ConfigStepsTest extends BaseTest {
                 .build();
 
         BuildTypeStepsModel createStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
                 .post(createStepRequest,configName);
@@ -45,7 +46,7 @@ public class ConfigStepsTest extends BaseTest {
 
         String createdStepId = createStepResponse.getId();
         BuildTypeStepsModel getStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_READ,
                 ResponseSpec.returnsOk())
                 .get(configName, createdStepId);
@@ -54,6 +55,7 @@ public class ConfigStepsTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsSuccessfulUpdateTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         BuildTypeStepsModel createdStep =  UserSteps.createBuildTypeStep(configName);
@@ -63,7 +65,7 @@ public class ConfigStepsTest extends BaseTest {
                 .build();
 
         BuildTypeStepsModel updateStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_UPDATE,
                 ResponseSpec.returnsOk())
                 .put(updateStepRequest,configName,createdStep.getId());
@@ -77,24 +79,25 @@ public class ConfigStepsTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsSuccessfulDeleteTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_DELETE,
                 ResponseSpec.returnsDeleted())
                 .delete(configName,createdStepId);
 
         new CrudRequester(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_UPDATE,
                 ResponseSpec.returnsNotFound())
                 .get(configName, createdStepId);
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
@@ -104,6 +107,7 @@ public class ConfigStepsTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void ConfigStepsCanCreateStepWithoutNameTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
@@ -112,7 +116,7 @@ public class ConfigStepsTest extends BaseTest {
                 .build();
 
         BuildTypeStepsModel createStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
                 .post(createStepRequest, configName);
@@ -123,7 +127,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isNotBlank();
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);

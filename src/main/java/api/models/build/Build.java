@@ -8,11 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * A single build, as returned by /buildQueue (when queued) and /builds/{locator} (once it runs/finishes).
- * state:  queued | running | finished
- * status: SUCCESS | FAILURE | UNKNOWN
- */
 @Data
 @Builder
 @AllArgsConstructor

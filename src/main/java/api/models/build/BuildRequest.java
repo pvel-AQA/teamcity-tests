@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Body for triggering a build via POST /buildQueue: {"buildType":{"id":"<buildTypeId>"}}.
- */
 @Data
 @Builder
 @AllArgsConstructor

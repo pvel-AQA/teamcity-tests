@@ -89,7 +89,8 @@ public class UserSteps {
     }
 
     public static BuildConfigurationResponse createBuildConfiguration(BuildConfigurationRequest buildConf) {
-        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.withAuthExtensionUser(),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .post(buildConf);
@@ -97,7 +98,7 @@ public class UserSteps {
 
     public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_READ,
                 ResponseSpec.returnsOk())
                 .get(configName, stepId);
@@ -110,14 +111,15 @@ public class UserSteps {
                 .build();
 
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
                 .post(createStepRequest,configName);
     }
 
     public static BuildConfigurationResponse getBuilds() {
-        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.withAuthExtensionUser(),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .get();

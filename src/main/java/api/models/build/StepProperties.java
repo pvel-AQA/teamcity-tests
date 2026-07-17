@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-/**
- * The {@code properties} node of a build step (e.g. the command-line runner's script settings).
- */
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,7 +18,5 @@ import java.util.List;
 public class StepProperties {
 
     private Integer count;
-
-    @JsonProperty("property")
     private List<PropertyItem> property;
 }
