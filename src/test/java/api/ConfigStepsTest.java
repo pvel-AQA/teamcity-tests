@@ -83,11 +83,11 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
         String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
-       /* new CrudRequester(
+        new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_DELETE,
                 ResponseSpec.returnsDeleted())
-                .delete(configName,createdStepId);*/
+                .delete(configName,createdStepId);
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(),
