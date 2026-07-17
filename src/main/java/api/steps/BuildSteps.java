@@ -19,21 +19,12 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-/**
- * Steps for the runtime side of a build configuration: adding a runnable step,
- * putting a build into the queue, waiting for an agent to finish it, and reading its log.
- */
 public class BuildSteps {
 
     public static final String STEP_OUTPUT_MARKER = "Hello from E2E build";
 
     private static final Duration BUILD_TIMEOUT = Duration.ofMinutes(3);
 
-    /**
-     * Creates a command-line ({@code simpleRunner}) step that runs a custom script,
-     * so the triggered build actually executes and produces log output.
-     * The build config name is used as the {@code btLocator}.
-     */
     public static BuildTypeStepsModel createRunnableStep(String configName) {
         BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
@@ -53,9 +44,6 @@ public class BuildSteps {
                 .post(stepRequest, configName);
     }
 
-    /**
-     * Puts a build for the given build configuration id into the build queue.
-     */
     public static Build triggerBuild(String buildTypeId) {
         BuildRequest buildRequest = BuildRequest.builder()
                 .buildType(BuildRequest.BuildType.builder().id(buildTypeId).build())
@@ -76,9 +64,6 @@ public class BuildSteps {
                 .get(LocatorType.ID.getPrefix() + buildId);
     }
 
-    /**
-     * Polls the build until it reaches the {@code finished} state (an agent has picked it up and run it).
-     */
     public static Build waitForBuildToFinish(int buildId) {
         return StepLogger.log("Wait for build " + buildId + " to finish", () ->
                 WaitUtils.waitForResult(
@@ -87,10 +72,6 @@ public class BuildSteps {
                         BUILD_TIMEOUT));
     }
 
-    /**
-     * Downloads the plain-text build log. This endpoint lives at the server root,
-     * not under the /app/rest prefix, so it is called directly.
-     */
     public static String getBuildLog(int buildId) {
         return StepLogger.log("Download build log for build " + buildId, () ->
                 given()
