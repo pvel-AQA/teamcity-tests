@@ -6,7 +6,6 @@ import api.generators.RandomDataGenerator;
 import api.generators.TeamCityDataGenerator;
 import api.models.BuildTypeStepsList;
 import api.models.BuildTypeStepsModel;
-import api.models.projects.BuildTypeModel;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
@@ -18,9 +17,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 
-import static api.enums.errors.AuthErrorMessage.AUTHENTICATION_REQUIRED;
-import static api.enums.errors.AuthErrorMessage.BASIC_AUTH_FAILED;
-import static api.enums.errors.AuthErrorMessage.OAUTH_FAILED;
+import static api.enums.errors.AuthErrorMessage.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigStepsTest extends BaseTest {
@@ -84,7 +81,7 @@ public class ConfigStepsTest extends BaseTest {
                 ResponseSpec.returnsDeleted())
                 .delete(configName,createdStepId);
 
-        new ValidatedCrudRequester<BuildTypeStepsModel>(
+        new CrudRequester(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_UPDATE,
                 ResponseSpec.returnsNotFound())
@@ -106,18 +103,17 @@ public class ConfigStepsTest extends BaseTest {
                 .post(createStepRequest, configName);
 
         String createdStepId = createStepResponse.getId();
-        softy.assertThat(createdStepId)
+        softly.assertThat(createdStepId)
                 .as("A step created without a name should still receive an id")
                 .isNotBlank();
 
-        BuildTypeStepsList steps = new CrudRequester(
+        BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
-                .get(configName)
-                .extract().as(BuildTypeStepsList.class);
+                .get(configName);
 
-        softy.assertThat(steps.getStep())
+        softly.assertThat(steps.getStep())
                 .as("The config should contain exactly the step that was just created")
                 .extracting(BuildTypeStepsModel::getId)
                 .containsExactly(createdStepId);
@@ -137,14 +133,13 @@ public class ConfigStepsTest extends BaseTest {
                 ResponseSpec.returnsBadRequest(StepErrors.STEP_TYPE_CANNOT_BE_EMPTY.getErrorMsg()))
                 .post(createStepRequest, configName);
 
-        BuildTypeStepsList steps = new CrudRequester(
+        BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
                 RequestSpec.basicAuthSpec(),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
-                .get(configName)
-                .extract().as(BuildTypeStepsList.class);
+                .get(configName);
 
-        softy.assertThat(steps.getCount())
+        softly.assertThat(steps.getCount())
                 .as("A step without a type must not be created")
                 .isEqualTo(0);
     }
