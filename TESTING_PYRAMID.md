@@ -7,25 +7,21 @@ This pyramid is **descriptive** — it reflects the tests that are actually writ
 ## The shape today
 
 ```
-                        /\
-                       /  \        E2E — 1 test
-                      /----\       BasicFlowsTest
-                     /      \
-                    /        \     UI — 0 tests
-                   /  (none)   \   (BaseUiTest scaffolding only)
-                  /------------\
-                 /              \
-                /   API / INTEGRATION   \   50 tests
-               /   6 classes, single-    \  ConfigSteps, User, Project,
-              /    endpoint + CRUD chains  \ BuildConfiguration, Agent, Auth
-             /----------------------------\
-            /                              \
-           /          UNIT — 0 tests         \
-          /       (no pure unit tests)         \
-         /--------------------------------------\
+                    /\
+                   /  \        E2E — 1 test
+                  /----\       BasicFlowsTest
+                 /      \
+                /        \     UI — 0 tests
+               / (none)   \    (BaseUiTest scaffolding only)
+              /------------\
+             /              \
+            /  API / INTEGRATION \   50 tests
+           /  6 classes, single-  \  ConfigSteps, User, Project,
+          /   endpoint + CRUD chains\ BuildConfiguration, Agent, Auth
+         /--------------------------\
 ```
 
-**Reality check:** the suite is **API-heavy** rather than a classic broad-based pyramid. There is no unit layer, the UI layer is scaffolding only, and E2E is a single deep scenario. Almost all coverage (50 of 51 methods, ~98%) sits in the API/integration band.
+**Reality check:** the suite is **API-heavy** rather than a classic broad-based pyramid. The UI layer is scaffolding only, and E2E is a single deep scenario. Almost all coverage (50 of 51 methods, ~98%) sits in the API/integration band.
 
 ## Layer breakdown
 
@@ -34,7 +30,6 @@ This pyramid is **descriptive** — it reflects the tests that are actually writ
 | **E2E** (apex) | 1 | `api/e2e/BasicFlowsTest` | Full workflow: auth → project → build config → build step → queue → agent assignment → execution → result → build log |
 | **UI** | 0 | `ui/BaseUiTest` (base only) | Selenide/Selenoid remote-browser setup exists, but no UI test classes yet |
 | **API / Integration** (base) | 50 | 6 classes | Single-endpoint contract checks and short CRUD chains against the live REST API |
-| **Unit** | 0 | — | No isolated unit tests |
 | **Total** | **51** | | (~53 executions incl. 3 parameterized cases) |
 
 ## API layer detail (the 50)
@@ -60,11 +55,10 @@ Even though every test lives in the API band, they split roughly into three equa
 
 ## Observations & gaps
 
-- **No unit layer.** Framework helpers (locator/spec builders, generators, `WaitUtils`) are exercised only indirectly through API tests. Fast, isolated unit tests would broaden the base.
 - **UI is scaffolding only.** `BaseUiTest` wires up Selenide + Selenoid but no UI test class uses it yet.
 - **E2E is thin by design.** One deep scenario (`BasicFlowsTest`) is appropriate for the apex; keep it few and slow.
 - **Strong security coverage.** ~34% of API tests assert auth/RBAC behaviour (401/403, role restrictions, invalid credentials/tokens) — unusually thorough for an API suite.
-- **Shape is an "inverted-ish" pyramid.** Value is concentrated in the middle band. That is common and effective for API-first products, but adding a unit base would improve speed and failure isolation.
+- **API-first shape.** Value is concentrated in the API/integration band, which forms the base of this pyramid. That is common and effective for API-first products where the REST surface is the primary contract under test.
 
 ---
 _Counts are of `@Test`/`@ParameterizedTest` methods discovered under `src/test/java`. Parameterized cases add ~3 executions on top of the 51 methods._

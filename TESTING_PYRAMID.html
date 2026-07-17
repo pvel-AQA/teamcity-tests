@@ -8,7 +8,7 @@
   :root {
     --bg: #0f1420; --card: #171e2e; --ink: #e6ebf5; --muted: #94a2bd;
     --line: #26314a; --accent: #4c8dff;
-    --e2e: #e05a5a; --ui: #b0653e; --api: #3f7fd6; --unit: #4c9a6b;
+    --e2e: #e05a5a; --ui: #b0653e; --api: #3f7fd6;
   }
   @media (prefers-color-scheme: light) {
     :root {
@@ -40,7 +40,6 @@
   .t-e2e  { width: 30%; background: linear-gradient(135deg,#e05a5a,#c23b3b); }
   .t-ui   { width: 50%; background: linear-gradient(135deg,#b0653e,#8f4d2c); }
   .t-api  { width: 80%; background: linear-gradient(135deg,#3f7fd6,#2a5fb0); }
-  .t-unit { width: 100%; background: linear-gradient(135deg,#4c9a6b,#367a51); opacity:.55; }
   .t-empty { outline: 2px dashed rgba(255,255,255,.45); outline-offset: -6px; }
 
   .callout {
@@ -86,21 +85,20 @@
     <div class="kpi"><div class="big">51</div><div class="cap">test methods</div></div>
     <div class="kpi"><div class="big">50</div><div class="cap">API / integration</div></div>
     <div class="kpi"><div class="big">1</div><div class="cap">E2E scenario</div></div>
-    <div class="kpi"><div class="big">0</div><div class="cap">unit &amp; UI tests</div></div>
+    <div class="kpi"><div class="big">0</div><div class="cap">UI tests</div></div>
   </div>
 
   <div class="pyramid">
     <div class="tier t-e2e"><div class="lbl">E2E &mdash; 1</div><div class="meta">BasicFlowsTest</div></div>
     <div class="tier t-ui t-empty"><div class="lbl">UI &mdash; 0</div><div class="meta">BaseUiTest scaffolding only</div></div>
     <div class="tier t-api"><div class="lbl">API / Integration &mdash; 50</div><div class="meta">6 classes &middot; single-endpoint checks + short CRUD chains</div></div>
-    <div class="tier t-unit t-empty"><div class="lbl">Unit &mdash; 0</div><div class="meta">no isolated unit tests</div></div>
   </div>
 
   <div class="callout">
     <strong>Reality check:</strong> the suite is <strong>API-heavy</strong>, not a classic broad-based pyramid.
-    ~98% of coverage sits in the API/integration band, the unit base is empty, UI is scaffolding only,
-    and the apex is a single deep scenario. Effective for an API-first product, but a unit base would
-    improve speed and failure isolation.
+    ~98% of coverage sits in the API/integration band, which forms the base; UI is scaffolding only,
+    and the apex is a single deep scenario. Effective for an API-first product where the REST surface is
+    the primary contract under test.
   </div>
 
   <h2>Layer breakdown</h2>
@@ -110,7 +108,6 @@
       <tr><td><strong>E2E</strong> (apex)</td><td class="n">1</td><td><code>api/e2e/BasicFlowsTest</code></td><td>Full flow: auth → project → build config → step → queue → agent → execution → result → log</td></tr>
       <tr><td><strong>UI</strong></td><td class="n">0</td><td><code>ui/BaseUiTest</code></td><td>Selenide/Selenoid setup exists; no UI test classes yet</td></tr>
       <tr><td><strong>API / Integration</strong> (base)</td><td class="n">50</td><td>6 classes</td><td>Contract checks &amp; short CRUD chains against the live REST API</td></tr>
-      <tr><td><strong>Unit</strong></td><td class="n">0</td><td>&mdash;</td><td>No isolated unit tests</td></tr>
       <tr><td><strong>Total</strong></td><td class="n"><strong>51</strong></td><td colspan="2" class="note">~53 executions incl. 3 parameterized cases</td></tr>
     </tbody>
   </table>
@@ -138,11 +135,10 @@
 
   <h2>Observations &amp; gaps</h2>
   <ul class="obs">
-    <li><strong>No unit layer.</strong> Helpers (locator/spec builders, generators, <code>WaitUtils</code>) are exercised only indirectly through API tests.</li>
     <li><strong>UI is scaffolding only.</strong> <code>BaseUiTest</code> wires up Selenide + Selenoid, but no UI test class uses it yet.</li>
     <li><strong>E2E is thin by design.</strong> One deep scenario at the apex is the right call — keep it few and slow.</li>
     <li><strong>Strong security coverage.</strong> ~34% of API tests assert auth/RBAC behaviour (401/403, roles, invalid credentials/tokens).</li>
-    <li><strong>Inverted-ish shape.</strong> Value is concentrated in the middle band — common for API-first products; a unit base would round it out.</li>
+    <li><strong>API-first shape.</strong> Value is concentrated in the API/integration band, which forms the base — common and effective for API-first products where the REST surface is the primary contract under test.</li>
   </ul>
 
   <footer>

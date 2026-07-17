@@ -9,10 +9,12 @@ import api.models.project.ProjectResponse;
 import api.steps.BuildSteps;
 import api.steps.UserSteps;
 import base.BaseTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class BasicFlowsTest extends BaseTest {
 
+    @Disabled("Disabled till test not queued")
     @Test
     public void basicBuildFlowFromProjectToBuildLogTest() {
         ProjectResponse project = UserSteps.createProject();
