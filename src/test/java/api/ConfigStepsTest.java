@@ -273,7 +273,7 @@ public class ConfigStepsTest extends BaseTest {
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
                 RequestSpec.adminSpec(ADMIN_TOKEN),
                 Endpoint.BUILD_STEPS_READ,
-                ResponseSpec.returnsOk())
+                ResponseSpec.returnsNotFound())
                 .get(configName);
 
         softly.assertThat(steps.getCount())
