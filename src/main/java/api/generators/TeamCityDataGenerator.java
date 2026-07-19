@@ -13,7 +13,7 @@ public class TeamCityDataGenerator {
     }
 
     public static BuildConfigurationRequest generateBuildConfigurationFor(String projectId) {
-        BuildConfigurationRequest buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
+        var buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
         if (buildRequest.getProject() != null) {
             buildRequest.getProject().setId(projectId);
         }

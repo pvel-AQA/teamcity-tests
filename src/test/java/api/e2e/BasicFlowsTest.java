@@ -6,7 +6,6 @@ import api.models.build.Build;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.project.ProjectResponse;
-import api.steps.BuildSteps;
 import api.steps.UserSteps;
 import base.BaseTest;
 import org.junit.jupiter.api.Disabled;
@@ -30,12 +29,12 @@ public class BasicFlowsTest extends BaseTest {
                 .as("Build configuration should be created under the project")
                 .isEqualTo(project.getId());
 
-        BuildTypeStepsModel step = BuildSteps.createRunnableStep(buildConfig.getName());
+        BuildTypeStepsModel step = UserSteps.createRunnableStep(buildConfig.getName());
         softly.assertThat(step.getId())
                 .as("Configured build step should receive an id")
                 .isNotBlank();
 
-        Build queuedBuild = BuildSteps.triggerBuild(buildConfig.getId());
+        Build queuedBuild = UserSteps.triggerBuild(buildConfig.getId());
         softly.assertThat(queuedBuild.getId())
                 .as("Triggered build should be placed in the queue with an id")
                 .isPositive();
@@ -43,7 +42,7 @@ public class BasicFlowsTest extends BaseTest {
                 .as("Queued build should reference the triggered build configuration")
                 .isEqualTo(buildConfig.getId());
 
-        Build finishedBuild = BuildSteps.waitForBuildToFinish(queuedBuild.getId());
+        Build finishedBuild = UserSteps.waitForBuildToFinish(queuedBuild.getId());
 
         softly.assertThat(finishedBuild.getState())
                 .as("Build should reach the finished state after execution")
@@ -61,12 +60,12 @@ public class BasicFlowsTest extends BaseTest {
                 .as("Build with a successful echo step should finish as SUCCESS")
                 .isEqualTo("SUCCESS");
 
-        String buildLog = BuildSteps.getBuildLog(finishedBuild.getId());
+        String buildLog = UserSteps.getBuildLog(finishedBuild.getId());
         softly.assertThat(buildLog)
                 .as("Build log should be available")
                 .isNotBlank();
         softly.assertThat(buildLog)
                 .as("Build log should contain the executed step output")
-                .contains(BuildSteps.STEP_OUTPUT_MARKER);
+                .contains(UserSteps.STEP_OUTPUT_MARKER);
     }
 }

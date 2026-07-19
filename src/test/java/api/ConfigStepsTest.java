@@ -18,7 +18,6 @@ import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 
 import static api.enums.errors.AuthErrorMessage.*;
-import static common.configs.Config.ADMIN_TOKEN;
 
 public class ConfigStepsTest extends BaseTest {
 
