@@ -21,6 +21,7 @@ import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.helpers.StepLogger;
+import io.restassured.specification.RequestSpecification;
 
 import static common.configs.Config.*;
 
@@ -29,6 +30,15 @@ public class UserSteps {
     public static ProjectResponse createProject() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
         return createProjectWithExtension(projectRequest);
+    }
+
+    public static ProjectResponse createProject(RequestSpecification spec) {
+        ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
+        return new ValidatedCrudRequester<ProjectResponse>(
+                spec,
+                Endpoint.PROJECTS,
+                ResponseSpec.returnsOk()
+        ).post(projectRequest);
     }
 
     public static ProjectResponse createProjectWithExtension(ProjectRequest projectRequest) {
@@ -88,6 +98,18 @@ public class UserSteps {
         return createBuildConfiguration(buildRequest);
     }
 
+    public static BuildConfigurationResponse createBuildConfiguration(RequestSpecification spec) {
+        ProjectResponse project = createProject(spec);
+        BuildConfigurationRequest buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
+        buildRequest.getProject().setId(project.getId());
+
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
+                spec,
+                Endpoint.BUILD_TYPES,
+                ResponseSpec.returnsOk()
+        ).post(buildRequest);
+    }
+
     public static BuildConfigurationResponse createBuildConfiguration(BuildConfigurationRequest buildConf) {
         return new ValidatedCrudRequester<BuildConfigurationResponse>(
                 RequestSpec.withAuthExtensionUser(),
@@ -105,13 +127,17 @@ public class UserSteps {
     }
 
     public static BuildTypeStepsModel createBuildTypeStep(String configName){
+        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName){
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
                 .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
                 .type("simpleRunner")
                 .build();
 
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.withAuthExtensionUser(),
+                spec,
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
                 .post(createStepRequest,configName);

@@ -32,8 +32,10 @@ public class EntityStorage {
         String url;
         while ((url = endpointsToDelete.get().pollLast()) != null) {
             try {
+                // Clean up as admin: entities may have been created by admin, and the
+                // per-test user (e.g. a viewer) lacks delete rights / is already torn down.
                 new CrudRequester(
-                        RequestSpec.withAuthExtensionUser(),
+                        RequestSpec.basicAuthSpec(),
                         Endpoint.PROJECTS,
                         new ResponseSpecBuilder().build()
                 ).deleteMethodForStorage(url);
