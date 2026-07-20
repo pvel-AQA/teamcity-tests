@@ -8,6 +8,7 @@ import common.annotations.AuthUser;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import ui.pages.BasePage;
 
 public class AuthUserExtension implements BeforeEachCallback, AfterEachCallback {
 
@@ -22,6 +23,10 @@ public class AuthUserExtension implements BeforeEachCallback, AfterEachCallback 
             UserRequest userRequest = SuperUserSteps.createUserWithRole(annotation.role());
             user.set(userRequest);
             token.set(UserSteps.getUserToken(userRequest));
+
+            if (annotation.seedBrowserSession()) {
+                BasePage.authAsUser(userRequest.getUsername(), userRequest.getPassword());
+            }
         }
 
     }
