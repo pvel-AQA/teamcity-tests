@@ -23,7 +23,7 @@ public class TeamCityDataGenerator {
     public static BuildTypeStepsModel generateBuildConfigurationStepRequest(String name) {
 
         return BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString(name, 3))
+                .name(RandomGenerator.generateString(name, 3))
                 .type("simpleRunner")
                 .build();
     }

@@ -1,7 +1,6 @@
 package api.steps;
 
 import api.enums.locators.LocatorType;
-import api.generators.RandomDataGenerator;
 import api.generators.RandomGenerator;
 import api.models.BuildTypeStepsModel;
 import api.models.UserTokenRequest;
@@ -139,7 +138,7 @@ public class UserSteps {
 
     public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName){
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .name(RandomGenerator.generateString("AutoStep", 3))
                 .type("simpleRunner")
                 .build();
 
@@ -209,7 +208,7 @@ public class UserSteps {
 
     public static BuildTypeStepsModel createRunnableStep(String configName) {
         BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
-                .name(RandomDataGenerator.randomSpecificString("AutoStep", 3))
+                .name(RandomGenerator.generateString("AutoStep", 3))
                 .type("simpleRunner")
                 .properties(StepProperties.builder()
                                     .property(List.of(
