@@ -11,11 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Map;
 
-/**
- * Base class for all UI tests. Configures Selenide/Selenoid + Allure, and wires the
- * {@link AdminSessionExtension} that powers {@code @AdminSession} fast login. Extends
- * {@link BaseTest} so UI tests also inherit the API-side setup (entity storage, cleanup, softly).
- */
 @ExtendWith(AdminSessionExtension.class)
 public class BaseUiTest extends BaseTest {
 
