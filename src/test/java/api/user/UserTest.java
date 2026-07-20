@@ -37,6 +37,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateUserTest() {
         UserRequest userRequest = generateUser();
 
@@ -54,6 +55,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateUserAndGetByIdTest() {
         UserRequest userRequest = generateUser();
         UserResponse createdUser = createUser(userRequest);
@@ -70,6 +72,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCanCreateUserAndGetByUsernameTest() {
         UserRequest userRequest = generateUser();
         UserResponse createdUser = createUser(userRequest);
@@ -105,6 +108,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void adminCannotCreateUserWithDuplicateUsernameTest() {
         UserRequest userRequest = generateUser();
         UserResponse createdUser = createUser(userRequest);
