@@ -1,23 +1,22 @@
 package api.request.skelethon;
 
-import api.models.*;
+import api.models.BaseModel;
+import api.models.ServerInfoResponse;
+import api.models.UserTokenRequest;
+import api.models.UserTokenResponse;
 import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
-import api.models.build.BuildConfigurationRequest;
-import api.models.build.BuildConfigurationResponse;
+import api.models.build.*;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import lombok.AllArgsConstructor;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import static common.configs.Config.API_PREFIX;
 
 @Getter
 @AllArgsConstructor
@@ -77,8 +76,43 @@ public enum Endpoint {
             "/agents/{agentLocator}/authorizedInfo",
             AuthorizeAgentRequest.class,
             AuthorizeAgentResponse.class
-
-    );
+    ),
+    BUILD_STEP_CREATE(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEPS_READ(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
+            BuildTypeStepsList.class
+    ),
+    BUILD_STEP_READ(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_UPDATE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_DELETE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BaseModel.class
+    ),
+    BUILD_QUEUE(
+            "/buildQueue",
+            BuildRequest.class,
+            Build.class
+    ),
+    BUILD(
+            "/builds/{buildLocator}",
+            BaseModel.class,
+            Build.class
+    )
+    ;
 
     private String url;
     private Class<?> requestModel;
