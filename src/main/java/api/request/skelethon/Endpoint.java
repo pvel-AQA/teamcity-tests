@@ -5,10 +5,7 @@ import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
-import api.models.build.Build;
-import api.models.build.BuildConfigurationRequest;
-import api.models.build.BuildConfigurationResponse;
-import api.models.build.BuildRequest;
+import api.models.build.*;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -18,8 +15,6 @@ import lombok.AllArgsConstructor;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import static common.configs.Config.API_PREFIX;
 
 @Getter
 @AllArgsConstructor

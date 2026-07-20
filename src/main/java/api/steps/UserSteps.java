@@ -2,7 +2,7 @@ package api.steps;
 
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
-import api.models.BuildTypeStepsModel;
+import api.models.build.BuildTypeStepsModel;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
 import api.models.agent.Agent;

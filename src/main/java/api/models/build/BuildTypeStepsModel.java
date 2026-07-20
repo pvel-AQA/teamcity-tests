@@ -1,6 +1,6 @@
-package api.models;
+package api.models.build;
 
-import api.models.build.StepProperties;
+import api.models.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package api.generators;
 
-import api.models.BuildTypeStepsModel;
+import api.models.build.BuildTypeStepsModel;
 import api.models.build.BuildConfigurationRequest;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;

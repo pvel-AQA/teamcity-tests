@@ -1,7 +1,7 @@
 package api.e2e;
 
 import api.generators.RandomGenerator;
-import api.models.BuildTypeStepsModel;
+import api.models.build.BuildTypeStepsModel;
 import api.models.build.Build;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
