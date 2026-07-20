@@ -83,10 +83,10 @@ public class ResponseSpec {
      * browser session cookie ({@code TCSESSIONID}). Used by the fast API-login path that
      * injects that cookie straight into the browser instead of driving the login form.
      */
-    public static ResponseSpecification requestReturnsSetCookieHeader() {
+    public static ResponseSpecification requestReturnsSessionCookie() {
         return defaultSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_OK)
-                .expectHeader("Set-Cookie", containsString("TCSESSIONID"))
+                .expectCookie("TCSESSIONID")
                 .build();
     }
 }

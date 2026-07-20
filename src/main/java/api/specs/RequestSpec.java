@@ -113,7 +113,7 @@ public class RequestSpec {
                 .when()
                 .get(Config.API_PREFIX + Endpoint.SERVER.getUrl())
                 .then()
-                .spec(api.specs.ResponseSpec.requestReturnsSetCookieHeader())
+                .spec(api.specs.ResponseSpec.requestReturnsSessionCookie())
                 .extract()
                 .detailedCookie(SESSION_COOKIE_NAME);
     }
