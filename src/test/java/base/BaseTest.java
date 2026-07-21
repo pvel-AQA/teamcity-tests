@@ -15,11 +15,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 public class BaseTest {
     protected SoftAssertions softly;
 
-    @BeforeAll
+    /*@BeforeAll
     public static void setupAgent() {
         int agentId = SuperUserSteps.getAgentId();
         SuperUserSteps.authorizeAgent(agentId);
-    }
+    }*/
 
     @BeforeEach
     public void beforeEach() {
