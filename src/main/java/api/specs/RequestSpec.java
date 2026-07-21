@@ -26,9 +26,6 @@ import static io.restassured.RestAssured.given;
 
 public class RequestSpec {
 
-    /**
-     * Name of the session cookie TeamCity issues to an authenticated browser/HTTP client.
-     */
     private static final String SESSION_COOKIE_NAME = "TCSESSIONID";
 
     private static String superUserAuthToken;
@@ -97,16 +94,6 @@ public class RequestSpec {
                 .build();
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // Fast UI login — seed the browser session by fetching TeamCity's TCSESSIONID cookie via the API
-    // instead of driving the multi-step login form. See ui-testing-guide.md, section 4.
-    // ---------------------------------------------------------------------------------------------
-
-    /**
-     * Logs in over the REST API with HTTP Basic auth and returns the {@code TCSESSIONID} cookie
-     * TeamCity issues to the (now authenticated) HTTP client. A single lightweight round-trip that
-     * replaces the whole browser login flow.
-     */
     public static io.restassured.http.Cookie fetchSessionCookie(String username, String password) {
         return given()
                 .spec(basicAuthSpec(username, password))
@@ -118,11 +105,6 @@ public class RequestSpec {
                 .detailedCookie(SESSION_COOKIE_NAME);
     }
 
-    /**
-     * Adapter: maps a REST Assured cookie onto a Selenium {@link org.openqa.selenium.Cookie} and
-     * injects it into the live WebDriver, so the SPA treats the browser as already logged in.
-     * The app must already be open (a cookie domain must exist) before this is called.
-     */
     public static void setCookieInBrowser(io.restassured.http.Cookie restAssuredCookie) {
         org.openqa.selenium.Cookie.Builder builder =
                 new org.openqa.selenium.Cookie.Builder(restAssuredCookie.getName(), restAssuredCookie.getValue())
@@ -140,20 +122,12 @@ public class RequestSpec {
         WebDriverRunner.getWebDriver().manage().addCookie(builder.build());
     }
 
-    /**
-     * Reads the live {@code TCSESSIONID} value out of the browser — the bridge back from the UI
-     * session to the API, e.g. to confirm the UI session is also a valid API session.
-     */
     public static String getBrowserSessionCookieValue() {
         org.openqa.selenium.Cookie cookie =
                 WebDriverRunner.getWebDriver().manage().getCookieNamed(SESSION_COOKIE_NAME);
         return cookie == null ? null : cookie.getValue();
     }
 
-    /**
-     * Builds an API request spec that authenticates by reusing an existing {@code TCSESSIONID}
-     * (typically one read from the browser via {@link #getBrowserSessionCookieValue()}).
-     */
     public static RequestSpecification authWithTcSessionId(String sessionId) {
         return defaultSpecBuilder()
                 .addCookie(SESSION_COOKIE_NAME, sessionId)

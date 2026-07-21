@@ -78,11 +78,6 @@ public class ResponseSpec {
                 .build();
     }
 
-    /**
-     * Asserts the response carries a {@code Set-Cookie} header that seeds the TeamCity
-     * browser session cookie ({@code TCSESSIONID}). Used by the fast API-login path that
-     * injects that cookie straight into the browser instead of driving the login form.
-     */
     public static ResponseSpecification requestReturnsSessionCookie() {
         return defaultSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_OK)

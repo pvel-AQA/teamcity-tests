@@ -21,15 +21,6 @@ public abstract class BasePage<T extends BasePage> {
         return Selenide.open(url(), (Class<T>) this.getClass());
     }
 
-    /**
-     * Fast login: seed the browser session from the API instead of driving the login form.
-     * <ol>
-     *   <li>open the app so a cookie domain exists,</li>
-     *   <li>fetch the {@code TCSESSIONID} cookie via a Basic-auth API call,</li>
-     *   <li>inject that cookie into the WebDriver.</li>
-     * </ol>
-     * After this the SPA treats the browser as already logged in. See ui-testing-guide.md §4.
-     */
     public static void authAsUser(String username, String password) {
         Selenide.open("/");
         RequestSpec.setCookieInBrowser(RequestSpec.fetchSessionCookie(username, password));
