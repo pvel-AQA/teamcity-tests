@@ -3,14 +3,10 @@ package ui;
 import api.specs.RequestSpec;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
-import common.extensions.BrowserExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import ui.pages.ProjectsPage;
 
-
-@ExtendWith(BrowserExtension.class)
 public class UsersEnterWithoutLoginTest extends BaseUiTest {
 
     private void assertEntersAppWithoutLogin(String userType) {
