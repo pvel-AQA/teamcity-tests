@@ -40,7 +40,6 @@ jobs:
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
-          UIBASEURL: http://localhost:8111
           BROWSERREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
