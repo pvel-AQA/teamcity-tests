@@ -4,7 +4,6 @@ import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
-//import common.annotations.AdminSession;
 import common.annotations.AdminSession;
 import org.junit.jupiter.api.Test;
 import ui.pages.ProjectsPage;
