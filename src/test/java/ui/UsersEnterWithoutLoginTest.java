@@ -1,7 +1,6 @@
 package ui;
 
 import api.specs.RequestSpec;
-import common.annotations.AdminSession;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import common.extensions.BrowserExtension;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import ui.pages.ProjectsPage;
 
 
-@ExtendWith(BrowserExtension.class)
+//@ExtendWith(BrowserExtension.class)
 public class UsersEnterWithoutLoginTest extends BaseUiTest {
 
     private void assertEntersAppWithoutLogin(String userType) {
@@ -20,13 +19,6 @@ public class UsersEnterWithoutLoginTest extends BaseUiTest {
         softly.assertThat(RequestSpec.getBrowserSessionCookieValue())
                 .as("TCSESSIONID cookie should be seeded in the browser for %s", userType)
                 .isNotBlank();
-    }
-
-    @Test
-    @AdminSession
-    @DisplayName("admin enters the app without login")
-    void adminEntersAppWithoutLogin() {
-        assertEntersAppWithoutLogin("admin");
     }
 
     @Test

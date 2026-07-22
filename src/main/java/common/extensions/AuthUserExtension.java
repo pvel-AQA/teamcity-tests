@@ -25,10 +25,9 @@ public class AuthUserExtension implements BeforeEachCallback, AfterEachCallback 
             token.set(UserSteps.getUserToken(userRequest));
 
             if (annotation.seedBrowserSession()) {
-                BasePage.authAsUser(userRequest.getUsername(), userRequest.getPassword());
+                BasePage.authAsUser(user.get().getUsername(), user.get().getPassword());
             }
         }
-
     }
 
     @Override

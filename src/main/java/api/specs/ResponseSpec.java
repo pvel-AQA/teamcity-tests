@@ -81,7 +81,7 @@ public class ResponseSpec {
     public static ResponseSpecification requestReturnsSessionCookie() {
         return defaultSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_OK)
-                .expectCookie("TCSESSIONID")
+                .expectCookie(RequestSpec.SESSION_COOKIE_NAME)
                 .build();
     }
 }

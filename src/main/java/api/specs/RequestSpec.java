@@ -26,7 +26,7 @@ import static io.restassured.RestAssured.given;
 
 public class RequestSpec {
 
-    private static final String SESSION_COOKIE_NAME = "TCSESSIONID";
+    public static final String SESSION_COOKIE_NAME = "TCSESSIONID";
 
     private static String superUserAuthToken;
 
