@@ -30,8 +30,7 @@ public class UsersEnterWithoutLoginTest extends BaseUiTest {
     }
 
     @Test
-    @AuthUser(role = UserRoles.NOUSER_ROLE, seedBrowserSession = true)
-    //@AuthUser(role = UserRoles.PROJECT_VIEWER, seedBrowserSession = true)
+    @AuthUser(role = UserRoles.PROJECT_VIEWER, seedBrowserSession = true)
     @DisplayName("project viewer enters the app without login")
     void projectViewerEntersAppWithoutLogin() {
         assertEntersAppWithoutLogin("PROJECT_VIEWER");

@@ -13,7 +13,6 @@ public enum UserRoles {
     PROJECT_DEVELOPER("p:_Root"),
     SYSTEM_ADMIN("g"),
     PROJECT_ADMIN("p:_Root"),
-    NOUSER_ROLE("p:_Root"),
     USER_ROLE("p:_Root")
     ;
 

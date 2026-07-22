@@ -20,7 +20,7 @@ public class ProjectsPage extends BasePage<ProjectsPage> {
 
     public ProjectsPage checkItIsCorrectPage() {
         webdriver().shouldNotHave(urlContaining(LOGIN_PAGE_MARKER));
-        loginUsernameField.shouldNot(exist);
+        loginUsernameField.should(exist);
         return this;
     }
 }
