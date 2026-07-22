@@ -7,8 +7,7 @@ import lombok.Getter;
 @Getter
 public enum StepErrors {
 
-    STEP_TYPE_CANNOT_BE_EMPTY("Created step cannot have empty 'type'"),
-    ;
+    STEP_TYPE_CANNOT_BE_EMPTY("Created step cannot have empty 'type'");
     private final String errorMsg;
 
 }

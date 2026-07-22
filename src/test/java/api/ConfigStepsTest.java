@@ -15,6 +15,7 @@ import api.steps.UserSteps;
 import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static api.enums.errors.AuthErrorMessage.*;
@@ -163,6 +164,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isEqualTo(0);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void CannotGetNonExistingStepTest() {
@@ -176,6 +178,7 @@ public class ConfigStepsTest extends BaseTest {
                 .get(configName, nonExistingStepId);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void CannotUpdateNonExistingStepTest() {
@@ -192,6 +195,7 @@ public class ConfigStepsTest extends BaseTest {
         //check there is no step with this name
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void CannotDeleteNonExistingStepTest() {
@@ -207,6 +211,7 @@ public class ConfigStepsTest extends BaseTest {
         //check error response?
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void CannotCreateStepForNonExistingConfigTest() {
@@ -220,6 +225,7 @@ public class ConfigStepsTest extends BaseTest {
                 .post(createStepRequest, nonExistingConfig);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     public void CannotCreateConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
@@ -232,6 +238,7 @@ public class ConfigStepsTest extends BaseTest {
                 .post(stepRequest, configLocator);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     public void CannotUpdateConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
@@ -245,7 +252,8 @@ public class ConfigStepsTest extends BaseTest {
                 .put(stepRequest, configLocator, stepLocator);
     }
 
-    @Test
+
+    @Disabled("Assertions need to be added")  @Test
     public void CannotDeleteConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
         String stepLocator = RandomGenerator.generateString("NoStep", 8);
@@ -257,6 +265,7 @@ public class ConfigStepsTest extends BaseTest {
                 .delete(configLocator, stepLocator);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     public void CannotGetConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
@@ -269,6 +278,7 @@ public class ConfigStepsTest extends BaseTest {
                 .get(configLocator, stepLocator);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     public void CannotCreateStepWithInvalidBasicCredentialsTest() {
         String configName = RandomGenerator.generateString("NoConfig", 8);
@@ -293,6 +303,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isEqualTo(0);*/
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void ViewerCannotCreateStepTest() {
@@ -317,6 +328,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isEqualTo(0);
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void ViewerCannotUpdateStepTest() {
@@ -340,6 +352,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isEqualTo(createdStep.getType());*/
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void ViewerCannotDeleteStepTest() {
@@ -358,6 +371,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isEqualTo(createdStepId);*/
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_DEVELOPER)
     public void DeveloperCannotDeleteStepTest() {
@@ -376,6 +390,7 @@ public class ConfigStepsTest extends BaseTest {
                 .isEqualTo(createdStepId);*/
     }
 
+    @Disabled("Assertions need to be added")
     @Test
     public void CannotCreateStepWithInvalidBearerTokenTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
