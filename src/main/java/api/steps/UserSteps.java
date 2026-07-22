@@ -2,13 +2,12 @@ package api.steps;
 
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
-import api.models.build.BuildTypeStepsModel;
+import api.models.build.*;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
 import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
-import api.models.build.*;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -206,7 +205,7 @@ public class UserSteps {
         ).get(LocatorType.ID.getPrefix() + agentId);
     }
 
-    public static BuildTypeStepsModel createRunnableStep(String configName) {
+ /*   public static BuildTypeStepsModel createRunnableStep(String configName) {
         BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
                 .name(RandomGenerator.generateString("AutoStep", 3))
                 .type("simpleRunner")
@@ -263,6 +262,7 @@ public class UserSteps {
                         .extract()
                         .asString());
     }
+    */
 }
 
 
