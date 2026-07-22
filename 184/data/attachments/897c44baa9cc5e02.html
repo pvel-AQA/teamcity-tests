@@ -1,0 +1,2025 @@
+<html lang="en" class="ua-js ring-variables-light"><head>
+        <title>TeamCity</title>
+
+        
+
+        
+
+
+
+
+
+
+
+
+        
+
+
+
+<link rel="Shortcut Icon" href="/img/icons/favicon.ico?v10" type="image/x-icon" sizes="16x16 32x32">
+<meta charset="UTF-8">
+
+<meta name="format-detection" content="telephone=no">
+
+<meta name="application-name" content="TeamCity ()">
+<meta name="description" content="Powerful Continuous Integration and Build Server">
+<meta name="viewport" content="width=1000">
+
+<link rel="apple-touch-icon" sizes="57x57" href="/img/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/img/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/img/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/img/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/img/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/img/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/img/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png">
+
+<meta name="msapplication-TileColor" content="#000000">
+
+<meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="/img/icons/mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="/img/icons/mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="/img/icons/mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="/img/icons/mstile-310x310.png">
+<meta name="tc-csrf-token" content="a7fd7905-2345-46d8-8d33-73dc601123c2">
+<meta name="robots" content="noindex">
+
+
+        
+
+
+
+<script type="text/javascript" src="/res/-6060474511570324796.js?v=1784744082934"></script>
+
+
+
+        
+
+
+
+
+<style id="19f8b0a0bc2" type="text/css">
+    @import "/res/459560978433157637.css?v=1784744082934";
+  
+</style>
+
+
+
+
+
+<script type="text/javascript" src="/res/5833290380196265600.js?v=1784744082934"></script>
+
+
+<script type="text/javascript">
+  window.$j = jQuery.noConflict();
+</script>
+
+
+
+
+<script type="text/javascript" src="/res/-5410233700357870077.js?v=1784744082934"></script>
+
+
+        <script>
+          (function() {
+            const Theme = {DARK: 'dark', LIGHT: 'light'}
+            const storageKey = 'tc:lastTheme'
+            const darkClass = 'ring-ui-theme-dark'
+            const getStored = () => {
+              try {
+                return window.localStorage.getItem(storageKey)
+              } catch {
+                return null
+              }
+            }
+            const prefersDark = () => {
+              try {
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              } catch {
+                return false
+              }
+            }
+            const stored = getStored()
+            const theme = stored === Theme.DARK || stored === Theme.LIGHT ? stored : prefersDark() ? Theme.DARK : Theme.LIGHT
+            document.documentElement.classList.toggle(darkClass, theme === Theme.DARK)
+          })();
+        </script>
+        
+
+
+<style id="19f8b0a0bcb" type="text/css">
+    @import "/res/-5770894604672683989.css?v=1784744082934";
+  
+</style>
+
+
+        
+
+
+<script type="text/javascript" src="/res/-3603535750726916660.js?v=1784744082934"></script>
+
+
+        <script type="text/javascript">
+  var base_uri=window.location.protocol+"//"+window.location.host+"";
+</script>
+
+        
+
+        
+
+
+
+<script type="text/javascript" src="/res/-4735258447288317237.js?v=1784744082934"></script>
+
+        
+
+
+
+<script type="text/javascript" src="/res/-4985008087834695917.js?v=1784744082934"></script>
+
+
+
+        
+<script type="text/javascript">
+  var internalProps = [];
+
+  internalProps['teamcity.ui.experimental'] = 'enableDefault';
+  internalProps['teamcity.ui.useServiceWorkers'] =  true;
+
+  internalProps['teamcity.cloud.enabled'] =  false;
+
+  internalProps['teamcity.ui.dormOnly.enabled'] =  false;
+
+  internalProps['teamcity.ui.websocket.connectTimeout'] =  3000;
+  internalProps['teamcity.ui.webSocket.logToConsole'] =  false;
+
+  internalProps['teamcity.ui.pollInterval'] = 6;
+  internalProps['teamcity.ui.serverAvailability.pollInterval'] = 3;
+
+  internalProps['teamcity.ui.events.pollInterval'] = 6;
+  internalProps['teamcity.ui.systemProblems.pollInterval'] = 40;
+  internalProps['teamcity.ui.problemsSummary.pollInterval'] = 8;
+  internalProps['teamcity.ui.buildQueueEstimates.pollInterval'] = 10;
+  internalProps['teamcity.ui.subscriptions.debounceInterval'] = 3000;
+
+  // Doesn't use BS.SubscriptionManager and standard subscription mechanism
+  internalProps['teamcity.ui.cleanupNotificatorProgress.pollInterval'] = 6;
+
+  internalProps['teamcity.ui.serverRestart.warningDelay'] = 120;
+  internalProps['teamcity.ui.serverUpdate.warningDelay'] = 120;
+
+  internalProps['teamcity.ui.editSettings.showResolveValueIcon'] = false;
+
+  internalProps['teamcity.internal.buildChangesPopupLimit'] = '100';
+
+  internalProps['teamcity.internal.agent.distribution.jdk.bundle.enabled'] = true; // disabled in cloud, see TCCI-4497 Enable "Agent Distributions" page in Cloud
+
+  internalProps['teamcity.development.mode'] = false;
+
+  internalProps['teamcity.ui.showObligatoryHints'] = false;
+
+  internalProps['teamcity.ui.showLicenseAgreementToAllUsers'] = true;
+
+  internalProps['teamcity.ui.showDownloadAllArtifactsLink'] = true; // disabled in cloud
+
+  internalProps['teamcity.ui.newInvestigationsPage'] = false;
+
+  internalProps['teamcity.ui.customWelcomeTitle'] = ''; // overridden in cloud
+
+  internalProps['teamcity.ui.sakuraInvestigationsTab'] = false;
+
+  internalProps['teamcity.ui.sakuraProblemsTab'] = true;
+
+  internalProps['teamcity.ui.requestPoolSize'] = 5;
+
+  internalProps['teamcity.ui.newAgentCompatibleConfigurationsTab'] = false;
+
+  internalProps['teamcity.ui.agentPoolsFavoriteLimit'] = 30;
+
+  internalProps['teamcity.overviewPage.buildTypes.limit'] = 200;
+
+  internalProps['teamcity.ui.agentPreviewsUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.agentDataUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.statuses.throttleInterval'] = -1;
+
+  internalProps['teamcity.ui.sidebar.saveSearchState'] = false;
+  internalProps['teamcity.ui.sidebar.skipWSEventsSubscription'] = true;
+  internalProps['teamcity.ui.createProject.newui.enabled'] = true;
+  internalProps['teamcity.ui.createBuildType.newui.enabled'] = true;
+  internalProps['teamcity.ui.createConnection.newui.enabled'] = true;
+  internalProps['teamcity.ui.chainPanning.enabled'] = true;
+  internalProps['teamcity.ui.fromAnyGitURL.enabled'] = false;
+
+  internalProps['teamcity.cloudProfiles.hiddenCloudTypes'] = '';
+
+  internalProps['teamcity.feedback.csat.enabled'] = true;
+  internalProps['teamcity.feedback.csat.testing.enabled'] = false;
+  internalProps['teamcity.feedback.csat.testing.delayInSecondsToShow'] = -1;
+
+  internalProps['teamcity.pipelines.enabled'] = true;
+  internalProps['teamcity.pipelines.creation.enabled'] = false;
+  internalProps['teamcity.pipelines.creation.prohibitedVcsTypes'] = 'svn,mercurial,tfs';
+  internalProps['teamcity.pipelines.projects.enabled'] = true;
+  internalProps['teamcity.pipelines.jobCountSoftLimit'] = 20;
+  internalProps['teamcity.pipelines.jobCountHardLimit'] = 30;
+  internalProps['teamcity.pipelines.testNpmConnection.enabled'] = false;
+  internalProps['teamcity.pipelines.unity.enabled'] = false;
+  internalProps['teamcity.pipelines.dependencyCache.enabled'] = false;
+  internalProps['teamcity.pipelines.customAgentsNames'] = '';
+  internalProps['teamcity.pipelines.feature.smoothParameterReplacement.enabled'] = false;
+  internalProps['teamcity.pipelines.agentPage.enabled'] = false;
+  internalProps['teamcity.pipelines.muteInvestigateButton.enabled'] = true;
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.enabled'] = false;
+  internalProps['teamcity.pipelines.interviewRecruitmentPopup.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.notifications.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.pipeline.notifications.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.compatibilityAgents.enabled'] = true;
+  internalProps['teamcity.pipelines.runOn.enabled'] = false;
+  internalProps['teamcity.pipelines.feedbackForm.enabled'] = false;
+  internalProps['teamcity.pipelines.statusPublishing.configuration.enabled'] = true;
+  internalProps['teamcity.pipelines.feature.withoutVcs.enabled'] = true;
+  internalProps['teamcity.pipelines.welcomePopup.enabled'] = true;
+  internalProps['teamcity.pipelines.earlyAccessLabel.enabled'] = true;
+  internalProps['teamcity.pipelines.feature.testDriveJob'] = false;
+  internalProps['teamcity.pipelines.classicUIBanner.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.pullRequests.enabled'] = true;
+  internalProps['teamcity.pipelines.tryPipelinesLink.enabled'] = true;
+  internalProps['teamcity.pipelines.buildFeatures.enabled'] = true;
+  internalProps['teamcity.ai.assistant.grazietoken'] = 'none';
+  internalProps['teamcity.internal.ai.assistant.buildsServerFeedbackLink'] = false;
+  internalProps['teamcity.internal.ai.assistant.feedbackNonprod'] = false;
+  internalProps['teamcity.internal.ai.assistant.streamProcessingDelay'] = 100;
+  internalProps['teamcity.internal.ai.assistant.minRandomStatusChangeDelay'] = 300;
+  internalProps['teamcity.internal.ai.assistant.maxRandomStatusChangeDelay'] = 800;
+  internalProps['teamcity.pipelines.runActions.enabled'] = true;
+  internalProps['teamcity.ui.buildPage.headerActions.enabled'] = false;
+  internalProps['teamcity.pipelines.integrations.newui.enabled'] = true;
+  internalProps['teamcity.pipelines.parameterInheritance.enabled'] = false;
+  internalProps['teamcity.pipelines.buildChains.enabled'] = true;
+  internalProps['teamcity.pipelines.buildChains.view.enabled'] = true;
+  internalProps['teamcity.pipelines.buildChains.snapshotDependencies.downstream.enabled'] = true;
+  internalProps['teamcity.pipelines.pipelineRunClassicRedirect.enabled'] = false;
+  internalProps['teamcity.pipelines.kotlinDSL.enabled'] = true;
+
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.link'] = 'https://surveys.jetbrains.com/s3/teamcity-pipelines-feedback-survey';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.buttonName'] = 'Take the survey';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.mainMessage'] = 'Help Shape the Future of Pipelines! ';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.additionalMessage'] = 'Take a 5-minute survey about your experience, share your ideas, and get a chance to win a prize!';
+
+  internalProps['teamcity.ui.sakura.releaseBanner.enabled'] = true;
+
+  internalProps['teamcity.hidden.artifacts.use.extended.names'] = true;
+
+  internalProps['teamcity.ui.darkTheme.allowed'] = true;
+  internalProps['teamcity.ui.darkTheme.adapter.enabled'] = true;
+  internalProps['teamcity.ui.compositeBuildsOnTimeline.enabled'] = false; // TW-87696
+
+  internalProps['teamcity.ui.buildStepSelector.enabled'] = true;
+  internalProps['teamcity.ui.buildStepSelector.privateRecipeList.pageSize'] = 8;
+  internalProps['teamcity.ui.buildStepSelector.publicRecipeList.pageSize'] = 20;
+  internalProps['teamcity.recipes.public.enabled'] = true;
+  internalProps['teamcity.recipes.public.marketplace.url'] = 'https://plugins.jetbrains.com';
+  internalProps['teamcity.internal.nightly'] = false;
+  internalProps['teamcity.properties.automaticallyMarkImportantBuildsAsFavorite.enabled'] = false
+
+  internalProps['teamcity.ui.stopAutocompleteForPrivateDockerIntegrations.enabled'] = true
+
+  internalProps['teamcity.pipelines.runCustomActions.enabled'] = true;
+  internalProps['teamcity.pipelines.lastRun.enabled'] = false;
+  internalProps['teamcity.pipelines.overview.enabled'] = true;
+  internalProps['teamcity.pipelines.outputParameters.enabled'] = true;
+  internalProps['teamcity.pipelines.addRepository.existingVcsRoot.enabled'] = false;
+  internalProps['teamcity.pipelines.creationFlow.pipelineFirst.enabled'] = false;
+  internalProps['teamcity.pipelines.addRepository.existingVcsRoot.enabled'] = true;
+
+</script>
+
+
+        
+
+
+<script type="text/javascript" src="/res/5349962729000901236.js?v=1784744082934"></script>
+
+
+        <script>
+          BS.helpUrlPrefix = 'https://www.jetbrains.com/help/teamcity/2026.1/?';
+          BS.publicKey = '00a3cf8d377d789ccd2b1c4fb4ba97f6cf1577db92db00f45e8983a2cf41a3d7b48752f3fa2319689b3011ac453c4785e71134f2bcc8f3d330b1f5996fadf43458584cedb81842397fc3c6444853d8cca550f6b5db17a2d7b7e0402b974dc29c1b6cc364d1b7516599368b7b69f7f51c2af145a4880530f2d24b4976853290a01d';
+        </script>
+
+        
+
+        
+
+
+
+
+<style id="19f8b0a0bd8" type="text/css">
+    @import "/res/-3342039278521329535.css?v=1784744082934";
+  
+</style>
+
+  <script type="text/javascript">
+  var base_uri=window.location.protocol+"//"+window.location.host+"";
+</script>
+
+  <script>
+    window.ReactUIPromise ??= new Promise(resolve => {
+      window.markReactUIReady = () => resolve(window.ReactUI);
+    });
+    // add sync fallback for APIs used in plugins
+    window.ReactUI = {
+      darkThemeAdapter: {
+        async disable() {
+          const ReactUI = await window.ReactUIPromise;
+          ReactUI.darkThemeAdapter.disable();
+        }
+      },
+      AgentAuth: window.ReactUIPromise.then(ReactUI => ReactUI.AgentAuth),
+      async renderConnected(elementOrId, TypePromise, props, ...restArgs) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.renderConnected(
+          elementOrId,
+          await TypePromise,
+          {
+            ...props,
+            children: await props?.children
+          },
+          ...restArgs
+        );
+      },
+      async storeUrlExtensions(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.storeUrlExtensions(...args);
+      },
+      async createElement(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        return ReactUI.createElement(...args);
+      },
+      async unmountComponentAtNode(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.unmountComponentAtNode(...args);
+      },
+      store: {
+        async dispatch(...args) {
+          const ReactUI = await window.ReactUIPromise;
+          ReactUI.store.dispatch(...args);
+        }
+      },
+      async setIsExperimentalUI() {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.setIsExperimentalUI();
+      },
+      async setGlobalTheme(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.setGlobalTheme(...args);
+      },
+      BuildBranch: window.ReactUIPromise.then(ReactUI => ReactUI.BuildBranch),
+      async loadInternalPlugin(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        return ReactUI.loadInternalPlugin(...args);
+      }
+    };
+  </script>
+<script type="module" async="" src="/js/ring/vendors-node_modules_hypnosphi_recompose_dist_Recompose_esm_js-node_modules_inline-svg-unique-d12366.e7329811cb3a5699d36e.js"></script>
+<script type="module" async="" src="/js/ring/bundle.831090136551fd6bc387.js"></script>
+
+  <script src="/js/ring/teamCityAPI.js"></script>
+  
+  
+    
+    <script>
+      
+        
+          
+          ReactUIPromise.then(ReactUI => ReactUI.setCurrentUser(JSON.parse('{\"username\":\"g9knbacm\",\"id\":13,\"email\":\"ceDLYn@yahoo.net\",\"properties\":{\"property\":[{\"name\":\"addTriggeredBuildToFavorites\",\"value\":\"true\"},{\"name\":\"fus_session\",\"value\":\"e506bf64-dec7-4c55-902f-7d7d399d0ac2:1784744196612\"},{\"name\":\"plugin:vcs:anyVcs:anyVcsRoot\",\"value\":\"g9knBacm\"},{\"name\":\"teamcity.server.buildNumber\",\"value\":\"222577\"},{\"name\":\"was.logged.in\",\"value\":\"true\"}]}}')));
+        
+        
+      
+    </script>
+  
+
+
+        
+
+
+
+
+<script>
+  ReactUIPromise.then(ReactUI => ReactUI.extendServerInfo({
+    licenseModeName: 'Professional',
+    licenseModeDetails: '',
+    licenseIsCloud: false,
+    licenseIsEnterpise: false,
+    version: '2026.1.1',
+    buildNumber: '222577',
+  }));
+</script>
+
+
+        
+
+
+
+<script type="text/javascript" src="/res/2083999511917917652.js?v=1784744082934"></script>
+
+
+        
+
+
+
+
+<style id="19f8b0a0bd9" type="text/css">
+    @import "/res/7284922245609817807.css?v=1784744082934";
+  
+</style>
+
+
+
+
+<script type="text/javascript" src="/res/-3288442913299261328.js?v=1784744082934"></script><style type="text/css">
+.tc-icon_bitbucket {
+  background: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%20role%3D%22presentation%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M4.77%205c-.48%200-.839.44-.759.88L7.248%2025.7c.08.52.52.88%201.04.88h15.665c.36%200%20.679-.28.759-.64l3.277-20.02c.08-.48-.28-.88-.76-.88zm13.748%2014.307h-4.996l-1.319-7.074h7.554z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22url(%23i0)%22%20d%3D%22M26.91%2012.233h-7.193l-1.2%207.074h-4.995L7.648%2026.3s.28.24.68.24h15.665c.36%200%20.679-.28.759-.64z%22%3E%3C%2Fpath%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22i0%22%20x1%3D%2228.593%22%20x2%3D%2216.672%22%20y1%3D%2214.226%22%20y2%3D%2223.532%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20offset%3D%220.176%22%20stop-color%3D%22%236C707E%22%3E%3C%2Fstop%3E%3Cstop%20offset%3D%221%22%3E%3C%2Fstop%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E');
+  background-size: 140% 140%;
+  background-position: 50% 55%;
+}</style><style type="text/css">
+.tc-icon_bitbucket_disabled {
+  background: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%20role%3D%22presentation%22%3E%3Cpath%20fill%3D%22%23e5e5e5%22%20d%3D%22M4.77%205c-.48%200-.839.44-.759.88L7.248%2025.7c.08.52.52.88%201.04.88h15.665c.36%200%20.679-.28.759-.64l3.277-20.02c.08-.48-.28-.88-.76-.88zm13.748%2014.307h-4.996l-1.319-7.074h7.554z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22url(%23i1)%22%20d%3D%22M26.91%2012.233h-7.193l-1.2%207.074h-4.995L7.648%2026.3s.28.24.68.24h15.665c.36%200%20.679-.28.759-.64z%22%3E%3C%2Fpath%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22i1%22%20x1%3D%2228.593%22%20x2%3D%2216.672%22%20y1%3D%2214.226%22%20y2%3D%2223.532%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20offset%3D%220.176%22%20stop-color%3D%22%236C707E%22%3E%3C%2Fstop%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23e5e5e5%22%3E%3C%2Fstop%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E');
+  background-size: 140% 140%;
+  background-position: 50% 55%;
+}</style><style type="text/css">
+.tc-icon_gitlab,
+  .tc-icon_gitlab_disabled,
+  .tc-icon_gitlab-enterprise,
+  .tc-icon_gitlab-enterprise_disabled {
+  background: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22none%22%20viewBox%3D%220%200%2016%2016%22%20role%3D%22presentation%22%3E%3Cpath%20fill%3D%22%23FC6D26%22%20d%3D%22m14.974%209.005-.784-2.616-1.552-5.19a.3.3%200%200%200-.098-.144.254.254%200%200%200-.314%200%20.3.3%200%200%200-.097.144l-1.552%205.186H5.421L3.869%201.2a.3.3%200%200%200-.098-.144A.25.25%200%200%200%203.615%201a.25.25%200%200%200-.157.055.3.3%200%200%200-.098.144L1.81%206.385l-.783%202.62a.63.63%200%200%200%200%20.358.6.6%200%200%200%20.193.29L8%2015l6.778-5.347a.6.6%200%200%200%20.195-.29.63.63%200%200%200%20.001-.358%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23E24329%22%20d%3D%22m8%2014.998%202.578-8.611H5.423z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FC6D26%22%20d%3D%22M8%2014.998%205.42%206.387H1.813z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FCA326%22%20d%3D%22m1.81%206.387-.784%202.616a.63.63%200%200%200%200%20.358.6.6%200%200%200%20.193.29L8%2014.999z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23E24329%22%20d%3D%22M1.812%206.389h3.612L3.87%201.203a.3.3%200%200%200-.097-.144.254.254%200%200%200-.314%200%20.3.3%200%200%200-.097.144L1.81%206.389Z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FC6D26%22%20d%3D%22m8%2014.998%202.578-8.611h3.614z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FCA326%22%20d%3D%22m14.19%206.387.784%202.616a.63.63%200%200%201%200%20.358.6.6%200%200%201-.194.29L8%2014.995l6.188-8.608h.001Z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23E24329%22%20d%3D%22M14.19%206.389h-3.61l1.551-5.186a.3.3%200%200%201%20.098-.144.254.254%200%200%201%20.313%200q.07.056.098.144l1.552%205.186Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E');
+  background-size: 110%;
+  background-position: 50% 55%;
+}</style><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/vendors-node_modules_re-resizable_lib_index_js.90c480c9ec07757ccc61.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_App_SidebarPanel_SidebarPanelContent_SidebarHeader_SidebarHeader_tsx-components_Ap-f31d3b.06086b7e13aac0e4e578.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/AdminSidebarPanel.cfa5d55861f38da2445b.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/vendors-node_modules_anser_lib_index_js.16b742f5f00e22b034c6.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/vendors-node_modules_jetbrains_ring-ui-built_components_grid_grid_js-node_modules_jetbrains_r-ac8d73.47243fa587d9bc78a36a.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_packages_BuildLog_BuildLogInfo_BuildLogInfo_tsx-components_packages_BuildLog_Build-ef976c.f55c3fd27752093afc24.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_packages_BuildLog_BuildLogTimeline_BuildLogTimeline_container_ts-components_packag-648083.53f1c1a0271897ce6783.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_packages_BuildLog_BuildLogTab_BuildLogTab_container_tsx.328b0abbe2e5c3cdc053.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/App.7004f7a8521a84c46d6f.js">
+
+
+        <script type="text/javascript">
+          BS.WebSocketProperties.webSocketEnabled = true;
+          BS.WebSocketProperties.heartbeatIntervalMillis = 15000;
+
+          ReactUIPromise.then(ReactUI => ReactUI.setAdminSpaceAvailable(true));
+
+          (function() {
+            function initPage() {
+            
+              if (document.location.href.indexOf('#') == -1) {
+                restoreScrolling();
+              }
+            
+
+              if (typeof BS == "undefined") return;
+              BS.initReloadBlocker();
+            }
+
+            $j(document).ready(initPage);
+          })();
+
+          BS.SubscriptionManager.start();
+          $j(document).ready(function() {
+            if (typeof BS == "undefined") return;
+            BS.EventTracker.startTracking("/eventTracker.html");
+            BS.ServerCommands.startWatching();
+            BS.Clipboard.installGlobalHandler();
+        });
+
+          Event.observe(window, "unload", function() {
+            rememberScrolling();
+            if (typeof BS == "undefined") return;
+            BS.blockRefreshPermanently();
+            BS.SubscriptionManager.dispose();
+          });
+
+        </script>
+
+        
+
+      
+
+
+<script type="text/javascript" src="/res/4388595452021934539.js?v=1784744082934"></script>
+
+    
+
+
+<style id="19f8b0a0bda" type="text/css">
+    @import "/res/-5442229447733348568.css?v=1784744082934";
+  
+</style>
+
+    <style type="text/css">
+      #bodyWrapper {
+        min-width: 1000px;
+        padding-bottom: 0;
+      }
+      #breadcrumbsWrapper {
+        display: none;
+      }
+      #mainContent {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      div.fixedWidth {
+        margin: 0;
+      }
+      #react-ui-version {
+        display: none; /* it's rendered inside the app instead */
+      }
+    </style>
+    <script>
+      ReactUIPromise.then(ReactUI => {
+        ReactUI.setIsSakuraUI();
+
+        window.sessionStorage.removeItem('isTemporaryClassicUISession');
+      });
+    </script>
+
+      
+        
+
+  <!-- START EXTENSION CSS jetbrains.buildServer.serverSide.search.controller.SearchController$1 name:searchBuildByNumber -->
+  
+
+
+<style id="19f8b0a0bdb" type="text/css">
+    @import "/res/-3944113586479971926.css?v=1784744082934";
+  
+</style>
+
+  <!-- END EXTENSION CSS jetbrains.buildServer.serverSide.search.controller.SearchController$1 -->
+
+
+
+
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.web.proxyProblems.ProxyServerConfigurationCheckController$ProxyCheckerPageExtension: name:proxy-check: /proxyCheck.jsp -->
+      
+
+
+
+
+<script type="text/javascript" src="/res/797876338239486288.js?v=1784744082934"></script>
+
+
+<script type="application/javascript">
+  $j(document).ready(function() {
+      BS.ProxyChecker.check();
+  });
+</script>
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.web.proxyProblems.ProxyServerConfigurationCheckController$ProxyCheckerPageExtension -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.serverSide.search.controller.SearchController$1: name:searchBuildByNumber: /plugins/searchBuildByNumber/empty.jsp -->
+      
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.serverSide.search.controller.SearchController$1 -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.compare.web.BuildsComparatorExtension: name:builds-diff: /plugins/teamcity-compare-builds/builds-diff-extension.jsp -->
+      
+
+<script type="text/javascript">
+    ReactUIPromise.then(ReactUI => {
+      if (ReactUI && ReactUI.storeUrlExtensions) {
+        ReactUI.storeUrlExtensions({
+          kind: 'builds-diff',
+          name: 'builds-diff',
+          endpoint: 'app/rest/compare-builds'
+        });
+      }
+    });
+</script>
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.compare.web.BuildsComparatorExtension -->
+  
+
+
+
+      
+      <style>:root{--qd-header-height: 54px;--qd-navbar-width: calc(var(--ring-unit) * 6.5);--qd-popup-box-shadow: 0px 10px 20px rgba(0, 0, 0, .06);--qd-dropdown-shadow: 0px 2px 8px rgba(0, 28, 54, .1), 0px 1px 2px rgba(0, 28, 54, .04);--qd-dialog-shadow: 0px 4px 24px rgba(0, 28, 54, .1), 0px 2px 6px rgba(0, 28, 54, .04);--qd-code-font-family-regular: "JetBrains Mono Regular", system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Cantarell, Droid Sans, Helvetica Neue, Arial, sans-serif;--qd-outline: 4px solid var(--qd-color-blue-40);--qd-transition-delay: .2s;--qd-color-black: #1e2021;--qd-color-grey: #737577;--qd-color-light-grey: #999999;--qd-color-lighter-grey: #dfe5eb;--qd-color-light-grey-5: rgba(146, 146, 146, .05);--qd-color-blue: #0080e5;--qd-color-blue-20: rgba(25, 138, 243, .2);--qd-color-blue-40: #80c6ff;--qd-color-sea-blue: #1f7abe;--qd-color-dark-sea-blue: #032a58;--qd-color-dark-blue: #0070cc;--qd-color-darkest-blue: #175aae;--qd-color-dark-green: #4daa61;--qd-color-darkest-green: #2d7a27;--qd-color-ruby: #c22731;--qd-color-1-layer: var(--ring-white-text-color);--qd-color-1-layer-dark: rgb(36, 39, 43);--qd-color-2-layer: var(--ring-white-text-color);--qd-color-3-layer: var(--ring-white-text-color);--qd-color-rose: #ffebec;--qd-color-red-100: #ff5862;--qd-color-red-80: rgba(255, 88, 98, .8);--qd-color-red-50: rgba(255, 88, 98, .5);--qd-color-red-12: rgba(255, 88, 98, .12);--qd-color-red-6: rgba(255, 88, 98, .06);--qd-color-bronze: #b25c00;--qd-color-orange-100: #fda332;--qd-color-orange-80: rgba(253, 163, 50, .8);--qd-color-orange-12: rgba(253, 163, 50, .12);--qd-color-yellow-100: #ffd121;--qd-color-yellow-80: rgba(255, 209, 33, .8);--qd-color-yellow-12: rgba(255, 209, 33, .12);--qd-color-yellow-6: rgba(255, 209, 33, .06);--qd-color-azure: #e8f4fd;--qd-color-skyblue-100: #45a5f4;--qd-color-skyblue-80: rgba(69, 165, 244, .8);--qd-color-skyblue-12: rgba(69, 165, 244, .12);--qd-color-skyblue-6: rgba(69, 165, 244, .06);--qd-color-palegreen: #eff8e6;--qd-color-lawngreen-100: #7dc634;--qd-color-lawngreen-80: rgba(125, 198, 52, .8);--qd-color-lawngreen-50: rgba(125, 198, 52, .5);--qd-color-lawngreen-12: rgba(125, 198, 52, .12);--qd-color-lawngreen-6: rgba(125, 198, 52, .06);--qd-color-text-1: var(--qd-color-black);--qd-color-text-3: var(--qd-color-grey);--qd-focus-box-shadow: 0 0 0 2px var(--ring-button-focus-border-color);--qd-color-hover-list-item: var(--qd-color-skyblue-12);--qd-color-skeleton-1: #e8e8e8;--qd-color-skeleton-2: #f3f3f3;--qd-color-main-bg: var(--ring-white-text-color);--qd-color-dropdown-bg: var(--qd-color-2-layer);--qd-color-sourcetabs-bg: rgba(146, 146, 146, .05);--qd-color-danger-entity: var(--qd-color-ruby);--qd-color-summary-tabs-border: var(--qd-color-lighter-grey);--qd-color-summary-tabs-positive-active: var(--qd-color-dark-green);--qd-color-summary-tabs-negative-active: var(--qd-color-red-100);--qd-color-summary-tabs-failed: var(--qd-color-orange-80);--qd-color-code-snippet-border: var(--qd-color-lighter-grey);--qd-color-border: var(--qd-color-lighter-grey);--qd-color-blurred-bg: rgba(255, 255, 255, .9);--qd-color-popup-gradient-start-bg: rgba(242, 245, 249, 0);--qd-color-popup-gradient-end-bg: var(--ring-white-text-color);--qd-color-tooltip-bg: var(--ring-white-text-color);--qd-color-circle-message: var(--qd-color-light-grey);--qd-color-tree-select-chevron: var(--qd-color-light-grey);--qd-color-select-item-hover: var(--qd-color-skyblue-12);--qd-color-select-item-description: var(--qd-color-light-grey);--qd-color-select-icon: var(--qd-color-light-grey);--qd-color-separator: var(--qd-color-lighter-grey);--qd-color-license-audit-header-line: var(--qd-color-lighter-grey);--qd-color-help-select-additional: var(--qd-color-light-grey);--qd-color-onboarding-tip-bg: var(--qd-color-black);--qd-color-onboarding-tip-content: var(--qd-color-lighter-grey);--qd-color-onboarding-tip-hide: var(--qd-color-grey);--qd-color-onboarding-tip-hide-hover: var(--qd-color-light-grey);--qd-color-onboarding-tip-next: var(--qd-color-blue);--qd-color-onboarding-tip-next-hover: var(--qd-color-dark-blue);--qd-color-project-setup-progressbar-bg: var(--qd-color-lighter-grey);--qd-color-project-setup-progressbar-bg-active: var(--qd-color-lawngreen-100);--qd-color-hover-checks-item: #ebf6ff;--qd-icon-default-color: var(--qd-color-light-grey);--qd-icon-hover-color: var(--qd-color-blue);--qd-icon-active-color: var(--qd-color-blue);--qd-editor-icon-hover-color: var(--qd-color-blue-40);--qd-editor-icon-active-color: var(--qd-color-blue);--qd-code-deletion-row-bg: var(--qd-color-rose);--qd-code-addition-row-bg: var(--qd-color-palegreen);--scale-factor: 1}@media(min-width:2540px){:root.scalingEnabled{--scale-factor: 1.25}.scalingEnabled .bodyQodanaBlocks{--ring-unit: calc(8px * var(--scale-factor));--ring-font-size-smaller: calc(12px * var(--scale-factor));--ring-font-size: calc(14px * var(--scale-factor));--ring-font-size-larger: calc(16px * var(--scale-factor));--ring-line-height-taller: calc(24px * var(--scale-factor));--ring-line-height: calc(20px * var(--scale-factor));--ring-line-height-lower: calc(18px * var(--scale-factor));--ring-line-height-lowest: calc(16px * var(--scale-factor));--ring-border-radius: calc(4px * var(--scale-factor));--qd-header-height: calc(54px * var(--scale-factor));--qd-summary-tabs-padding: calc(12px * var(--scale-factor)) calc(16px * var(--scale-factor));--qd-navbar-width: calc(var(--ring-unit) * 6.5)}.scalingEnabled .bodyQodanaBlocks h1,.scalingEnabled .bodyQodanaBlocks:is(h1){font-size:calc(24px * var(--scale-factor));line-height:calc(28px * var(--scale-factor))}.scalingEnabled .bodyQodanaBlocks h2,.scalingEnabled .bodyQodanaBlocks:is(h2){font-size:calc(20px * var(--scale-factor));line-height:calc(24px * var(--scale-factor))}.scalingEnabled .bodyQodanaBlocks h3,.scalingEnabled .bodyQodanaBlocks:is(h3){font-size:calc(16px * var(--scale-factor));line-height:calc(22px * var(--scale-factor))}.scalingEnabled .bodyQodanaBlocks h4,.scalingEnabled .bodyQodanaBlocks:is(h4){font-size:calc(12px * var(--scale-factor));line-height:calc(18px * var(--scale-factor))}.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph{vertical-align:calc(var(--qd-icon-vertical-align) * var(--scale-factor));width:calc(var(--qd-icon-size) * var(--scale-factor));height:calc(var(--qd-icon-size) * var(--scale-factor))}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="10"]{--qd-icon-vertical-align: -1px;--qd-icon-size: 10px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="12"]{--qd-icon-vertical-align: -1px;--qd-icon-size: 12px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="13"]{--qd-icon-vertical-align: -2px;--qd-icon-size: 13px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="16"]{--qd-icon-vertical-align: -3px;--qd-icon-size: 16px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="20"]{--qd-icon-vertical-align: -2px;--qd-icon-size: 20px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="28"]{--qd-icon-size: 28px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="32"]{--qd-icon-size: 32px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="48"]{--qd-icon-size: 48px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="64"]{--qd-icon-size: 64px}:is(.scalingEnabled .scalableIcon svg,.scalingEnabled .scalableIcon:is(svg),.scalingEnabled .ring-icon-icon:not(.ring-checkbox-icon):not(.noScale) .ring-icon-glyph)[width="72"]{--qd-icon-size: 72px}.scalingEnabled .scalableSunburst>*{scale:var(--scale-factor);transform-origin:top left}.scalingEnabled .ring-tag-container .ring-tag-tag{font-size:var(--ring-font-size-smaller);height:auto}.scalingEnabled .ring-tag-container .ring-tag-withRemove{padding-right:calc(20px * var(--scale-factor))}.scalingEnabled .ring-tag-container .ring-tag-remove{top:calc(4px * var(--scale-factor));right:calc(1px * var(--scale-factor))}.scalingEnabled .ring-dialog-closeIcon{scale:var(--scale-factor);transform-origin:center}.scalingEnabled .ring-checkbox-cell{scale:var(--scale-factor)}.scalingEnabled .ring-radio-circle:after{left:4px}.scalingEnabled .ring-input-clear{top:calc((var(--ring-input-padding-block) + 3px) * var(--scale-factor))}}@media(max-width:600px){.ring-dialog-content{max-width:calc(100vw - calc(var(--ring-unit) * 10))}}.bodyQodanaBlocks_dark{--qd-color-azure: #283643;--qd-color-rose: #3f2d32;--qd-color-palegreen: #2f3a2c;--qd-color-1-layer: var(--qd-color-1-layer-dark);--qd-color-2-layer: #2a2d32;--qd-color-3-layer: #303337;--qd-color-dt-light-grey40: rgba(95, 95, 95, .4);--qd-color-dt-darkest-blue: #529fff;--qd-color-main-bg: var(--qd-color-1-layer-dark);--qd-color-text-1: var(--qd-color-lighter-grey);--qd-color-text-3: var(--qd-color-light-grey);--qd-color-dropdown-bg: var(--qd-color-2-layer);--qd-color-skeleton-1: #2f3238;--qd-color-skeleton-2: #3b3c3f;--qd-color-hover-checks-item: var(--qd-color-3-layer);--qd-color-summary-tabs-border: var(--qd-color-dt-light-grey40);--qd-color-summary-tabs-positive-active: var(--qd-color-lawngreen-100);--qd-color-summary-tabs-failed: var(--qd-color-yellow-80);--qd-color-separator: var(--qd-color-2-layer);--qd-color-license-audit-header-line: var(--qd-color-dt-light-grey40);--qd-color-sourcetabs-bg: var(--qd-color-3-layer);--qd-color-code-snippet-border: var(--qd-color-dt-light-grey40);--qd-color-border: var(--qd-color-dt-light-grey40);--qd-color-danger-entity: var(--qd-color-red-100);--qd-color-blurred-bg: rgba(95, 95, 95, .9);--qd-color-popup-gradient-start-bg: rgba(34, 36, 37, .24);--qd-color-popup-gradient-end-bg: var(--qd-color-2-layer);--qd-color-tooltip-bg: var(--qd-color-3-layer);--qd-color-tree-select-chevron: var(--qd-color-grey);--qd-color-select-item-hover: var(--qd-color-azure);--qd-color-onboarding-tip-bg: var(--qd-color-blue);--qd-color-onboarding-tip-content: var(--ring-white-text-color);--qd-color-onboarding-tip-hide: var(--qd-color-darkest-blue);--qd-color-onboarding-tip-hide-hover: var(--qd-color-dark-sea-blue);--qd-color-onboarding-tip-next: var(--qd-color-dark-sea-blue);--qd-color-onboarding-tip-next-hover: var(--qd-color-black);--qd-color-project-setup-progressbar-bg: var(--qd-color-grey);--qd-icon-hover-color: var(--qd-color-dt-darkest-blue);--qd-icon-active-color: var(--qd-color-dt-darkest-blue);--qd-editor-icon-hover-color: var(--qd-color-dark-blue);--qd-editor-icon-active-color: var(--qd-color-dt-darkest-blue);--qd-code-deletion-row-bg: var(--qd-color-rose);--qd-code-addition-row-bg: var(--qd-color-palegreen)}:where(html){line-height:1.15;-webkit-text-size-adjust:none;text-size-adjust:none}:where(body){margin:0}:where(h1){font-size:2em;margin-block-end:.67em;margin-block-start:.67em}:where(dl,ol,ul) :where(dl,ol,ul){margin-block-end:0;margin-block-start:0}:where(hr){box-sizing:content-box;color:inherit;height:0}:where(abbr[title]){text-decoration:underline;text-decoration:underline dotted}:where(b,strong){font-weight:bolder}:where(code,kbd,pre,samp){font-family:monospace,monospace;font-size:1em}:where(small){font-size:80%}:where(table){border-color:currentColor;text-indent:0}:where(button,input,select){margin:0}:where(button){text-transform:none}:where(button,input:is([type=button i],[type=reset i],[type=submit i])){-webkit-appearance:button;appearance:button}:where(progress){vertical-align:baseline}:where(select){text-transform:none}:where(textarea){margin:0}:where(input[type=search i]){-webkit-appearance:textfield;appearance:textfield;outline-offset:-2px}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}::-webkit-input-placeholder{color:inherit}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}:where(button,input:is([type=button i],[type=color i],[type=reset i],[type=submit i]))::-moz-focus-inner{border-style:none;padding:0}:where(button,input:is([type=button i],[type=color i],[type=reset i],[type=submit i]))::-moz-focusring{outline:1px dotted ButtonText}:where(:-moz-ui-invalid){box-shadow:none}:where(dialog){background-color:#fff;border:solid;color:#000;height:-moz-fit-content;height:fit-content;left:0;margin:auto;padding:1em;position:absolute;right:0;width:-moz-fit-content;width:fit-content}:where(dialog:not([open])){display:none}:where(summary){display:list-item}._heading1_1om5p_1{font-size:calc(var(--ring-unit) * 2.5);line-height:var(--ring-line-height-taller)}._heading1Fixed_1om5p_6{font-size:20px;line-height:24px}._heading1_1om5p_1,._heading1Fixed_1om5p_6{font-family:var(--ring-font-family);font-weight:600;color:var(--qd-color-text-1);margin:0;transition:color var(--qd-transition-delay)}._heading2_1om5p_20{font-family:var(--ring-font-family);font-size:var(--ring-font-size-larger);font-weight:600;line-height:calc(var(--ring-unit) * 2.75);color:var(--qd-color-text-1);margin:0;transition:color var(--qd-transition-delay)}._heading3_1om5p_30{font-family:var(--ring-font-family);font-size:var(--ring-font-size-smaller)!important;font-weight:400;line-height:var(--ring-line-height-lowest);text-transform:uppercase;color:var(--qd-color-text-3);letter-spacing:calc(var(--ring-unit) / 4);margin:0;transition:color var(--qd-transition-delay)}._secondaryText_1om5p_42{color:var(--ring-secondary-color);line-height:var(--ring-line-height)}._accentText_1om5p_47{font-size:calc(var(--ring-unit) * 3);line-height:calc(var(--ring-unit) * 3.5)}._accentTextFixed_1om5p_52{font-size:24px;line-height:28px}._accentText_1om5p_47,._accentTextFixed_1om5p_52{font-family:var(--ring-font-family);font-weight:600;transition:color var(--qd-transition-delay)}._smallText_1om5p_64{font-family:var(--ring-font-family);font-size:var(--ring-font-size-smaller);font-weight:400;line-height:var(--ring-line-height-lowest)}._smallText_semibold_1om5p_71,._semibold_1om5p_76._semibold_1om5p_76{font-weight:600}._smallText_upper_1om5p_80{font-size:calc(var(--ring-unit) * 1.5);text-transform:uppercase}._subtitle_1om5p_85{font-family:var(--ring-font-family);font-size:var(--ring-font-size);font-weight:600;line-height:var(--ring-line-height)}._text_1om5p_92{font-family:var(--ring-font-family);font-size:var(--ring-font-size);font-weight:400;line-height:var(--ring-line-height)}._text_italic_1om5p_99{font-style:italic}._monoText_1om5p_103{font-family:var(--qd-code-font-family-regular);font-size:var(--ring-font-size-smaller);font-style:normal;font-weight:400;line-height:var(--ring-line-height-lower);letter-spacing:0}._monoText_bold_1om5p_112{font-family:JetBrains Mono Bold;font-weight:700}._critical_t6ckf_1{--qd-close-icon-color: var(--ring-icon-error-color);--qd-close-icon-color-hover: var(--ring-error-color);--qd-background-color: var(--ring-removed-background-color)}._moderate_t6ckf_7{--qd-close-icon-color: var(--ring-icon-warning-color);--qd-close-icon-color-hover: var(--ring-warning-color);--qd-background-color: var(--ring-warning-background-color)}._info_t6ckf_13{--qd-close-icon-color: var(--ring-main-color);--qd-close-icon-color-hover: var(--ring-link-color);--qd-background-color: var(--ring-selected-background-color)}._banner_t6ckf_19{background-color:var(--qd-background-color);padding:var(--ring-unit) calc(var(--ring-unit) * 3);display:flex;position:relative;gap:var(--ring-unit);align-items:center;text-align:center}._text_t6ckf_30{flex-grow:1}._closeButton_t6ckf_34{line-height:var(--ring-line-height-taller);color:var(--qd-close-icon-color)}._closeIcon_t6ckf_39{display:flex}._closeButton_t6ckf_34:hover{color:var(--qd-close-icon-hover)}._actionButton_t6ckf_47{white-space:nowrap}@media only screen and (max-width:640px){._bannerWithActions_t6ckf_52{flex-direction:column}._absoluteIcon_t6ckf_56{position:absolute;top:var(--ring-unit);right:var(--ring-unit)}}._container_sdj86_1{position:relative}._inlineContainer_sdj86_5{display:inline-block}._buttonGroups_sdj86_9{display:flex;gap:8px;position:absolute;top:var(--ring-unit);right:calc(var(--ring-unit) * 1.5)}._code_sdj86_18._code_sdj86_18{margin:0}._noScroll_sdj86_22{white-space:pre-wrap}._code_sdj86_18 code{word-break:break-all}._code_sdj86_18._code_sdj86_18 code{padding-right:calc(var(--ring-unit) * 9);font-size:var(--ring-font-size);line-height:var(--ring-line-height);font-family:var(--qd-code-font-family-regular)}._inlineCode_sdj86_37._inlineCode_sdj86_37 code{padding:0 calc(var(--ring-unit) / 2);line-height:var(--ring-line-height)}._popupItem_15z5p_1{display:flex;align-items:center;background:none;color:inherit;border:none;cursor:pointer;outline:inherit;white-space:nowrap;width:100%;text-align:left;font-size:var(--ring-font-size);line-height:var(--ring-line-height);padding:var(--ring-unit) calc(var(--ring-unit) * 2)}._popupItem_15z5p_1:hover,._popupItem_15z5p_1:focus{background-color:var(--qd-color-select-item-hover);text-decoration:none}._popupItem_15z5p_1:disabled{color:var(--qd-color-light-grey);background:none;cursor:default}._errorDescriptionContainer_15z5p_30{display:flex;align-items:center;margin-left:var(--ring-unit);white-space:nowrap}._errorDescription_15z5p_30{color:var(--ring-warning-color)}._errorDescriptionIcon_15z5p_41{margin-right:calc(var(--ring-unit) / 2);line-height:calc(var(--ring-unit) / 2);color:var(--ring-icon-warning-color)}._footer_1xu71_1{height:100px;box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:30px;color:var(--ring-secondary-color)}._rightBlock_1xu71_13{display:flex}._links_1xu71_17{list-style:none;padding:0;margin:0;display:flex}._links_1xu71_17 li{margin-left:30px}._submenuPopup_1mpdc_1._submenuPopup_1mpdc_1{padding:6px 0 14px}._submenuItem_1mpdc_5{background:none;border:none;padding:6px 20px;line-height:32px;cursor:pointer;text-decoration:none;color:var(--qd-color-text-1);display:block}._submenuItemList_1mpdc_16>li:hover{cursor:pointer;background:var(--qd-color-azure)}._container_1mpdc_21{display:inline-block}._submenuItemList_1mpdc_16,._submenuItemList_1mpdc_16>li{margin:0;padding:0;text-indent:0;list-style-type:none}._header_1fv7w_1{display:flex;align-items:center;justify-content:space-between;height:var(--qd-header-height);font-size:var(--ring-font-size);border-bottom:1px solid var(--qd-color-border);transition:border-bottom-color .2s}._menuItems_1fv7w_13{flex:1;padding:0 calc(var(--ring-unit) * 5)}._menuItem_1fv7w_13{display:inline-block;background:none;border:none;cursor:pointer;color:var(--ring-secondary-color);height:100%}._rootMenuItem_1fv7w_27:first-child{margin-left:0}._rootMenuItem_1fv7w_27{margin:0 0 0 calc(var(--ring-unit) * 4)}._menuItem_1fv7w_13:hover{color:var(--qd-color-text-1)}._controls_1fv7w_39{display:flex;align-items:center}._controls_1fv7w_39>span{align-self:center;margin-left:var(--ring-unit)}._mark_hv0yo_1{color:var(--qd-color-text-1);background-color:#4b9be633}._horizontalPadding_ayt6h_1{padding-left:calc(var(--ring-unit) * 4);padding-right:calc(var(--ring-unit) * 4)}@media only screen and (min-width:1200px){._horizontalPadding_ayt6h_1{padding-left:calc(var(--ring-unit) * 7.5);padding-right:calc(var(--ring-unit) * 7.5)}}@media only screen and (min-width:1400px){._horizontalPadding_ayt6h_1{padding-left:calc(var(--ring-unit) * 15);padding-right:calc(var(--ring-unit) * 15)}}._gridCards_ayt6h_20{display:grid;column-gap:calc(var(--ring-unit) * 2.5);row-gap:calc(var(--ring-unit) * 2.5);grid-template-columns:repeat(auto-fill,minmax(var(--qd-card-min-width),1fr))}@media only screen and (max-width:48em){._gridCards_ayt6h_20{grid-template-columns:none}}._wrapper_s6guw_1{padding:var(--ring-unit) calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 1.5);border-left:4px solid;border-radius:var(--ring-border-radius)}._inline_s6guw_8{padding:var(--ring-unit) calc(var(--ring-unit) * 2) var(--ring-unit) calc(var(--ring-unit) * 1.5)}._container_s6guw_12{position:relative}._critical_s6guw_16{border-color:var(--qd-color-red-100);background-color:var(--qd-color-red-6)}._moderate_s6guw_21{border-color:var(--qd-color-yellow-100);background-color:var(--qd-color-yellow-6)}._info_s6guw_26{border-color:var(--qd-color-skyblue-100);background-color:#8692fb0f}._success_s6guw_31{border-color:var(--qd-color-lawngreen-100);background-color:var(--qd-color-lawngreen-6)}._header_s6guw_36{margin-bottom:calc(var(--ring-unit) / 2);font-weight:600}._inline_s6guw_8 ._header_s6guw_36,._header_s6guw_36._isCollapsed_s6guw_45{margin-bottom:0}._titleContainer_s6guw_49{display:flex;justify-content:space-between}._chevronIcon_s6guw_54{transform:rotate(180deg);display:block}._isCollapsed_s6guw_45 ._chevronIcon_s6guw_54{transform:rotate(0)}._actions_s6guw_63{margin-top:var(--ring-unit);display:flex;column-gap:var(--ring-unit)}._container_1trpd_1{display:flex;align-items:center;--qd-select-line-height: calc(var(--ring-unit) * 2.5)}._labelContainer_1trpd_7{display:flex;align-items:center}._label_1trpd_7{font-family:var(--ring-font-family);line-height:var(--qd-select-line-height);font-size:var(--ring-font-size);height:var(--qd-select-line-height);padding:0;color:var(--qd-color-text-1);transition:color .2s!important}._icon_1trpd_23._icon_1trpd_23:hover,._label_1trpd_7._active_1trpd_24,._label_1trpd_7._active_1trpd_24 ._chevronDown_1trpd_25,._label_1trpd_7:hover ._chevronDown_1trpd_25,._label_1trpd_7:hover{color:var(--qd-color-blue);transition:color .2s!important}._label_1trpd_7[disabled],._label_1trpd_7._disabled_1trpd_33{color:var(--qd-color-light-grey)}._mainIcon_1trpd_37{margin-right:calc(var(--ring-unit) / 2)}._mainIcon_1trpd_37 path{fill:var(--qd-color-select-icon);transition:fill .2s!important}._mainIcon_1trpd_37._disabled_1trpd_33 path{fill:var(--qd-color-light-grey)}._label_1trpd_7._active_1trpd_24 ._mainIcon_1trpd_37 path,._label_1trpd_7:hover ._mainIcon_1trpd_37 path{fill:var(--qd-color-blue)}._popup_1trpd_55{margin-top:calc(var(--ring-unit) / 2);min-width:calc(var(--ring-unit) * 18.75);max-width:calc(var(--ring-unit) * 43.75)}._searchWrapper_1trpd_61{border-bottom:1px solid var(--qd-color-border);height:calc(var(--ring-unit) * 4.25)}._searchIcon_1trpd_66{margin:0 calc(var(--ring-unit) * 1.25) 0 calc(var(--ring-unit) * 2);color:var(--qd-color-light-grey)}._searchWrapper_1trpd_61 input{font-family:var(--ring-font-family);font-size:var(--ring-font-size);font-weight:400;line-height:calc(var(--ring-unit) * 4.25);color:var(--qd-color-text-1);background-color:initial;border:none;margin:0;padding:0;outline:none}._searchWrapper_1trpd_61 input::placeholder{font-size:var(--ring-font-size);font-weight:400;color:var(--ring-secondary-color)}._empty_1trpd_94{text-align:center;color:var(--ring-secondary-color);line-height:calc(var(--ring-unit) * 4);margin:calc(var(--ring-unit) / 2) calc(var(--ring-unit) * 2) var(--ring-unit)}._listContainer_1trpd_101{position:relative}._list_1trpd_101{list-style:none;padding:0;margin:0;max-height:calc(var(--ring-unit) * 43.75);overflow-y:auto}._listItem_1trpd_113{width:100%}._listItem_1trpd_113:first-child{margin-top:calc(var(--ring-unit) / 2)}._listItem_1trpd_113:last-child{margin-bottom:var(--ring-unit)}._listItem_1trpd_113:hover._listItem_1trpd_113:hover{background-color:var(--qd-color-select-item-hover)}._itemLabel_1trpd_129{font-size:var(--ring-font-size);line-height:calc(var(--ring-unit) * 4);cursor:pointer;width:100%;box-sizing:border-box;padding:0 calc(var(--ring-unit) * 2);display:flex}._itemLabel_1trpd_129._disabled_1trpd_33{cursor:default}._itemLabel_1trpd_129._disabled_1trpd_33 ._itemName_1trpd_144,._itemLabel_1trpd_129._disabled_1trpd_33 ._itemDesc_1trpd_145{color:var(--qd-color-light-grey)}._itemCheckbox_1trpd_149{flex-shrink:0}._itemName_1trpd_144{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--qd-color-text-1)}._itemDesc_1trpd_145{padding-left:calc(var(--ring-unit) / 2);color:var(--qd-color-select-item-description);font-style:italic;white-space:nowrap}._itemBtn_1trpd_167._itemBtn_1trpd_167{width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--qd-color-text-1)}._itemBtn_1trpd_167._disabled_1trpd_33{color:var(--qd-color-light-grey)!important}._itemTemplateContainer_1trpd_180{display:inline-flex;align-items:center;color:var(--qd-color-text-1)}._itemTemplateContainer_1trpd_180._disabled_1trpd_33{color:var(--qd-color-light-grey)}._itemIcon_1trpd_190{display:inline-flex;align-items:center;margin-right:calc(var(--ring-unit) / 2);transition:opacity .2s}._itemLabel_1trpd_129 ._itemIcon_1trpd_190{margin-right:var(--ring-unit)}._itemIconDisabled_1trpd_201{opacity:60%}._itemIconMarginLeft_1trpd_205{margin-left:calc(var(--ring-unit) / 2)}._fade_1trpd_209{position:absolute;bottom:0;height:calc(var(--ring-unit) * 4.25);width:100%;pointer-events:none;background:transparent;transition:.2s background!important}._fadeActive_1trpd_219{background:linear-gradient(to bottom,var(--qd-color-popup-gradient-start-bg),var(--qd-color-popup-gradient-end-bg))}._specialButton_1trpd_227{border-top:1px solid var(--qd-color-border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-radius:0;pointer-events:auto;padding:calc(var(--ring-unit) * 1.5) calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2.5);height:unset;width:100%;text-align:start;color:var(--qd-color-blue)}._specialButton_1trpd_227:hover{color:var(--qd-color-dark-blue)}._specialButton_1trpd_227[disabled]{color:var(--qd-color-light-grey)}._icon_1trpd_23._icon_1trpd_23{display:flex;align-items:center;padding:0;margin:0 0 0 calc(var(--ring-unit) / 4);border:none;cursor:pointer;background:transparent;color:var(--qd-color-light-grey);transition:color var(--qd-transition-delay)}._chevronDown_1trpd_25._chevronDown_1trpd_25{color:inherit}._container_1anm0_1{position:relative;overflow:hidden;height:100%;border-radius:5px;z-index:1}._background_1anm0_10{height:100%;width:calc(100% + 200px);z-index:-1;background:repeating-linear-gradient(90deg,var(--qd-color-skeleton-1) 0px,var(--qd-color-skeleton-2) 100px,var(--qd-color-skeleton-1) 200px);animation:_pulse_1anm0_1 1.2s linear .2s infinite}._innerCircle_1anm0_23{z-index:1;position:absolute;border-radius:50%;background-color:var(--qd-color-main-bg);transition:background-color .2s}@keyframes _pulse_1anm0_1{0%{transform:translate(0)}to{transform:translate(-200px)}}._container_12tg3_1{display:flex}._hint_12tg3_5{font-size:var(--ring-font-size);line-height:var(--ring-line-height);padding:var(--ring-unit) calc(var(--ring-unit) * 2);box-shadow:0 -1px 0 0 var(--qd-color-code-snippet-border) inset;transition:box-shadow var(--qd-transition-delay);white-space:nowrap}._list_12tg3_14{padding:0;margin:0;list-style:none;display:flex;overflow:hidden;overflow-x:auto}._option_12tg3_24{background:var(--qd-color-sourcetabs-bg);transition:background-color var(--qd-transition-delay)}._list_12tg3_14>._option_12tg3_24:first-child{border-top-left-radius:var(--ring-border-radius)}._list_12tg3_14>._option_12tg3_24:last-child{border-top-right-radius:var(--ring-border-radius)}._button_12tg3_37{margin:0;padding:0;cursor:pointer;border:none;box-shadow:0 -1px 0 0 var(--qd-color-code-snippet-border) inset;outline:none;background:transparent;color:var(--qd-color-text-3);transition:color var(--qd-transition-delay),box-shadow var(--qd-transition-delay),background-color var(--qd-transition-delay)}._button_12tg3_37._selected_12tg3_55{background-color:var(--qd-color-main-bg);color:var(--qd-color-text-1);box-shadow:-1px 0 0 0 var(--qd-color-code-snippet-border) inset,1px 0 0 0 var(--qd-color-code-snippet-border) inset,0 1px 0 0 var(--qd-color-code-snippet-border) inset;border-top-left-radius:var(--ring-border-radius);border-top-right-radius:var(--ring-border-radius)}._content_12tg3_68{display:block;outline:none;padding:calc(var(--ring-unit)) calc(var(--ring-unit) * 2);font-size:var(--ring-font-size);line-height:var(--ring-line-height);border-bottom:none}._tail_12tg3_78{flex-grow:1;box-shadow:0 -1px 0 0 var(--qd-color-code-snippet-border) inset;transition:box-shadow var(--qd-transition-delay)}._count_191jw_1{margin-left:4px}:root{--qd-theme-toggle-handle-border: 1px solid var(--qd-color-light-grey-5);--qd-color-theme-toggle-bg: #f6f6f9;--qd-color-theme-toggle-border: var(--qd-color-light-grey-5);--qd-color-theme-toggle-handle-bg: var(--ring-white-text-color);--qd-color-theme-toggle-sun: var(--qd-color-dark-blue);--qd-color-theme-toggle-crescent: var(--qd-color-light-grey)}.bodyQodanaBlocks_dark{--qd-theme-toggle-handle-border: 2px solid transparent;--qd-color-theme-toggle-bg: var(--qd-color-1-layer);--qd-color-theme-toggle-border: var(--qd-color-dt-light-grey40);--qd-color-theme-toggle-handle-bg: var(--qd-color-dt-light-grey40);--qd-color-theme-toggle-sun: var(--qd-color-lighter-grey);--qd-color-theme-toggle-crescent: var(--ring-white-text-color)}._checkbox_kg8td_21,._helper_kg8td_22{outline:none}._checkbox_kg8td_21:focus ._helper_kg8td_22{outline:var(--qd-outline)}._helper_kg8td_22{position:relative;display:inline-block;cursor:pointer;width:52px;z-index:1;border-radius:28px;background-color:var(--qd-color-theme-toggle-bg);border:1px solid var(--qd-color-theme-toggle-border);transition:color .2s,background-color .2s,border .2s}._switch_kg8td_46{position:absolute;z-index:1;width:28px;height:100%;margin:-1px;border:var(--qd-theme-toggle-handle-border);border-radius:24px;background:var(--qd-color-theme-toggle-handle-bg);transition:color .2s,background-color .2s,transform .2s}.bodyQodanaBlocks_dark ._switch_kg8td_46{box-sizing:border-box;width:26px;height:26px;margin:1px}._switch_kg8td_46._on_kg8td_69{transform:translate(24px)}._iconContainer_kg8td_73{display:flex;justify-content:space-between;padding:7px}._sunIcon_kg8td_79,._crescentIcon_kg8td_80{z-index:2;line-height:0;transition:color .2s}._sunIcon_kg8td_79{color:var(--qd-color-theme-toggle-sun)}._crescentIcon_kg8td_80{color:var(--qd-color-theme-toggle-crescent)}._themeContainer_154xh_1{height:100%;transition:color .2s,background .2s;color:var(--qd-color-text-1);background:var(--qd-color-main-bg)}._container_vfw8c_1{display:flex;height:100%;align-items:center;justify-content:center;width:100%}._container_12p4j_1{height:100vh}._content_12p4j_5{text-align:center}._subtitle_12p4j_9{max-width:440px;margin:auto}._circle_1kkek_1{border-radius:50%;border-color:var(--qd-color-circle-message);box-sizing:border-box;transition:border-color .2s;display:flex;align-items:center;justify-content:center}._textContainer_1kkek_13{text-align:center;padding:0 calc(var(--ring-unit) * 3.5)}._tooltip_6qd69_1{background-color:var(--qd-color-tooltip-bg);border-radius:var(--ring-border-radius);box-shadow:var(--qd-dialog-shadow);transition:opacity .2s;padding:8px 12px;max-width:450px;position:absolute;z-index:1000;pointer-events:none}._lowerMsg_6qd69_14{margin:5px 0 0}._centerSpace_9rnli_1{position:absolute;overflow:hidden;cursor:default}._customMessage_9rnli_8{font-size:1.2em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}._description_9rnli_15{margin:0;pointer-events:auto}._filterValues_9rnli_20{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}._problemsNum_9rnli_26{pointer-events:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}._zoomOut_9rnli_33{pointer-events:auto;cursor:pointer;margin:.3em 0 0;background:none;border:none;font-family:var(--ring-font-family);font-size:1em;color:var(--qd-color-blue);font-variant-numeric:normal;font-style:normal;box-sizing:content-box;transition:.2s color}._zoomOut_9rnli_33,._zoomOutText_9rnli_51{outline:none}._zoomOut_9rnli_33:hover{color:var(--qd-color-dark-blue)}._zoomOut_9rnli_33:focus>._zoomOutText_9rnli_51{border-radius:2px;box-shadow:var(--qd-focus-box-shadow)}._diagram_1updc_1{font-family:var(--ring-font-family);position:relative}._diagram_1updc_1 *{text-align:center}._notInteractive_1updc_10{pointer-events:none!important}._arc_1updc_14{fill-opacity:.9;transition:fill-opacity .5s;cursor:pointer}._shadowedArc_1updc_23{fill-opacity:.5}._hoveredArc_1updc_27{fill-opacity:1}._hiddenArc_1updc_31{transition:fill-opacity .75s;fill-opacity:0;pointer-events:none}._middleLineArc_1updc_37{visibility:hidden}._arcTextPath_1updc_41{pointer-events:none;dominant-baseline:middle;text-anchor:middle;fill:var(--qd-color-black)}._fadeContainer_cqd1k_1{position:absolute;pointer-events:none;width:100%}._top_cqd1k_7{top:0}._bottom_cqd1k_11{bottom:0}._scroll_cqd1k_15{position:relative;height:100%}._content_cqd1k_20{overflow-y:auto;height:100%}._fade_cqd1k_1{height:30px;background:transparent;transition:opacity .2s;opacity:0}._fadeActive_cqd1k_33{opacity:100%}._topFade_cqd1k_37{background:linear-gradient(to top,var(--qd-color-popup-gradient-start-bg),var(--qd-color-popup-gradient-end-bg))}._bottomFade_cqd1k_45{background:linear-gradient(to bottom,var(--qd-color-popup-gradient-start-bg),var(--qd-color-popup-gradient-end-bg))}._container_p25i3_3{--bar-label-font-size: 12px;--bar-label-padding-bottom: 8px;display:flex!important;font-family:var(--ring-font-family)!important}._icon_p25i3_11{line-height:16px!important;height:16px!important;vertical-align:bottom!important;padding-right:3px!important}._label_p25i3_18{font-size:var(--bar-label-font-size)!important;height:var(--bar-label-font-size)!important;line-height:var(--bar-label-font-size)!important;padding-bottom:var(--bar-label-padding-bottom)!important;text-align:right!important;text-overflow:ellipsis!important;overflow:hidden!important;white-space:nowrap!important;vertical-align:4px!important}._label_p25i3_18>a{color:var(--ring-link-color)!important}._container_1xnvs_3{--bar-label-font-size: 12px;font-family:var(--ring-font-family)!important}._icon_1xnvs_9{line-height:16px!important;height:16px!important;vertical-align:bottom!important;padding-right:3px!important}._foreignObj_1xnvs_16{height:var(--bar-label-font-size)!important}._label_1xnvs_20{font-size:var(--bar-label-font-size)!important;height:var(--bar-label-font-size)!important;line-height:var(--bar-label-font-size)!important;text-align:right!important;text-overflow:ellipsis!important;overflow:hidden!important;white-space:nowrap!important}._label_1xnvs_20>a{color:var(--ring-link-color)!important}
+</style><style>.container_jfHj {
+	padding: 14px 0 14px 14px;
+}
+
+.title_T6Tn {
+	margin-bottom: 20px;
+}
+</style><style>.container_GSWd {
+	font-family: var(--ring-font-family) !important;
+	line-height: 18px !important;
+	font-size: var(--ring-font-size) !important;
+	color: var(--qd-color-black) !important;
+}
+
+.title_BniX {
+	font-weight: 600 !important;
+	font-size: var(--ring-font-size) !important;
+
+	margin: 0 8px 2px 0 !important;
+	padding: 0 !important;
+	display: inline-block !important;
+}
+
+.linkFile_M6bF {
+	margin: 0 16px 2px 0 !important;
+	white-space: nowrap !important;
+	display: inline-block !important;
+
+	text-decoration: none !important;
+}
+
+.linkFile_M6bF svg {
+	vertical-align: -2px !important;
+}
+
+.fileIcon_dn7r {
+	margin-right: calc(var(--ring-unit)/2);
+}
+
+.fileQuestionIcon_CgmQ {
+	display: inline-block !important;
+	margin-right: 4px !important;
+}
+
+.fileName_zEVH {
+	transition: all 0.2s !important;
+}
+
+@media (hover: hover), (-moz-touch-enabled: 0), (-ms-high-contrast: none), (-ms-high-contrast: active) {.linkFile_M6bF:hover .fileName_zEVH {
+	color: var(--ring-link-hover-color) !important;
+	text-decoration: underline !important;
+}}
+
+.number_QzSE {
+	font-weight: 500 !important;
+	font-size: 12px !important;
+	color: var(--qd-color-ruby) !important;
+
+	margin-left: 5px !important;
+}
+
+.diff_cYfX > span {
+	color: var(--qd-color-light-grey) !important;
+	white-space: nowrap !important;
+	display: inline-block !important;
+}
+</style><style>.linkContainer_njni {
+	display: flex !important;
+	height: 18px !important;
+	width: -moz-fit-content !important;
+	width: fit-content !important;
+	align-items: center !important;
+
+	text-decoration: none !important;
+	line-height: 18px !important;
+}
+
+.text_ZBk8 {
+	font-family: var(--ring-font-family) !important;
+	font-weight: normal !important;
+}
+
+.name_HsTu {
+	font-size: var(--ring-font-size) !important;
+	margin: 0 4px !important;
+	transition: all 0.2s !important;
+}
+
+@media (hover: hover), (-moz-touch-enabled: 0), (-ms-high-contrast: none), (-ms-high-contrast: active) {.linkContainer_njni:hover .name_HsTu {
+	color: var(--ring-link-hover-color) !important;
+	text-decoration: underline !important;
+}}
+
+.problems_vBNs {
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	color: var(--qd-color-ruby) !important;
+}
+
+.critical_x0Fi {
+	color: var(--ring-error-color);
+}
+
+.moderate_Nme_ {
+	color: var(--ring-icon-highlight-color);
+}
+
+.high_sh0o {
+	color: var(--ring-icon-warning-color);
+}
+
+.info_fAMS {
+	color: var(--ring-main-color);
+}
+
+.low_yWAm {
+	color: var(--ring-disabled-color);
+}
+</style><style>.container_FPjK {
+	font-family: var(--ring-font-family) !important;
+	line-height: 18px !important;
+	font-size: var(--ring-font-size) !important;
+	color: var(--qd-color-black) !important;
+}
+
+.label_NEuj {
+	font-weight: 600 !important;
+	font-size: var(--ring-font-size) !important;
+
+	margin: 0 4px 0 0 !important;
+	padding: 0 !important;
+	display: inline-block !important;
+}
+
+.linkTool_ycrF {
+	transition: all 0.2s !important;
+}
+
+@media (hover: hover), (-moz-touch-enabled: 0), (-ms-high-contrast: none), (-ms-high-contrast: active) {.linkTool_ycrF:hover {
+	color: var(--ring-link-hover-color) !important;
+}}
+</style><style>.container_JTv4 {
+	font-family: var(--ring-font-family) !important;
+	font-weight: normal !important;
+	font-size: var(--ring-font-size) !important;
+	line-height: normal; /*teamcity*/
+
+	width: 100% !important;
+	box-sizing: border-box !important;
+	display: flex !important;
+	margin: 5px 0 20px !important;
+	overflow: hidden !important;
+}
+
+.title_WxoS {
+	margin-bottom: 20px;
+}
+
+.tabLink_ZodV {
+	font-size: var(--ring-font-size) !important;
+	line-height: 18px !important;
+
+	margin-top: 16px !important;
+	display: block !important;
+}
+
+@media (hover: hover), (-moz-touch-enabled: 0), (-ms-high-contrast: none), (-ms-high-contrast: active) {.tabLink_ZodV:hover {
+	color: var(--ring-link-hover-color) !important;
+}}
+
+.sunburstContainer_t8BT {
+	flex-shrink: 0 !important;
+}
+
+.textContainer__NqX {
+	margin-left: 40px !important;
+	margin-top: 49px !important;
+}
+
+.summaryActive_aGJT {
+	height: 42px !important;
+}
+
+.severityBox_wH0g {
+	padding: 0 !important;
+	margin-bottom: 21px !important;
+	margin-top: 16px !important;
+}
+
+.severityItem_wX82 {
+	list-style: none !important;
+}
+
+.severityItem_wX82 ~ .severityItem_wX82 {
+	margin-top: 9px !important;
+}
+
+.toolsBadge_jfdS {
+	margin-bottom: 10px !important;
+}
+</style><style>@font-face {
+	font-family: JetBrains Mono Bold;
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('JetBrains Mono Bold'),
+		url(http://teamcity-server:8111/plugins/qodana/build-extension/e9558e0e299113096714.woff) format('woff');
+}
+
+@font-face {
+	font-family: JetBrains Mono Regular;
+	font-style: normal;
+	src:
+		local('JetBrains Mono Regular'),
+		url(http://teamcity-server:8111/plugins/qodana/build-extension/0530df0fcda49e6393d6.woff) format('woff');
+}
+</style><style id="detectElementResize" type="text/css">@keyframes resizeanim { from { opacity: 0; } to { opacity: 0; } } .resize-triggers { animation: 1ms resizeanim; visibility: hidden; opacity: 0; } .resize-triggers, .resize-triggers > div, .contract-trigger:before { content: " "; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; z-index: -1; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }</style></head>
+
+      
+      
+      <body class="bodyWithHeader gt800 gt1000 gt1200">
+      
+
+
+
+
+
+<link data-ignore-dark-theme-adapter="" href="/js/ring/styles.0619771a895daa7e1f26.css" rel="stylesheet">
+
+
+      
+
+
+<script type="text/javascript" src="/res/-7907080250028288473.js?v=1784744082934"></script>
+
+      <script>
+        if (window.parent != null) {
+          window.parent.postMessage('BODY_START')
+        }
+      </script>
+      
+
+<div id="skip-to-main" data-react-refreshable-root="true"><a href="#main-content-tag" data-reach-skip-link="" data-reach-skip-nav-link="">Skip to content</a></div>
+<script>
+  ReactUIPromise.then(ReactUI => ReactUI.createAndRender('skip-to-main', ReactUI.SkipNav));
+</script>
+
+      <!-- Preload disk font for imitated password fields -->
+      <input hidden="" data-imitate-password="">
+      
+
+
+
+
+
+
+
+
+      
+        
+
+
+<script type="text/javascript" src="/res/-8514815108837196770.js?v=1784744082934"></script>
+
+        
+
+
+<style id="19f8b0a0be0" type="text/css">
+    @import "/res/773290249420299593.css?v=1784744082934";
+  
+</style>
+
+        <script>
+          BS.RestProjectsPopup.register();
+        </script>
+      
+      <div id="bodyWrapper">
+        <div class="ring-header"></div> <!-- Ring placeholder, do not remove -->
+          <div id="loadingWarning" style="display: none;">
+            <i id="inProgress" style="" class="ring-loader-inline progressRing loadingWarningProgress" title="Please wait..."></i>
+            <span class="text">Loading...</span>
+          </div>
+          <script type="text/javascript">
+            (function() {
+              function getLoadingDiv() {
+                return document.getElementById('loadingWarning');
+              }
+              var loadingTimeout = setTimeout(function(){
+                var div = getLoadingDiv();
+                if (div != null) {
+                  div.style.display = 'block';
+                }
+              }, 500);
+
+              $j(document).ready(function() {
+                if (loadingTimeout) clearTimeout(loadingTimeout);
+                var div = getLoadingDiv();
+                if (div != null) {
+                  BS.Util.hide(div);
+                }
+              });
+            })();
+          </script>
+
+        <div id="topBanners" class="">
+          <div id="sakura-release-banner-portal"></div>
+          <script>
+            (async function() {
+              const ReactUI = await ReactUIPromise;
+              
+              const withSakuraUI = true
+              const href = ReactUI.sakuraReleaseBannerHref;
+              if (withSakuraUI != true && typeof href === 'string' && href.length > 0) {
+                ReactUI.renderSakuraReleaseBanner('sakura-release-banner-portal', {href})
+              }
+            })()
+          </script>
+          <div id="pipelines-interview-recruitment-banner-portal" data-react-refreshable-root="true"></div>
+          <script>
+            (async function() {
+              const ReactUI = await ReactUIPromise;
+              ReactUI.renderPipelinesInterviewRecruitmentBanner('pipelines-interview-recruitment-banner-portal')
+            })()
+          </script>
+          <div id="pipelines-classic-ui-banner-portal"></div>
+          <script>
+            (async function() {
+              const ReactUI = await ReactUIPromise;
+              
+              const href = ReactUI.sakuraReleaseBannerHref;
+              const isClassicUI = false
+              if (isClassicUI && typeof href === 'string' && href.length > 0) {
+                ReactUI.renderPipelinesClassicUIBanner('pipelines-classic-ui-banner-portal', {href});
+              }
+            })()
+          </script>
+
+          
+          
+            <div class="ring-ui-theme-dark" id="react-header-placeholder" hidden=""></div>
+            
+          
+
+          
+          
+
+
+<style id="19f8b0a0be2" type="text/css">
+    @import "/res/-2743990253259579858.css?v=1784744082934";
+  
+</style>
+
+
+          
+
+
+
+
+<div class="globalWarningsWrapper-sakura" id="globalWarningsWrapper">
+  
+
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.web.openapi.SimplePageExtension: name:__tc_globalHealthReports: /globalHealthReports.jsp -->
+      
+
+
+
+
+
+
+<div id="globalHealthItems" class="refreshable" data-pageurl="/favorite/projects" data-passjsp="" data-resolve-relative-url="">
+  <!--##BEGIN:globalHealthItemsInner##--><div id="globalHealthItemsInner" class="refreshableInner">
+  <script>
+    BS.globalHealthItems = [];
+  </script>
+  <div data-health-report-react-container="" data-react-root="true" style="min-height: 0px;"></div>
+  
+  
+    <script>
+      {
+        const container = document.querySelector('[data-health-report-react-container]');
+        const globalHealthItemsContainer = document.getElementById('globalHealthItems');
+        
+        const checkAndToggleVisibility = () => {
+          const isCreateProjectPage = window.location.pathname.includes('/projects/create');
+          
+          if (globalHealthItemsContainer) {
+            globalHealthItemsContainer.style.display = isCreateProjectPage ? 'none' : '';
+          }
+          
+          return isCreateProjectPage;
+        };
+        
+        if (!checkAndToggleVisibility()) {
+          const existingGroups = ['Error', 'Warning', 'Info'].filter(severity => BS.globalHealthItems.some(item => item.severity === severity));
+          container.style.minHeight = existingGroups.length * 40 + 'px';
+          ReactUIPromise.then(ReactUI => ReactUI.renderHealthItems(container, {items: BS.globalHealthItems}));
+        }
+        
+        const originalPushState = history.pushState;
+        const originalReplaceState = history.replaceState;
+        
+        history.pushState = function() {
+          originalPushState.apply(this, arguments);
+          setTimeout(checkAndToggleVisibility, 0);
+        };
+        
+        history.replaceState = function() {
+          originalReplaceState.apply(this, arguments);
+          setTimeout(checkAndToggleVisibility, 0);
+        };
+        
+        window.addEventListener('popstate', checkAndToggleVisibility);
+      }
+    </script>
+  
+</div><!--##END:globalHealthItemsInner##-->
+</div>
+
+
+<script type="text/javascript">
+  (function () {
+    var delay = 5;
+    var dispersion = 2;
+    var currentValue = null;
+    var updateIsScheduled = false;
+    BS.SubscriptionManager.subscribe('global-health-items', function(newValue) {
+      if (currentValue != newValue) {
+        if (currentValue != null && !updateIsScheduled) {
+          var isCreateProjectPage = window.location.pathname.includes('/projects/create');
+          if (isCreateProjectPage) {
+            currentValue = newValue;
+            return;
+          }
+          updateIsScheduled = true;
+          var timeout = delay * 1000 + Math.floor(Math.random() * dispersion * 1000);
+          setTimeout(function () {
+            var healthItems = document.getElementById('globalHealthItems');
+            if (healthItems != null) {
+              healthItems.refresh();
+            }
+            updateIsScheduled = false;
+          }, timeout);
+        }
+        currentValue = newValue;
+      }
+    });
+  })();
+</script>
+
+
+
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.web.openapi.SimplePageExtension -->
+  
+
+
+
+</div>
+
+
+        </div>
+
+        <div id="SAKURA_AI_ASSISTANT_CHAT_CONTAINER" data-react-root="true"></div>
+        <script type="text/javascript">
+          (async function() {
+            const ReactUI = await ReactUIPromise;
+            ReactUI.renderConnected(document.getElementById('SAKURA_AI_ASSISTANT_CHAT_CONTAINER'), ReactUI.AiAssistantChatWrapper, {});
+          })();
+        </script>
+        
+
+        <div id="pageContentWrapper">
+          <div id="pageContent" class="refreshable" data-pageurl="" data-passjsp="" data-resolve-relative-url="">
+  <!--##BEGIN:pageContentInner##--><div id="pageContentInner" class="refreshableInner">
+            
+            <div hidden="" id="refreshedPageTitle">TeamCity</div>
+            <script>
+              // Update title on smooth navigation
+              document.title = document.getElementById('refreshedPageTitle').textContent;
+            </script>
+            <div id="topWrapper" class=" ">
+              
+
+
+
+
+
+
+
+
+              
+                
+<div class="fixedWidth clearfix" id="breadcrumbsWrapper" style="max-width: 2000px;">
+  <div hidden="" id="chevronIcon">
+    <span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M11.942 5.808a.625.625 0 0 0-.884 0L8 8.866 4.942 5.808a.625.625 0 1 0-.884.884l3.5 3.5c.244.244.64.244.884 0l3.5-3.5a.625.625 0 0 0 0-.884Z" clip-rule="evenodd"></path></svg></span>
+  </div>
+  <div hidden="" id="pencilIcon">
+    <span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M10.07 1.552a1.786 1.786 0 0 1 2.533-.004l.012.012 1.848 1.964a1.77 1.77 0 0 1-.018 2.51l-2.312 2.315-6.482 6.47a.625.625 0 0 1-.442.182H1.623a.625.625 0 0 1-.625-.625v-3.52c0-.165.066-.325.184-.442l6.515-6.503 2.373-2.36Zm1.648.88a.536.536 0 0 0-.758-.002l-.006.006-1.93 1.919 2.667 2.667 1.878-1.88a.52.52 0 0 0 0-.745l-.006-.006-1.845-1.96Zm-.911 5.474-2.67-2.67-5.889 5.88v2.635h2.703l5.856-5.845Z" clip-rule="evenodd"></path></svg></span>
+  </div>
+  <div hidden="" id="buildTypeIcon">
+    <span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill="none" class="secondary" stroke="currentColor" stroke-width="1.25" d="m1.912 7.306 5.394-5.394a.981.981 0 0 1 1.388 0l5.394 5.394a.981.981 0 0 1 0 1.388l-5.394 5.394a.981.981 0 0 1-1.388 0L1.912 8.694a.981.981 0 0 1 0-1.388Z"></path><path fill-rule="evenodd" d="M7.748 2.354 2.354 7.748a.356.356 0 0 0 0 .504l5.394 5.394c.14.139.365.139.504 0l5.394-5.394a.356.356 0 0 0 0-.504L8.252 2.354a.356.356 0 0 0-.504 0ZM1.47 6.864a1.606 1.606 0 0 0 0 2.272l5.394 5.394a1.606 1.606 0 0 0 2.272 0l5.394-5.394a1.606 1.606 0 0 0 0-2.272L9.136 1.47a1.606 1.606 0 0 0-2.272 0L1.47 6.864Z" clip-rule="evenodd"></path></svg></span>
+  </div>
+  <div hidden="" id="buildTypeCompositeIcon">
+    <span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill="none" class="secondary" d="M3.735 8.994a1.452 1.452 0 0 1 0-2.056l4.89-4.882a1.457 1.457 0 0 1 2.059 0l4.89 4.882a1.452 1.452 0 0 1 0 2.056l-4.89 4.883a1.458 1.458 0 0 1-2.06 0l-4.89-4.883Z"></path><path fill-rule="evenodd" d="M9.508 13.026c.08.08.211.08.292 0l4.888-4.88.001-.002a.206.206 0 0 0 0-.289l-4.89-4.882a.206.206 0 0 0-.29 0L4.62 7.854l-.001.001a.206.206 0 0 0 0 .289l.001.001 4.888 4.881ZM7.706 1.76a1.459 1.459 0 0 0-2.06 0L.426 6.971a1.453 1.453 0 0 0 0 2.057l5.22 5.212a1.458 1.458 0 0 0 2.06 0l.625-.623.293.292.001.002a1.46 1.46 0 0 0 2.058 0l.001-.002 4.889-4.88a1.453 1.453 0 0 0 0-2.058L10.684 2.09l-.001-.001a1.458 1.458 0 0 0-2.06 0l-.292.294-.625-.624Zm-.319 10.916L3.736 9.028a1.448 1.448 0 0 1-.418-1.19c.035-.316.174-.624.418-.867l3.651-3.646-.624-.623a.123.123 0 0 0-.174 0L1.37 7.913a.122.122 0 0 0 0 .173l5.22 5.212a.123.123 0 0 0 .173 0l.624-.623Z" clip-rule="evenodd"></path></svg></span>
+  </div>
+  <div id="restBreadcrumbs" data-hint-container-id="breadcrumbs-hint">
+    <ul id="restNavigation"><li></li></ul>
+    
+
+  <div id="HEADER_RIGHT_CONTAINER" class="placeIdContainer" data-react-root="true"><div id="HEADER_RIGHT" class="placeIdModule"><div class="Plugin-module__container--j5" data-team-city-plugin-name="Search by Build Number"></div></div></div>
+  <script>
+    ReactUIPromise.then(ReactUI => {
+      if (ReactUI) {
+        ReactUI.renderPluginPlace(document.getElementById("HEADER_RIGHT_CONTAINER"), {
+          placeId: "HEADER_RIGHT",
+          disableFetch: true,
+        })
+      }
+    });
+  </script>
+
+    <div id="SAKURA_AI_ASSISTANT_CHAT_BUTTON_CONTAINER" data-react-root="true"></div>
+    <script>
+      (async function () {
+        const ReactUI = await ReactUIPromise;
+        ReactUI.renderConnected(document.getElementById('SAKURA_AI_ASSISTANT_CHAT_BUTTON_CONTAINER'), ReactUI.AiAssistantChatButtonWrapper, {});
+      })();
+    </script>
+  </div>
+  <div class="quickLinks">
+    
+  </div>
+
+  
+
+  <div class="restPageTitleWrapper">
+    <div id="restPageTitle"><div class="breadcrumbHealthIndicators"></div></div>
+  </div>
+  <div id="restPageDescription"></div>
+  <script type="text/javascript">
+    $j(document).on('bs.navigationRendered', function(){
+      if (BS.RestProjectsPopup != undefined) {
+        BS.RestProjectsPopup.installRestBreadcrumbs();
+      }
+    });
+  </script>
+</div>
+<script type="text/javascript">
+  BS.Navigation.writeBreadcrumbs().then(() =>
+    BS.Navigation.installHealthItems());
+</script>
+
+              
+
+              <div class="fixedWidth">
+                
+
+                
+
+              </div>
+
+              <div class="fixedWidth">
+                
+                <table class="tabsTable">
+                  <tbody><tr>
+                    <td>
+                      <div id="tabsContainer3" class="simpleTabs">
+                        
+                      </div>
+                    </td>
+                    <td class="besideContent">
+                      
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+            </div>
+
+            <div id="archivedProjectsContent" class="popupDiv" style="display:none;"></div>
+
+            
+<div id="buildResultsSummaryTemplate" style="display:none">
+  <div class="summaryContainer">
+    <div id="detailedSummary:##BUILD_ID##">
+      <table>
+      <tbody><tr>
+        <td>
+          <div class="header">Build shortcuts</div>
+          <ul class="bsLinks">
+            <li>
+              <a href="/viewLog.html?tab=buildLog&amp;buildTypeId=##BUILD_TYPE_ID##&amp;buildId=##BUILD_ID##" title="View log messages">Build log</a>
+              <span class="separator">|</span>
+              <a href="downloadBuildLog.html?buildId=##BUILD_ID##&amp;archived=true" target="_blank" rel="noreferrer" title="Download archived build log">.zip</a>
+            </li>
+            <li><span id="summaryProgress:##BUILD_ID##" style="font-weight: normal; color:#737577;"></span></li>
+          </ul>
+        </td>
+      </tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+
+            <div id="mainContent" class="fixedWidth clearfix ">
+              <div id="content">
+                
+
+                
+                
+                  
+                    <div id="overview" data-react-refreshable-root="true"><div role="presentation"><div class="Header-module__container--eH ring-variables_dark-dark ring-ui-theme-dark" style="left: 0px;"><div class="ring-variables_dark-dark ring-ui-theme-dark"><header data-test-main-nav="true" class="ring-header-headerVertical Header-module__header--MR"><div class="HomeLink-module__container--NH"><span aria-label="TeamCity" role="tooltip" id="_r_0_" data-test="ring-tooltip" data-test-title="TeamCity"><a href="/favorite/projects?onlyFavorites=false" aria-labelledby="_r_0_" class="ring-link-link LinkHost-module__link--X1 LinkHost-module__withCaption--Wp" data-test="ring-link"><span><div class="ring-header-logo HomeLink-module__logo--SO"><span data-test="ring-icon" data-ignore-dark-theme-adapter="true" class="ring-icon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64" role="presentation" class="ring-icon-glyph" style="width: 40px; height: 40px;"><defs><linearGradient id="i3" x1="7.671" x2="61.126" y1="64.393" y2="39.609" gradientUnits="userSpaceOnUse"><stop offset="0.1" stop-color="#3BEA62"></stop><stop offset="0.59" stop-color="#6B57FF"></stop></linearGradient><linearGradient id="i2" x1="59.933" x2="1.337" y1="59.676" y2="1.08" gradientUnits="userSpaceOnUse"><stop offset="0.26" stop-color="#6B57FF"></stop><stop offset="0.65" stop-color="#07C3F2"></stop></linearGradient></defs><path fill="#3BEA62" d="M6 47.55v12.259a4.125 4.125 0 0 0 4.19 4.124l11.044-.176a4.13 4.13 0 0 0 3.066-1.44l32.707-38.158c.64-.748.993-1.7.993-2.685V10.125A4.125 4.125 0 0 0 53.875 6H42.872c-1.19 0-2.321.514-3.105 1.409L7.021 44.834A4.12 4.12 0 0 0 6 47.55"></path><path fill="url(#i3)" d="M6 49.015v10.862a4.125 4.125 0 0 0 4.125 4.125h12.566q.3 0 .598-.044l37.185-5.448A4.125 4.125 0 0 0 64 54.429V39.03a4.125 4.125 0 0 0-4.127-4.125l-18.504.005c-.426 0-.849.066-1.254.195l-31.244 9.98A4.13 4.13 0 0 0 6 49.015"></path><path fill="url(#i2)" d="M0 4.125v34.127c0 1.659.993 3.155 2.52 3.8L39.943 57.85c.518.219 1.075.33 1.638.324l18.329-.15A4.125 4.125 0 0 0 64 53.9V36.234c0-.806-.236-1.593-.678-2.267L42.213 1.86A4.13 4.13 0 0 0 38.766 0H4.125A4.125 4.125 0 0 0 0 4.125"></path><path fill="#000" d="M52 12H12v40h40z"></path><path fill="#fff" d="M33 44H17v3h16zM16.003 16.992H28.04v2.637h-4.545V32h-2.927V19.63h-4.566v-2.637Zm16.787 14.25a7.3 7.3 0 0 1-2.744-2.786q-.997-1.774-.997-3.961c0-2.187.332-2.778.997-3.96s1.58-2.112 2.743-2.787q1.747-1.013 3.902-1.014 1.823 0 3.345.675a6.9 6.9 0 0 1 2.535 1.892 6.44 6.44 0 0 1 1.355 2.793h-3.065a4.04 4.04 0 0 0-2.326-2.38 4.9 4.9 0 0 0-1.822-.333q-1.33 0-2.402.665a4.6 4.6 0 0 0-1.677 1.827q-.606 1.164-.606 2.62 0 1.459.606 2.621a4.6 4.6 0 0 0 1.677 1.828q1.072.664 2.402.664a4.9 4.9 0 0 0 1.822-.332 4.01 4.01 0 0 0 2.326-2.38h3.065a6.44 6.44 0 0 1-1.355 2.792 6.86 6.86 0 0 1-2.535 1.892q-1.523.675-3.345.675-2.154 0-3.901-1.013v.003Z"></path></svg></span></div></span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span></div><div class="ring-scrollable-section-scrollableSection ring-header-links Links-module__links--rK"><span aria-label="Projects" role="tooltip" id="_r_1_" data-test="ring-tooltip" data-test-title="Projects"><a href="/favorite/projects?onlyFavorites=false" aria-labelledby="_r_1_" data-selected="true" class="ring-link-link LinkHost-module__link--X1 LinkHost-module__active--bM LinkHost-module__withCaption--Wp ring-link-active" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill="none" d="M3.1 2C1.94 2 1 3.045 1 4.333v10.334C1 15.955 1.94 17 3.1 17h13.8c1.16 0 2.1-1.045 2.1-2.333V7a2.5 2.5 0 0 0-2.5-2.5h-5.9L8.5 2.372A1.25 1.25 0 0 0 7.61 2z" class="secondary"></path><path fill-rule="evenodd" d="M9.973 6 7.506 3.5H3.1a.5.5 0 0 0-.37.187.96.96 0 0 0-.23.646v10.334c0 .28.102.504.23.646.126.14.259.187.37.187h13.8a.5.5 0 0 0 .37-.187.96.96 0 0 0 .23-.646V7a1 1 0 0 0-1-1zm.627-1.5h5.9A2.5 2.5 0 0 1 19 7v7.667C19 15.955 18.06 17 16.9 17H3.1C1.94 17 1 15.955 1 14.667V4.333C1 3.045 1.94 2 3.1 2h4.51c.335 0 .656.134.89.372z" class="folder (Stroke)" clip-rule="evenodd"></path></svg></span></div><span>Projects</span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span><span aria-label="Changes" role="tooltip" id="_r_2_" data-test="ring-tooltip" data-test-title="Changes"><a href="/changes" aria-labelledby="_r_2_" data-selected="false" class="ring-link-link LinkHost-module__link--X1 LinkHost-module__withCaption--Wp" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path d="M3 11.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75"></path><path fill-rule="evenodd" d="M14.968 8.97a.75.75 0 0 1 1.06 1.06l-.97.97h4.19a.75.75 0 1 1 0 1.5h-4.19l.97.97a.75.75 0 1 1-1.06 1.06l-2.78-2.78zm-3.727 4.95a.75.75 0 0 0-1.06 1.06l.97.97H6.96a.75.75 0 0 0 0 1.5h4.19l-.97.97a.75.75 0 0 0 1.06 1.06l2.78-2.78z" clip-rule="evenodd"></path><path d="M3 7.75A.75.75 0 0 1 3.75 7h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 7.75m0-4A.75.75 0 0 1 3.75 3h12.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 3.75"></path></svg></span></div><span>Changes</span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span><span id="_r_3_" data-test="ring-tooltip"><a href="/agents" aria-labelledby="_r_3_" data-selected="false" class="ring-link-link LinkHost-module__link--X1 LinkHost-module__withCaption--Wp" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M1.252 10.61a2.6 2.6 0 0 1 .135-.828 4 4 0 0 1 .237-.53l.07-.139 1.895-3.791c.422-.843.632-1.264.947-1.572l1.05 1.072c-.092.09-.185.23-.655 1.17L3.302 9.25h13.396l-1.629-3.257c-.47-.94-.562-1.081-.654-1.171l1.05-1.072c.314.308.524.73.946 1.572l1.895 3.791.07.14c.12.241.187.383.237.53a2.6 2.6 0 0 1 .135.828c.002.103.002.226.002.38v1.81c0 1.47 0 2.204-.286 2.766a2.63 2.63 0 0 1-1.147 1.147C16.755 17 16.02 17 14.55 17h-9.1c-1.47 0-2.205 0-2.766-.286a2.63 2.63 0 0 1-1.148-1.147c-.286-.562-.286-1.297-.286-2.767v-1.808c0-.155 0-.278.002-.381Zm15.997.14v2.05c0 .76 0 1.24-.03 1.602-.028.345-.074.45-.092.484a1.12 1.12 0 0 1-.491.491c-.034.018-.14.064-.484.092-.363.03-.842.031-1.602.031h-9.1c-.76 0-1.24-.001-1.602-.03-.345-.029-.45-.075-.483-.093l-.658 1.291.658-1.29a1.13 1.13 0 0 1-.492-.492c-.017-.034-.064-.139-.092-.484-.03-.362-.03-.842-.03-1.602v-2.05zm-2.765-7.606c.367.127.702.334.98.606l-1.05 1.072a1.1 1.1 0 0 0-.42-.26zm0 0C14.068 3 13.597 3 12.654 3H7.346c-.942 0-1.413 0-1.83.144a2.6 2.6 0 0 0-.98.606l1.05 1.072c.118-.117.262-.206.42-.26.121-.042.289-.062 1.34-.062h5.308c1.051 0 1.219.02 1.34.062zM4 13.5a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5A.75.75 0 0 1 4 13.5" clip-rule="evenodd"></path></svg></span><span data-hint-container-id="header-agents-active" class="LinkHost-module__badge--Sj">1</span><div class="ring-progress-bar-progressBar AgentsLink-module__progressBar--Ys ring-progress-bar-staticLineColor"><div class="ring-progress-bar-line" role="progressbar" aria-label="Progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1"></div></div></div><span>Agents</span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span><span aria-label="Queue: 0 builds" role="tooltip" id="_r_4_" data-test="ring-tooltip" data-test-title="Queue: 0 builds"><a href="/queue" aria-labelledby="_r_4_" data-selected="false" class="ring-link-link LinkHost-module__link--X1 LinkHost-module__withCaption--Wp" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M5.906 1h8.188c.19 0 .375 0 .532.014.171.015.372.051.572.163.28.155.504.401.643.7.1.214.133.427.146.611.013.169.013.369.013.577v1.798c0 .337 0 .625-.061.904a2.5 2.5 0 0 1-.264.697c-.139.246-.327.451-.545.689l-.043.047-2.21 2.411a7 7 0 0 0-.303.344l-.03.04v.01l.03.04c.058.075.145.172.303.344l2.21 2.41.043.048c.218.238.406.443.544.69.122.215.211.45.265.696.061.279.061.567.061.904v1.798c0 .208 0 .408-.013.577a1.7 1.7 0 0 1-.146.61c-.14.3-.363.546-.643.701-.2.112-.4.148-.572.163-.157.014-.341.014-.532.014H5.906c-.19 0-.375 0-.531-.014a1.4 1.4 0 0 1-.573-.163 1.54 1.54 0 0 1-.644-.7 1.7 1.7 0 0 1-.145-.611C4 17.343 4 17.143 4 16.935v-1.798c0-.337 0-.625.061-.904q.082-.37.265-.697c.138-.246.326-.451.544-.689l.043-.047 2.21-2.411c.158-.172.245-.268.303-.344l.03-.04v-.01l-.03-.04a7 7 0 0 0-.303-.344l-2.21-2.41-.043-.048c-.218-.238-.406-.443-.544-.689a2.5 2.5 0 0 1-.265-.697C4 5.488 4 5.2 4 4.863V3.065c0-.208 0-.408.013-.577.013-.184.046-.397.145-.61.14-.3.364-.546.644-.701.2-.112.4-.148.573-.163C5.53 1 5.715 1 5.906 1m5.261 8.51c.068-.227.184-.404.294-.546.101-.13.231-.271.366-.419l2.226-2.429c.285-.31.342-.38.38-.45a1 1 0 0 0 .097-.254c.018-.081.023-.177.023-.615V3.09c0-.243 0-.379-.008-.478l-.005-.051a6 6 0 0 0-.47-.012H5.93a6 6 0 0 0-.47.012 7 7 0 0 0-.013.53v1.706c0 .438.005.534.023.615q.03.136.096.255c.04.07.096.139.38.45l2.227 2.428c.135.148.265.29.366.42.11.141.226.318.294.546.095.318.095.66 0 .978a1.7 1.7 0 0 1-.294.547c-.101.13-.231.271-.366.419l-2.226 2.429c-.285.31-.342.38-.38.45a1 1 0 0 0-.097.254c-.018.081-.023.177-.023.615v1.707a7 7 0 0 0 .013.53l.035.003c.088.008.211.009.435.009h8.14a6 6 0 0 0 .47-.013l.005-.05c.007-.1.008-.236.008-.48v-1.706c0-.438-.005-.534-.023-.615a1 1 0 0 0-.096-.254c-.04-.07-.096-.14-.38-.45l-2.227-2.43a7 7 0 0 1-.366-.418 1.7 1.7 0 0 1-.294-.547 1.7 1.7 0 0 1 0-.978ZM4.806 2.224l.636.34Zm2.21 13.124c0-.428.323-.774.723-.774h4.522c.4 0 .724.346.724.774 0 .427-.324.774-.724.774H7.74c-.4 0-.724-.347-.724-.774" clip-rule="evenodd"></path></svg></span></div><span>Queue</span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span><span aria-label="Administration" role="tooltip" id="_r_5_" data-test="ring-tooltip" data-test-title="Administration"><a href="http://teamcity-server:8111/admin/admin.html" aria-labelledby="_r_5_" data-selected="false" data-hint-container-id="header-administration-link" class="ring-link-link LinkHost-module__link--X1 LinkHost-module__withCaption--Wp" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M12.087 18.19a.98.98 0 0 1-.7.464 10 10 0 0 1-2.773 0 .98.98 0 0 1-.701-.465l-1.158-1.928a1.05 1.05 0 0 0-.914-.496l-2.358.025a1 1 0 0 1-.78-.336 8.6 8.6 0 0 1-1.39-2.253.87.87 0 0 1 .08-.8l1.203-1.906a.92.92 0 0 0 0-.99L1.393 7.599a.87.87 0 0 1-.08-.8 8.6 8.6 0 0 1 1.39-2.253 1.01 1.01 0 0 1 .78-.336l2.358.025c.378.004.729-.186.914-.496l1.115.67a2.35 2.35 0 0 1-2.043 1.126l-2.236-.023a7.3 7.3 0 0 0-.984 1.575L3.695 8.81c.46.73.46 1.649 0 2.378l-1.088 1.724c.258.562.59 1.091.984 1.575l2.236-.023a2.35 2.35 0 0 1 2.043 1.127l1.077 1.795a8.7 8.7 0 0 0 2.106 0l1.077-1.795a2.35 2.35 0 0 1 2.043-1.127l2.236.023a7.3 7.3 0 0 0 .984-1.574l-1.089-1.725a2.22 2.22 0 0 1 0-2.378l1.089-1.724a7.3 7.3 0 0 0-.984-1.575l-2.236.023a2.35 2.35 0 0 1-2.043-1.127l-1.078-1.795a8.7 8.7 0 0 0-2.105 0L7.87 4.408 6.755 3.74l1.158-1.928a.98.98 0 0 1 .7-.465 10 10 0 0 1 2.773 0 .98.98 0 0 1 .701.465l1.157 1.928c.186.31.537.5.915.496l2.358-.025c.302-.003.592.115.78.336a8.6 8.6 0 0 1 1.39 2.253.87.87 0 0 1-.08.8l-1.203 1.906a.92.92 0 0 0 0 .99l1.203 1.906c.153.243.19.538.08.8a8.6 8.6 0 0 1-1.39 2.253 1.01 1.01 0 0 1-.78.336l-2.358-.025a1.05 1.05 0 0 0-.915.496zm-9.594-5.096-.37-.232.37.233Z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M6.455 10a3.545 3.545 0 1 1 7.09 0 3.545 3.545 0 0 1-7.09 0M10 7.655a2.345 2.345 0 1 0 0 4.69 2.345 2.345 0 0 0 0-4.69" clip-rule="evenodd"></path></svg></span></div><span>Admin</span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span><div id="SAKURA_HEADER_NAVIGATION_AFTER" class="placeIdModule Plugin-module__inline--HX"></div></div><div class="ring-header-tray Header-module__tray--YO"><div><div id="SAKURA_HEADER_USERNAME_BEFORE" class="placeIdModule"></div></div><div><span aria-label="My Investigations: 0" role="tooltip" id="_r_6_" data-test="ring-tooltip" data-test-title="My Investigations: 0"><a href="http://teamcity-server:8111/investigations.html?init=1" aria-labelledby="_r_6_" class="ring-link-link LinkHost-module__link--X1" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M10.11 1.057a.77.77 0 0 0-.58 0L2.84 3.792a.767.767 0 0 0-.363 1.11l2.042 3.331h.494l-.006.046-.002.01a1 1 0 0 0-.007.08c0 2.252 1.546 4.128 3.631 4.665.782.2 1.73.173 2.404 0 2.085-.537 3.632-2.413 3.632-4.664a1 1 0 0 0-.008-.086l-.002-.01-.007-.051.483-.002 2.034-3.318a.767.767 0 0 0-.364-1.11zM6.484 8.648q.002-.08.044-.136a1729 1729 0 0 0 6.666-.012c.008.023 0-.03 0 .09 0 2.013-1.316 3.076-3.33 3.076s-3.38-1.004-3.38-3.018M9.752 2.66l-.033.014-5.166 1.988c-.274.11-.383.266-.228.517l1.228 1.809.621.003c.512.003 1.233.007 2.132.006 1.164-.001 2.415.003 3.53.008.81.003 1.548.005 2.13.005l1.328-1.8c.155-.252.032-.465-.242-.576l-4.983-2.018c-.106-.043-.212 0-.318.044ZM9.864 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2m3.668 12.632c.28.27.487.57.64.868H5.828a3.3 3.3 0 0 1 .64-.868C7.042 16.076 8.07 15.5 10 15.5s2.958.576 3.532 1.132M10 14c-4.52 0-5.686 2.753-5.987 4.173-.096.454.35.827.91.827h10.153c.561 0 1.007-.373.91-.827C15.687 16.753 14.52 14 10 14" clip-rule="evenodd"></path></svg></span></div><span></span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span></div><div><span aria-label="What's New" role="tooltip" id="_r_7_" data-test="ring-tooltip" data-test-title="What's New"><button type="button" aria-labelledby="_r_7_" data-selected="false" class="ring-link-link LinkHost-module__link--X1 ring-link-pseudo" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" class="ring-icon-glyph"><path fill-rule="evenodd" d="M7.206 2.836a.791.791 0 0 0-.564.24.848.848 0 0 0-.241.594.85.85 0 0 0 .24.594c.153.155.356.24.565.24h1.781a4.952 4.952 0 0 0-.224-.478c-.387-.716-.892-1.19-1.557-1.19Zm2.05 3.167v2.46H3.354a6.504 6.504 0 0 1-.503-.013 6.512 6.512 0 0 1-.013-.504V6.52a6.512 6.512 0 0 1 .013-.503 6.504 6.504 0 0 1 .504-.013h5.901Zm-4.203-1.5a2.36 2.36 0 0 1 .518-2.479 2.292 2.292 0 0 1 1.635-.688c1.434 0 2.313.998 2.8 1.84.487-.842 1.366-1.84 2.8-1.84.616 0 1.204.25 1.635.688a2.349 2.349 0 0 1 .518 2.48h1.723c.2 0 .394 0 .557.013.178.014.386.048.594.154.29.148.526.384.674.674.106.208.14.416.155.594.013.163.013.356.013.557V7.97c0 .2 0 .394-.013.557a1.56 1.56 0 0 1-.155.594c-.148.29-.384.526-.674.674-.208.106-.415.14-.594.155a3.417 3.417 0 0 1-.148.008v5.46c0 .42 0 .778-.024 1.073-.025.31-.081.615-.23.908-.224.44-.581.796-1.02 1.02-.293.15-.598.205-.909.23-.294.024-.653.024-1.072.024H6.175c-.418 0-.776 0-1.071-.024-.31-.025-.616-.08-.909-.23a2.334 2.334 0 0 1-1.02-1.02c-.149-.293-.204-.598-.23-.908a14.159 14.159 0 0 1-.024-1.072V9.958a3.414 3.414 0 0 1-.148-.008 1.56 1.56 0 0 1-.594-.155 1.542 1.542 0 0 1-.674-.674 1.56 1.56 0 0 1-.154-.594c-.014-.163-.014-.356-.014-.557V6.496c0-.2 0-.394.014-.557a1.56 1.56 0 0 1 .154-.594c.148-.29.384-.526.674-.674a1.56 1.56 0 0 1 .594-.154 7.24 7.24 0 0 1 .557-.014h1.723Zm-.632 5.46v5.426c0 .456 0 .753.02.98.017.217.048.303.071.35.08.156.208.284.364.364.046.023.132.054.35.071.226.019.523.02.98.02h3.05V9.962H4.421Zm6.335 0v7.21h3.051c.456 0 .753 0 .98-.019.217-.017.303-.048.349-.071a.834.834 0 0 0 .364-.365c.024-.046.054-.132.072-.35.019-.226.02-.523.02-.979V9.963h-4.836Zm5.902-1.5a6.503 6.503 0 0 0 .504-.013 6.517 6.517 0 0 0 .013-.504V6.52a6.517 6.517 0 0 0-.013-.503 6.503 6.503 0 0 0-.504-.013h-5.902v2.459h5.902Zm-3.852-3.96a.79.79 0 0 0 .565-.239.848.848 0 0 0 .24-.594.848.848 0 0 0-.24-.595.791.791 0 0 0-.565-.24c-.665 0-1.17.475-1.557 1.191-.086.16-.16.323-.224.477h1.781Z" clip-rule="evenodd"></path></svg></span><span class="WhatsNew-module__dot--rx"></span></div><span></span></button><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span><span></span></div><div><div data-test="ring-dropdown help-dropdown" class="ring-dropdown-dropdown"><div data-test="ring-dropdown-anchor-click-interceptor" class="ring-dropdown-clickInterceptor" role="presentation"><span aria-label="Help" role="tooltip" id="_r_8_" data-test="ring-tooltip" data-test-title="Help"><button type="button" aria-labelledby="_r_8_" data-selected="false" class="ring-link-link LinkHost-module__link--X1 ring-link-pseudo" data-test="ring-link"><div class="LinkHost-module__iconWrapper--nE"><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 LinkHost-module__icon--j9"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M17.5 10a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18m.086-12.686q.536 0 .932.343t.396.857q0 .471-.289.836a5.4 5.4 0 0 1-.653.686q-.493.428-.868.942-.375.515-.375 1.158 0 .3.225.503t.525.204a.76.76 0 0 0 .546-.215 1 1 0 0 0 .29-.535q.085-.45.385-.804.3-.353.643-.675.492-.471.847-1.028a2.3 2.3 0 0 0 .353-1.243q0-1.093-.89-1.79-.888-.696-2.067-.696a3.65 3.65 0 0 0-1.554.343 2.4 2.4 0 0 0-1.125 1.05.77.77 0 0 0-.096.546q.053.29.29.44.3.171.62.107a.85.85 0 0 0 .536-.365 1.66 1.66 0 0 1 1.329-.664m-.129 8.829q.45 0 .761-.311.31-.31.31-.76c0-.45-.103-.554-.31-.761a1.03 1.03 0 0 0-.76-.311q-.45 0-.761.31-.31.312-.311.761c-.001.449.104.554.31.761q.311.31.761.31Z" clip-rule="evenodd"></path></svg></span></div><span></span></button><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span></div><span></span></div></div><div><div id="SAKURA_HEADER_RIGHT" class="placeIdModule"></div></div><div><div data-test="ring-dropdown" data-hint-container-id="header-user-menu" class="ring-dropdown-dropdown HeaderUser-module__user--dr"><div data-test="ring-dropdown-anchor-click-interceptor" class="ring-dropdown-clickInterceptor" role="presentation"><span aria-label="g9knbacm" role="tooltip" id="_r_9_" data-test="ring-tooltip" data-test-title="g9knbacm"><button type="button" class="HeaderUser-module__avatarWrapper--wO globals-module__resetButton--Dq ring-global-resetButton" aria-labelledby="_r_9_"><span class="Avatar-module__wrapper--EC HeaderUser-module__avatar--ZX Avatar-module__my--j1" data-ignore-dark-theme-adapter="true" style="height: 32px; width: 32px;"><span class="ring-avatar-avatar Avatar-module__avatar--hl ring-avatar-round" data-test="avatar" style="height: 32px; width: 32px;"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gradient-0-1tjl" x1="1" y1="1" x2="0" y2="0"><stop stop-color="#B989FF" offset="0"></stop><stop stop-color="#60E2F5" offset="0.8"></stop></linearGradient></defs><g><rect fill="url(#gradient-0-1tjl)" x="0" y="0" width="32" height="32" rx="50%" ry="50%"></rect><text x="50%" y="54%" font-family="var(--ring-font-family, 'Arial, Helvetica, sans-serif')" font-size="15px" font-weight="600" letter-spacing="1" fill="#FFFFFF" dominant-baseline="middle" text-anchor="middle" cursor="default"><tspan>G9</tspan></text><title>g9knbacm</title></g></svg></span></span></button><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span></div><span></span></div></div></div></header></div></div><div class="SidebarPanel-module__sidebar--G7" data-test="sidebar" style="height: calc(0px + 100vh);"><div style="position: relative; user-select: auto; width: 335px; height: 100%; max-width: 1091px; min-width: 268px; box-sizing: border-box; flex-shrink: 0;"><div class="SidebarPanel-module__content--Z9"><div class="ProjectsSidebar-module__sidebar--ph"><div role="presentation" class="ProjectsTree-module__sidebar--f6 SidebarPanelContent-module__content--ad"><div class="SidebarHeaderShadow-module__wrapper--so"><div class="SidebarHeader-module__headerTitelRow--ZQ"><div class="SidebarHeader-module__sidebarHeader--B3"><span data-test="ring-tooltip"><button type="button" aria-label="Unpin sidebar" title="" class="ring-button-button SidebarPinIcon-module__pinIcon--Zq ring-button-heightS ring-button-inline ring-button-withNormalIcon ring-button-iconOnly"><span data-test="ring-icon" class="ring-icon-icon ring-button-icon _icon_ce86e11"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" role="presentation" class="ring-icon-glyph"><g class="Sidebar-filled-20px"><path fill-rule="evenodd" d="M1.25 14.476c0 1.613.869 2.467 2.496 2.467h12.508c1.627 0 2.496-.854 2.496-2.467V5.531c0-1.612-.869-2.473-2.496-2.473H3.746c-1.627 0-2.496.861-2.496 2.473zM8.818 4.5h7.296c.64 0 1.294.823 1.294 1.5v8.3c0 .677-.653 1.2-1.294 1.2H8.818zM3.834 6.857c0 .272.243.515.53.515h1.458a.53.53 0 0 0 .53-.515.524.524 0 0 0-.53-.508H4.364c-.287 0-.53.235-.53.508m0 2.017c0 .28.243.515.53.515h1.458c.294 0 .53-.235.53-.515a.524.524 0 0 0-.53-.508H4.364c-.287 0-.53.235-.53.508m0 2.024c0 .28.243.508.53.508h1.458c.294 0 .53-.228.53-.508a.524.524 0 0 0-.53-.508H4.364c-.287 0-.53.236-.53.508" class="Subtract" clip-rule="evenodd"></path></g></svg></span></button><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span>Projects</div><span class="SidebarHeader-module__headerButton--LE"><span aria-label="Create" role="tooltip" data-test="ring-tooltip" data-test-title="Create"><a href="/projects/create?projectId=_Root&amp;cameFromUrl=/favorite/projects" class="ring-button-button ring-button-heightS ring-button-inline ring-button-withNormalIcon ring-button-iconOnly"><span data-test="ring-icon" class="ring-icon-icon ring-button-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" role="presentation" class="ring-icon-glyph"><path fill-rule="evenodd" d="M7.632.375c.346 0 .625.28.625.625v12.8a.625.625 0 1 1-1.25 0V1c0-.345.28-.625.625-.625" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M1.002 7.625c0-.345.28-.625.625-.625h12.204a.625.625 0 1 1 0 1.25H1.627a.625.625 0 0 1-.625-.625" clip-rule="evenodd"></path></svg></span></a><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span></span></div><div class="SidebarHeader-module__header--ti" role="presentation"><div class="SidebarHeader-module__searchWrapper--lL"><div class="SidebarHeader-module__search--lD"><div data-hint-container-id="sidebar-search-input"><div class="SidebarSearch-module__search--Fl SidebarSearch-module__hotkeyHint--iW ring-input-outerContainer ring-input-sizeFULL ring-input-heightS ring-input-empty ring-input-withIcon ring-input-clearable" data-test="ring-input"><div class="ring-input-container"><span data-test="ring-icon" class="ring-icon-icon ring-input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" role="presentation" class="ring-icon-glyph"><path fill-rule="evenodd" d="M11.504 6.877a4.627 4.627 0 1 1-9.254 0 4.627 4.627 0 0 1 9.254 0m-.937 4.575a5.877 5.877 0 1 1 .884-.884l3.361 3.36a.625.625 0 1 1-.884.884z" clip-rule="evenodd"></path></svg></span><input class="ring-input-input" id="sidebar-search" placeholder="Search by name" aria-label="Jump to... (Q)" data-enabled-shortcuts="esc" data-test="sidebar-search" autocomplete="off" value=""><button type="button" title="Clear input" data-test="ring-input-clear" class="ring-button-button ring-input-clear ring-button-heightS ring-button-inline ring-button-withNormalIcon ring-button-iconOnly"><span data-test="ring-icon" class="ring-icon-icon ring-button-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 12 12" class="ring-icon-glyph"><path fill-rule="evenodd" d="M9.918 2.065a.6.6 0 0 1 .002.849L6.849 5.998 9.924 9.07l-.424.425-.424.424-3.074-3.072-3.07 3.083a.6.6 0 1 1-.85-.847L5.153 6 2.08 2.928a.6.6 0 1 1 .849-.849L6 5.15l3.07-3.082a.6.6 0 0 1 .848-.002ZM9.5 9.495l-.424.425a.6.6 0 1 0 .848-.849l-.424.425Z" clip-rule="evenodd"></path></svg></span></button></div></div></div></div></div></div></div><div class="ProjectsTree-module__content--zp ProjectsSidebar-module__sidebarContent--pX"><div role="presentation" class="ProjectsTree-module__projectsTree--MV" style="position: relative;"><div id="SAKURA_SIDEBAR_TOP" class="placeIdModule"></div><div style="overflow: visible; height: 0px; width: 0px;"><div data-sidebar-list="true" aria-label="Projects" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__List ProjectsTree-module__list--aB" role="grid" tabindex="-1" style="box-sizing: border-box; direction: ltr; height: 905px; position: relative; width: 335px; will-change: transform; overflow: hidden;"><div class="ReactVirtualized__Grid__innerScrollContainer" role="none" style="width: auto; height: 56px; max-width: 335px; max-height: 56px; overflow: hidden; position: relative;"><div role="row" class="ProjectsTreeItem-module__row--h3" style="height: 24px; left: 0px; position: absolute; top: 0px; width: 100%;"><div role="gridcell" aria-selected="false" class="ProjectsTreeItem-module__gridcell--UE"><a href="/favorite/builds" id="http://teamcity-server:8111_favorites_link_/favorite/builds" data-sidebar-focusable="true" class="ring-link-link ProjectsTreeItem-module__projectsTreeItem--Kb" data-test="ring-link"><div class="ProjectsTreeItem-module__content--RX"><span class="ProjectsTreeItem-module__elementWithoutChevron--zC"></span><span><span data-test="ring-icon" title="Favorite builds" class="ring-icon-icon _icon_ce86e11 ProjectsTreeItem-module__linkIcon--wH"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M8 1.3c.228 0 .433.138.52.348l1.658 3.986 4.303.345a.564.564 0 0 1 .322.99l-3.278 2.808 1.001 4.199a.564.564 0 0 1-.842.612L8 12.338l-3.684 2.25a.564.564 0 0 1-.842-.612l1.001-4.199L1.197 6.97a.564.564 0 0 1 .322-.99l4.303-.345 1.657-3.986A.56.56 0 0 1 8 1.301Zm0 2.033L6.73 6.385a.56.56 0 0 1-.475.345l-3.294.265 2.51 2.15c.16.137.23.353.181.559l-.767 3.215 2.821-1.723c.18-.11.407-.11.588 0l2.82 1.723-.766-3.215a.56.56 0 0 1 .181-.56l2.51-2.15-3.294-.264a.56.56 0 0 1-.476-.345z" clip-rule="evenodd"></path></svg></span></span><span>Favorite builds</span></div></a></div></div><div role="row" class="ProjectsTreeItem-module__row--h3" style="height: 32px; left: 0px; position: absolute; top: 24px; width: 100%;"><div role="gridcell" aria-selected="false" class="ProjectsTreeItem-module__gridcell--UE"><div id="http://teamcity-server:8111_all_title__all_projects_title_" class="ProjectsTreeItem-module__title--EG ProjectsTreeItem-module__titleWithoutChevron--kJ" data-test="ring-title"><span role="button" tabindex="0" class="ProjectsTreeItem-module__name--IJ globals-module__ellipsis--jC ring-global-ellipsis ProjectsTreeItem-module__bold--pv">PROJECTS</span><span aria-label="Edit favorites" role="tooltip" data-test="ring-tooltip" data-test-title="Edit favorites"><button type="button" data-hint-container-id="configure-project-sidebar" aria-label="Edit favorites" title="" class="ring-button-button EditProjectSidebar-module__iconButton--BX ring-button-heightS ring-button-inline ring-button-withNormalIcon ring-button-iconOnly"><span data-test="ring-icon" class="ring-icon-icon ring-button-icon _icon_ce86e11"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M10.07 1.552a1.786 1.786 0 0 1 2.533-.004l.012.012 1.848 1.964a1.77 1.77 0 0 1-.018 2.51l-2.312 2.315-6.482 6.47a.63.63 0 0 1-.442.182H1.623a.625.625 0 0 1-.625-.625v-3.52c0-.165.066-.325.184-.442l6.515-6.503 2.373-2.36Zm1.648.88a.536.536 0 0 0-.758-.002l-.006.006-1.93 1.919 2.667 2.667 1.878-1.88a.52.52 0 0 0 0-.745l-.006-.006zm-.911 5.474-2.67-2.67-5.889 5.88v2.635h2.703z" clip-rule="evenodd"></path></svg></span></button><span class="ring-variables_dark-dark ring-ui-theme-dark"><span></span></span></span></div></div></div></div></div></div><div class="resize-triggers"><div class="expand-trigger"><div style="width: 336px; height: 906px;"></div></div><div class="contract-trigger"></div></div></div></div></div></div></div><div><div class="SidebarPanel-module__resizableRightHandle--p5" style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; cursor: col-resize; right: -5px;"></div></div></div></div><main id="main-content-tag" data-main-panel="true" class="MainPanel-module__mainPanel--Fn MainPanel-module__withBottomPadding--lW" style="min-height: calc(0px + 100vh); margin-left: 336px; margin-bottom: 0px;"><div id="SAKURA_BEFORE_CONTENT" class="placeIdModule MainPanel-module__beforeContent--Kp"><div class="Plugin-module__container--j5" data-team-city-plugin-name="flaky-links"><div class="pluginContainer">
+
+</div></div><div class="Plugin-module__container--j5" data-team-city-plugin-name="ssm-agent-terminal-status"><div class="pluginContainer">
+</div></div></div><div class="BreadcrumbsPanel-module__panel--no"><div class="BreadcrumbsPanel-module__breadcrumbs--gg"></div><div id="HEADER_RIGHT" class="placeIdModule"><div class="Plugin-module__container--j5" data-team-city-plugin-name="Search by Build Number"><div class="pluginContainer"><span class="search"><span class="svg-icon sakura-search-button-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M11.504 6.877a4.627 4.627 0 1 1-9.254 0 4.627 4.627 0 0 1 9.254 0Zm-.937 4.575a5.877 5.877 0 1 1 .884-.884l3.361 3.36a.625.625 0 1 1-.884.884l-3.361-3.36Z" clip-rule="evenodd"></path></svg></span><input class="quickSearchQuery" id="headerSearchField" value="" type="text" placeholder="Search by Build Number" autocomplete="off" title="Type build number to start a search"></span></div></div></div></div><div class="ToggleSakuraUI-module__container--OU"><a href="http://teamcity-server:8111/overview.html?fromSakuraUI=true" title="Switch to Classic UI" class="ring-link-link ToggleSakuraUI-module__link--tr" data-test="ring-link"><div class="ToggleSakuraUI-module__triangle--uD"></div><span data-test="ring-icon" class="ring-icon-icon _icon_ce86e11 ToggleSakuraUI-module__icon--Lt"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 12 12" role="presentation" class="ring-icon-glyph" data-svg-icon="true" data-ignore-dark-theme-adapter="true"><path fill-rule="evenodd" d="M10.623 2.333H8.626A2.13 2.13 0 0 0 6.648 1h-2.52C2.954 1 2 1.941 2 3.099V7.88c0 .258.285.467.54.467.254 0 .46-.209.46-.467V3.1c0-.642.462-1.166 1.128-1.166h2.52c.666 0 1.207.524 1.207 1.166s-.541 1.165-1.207 1.165c-.255 0-.46.21-.46.467 0 .258.205.467.46.467a2.11 2.11 0 0 0 2.111-1.931h1.864c.251 0 .377.206.377.46V8.72a.45.45 0 0 1-.25.405.45.45 0 0 0-.25.405v.72a.75.75 0 1 0 1.5 0V3.727c0-.768-.618-1.394-1.377-1.394M6 10.5a.5.5 0 0 0 1 0v-1a.5.5 0 1 0-1 0zm3.5.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5M4.47 3.905a.466.466 0 1 0 0-.932.466.466 0 0 0 0 .932m-.437 1.082v3.614q0 .33-.085.56a.8.8 0 0 1-.233.35.55.55 0 0 1-.347.117.66.66 0 0 1-.346-.093.63.63 0 0 1-.234-.302l-.023-.066c-.082-.259-.282-.486-.553-.486s-.5.223-.45.49q.053.284.172.501.213.39.584.585.375.189.85.189.471 0 .842-.218.37-.217.584-.628.214-.415.214-1V4.988a.487.487 0 1 0-.975 0Z" clip-rule="evenodd"></path></svg></span></a></div><div class="MainPanel-module__content--DZ"><div data-main-router="true" class="MainPanel-module__router--JB"><div class="FavoriteProjectsPage-module__overviewPlaceholder--VU"><div class="UIPlaceholder-module__wrapper--OO" style="min-height: 838px;"><div class="UIPlaceholder-module__svgContainer--An UIPlaceholder-module__defaultUi--l0"><img alt="Welcome to TeamCity" width="480" height="320" src="http://teamcity-server:8111/js/ring/127b760275745573bfba.svg"></div><div class="UIPlaceholder-module__infoContainer--mr"><h1 class="ring-heading-heading ring-global-font ring-heading-contentWithHeadings">Welcome to TeamCity</h1><div class="FavoriteProjectsPage-module__linksContainer--U4"><a href="/projects/create?projectId=_Root&amp;cameFromUrl=/favorite/projects" data-test="create-project" rel="noreferrer" class="ring-button-button FavoriteProjectsPage-module__button--r8 ring-button-heightM ring-button-block ring-button-primaryBlock ring-button-flat ring-button-whiteText">Create project...</a><a href="https://www.jetbrains.com/help/teamcity/2026.1/what-s-new-in-teamcity.html" target="_blank" rel="noreferrer" class="ring-link-link FavoriteProjectsPage-module__link--yC" data-test="ring-link">What's new in 2026.1.1</a><a href="https://www.jetbrains.com/help/teamcity/2026.1/troubleshooting.html" target="_blank" rel="noreferrer" class="ring-link-link FavoriteProjectsPage-module__link--yC" data-test="ring-link">Send feedback...</a></div></div></div></div></div></div></main></div></div>
+  <script>
+    ReactUIPromise.then(ReactUI => {
+      
+        
+        
+          (function () {
+            ReactUI.setRouteAvailabilityResponse(JSON.parse('{"status":"OK","statusCode":200}'));
+            ReactUI.renderOverview('overview');
+          })();
+        
+      
+    });
+  </script>
+  
+
+
+
+
+
+
+
+
+<form id="pauseBuildTypeForm" action="/action.html" method="post" onsubmit="return BS.PauseBuildTypeDialog.submit();" autocomplete="off">
+  <div id="pauseBuildTypeFormDialog" class="pauseBuildTypeFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.PauseBuildTypeDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="pauseBuildTypeFormTitle" title="Pause build configuration">Pause build configuration</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('pauseBuildTypeForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('pauseBuildTypeForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'pauseBuildTypeForm';
+    })();
+  </script>
+  <div id="pauseNote">
+    <p style="margin-top: 0"><em>Deactivates automatic triggers. Manual triggering and triggering via snapshot dependency is still possible</em></p>
+  </div>
+  <textarea name="pauseComment" rows="5" cols="46" class="commentTextArea" onfocus="if (this.value == this.defaultValue) this.value = ''" onblur="if (this.value == '') this.value='<your comment here>'">&lt;your comment here&gt;</textarea>
+  <input type="hidden" name="pauseBuildType" value="">
+  <input type="hidden" name="pause" value="">
+  <input type="hidden" name="noRedirect" value="">
+
+  <div id="removeFromQueueDiv">
+    <input type="checkbox" name="removeFromQueue">
+    <label for="removeFromQueue">Cancel already queued builds</label>
+  </div>
+
+
+  <div class="popupSaveButtonsBlock">
+    
+
+
+
+
+
+<input type="submit" value="Pause" class="btn btn_primary submitButton " id="PauseSubmitButton">
+
+  <input type="hidden" name="tc-csrf-token" value="a7fd7905-2345-46d8-8d33-73dc601123c2" class="tc-csrf-token-input">
+
+
+    <a class="btn cancel" onclick="BS.PauseBuildTypeDialog.close(); return false">Cancel</a><script>BS.fixCancel();</script>
+
+    <i id="pauseProgressIcon" style="display: none; " class="ring-loader-inline progressRing progressRingDefault" title="Please wait..."></i>
+  </div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+  
+
+
+<form id="promoteBuild" action="" method="post" onsubmit="return false;;" autocomplete="off">
+  <div id="promoteBuildDialog" class="promoteBuildDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.PromoteBuildDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="promoteBuildTitle" title="Promote Build">Promote Build</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('promoteBuild_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('promoteBuild');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'promoteBuild';
+    })();
+  </script>
+  <i id="promoteBuildDialogContentProgress" style="display: none; " class="ring-loader-inline progressRing progressRingInline" title="Please wait..."></i>
+  <div id="promoteBuildDialogContent"></div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+                  
+                  
+                
+              </div>
+            </div>
+          </div><!--##END:pageContentInner##-->
+</div>
+
+
+          
+
+
+  
+
+
+
+
+
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.web.forbiddenDomains.ForbiddenDomainHeaderWarning$Extension: name:jetbrains.buildServer.web.forbiddenDomains.ForbiddenDomainHeaderWarning: /forbiddenDomainWarning.jsp -->
+      
+
+
+
+
+
+
+
+
+
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.web.forbiddenDomains.ForbiddenDomainHeaderWarning$Extension -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.usageStatistics.impl.GetRequestDetector: name:getRequestProcessor: /plugins/usage-statistics/empty.jsp -->
+      
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.usageStatistics.impl.GetRequestDetector -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.web.openapi.SimplePageExtension: name:QodanaUIExtension-Plugin: /reactPlugin.html -->
+      
+<script src="/plugins/qodana/build-extension/bundle.js?1784744082934"></script>
+
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.web.openapi.SimplePageExtension -->
+  
+
+
+
+  <div id="react-ui-version" data-react-root="true"></div>
+  <script>
+    ReactUIPromise.then(ReactUI => ReactUI.renderConnected(document.getElementById('react-ui-version'), ReactUI.Version));
+  </script>
+
+<div class="hidden">
+  
+
+
+
+
+
+
+
+
+    <!-- START EXTENSION CONTENT org.jetbrains.teamcity.fus.client.controllers.UIExtension: name:fus-analytics: /plugins/teamcity-fus-integration//fus.jsp -->
+      
+
+
+  <script type="text/javascript">
+    if (ReactUI && ReactUI.storeUrlExtensions) {
+      ReactUI.storeUrlExtensions({
+        kind: 'statistics',
+        name: 'fus-analytics',
+        endpoint: 'app/fus/events',
+        options: {
+          interval: 10000,
+        }
+      });
+    }
+  </script>
+
+
+  <!-- END EXTENSION CONTENT org.jetbrains.teamcity.fus.client.controllers.UIExtension -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.serverSide.search.controller.SearchController$2: name:searchBuildByNumber: /plugins/searchBuildByNumber/input.jsp -->
+      
+
+
+
+
+
+<script type="text/javascript" src="/res/-1913649053728597819.js?v=1784744082934"></script>
+
+
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.serverSide.search.controller.SearchController$2 -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.agentTerminal.web.AgentTerminalPanelExtension$1: name:ssm-agent-terminal-panel: /agent-terminal/agent-terminal-panel.html -->
+      
+
+<script>
+    window.TeamCityAgentTerminal = window.TeamCityAgentTerminal || {};
+    window.TeamCityAgentTerminal.terminalPanel = {
+        terminalPageLink: "/plugins/teamcity-agent-terminal/agentTerminal.html",
+    }
+</script>
+
+<script>
+    ReactUIPromise.then(ReactUI => ReactUI.loadInternalPlugin('agent-terminal/terminalPanel'));
+</script>
+
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.agentTerminal.web.AgentTerminalPanelExtension$1 -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.web.openapi.SimplePageExtension: name:Coverage Plugin React: /coveragePluginReact.html -->
+      <script>
+  ReactUIPromise.then(ReactUI => ReactUI.loadInternalPlugin('coverage'));
+</script>
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.web.openapi.SimplePageExtension -->
+  
+
+
+
+</div>
+
+
+        </div>
+      </div>
+
+      <script type="text/javascript">(function() {var handler = function() {BS.ServerLink.onShutdown();};BS.EventTracker.subscribeOnEvent('H', 0, handler);})();</script>
+
+      <div id="react-hints-container"></div>
+      <div id="react-service-worker-checker"></div>
+
+      
+        <script>
+          ReactUIPromise.then(ReactUI => {
+            
+            ReactUI.serviceWorkers.setup();
+          });
+        </script>
+      
+
+      <div id="welcome-popup-portal" data-react-refreshable-root="true"></div>
+      <script>
+        
+          ReactUIPromise.then(ReactUI => {
+            ReactUI.renderWelcomePopup('welcome-popup-portal');
+          });
+        
+      </script>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+<form id="buildCommentForm" action="/ajax.html" method="post" onsubmit="return BS.BuildCommentDialog.submit();" autocomplete="off">
+  <div id="buildCommentFormDialog" class="buildCommentFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.BuildCommentDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="buildCommentFormTitle" title="Add build comment">Add build comment</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('buildCommentForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('buildCommentForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'buildCommentForm';
+    })();
+  </script>
+  <textarea name="buildComment" rows="5" cols="46" class="commentTextArea" onfocus="if (this.value == this.defaultValue) this.value = ''" onblur="if (this.value == '') this.value='<your comment here>'">&lt;your comment here&gt;</textarea>
+  <input type="hidden" name="promotionId" value="">
+
+  <div class="popupSaveButtonsBlock">
+    
+
+
+
+
+
+<input type="submit" value="Save comment" class="btn btn_primary submitButton " id="BuildCommentSubmitButton">
+
+  <input type="hidden" name="tc-csrf-token" value="a7fd7905-2345-46d8-8d33-73dc601123c2" class="tc-csrf-token-input">
+
+
+    <a class="btn cancel" onclick="BS.BuildCommentDialog.close(); return false">Cancel</a><script>BS.fixCancel();</script>
+
+    <i id="buildCommentProgressIcon" style="display: none; " class="ring-loader-inline progressRing progressRingDefault" title="Please wait..."></i>
+  </div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+<form id="muteTestsForm" action="#" method="post" onsubmit="return BS.BulkInvestigateDialog.submit();;" autocomplete="off">
+  <div id="muteTestsFormDialog" class="muteTestsFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.BulkInvestigateDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="muteTestsFormTitle" title="Mute test">Mute test</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('muteTestsForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('muteTestsForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'muteTestsForm';
+    })();
+  </script>
+  <div id="mute-dialog-container"></div>
+  <div><i id="mute-dialog-progress" style="display: none; " class="ring-loader-inline progressRing progressRingInline" title="Please wait..."></i></div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+<form id="errorForm" action="#" method="post" onsubmit="return BS.ErrorDialog.close();;" autocomplete="off">
+  <div id="errorFormDialog" class="errorFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.ErrorDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="errorFormTitle" title=""></h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('errorForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('errorForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'errorForm';
+    })();
+  </script>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+<div id="shutdownDialog" class=" modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.ServerUnavailableModalDialog.close(); return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="shutdownDialogTitle" title="Server communication failure">Server communication failure</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    
+  <strong id="shutdownDetails">Server is unavailable</strong>
+  <p id="onCommunicationFailure">Server stopped or communication with the server is not possible due to network failure.</p>
+  <p id="onServerShutdown">Server shutdown started.</p>
+  <p id="onAuthFailure">Please relogin to continue your work.</p>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+
+
+
+<form id="runBuild" action="/runCustomBuild.html" method="post" onsubmit="return BS.RunBuildDialog.submit();" autocomplete="off">
+  <div id="runBuildDialog" class="runBuildDialog editTagsDialog ringStyleDialog modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.RunBuildDialog.close(); return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="runBuildTitle" title="Run custom build">Run custom build</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('runBuild_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('runBuild');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'runBuild';
+    })();
+  </script>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+<form id="personalPatchUploadForm" method="post" action="/runCustomBuild.html" onsubmit="return true" enctype="multipart/form-data" target="personalPatchHiddenIframe" autocomplete="off"></form>
+<iframe id="personalPatchHiddenIframe" name="personalPatchHiddenIframe" style="display:none;"></iframe>
+
+<form id="stopBuildForm" action="/ajax.html" method="post" onsubmit="return BS.StopBuildDialog.killBuild();;" autocomplete="off">
+  <div id="stopBuildFormDialog" class="stopBuildFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.StopBuildDialog.close(); return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="stopBuildFormTitle" title="TODO">TODO</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('stopBuildForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('stopBuildForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'stopBuildForm';
+    })();
+  </script>
+  <textarea id="removeQueuedBuildComment" name="comment" rows="3" cols="46" class="commentTextArea" onfocus="if (this.value == this.defaultValue) this.value = ''" onblur="if (this.value == '') this.value='<your comment here>'">&lt;your comment here&gt;</textarea>
+  <input type="hidden" name="kill" value="">
+  <input type="hidden" name="operationKind" value="0">
+
+  <div id="moreToStop">
+    Loading related builds...
+    <i id="saving" style="display: none; " class="ring-loader-inline progressRing progressRingInline" title="Loading related builds to stop..."></i>
+  </div>
+  <div id="moreToStopFragment" class="custom-scroll"></div>
+
+  <div id="moreToStopRetryNotice" class="attentionComment" hidden=""><span class="svg-icon js_buildStatusIcon buildStatusIcon buildStatusIcon_red-sign buildStatusIcon_size_S warningIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M1.7 14.243c.29.171.63.257 1.024.257h10.473c.393 0 .732-.086 1.016-.257.29-.172.513-.402.67-.691.159-.29.238-.61.238-.962a1.917 1.917 0 0 0-.271-.983L9.606 2.47a1.818 1.818 0 0 0-.718-.725A1.888 1.888 0 0 0 7.96 1.5c-.325 0-.636.081-.935.244a1.775 1.775 0 0 0-.71.725L1.07 11.607a2.018 2.018 0 0 0-.04 1.944c.157.29.38.52.67.692Zm6.267-4.43c-.393 0-.596-.2-.61-.597l-.094-3.292a.607.607 0 0 1 .182-.488.7.7 0 0 1 .509-.19.71.71 0 0 1 .514.197.59.59 0 0 1 .19.48L8.55 9.217c-.01.397-.204.596-.583.596Zm0 2.248a.829.829 0 0 1-.569-.21.706.706 0 0 1-.23-.535c0-.212.077-.388.23-.528a.814.814 0 0 1 .57-.217c.216 0 .401.07.555.21.158.14.237.318.237.535a.683.683 0 0 1-.237.535.811.811 0 0 1-.556.21Z" clip-rule="evenodd"></path></svg></span>The stop command has already been sent to the build. This will re-send stop command</div>
+
+  <div class="popupSaveButtonsBlock">
+    
+
+
+
+
+
+<input type="submit" value="Stop" class="btn btn_primary submitButton " id="submitRemoveQueuedBuild" name="submit">
+
+  <input type="hidden" name="tc-csrf-token" value="a7fd7905-2345-46d8-8d33-73dc601123c2" class="tc-csrf-token-input">
+
+
+    <a class="btn cancel" onclick="BS.StopBuildDialog.close(); return false" id="cancelRemoveQueuedBuild">Cancel</a><script>BS.fixCancel();</script>
+
+    <i id="stopBuildIndicator" style="display: none; " class="ring-loader-inline progressRing progressRingDefault" title="Please wait..."></i>
+  </div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+<form id="investigationForm" action="" method="post" onsubmit="return BS.ResponsibilityDialog.submit();" autocomplete="off">
+  <div id="investigationFormDialog" class="investigationFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.ResponsibilityDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="investigationFormTitle" title="Responsibility">Responsibility</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('investigationForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('investigationForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'investigationForm';
+    })();
+  </script>
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+
+
+<form id="editBuildTagsForm" action="/ajax.html" method="post" onsubmit="return BS.Tags.submitTags();" autocomplete="off">
+  <div id="editBuildTagsFormDialog" class="editBuildTagsFormDialog editTagsDialog modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.Tags.close(); return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="editBuildTagsFormTitle" title="Edit tags">Edit tags</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('editBuildTagsForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('editBuildTagsForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'editBuildTagsForm';
+    })();
+  </script>
+  
+
+
+<textarea style="" class="expandable commentTextArea" name="buildTagsInfo" id="buildTagsInfoEditTags"></textarea>
+<script type="text/javascript">
+  (function() {
+    var id = 'buildTagsInfoEditTags';
+    BS.VisibilityHandlers.detachFrom(id);
+    BS.VisibilityHandlers.attachTo(id, {
+      updateVisibility: function() {
+        var element = $j(BS.Util.escapeId(id));
+        var domElement = element.get(0);
+        var minHeight = 40;
+        var maxHeight = 200;
+
+        function updateHeight() {
+          var verticalAddition = domElement.offsetHeight - domElement.clientHeight;
+          var desiredHeight = domElement.scrollHeight + verticalAddition;
+          var height = Math.max(minHeight, Math.min(desiredHeight, maxHeight));
+          domElement.style.height = height + 'px';
+        }
+
+        if (domElement) {
+          // even if textarea has one line value scrollHeight won't be less than 40 pixels
+          // changing the height to minimum value workarounds this problem
+          domElement.style.height = minHeight + 'px';
+          updateHeight();
+          // Listen to mouseup to detect native resize
+          element.on('input mouseup', updateHeight);
+        } else {
+          BS.VisibilityHandlers.detachFrom(id);
+        }
+      }
+    });
+  })();
+</script>
+
+<div id="editBuildTagsForm_availableTags" class="available-tags-container"></div>
+<span class="note"></span>
+  <div class="tagsApplyAll" style="display: none;">
+  
+  
+    <span class="custom-checkbox ring-checkbox-checkbox">
+      <input type="checkbox" class="custom-checkbox_input ring-checkbox-input" name="applyToChainBuilds" id="tag_applyToChainBuilds" value="true">
+      <div class="ring-checkbox-cellWrapper">
+        <span class="ring-checkbox-cell">
+          <span class="svg-icon ring-checkbox-check ring-checkbox-icon ring-icon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"><path fill-rule="evenodd" d="M10.899 2.05a.6.6 0 0 1 .05.847L4.808 9.8a.6.6 0 0 1-.876.023L1.073 6.92a.6.6 0 0 1 .854-.843l2.41 2.447L10.053 2.1a.6.6 0 0 1 .847-.05Z" clip-rule="evenodd"></path></svg></span>
+        </span>
+      </div>
+      <input type="hidden" name="_applyToChainBuilds" value="">
+    </span>
+  
+  
+
+
+  <label for="tag_applyToChainBuilds">Apply to all snapshot dependencies</label>
+  <div class="grayNote">Note: the existing tags and pin status of the dependencies will be preserved</div>
+</div>
+
+
+  <div class="popupSaveButtonsBlock">
+    
+
+
+
+
+
+<input type="submit" value="Save" class="btn btn_primary submitButton ">
+
+  <input type="hidden" name="tc-csrf-token" value="a7fd7905-2345-46d8-8d33-73dc601123c2" class="tc-csrf-token-input">
+
+
+    <a class="btn cancel" onclick="BS.Tags.close(); return false">Cancel</a><script>BS.fixCancel();</script>
+
+    <input type="hidden" value="" name="editTagsForPromotion">
+    <i id="savingTags" style="display: none; " class="ring-loader-inline progressRing progressRingDefault" title="Please wait..."></i>
+  </div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+
+<form id="abstractLoading" action="#" method="post" onsubmit="return BS.LoadingDialog.close();" autocomplete="off">
+  <div id="abstractLoadingDialog" class="abstractLoadingDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.LoadingDialog.close();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="abstractLoadingTitle" title="Loading...">Loading...</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('abstractLoading_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('abstractLoading');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'abstractLoading';
+    })();
+  </script>
+
+  <i id="abstractProgress" style="display: none; " class="ring-loader-inline progressRing progressRingInline" title="Please wait..."></i>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+<div id="confirmDialog" class="modalDialog_small modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.confirmDialog.doCancelAction();; return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="" title="Are you sure?">Are you sure?</h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    
+  <form id="confirmDialogForm" onsubmit="return false;">
+  <div class="confirmDialog__content"></div>
+  <div class="popupSaveButtonsBlock">
+    
+
+
+
+
+
+<input type="submit" value="OK" class="btn btn_primary submitButton " onclick="event.stopPropagation(); BS.confirmDialog.doAction();">
+
+  <input type="hidden" name="tc-csrf-token" value="a7fd7905-2345-46d8-8d33-73dc601123c2" class="tc-csrf-token-input">
+
+
+    <a class="btn cancel" onclick="BS.confirmDialog.doCancelAction();; return false">Cancel</a><script>BS.fixCancel();</script>
+
+    <i id="confirmProgress" style="display: none; " class="ring-loader-inline progressRing progressRingDefault" title="Please wait..."></i>
+  </div>
+  </form>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+
+
+<form id="restartServerForm" action="#" method="post" onsubmit="return BS.RestartDialog.submit();" autocomplete="off">
+  <div id="restartServerFormDialog" class="restartServerFormDialog  modalDialog">
+  <div class="dialogHeader">
+    <div class="closeWindow">
+      <a class="closeWindowLink" title="Close dialog window" href="#" onclick="BS.RestartDialog.close(); return false"><span class="svg-icon "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M13.442 2.558a.625.625 0 0 1 0 .884L8.883 8.006l4.546 4.552a.625.625 0 1 1-.884.884L8 8.89l-4.545 4.55a.625.625 0 0 1-.884-.883l4.546-4.552-4.56-4.564a.625.625 0 1 1 .885-.884L8 7.122l4.558-4.564a.625.625 0 0 1 .884 0Z" clip-rule="evenodd"></path></svg></span></a>
+    </div>
+    <div class="dialogHandle">
+      <h3 class="dialogTitle" id="restartServerFormTitle" title=""></h3>
+    </div>
+  </div>
+  <div class="modalDialogBody">
+    <script>
+    (function () {
+      var newForm = document.getElementById('restartServerForm_temp');
+      if (newForm == null) {
+        return;
+      }
+
+      var oldForm = document.getElementById('restartServerForm');
+      if (oldForm != null) {
+        oldForm.parentElement.removeChild(oldForm);
+      }
+      newForm.id = 'restartServerForm';
+    })();
+  </script>
+  <div class="restartDialog__content"></div>
+  <div class="restartDialog__confirm">
+    Please type <strong class="hostnamePlaceholder"></strong> to confirm.
+    <input type="text" class="restartDialog__hostnameConfirmation hostnameConfirmation" autocomplete="off">
+  </div>
+
+  <div id="restartError" class="red-text" style="display:none; margin-top: 1em;"></div>
+
+  <div id="restartStarted" class="messageNote" style="display:none;">
+    <i id="restartIsRunningProgress" style="" class="ring-loader-inline progressRing progressRingInline" title="Please wait..."></i>
+    <span class="restartStartedText">TeamCity is restarting, the page will be reloaded automatically when the server starts.</span>
+  </div>
+
+  <div class="attentionComment hidden" id="restartTooLongWarning"><span class="svg-icon js_buildStatusIcon buildStatusIcon buildStatusIcon_red-sign buildStatusIcon_size_S warningIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M1.7 14.243c.29.171.63.257 1.024.257h10.473c.393 0 .732-.086 1.016-.257.29-.172.513-.402.67-.691.159-.29.238-.61.238-.962a1.917 1.917 0 0 0-.271-.983L9.606 2.47a1.818 1.818 0 0 0-.718-.725A1.888 1.888 0 0 0 7.96 1.5c-.325 0-.636.081-.935.244a1.775 1.775 0 0 0-.71.725L1.07 11.607a2.018 2.018 0 0 0-.04 1.944c.157.29.38.52.67.692Zm6.267-4.43c-.393 0-.596-.2-.61-.597l-.094-3.292a.607.607 0 0 1 .182-.488.7.7 0 0 1 .509-.19.71.71 0 0 1 .514.197.59.59 0 0 1 .19.48L8.55 9.217c-.01.397-.204.596-.583.596Zm0 2.248a.829.829 0 0 1-.569-.21.706.706 0 0 1-.23-.535c0-.212.077-.388.23-.528a.814.814 0 0 1 .57-.217c.216 0 .401.07.555.21.158.14.237.318.237.535a.683.683 0 0 1-.237.535.811.811 0 0 1-.556.21Z" clip-rule="evenodd"></path></svg></span></div>
+
+  <div class="popupSaveButtonsBlock">
+    
+
+
+
+
+
+<input type="submit" value="OK" class="btn btn_primary submitButton " id="restartDialogSubmit" onclick="event.stopPropagation(); BS.RestartDialog.submit();">
+
+  <input type="hidden" name="tc-csrf-token" value="a7fd7905-2345-46d8-8d33-73dc601123c2" class="tc-csrf-token-input">
+
+
+    <a class="btn cancel" onclick="BS.RestartDialog.close();; return false" id="restartCancelButton">Cancel</a><script>BS.fixCancel();</script>
+
+    <i id="restartDialogSavingProgress" style="display: none; " class="ring-loader-inline progressRing progressRingDefault" title="Please wait..."></i>
+  </div>
+
+  </div>
+  <div data-iframe-height=""></div>
+</div>
+</form>
+
+
+      <div data-iframe-height=""></div>
+      
+    
+  
+
+
+<div data-tc-plugin-scripts="SAKURA_BEFORE_CONTENT-flaky-links"><script type="text/javascript">
+  ReactUIPromise.then(ReactUI => {
+    if (ReactUI && ReactUI.storeUrlExtensions) {
+      ReactUI.storeUrlExtensions({kind: 'tests', name: 'flaky', endpoint: 'flakyTests.html'});
+    }
+  });
+</script></div><div data-tc-plugin-scripts="SAKURA_BEFORE_CONTENT-ssm-agent-terminal-status"><script>
+  ReactUIPromise.then(ReactUI => ReactUI.loadInternalPlugin('agent-terminal/agentBlockedStatus'));
+</script></div></body></html>
