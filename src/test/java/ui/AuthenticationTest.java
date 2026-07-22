@@ -6,11 +6,13 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ui.pages.ProjectsPage;
 
 public class AuthenticationTest extends BaseUiTest {
 
+    @Disabled("Assertion needs to be added!")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSessionSeedsAuthenticatedBrowserTest() {
