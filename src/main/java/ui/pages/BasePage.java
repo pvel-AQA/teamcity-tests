@@ -1,5 +1,6 @@
 package ui.pages;
 
+import api.specs.RequestSpec;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -18,6 +19,11 @@ public abstract class BasePage<T extends BasePage> {
 
     public T open() {
         return Selenide.open(url(), (Class<T>) this.getClass());
+    }
+
+    public static void authAsUser(String username, String password) {
+        Selenide.open("/");
+        RequestSpec.setCookieInBrowser(RequestSpec.fetchSessionCookie(username, password));
     }
 
     public T getPage(Class<T> pageClass) {
