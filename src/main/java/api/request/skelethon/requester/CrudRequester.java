@@ -27,8 +27,9 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse get(Object... pathParams) {
+        RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Get request to " + targetUrl, () -> {
-            return prepareRequest(pathParams)
+            return request
                     .when()
                     .get(targetUrl)
                     .then()
@@ -38,8 +39,9 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse get(Map<String, Object> queryParams) {
+        RequestSpecification request = prepareRequest(queryParams);
         return StepLogger.log("Get request to " + targetUrl, () -> {
-            return prepareRequest(queryParams)
+            return request
                     .when()
                     .get(targetUrl)
                     .then()
@@ -53,8 +55,9 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     public ValidatableResponse post(BaseModel model, Object... pathParams) {
+        RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Post request to" + targetUrl, () -> {
-            ValidatableResponse response = prepareRequest(pathParams)
+            ValidatableResponse response = request
                     .body(model == null ? "" : model)
                     .when()
                     .post(targetUrl)
@@ -79,8 +82,9 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse put(BaseModel model, Object... pathParams) {
+        RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Put request to" + targetUrl, () -> {
-            return prepareRequest(pathParams)
+            return request
                     .body(model)
                     .when()
                     .put(targetUrl)
@@ -91,9 +95,10 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
     @Override
     public ValidatableResponse delete(Object... pathParams) {
+        RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Delete request to" + targetUrl, () -> {
             ValidatableResponse response =
-                    prepareRequest(pathParams)
+                    request
                             .when()
                             .delete(targetUrl)
                             .then()
@@ -132,6 +137,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     public static class QueryBuilder {
+
         private final Map<String, Object> params = new HashMap<>();
         private final List<String> locatorConditions = new ArrayList<>();
 
@@ -165,6 +171,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         public QueryBuilder locatorEqualsConnectedTrue() {
             return locator("connected:true");
         }
+
     }
 
 }
