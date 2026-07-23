@@ -6,6 +6,8 @@ import api.models.Role;
 import api.models.Roles;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
+import api.models.project.AllProjectsResponse;
+import api.models.project.ProjectResponse;
 import api.models.user.UserRequest;
 import api.models.user.UserResponse;
 import api.request.skelethon.Endpoint;
@@ -90,6 +92,22 @@ public class SuperUserSteps {
                 Endpoint.AGENTS_AUTHORIZED_INFO,
                 ResponseSpec.returnsOk()
         ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
+    }
+
+    public static ProjectResponse getProjectById(String id) {
+        return new ValidatedCrudRequester<ProjectResponse>(
+                RequestSpec.superUserSpec(),
+                Endpoint.PROJECTS,
+                ResponseSpec.returnsOk()
+        ).get(id);
+    }
+
+    public static AllProjectsResponse getAllProjects() {
+        return new ValidatedCrudRequester<AllProjectsResponse>(
+                RequestSpec.superUserSpec(),
+                Endpoint.ALL_PROJECTS,
+                ResponseSpec.returnsOk()
+        ).get();
     }
 
 }

@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectRequest extends BaseModel {
 
-    @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}")
+    @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}", invalidRegex = "[0-9]{8}")
     private String id;
-    @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}")
+    @GeneratingRule(regex = "[a-zA-Z][a-zA-Z0-9]{7}", invalidRegex = "^$")
     private String name;
     private String locator;
     private String description;

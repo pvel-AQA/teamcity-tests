@@ -26,7 +26,7 @@ public abstract class BasePage<T extends BasePage> {
         RequestSpec.setCookieInBrowser(RequestSpec.fetchSessionCookie(username, password));
     }
 
-    public T getPage(Class<T> pageClass) {
+    public <T extends BasePage> T getPage(Class<T> pageClass) {
         return Selenide.page(pageClass);
     }
 
