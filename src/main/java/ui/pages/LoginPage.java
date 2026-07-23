@@ -1,6 +1,7 @@
 package ui.pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -11,7 +12,7 @@ public class LoginPage extends BasePage<LoginPage> {
     private SelenideElement passwordField = $("input#password");
     private SelenideElement rememberMeCheckbox = $("#remember");
     private SelenideElement resetPasswordLink = $("span#resetPasswordContainer");
-    private SelenideElement lgoinButton = $("btn loginButton");
+    private SelenideElement lgoinButton = $(Selectors.byXpath("//input[@value='Log in']"));
 
     @Override
     public String url() {
