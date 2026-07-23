@@ -36,7 +36,7 @@ jobs:
           docker-compose-dir: infra/docker_compose
 
       - name: Wait for agent synchronization
-        run: sleep 300
+        run: sleep 100
 
       - name: Run tests
         run: ./mvnw clean test -P all -q
