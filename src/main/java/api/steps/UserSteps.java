@@ -29,7 +29,6 @@ import static common.configs.Config.ADMIN_USERNAME;
 
 public class UserSteps {
     private static final Duration BUILD_TIMEOUT = Duration.ofMinutes(3);
-    public static final String STEP_OUTPUT_MARKER = "Hello from E2E build";
 
     public static ProjectResponse createProject() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
