@@ -2,16 +2,17 @@ package api.steps;
 
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
-import api.models.build.*;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
 import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
+import api.models.build.BuildConfigurationRequest;
+import api.models.build.BuildConfigurationResponse;
+import api.models.build.BuildTypeStepsModel;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
-import api.models.project.PropertyItem;
 import api.models.user.UserRequest;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
@@ -19,14 +20,12 @@ import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.helpers.StepLogger;
-import common.helpers.WaitUtils;
 import io.restassured.specification.RequestSpecification;
 
 import java.time.Duration;
-import java.util.List;
 
-import static common.configs.Config.*;
-import static io.restassured.RestAssured.given;
+import static common.configs.Config.ADMIN_PASSWORD;
+import static common.configs.Config.ADMIN_USERNAME;
 
 public class UserSteps {
     private static final Duration BUILD_TIMEOUT = Duration.ofMinutes(3);
@@ -204,65 +203,6 @@ public class UserSteps {
                 ResponseSpec.returnsOk()
         ).get(LocatorType.ID.getPrefix() + agentId);
     }
-
- /*   public static BuildTypeStepsModel createRunnableStep(String configName) {
-        BuildTypeStepsModel stepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString("AutoStep", 3))
-                .type("simpleRunner")
-                .properties(StepProperties.builder()
-                                    .property(List.of(
-                                            PropertyItem.builder().name("use.custom.script").value("true").build(),
-                                            PropertyItem.builder().name("script.content").value("echo '" + STEP_OUTPUT_MARKER + "'").build()
-                                    ))
-                                    .build())
-                .build();
-
-        return new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_STEP_CREATE,
-                ResponseSpec.returnsOk())
-                .post(stepRequest, configName);
-    }
-
-    public static Build triggerBuild(String buildTypeId) {
-        BuildRequest buildRequest = BuildRequest.builder()
-                .buildType(BuildRequest.BuildType.builder().id(buildTypeId).build())
-                .build();
-
-        return new ValidatedCrudRequester<Build>(
-                RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD_QUEUE,
-                ResponseSpec.returnsOk())
-                .post(buildRequest);
-    }
-
-    public static Build getBuild(int buildId) {
-        return new ValidatedCrudRequester<Build>(
-                RequestSpec.basicAuthSpec(),
-                Endpoint.BUILD,
-                ResponseSpec.returnsOk())
-                .get(LocatorType.ID.getPrefix() + buildId);
-    }
-
-    public static Build waitForBuildToFinish(int buildId) {
-        return StepLogger.log("Wait for build " + buildId + " to finish", () ->
-                WaitUtils.waitForResult(
-                        () -> getBuild(buildId),
-                        build -> "finished".equals(build.getState()),
-                        BUILD_TIMEOUT));
-    }
-
-    public static String getBuildLog(int buildId) {
-        return StepLogger.log("Download build log for build " + buildId, () ->
-                given()
-                        .spec(RequestSpec.basicAuthSpec())
-                        .when()
-                        .get("/downloadBuildLog.html?buildId=" + buildId)
-                        .then()
-                        .extract()
-                        .asString());
-    }
-    */
 }
 
 

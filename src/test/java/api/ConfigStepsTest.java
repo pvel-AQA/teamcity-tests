@@ -24,7 +24,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void ConfigStepSuccessfullyCreatedTest() {
+    public void configStepSuccessfullyCreatedTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
@@ -56,7 +56,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void ConfigStepSuccessfulUpdateTest() {
+    public void configStepSuccessfulUpdateTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         BuildTypeStepsModel createdStep =  UserSteps.createBuildTypeStep(configName);
         BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
@@ -80,7 +80,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void ConfigStepSuccessfulDeleteTest() {
+    public void configStepSuccessfulDeleteTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
 
@@ -108,7 +108,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void ConfigStepWithoutNameSuccessfullyCreatedTest() {
+    public void configStepWithoutNameSuccessfullyCreatedTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
@@ -140,7 +140,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void ConfigStepWithoutTypeCannotBeCreatedTest() {
+    public void configStepWithoutTypeCannotBeCreatedTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
@@ -167,7 +167,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void CannotGetNonExistingStepTest() {
+    public void cannotGetNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomGenerator.generateString("NoStep", 8);
 
@@ -181,7 +181,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void CannotUpdateNonExistingStepTest() {
+    public void cannotUpdateNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomGenerator.generateString("NoStep", 8);
         BuildTypeStepsModel updateStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("");
@@ -198,7 +198,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void CannotDeleteNonExistingStepTest() {
+    public void cannotDeleteNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
         String nonExistingStepId = RandomGenerator.generateString("NoStep", 8);
 
@@ -214,7 +214,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void CannotCreateStepForNonExistingConfigTest() {
+    public void cannotCreateStepForNonExistingConfigTest() {
         String nonExistingConfig = RandomGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel createStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
@@ -227,7 +227,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Disabled("Assertions need to be added")
     @Test
-    public void CannotCreateConfigStepWithoutAuthTest() {
+    public void cannotCreateConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
@@ -240,7 +240,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Disabled("Assertions need to be added")
     @Test
-    public void CannotUpdateConfigStepWithoutAuthTest() {
+    public void cannotUpdateConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
         String stepLocator = RandomGenerator.generateString("NoStep", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
@@ -254,7 +254,7 @@ public class ConfigStepsTest extends BaseTest {
 
 
     @Disabled("Assertions need to be added")  @Test
-    public void CannotDeleteConfigStepWithoutAuthTest() {
+    public void cannotDeleteConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
         String stepLocator = RandomGenerator.generateString("NoStep", 8);
 
@@ -267,7 +267,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Disabled("Assertions need to be added")
     @Test
-    public void CannotGetConfigStepWithoutAuthTest() {
+    public void cannotGetConfigStepWithoutAuthTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
         String stepLocator = RandomGenerator.generateString("NoStep", 8);
 
@@ -280,7 +280,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Disabled("Assertions need to be added")
     @Test
-    public void CannotCreateStepWithInvalidBasicCredentialsTest() {
+    public void cannotCreateStepWithInvalidBasicCredentialsTest() {
         String configName = RandomGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
@@ -298,15 +298,15 @@ public class ConfigStepsTest extends BaseTest {
                 ResponseSpec.returnsNotFound())
                 .get(configName);
 
-        /*softly.assertThat(steps.getCount())
+        softly.assertThat(steps.getCount())
                 .as("A viewer must not be able to create a step")
-                .isEqualTo(0);*/
+                .isEqualTo(0);
     }
 
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
-    public void ViewerCannotCreateStepTest() {
+    public void viewerCannotCreateStepTest() {
         String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
 
         BuildTypeStepsModel createStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
@@ -331,7 +331,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
-    public void ViewerCannotUpdateStepTest() {
+    public void viewerCannotUpdateStepTest() {
         String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
         BuildTypeStepsModel createdStep = UserSteps.createBuildTypeStep(RequestSpec.basicAuthSpec(), configName);
 
@@ -355,7 +355,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
-    public void ViewerCannotDeleteStepTest() {
+    public void viewerCannotDeleteStepTest() {
         String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
         String createdStepId = UserSteps.createBuildTypeStep(RequestSpec.basicAuthSpec(), configName).getId();
 
@@ -374,7 +374,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.PROJECT_DEVELOPER)
-    public void DeveloperCannotDeleteStepTest() {
+    public void developerCannotDeleteStepTest() {
         String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
         String createdStepId = UserSteps.createBuildTypeStep(RequestSpec.basicAuthSpec(), configName).getId();
 
@@ -392,7 +392,7 @@ public class ConfigStepsTest extends BaseTest {
 
     @Disabled("Assertions need to be added")
     @Test
-    public void CannotCreateStepWithInvalidBearerTokenTest() {
+    public void cannotCreateStepWithInvalidBearerTokenTest() {
         String configLocator = RandomGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
