@@ -2,6 +2,7 @@ package ui.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.exist;
@@ -28,6 +29,7 @@ public class ProjectsPage extends BasePage<ProjectsPage> {
     }
 
     public ProjectsPage checkHeaderIsVisible() {
+        Selenide.sleep(10000);
         header.shouldBe(Condition.visible);
         return this;
     }
