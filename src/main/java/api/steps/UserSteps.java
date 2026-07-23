@@ -176,6 +176,19 @@ public class UserSteps {
         });
     }
 
+    public static int getAgentId(String sessionId) {
+        return StepLogger.log("Get Agent id", () -> {
+            return new ValidatedCrudRequester<GetAgentsResponse>(
+                    RequestSpec.authWithTcSessionId(sessionId),
+                    Endpoint.AGENTS,
+                    ResponseSpec.returnsOk()
+            ).get(new CrudRequester.QueryBuilder()
+                            .locatorEqualsAuthorizedAny()
+                            .locatorEqualsConnectedTrue().build())
+                    .getAgent().getFirst().getId();
+        });
+    }
+
     public static boolean getAgentAuthorizedStatus(int agentId) {
         return new ValidatedCrudRequester<Agent>(
                 RequestSpec.withAuthExtensionUser(),
