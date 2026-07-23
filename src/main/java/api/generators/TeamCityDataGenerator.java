@@ -1,5 +1,6 @@
 package api.generators;
 
+import api.models.build.BuildTypeStepsModel;
 import api.models.build.BuildConfigurationRequest;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;
@@ -17,5 +18,13 @@ public class TeamCityDataGenerator {
             buildRequest.getProject().setId(projectId);
         }
         return buildRequest;
+    }
+
+    public static BuildTypeStepsModel generateBuildConfigurationStepRequest(String name) {
+
+        return BuildTypeStepsModel.builder()
+                .name(RandomGenerator.generateString(name, 3))
+                .type("simpleRunner")
+                .build();
     }
 }

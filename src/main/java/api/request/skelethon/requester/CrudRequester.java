@@ -63,7 +63,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                     .post(targetUrl)
                     .then()
                     .spec(responseSpecification);
-            extractUrlToStorage(response, targetUrl);
+            extractUrlToStorage(response, resolvedUrl);
             return response;
         });
     }
@@ -103,7 +103,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                             .delete(targetUrl)
                             .then()
                             .spec(responseSpecification);
-            EntityStorage.removeUrlFromListIfExists(targetUrl);
+            EntityStorage.removeUrlFromListIfExists(resolvedUrl);
             return response;
         });
     }
