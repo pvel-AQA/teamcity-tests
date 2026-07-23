@@ -5,7 +5,7 @@ import api.comparison.ModelAssertions;
 import api.generators.RandomGenerator;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
-import api.steps.SuperUserSteps;
+import api.steps.UserSteps;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class CreateProjectTest extends BaseUiTest {
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("There is no project with name: " + projectRequest.getName()));
 
-        ProjectResponse apiProject = SuperUserSteps.getProjectById(projectRequest.getId());
+        ProjectResponse apiProject = UserSteps.getProjectById(projectRequest.getId());
 
         softly.assertThat(apiProject.getName()).isEqualTo(uiProject.getProjectName());
 
@@ -58,7 +58,7 @@ public class CreateProjectTest extends BaseUiTest {
                 .noneMatch(p -> p.getProjectName().equals(projectRequest.getName())))
                 .isTrue();
 
-        long foundProject = SuperUserSteps.getAllProjects().getProjects().stream()
+        long foundProject = UserSteps.getAllProjects().getProjects().stream()
                 .filter(project -> project.getId().equals(projectRequest.getId())).count();
 
         assertThat(foundProject).isZero();
@@ -79,7 +79,7 @@ public class CreateProjectTest extends BaseUiTest {
                 .noneMatch(p -> p.getProjectName().equals(projectRequest.getName())))
                 .isTrue();
 
-        long foundProject = SuperUserSteps.getAllProjects().getProjects().stream()
+        long foundProject = UserSteps.getAllProjects().getProjects().stream()
                 .filter(project -> project.getId().equals(projectRequest.getId())).count();
 
         assertThat(foundProject).isZero();
