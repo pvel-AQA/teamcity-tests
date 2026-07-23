@@ -16,6 +16,11 @@ public class LoginTest extends BaseUiTest {
 
     private static int GREATER_THAN_ZERO = 0;
 
+    private int getAgentIdUsingTCSessionCookieValue() {
+        String browserSessionCookieValue = RequestSpec.getBrowserSessionCookieValue();
+        return UserSteps.getAgentId(browserSessionCookieValue);
+    }
+
     @Test
     public void superUserCanLoginWithoutUsernamePopulatedTest() {
         new LoginPage().open()
@@ -25,8 +30,7 @@ public class LoginTest extends BaseUiTest {
                 .getPage(ProjectsPage.class)
                 .checkHeaderIsVisible();
 
-        String browserSessionCookieValue = RequestSpec.getBrowserSessionCookieValue();
-        int agentId = UserSteps.getAgentId(browserSessionCookieValue);
+        var agentId = getAgentIdUsingTCSessionCookieValue();
         Assertions.assertThat(agentId).isGreaterThan(GREATER_THAN_ZERO);
     }
 
@@ -40,8 +44,7 @@ public class LoginTest extends BaseUiTest {
                 .getPage(ProjectsPage.class)
                 .checkHeaderIsVisible();
 
-        String browserSessionCookieValue = RequestSpec.getBrowserSessionCookieValue();
-        int agentId = UserSteps.getAgentId(browserSessionCookieValue);
+        var agentId = getAgentIdUsingTCSessionCookieValue();
         Assertions.assertThat(agentId).isGreaterThan(GREATER_THAN_ZERO);
     }
 }
