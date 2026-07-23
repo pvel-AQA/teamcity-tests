@@ -9,6 +9,7 @@ import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
+import api.models.build.BuildTypeStepsModel;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -19,14 +20,28 @@ import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import common.helpers.StepLogger;
+import io.restassured.specification.RequestSpecification;
 
-import static common.configs.Config.*;
+import java.time.Duration;
+
+import static common.configs.Config.ADMIN_PASSWORD;
+import static common.configs.Config.ADMIN_USERNAME;
 
 public class UserSteps {
+    private static final Duration BUILD_TIMEOUT = Duration.ofMinutes(3);
 
     public static ProjectResponse createProject() {
         ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
         return createProjectWithExtension(projectRequest);
+    }
+
+    public static ProjectResponse createProject(RequestSpecification spec) {
+        ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
+        return new ValidatedCrudRequester<ProjectResponse>(
+                spec,
+                Endpoint.PROJECTS,
+                ResponseSpec.returnsOk()
+        ).post(projectRequest);
     }
 
     public static ProjectResponse createProjectWithExtension(ProjectRequest projectRequest) {
@@ -86,15 +101,54 @@ public class UserSteps {
         return createBuildConfiguration(buildRequest);
     }
 
+    public static BuildConfigurationResponse createBuildConfiguration(RequestSpecification spec) {
+        ProjectResponse project = createProject(spec);
+        BuildConfigurationRequest buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
+        buildRequest.getProject().setId(project.getId());
+
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
+                spec,
+                Endpoint.BUILD_TYPES,
+                ResponseSpec.returnsOk()
+        ).post(buildRequest);
+    }
+
     public static BuildConfigurationResponse createBuildConfiguration(BuildConfigurationRequest buildConf) {
-        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.withAuthExtensionUser(),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .post(buildConf);
     }
 
+    public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
+        return new ValidatedCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEP_READ,
+                ResponseSpec.returnsOk())
+                .get(configName, stepId);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(String configName, String stepType){
+        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName, stepType);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, String stepType){
+        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
+                .name(RandomGenerator.generateString(5))
+                .type(stepType)
+                .build();
+
+        return new ValidatedCrudRequester<BuildTypeStepsModel>(
+                spec,
+                Endpoint.BUILD_STEP_CREATE,
+                ResponseSpec.returnsOk())
+                .post(createStepRequest,configName);
+    }
+
     public static BuildConfigurationResponse getBuilds() {
-        return new ValidatedCrudRequester<BuildConfigurationResponse>(RequestSpec.withAuthExtensionUser(),
+        return new ValidatedCrudRequester<BuildConfigurationResponse>(
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .get();
@@ -148,5 +202,6 @@ public class UserSteps {
                 ResponseSpec.returnsOk()
         ).get(LocatorType.ID.getPrefix() + agentId);
     }
-
 }
+
+
