@@ -126,7 +126,6 @@ public class RegularBuildRunTest extends BaseTest {
         var buildConfigId = buildConfig.getId();
 
         BuildQueuePausedRequest pauseQueueRequest = TeamCityDataGenerator.generateBuildQueuePausedRequest(true);
-
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_QUEUE_PAUSED_STATE,
@@ -134,7 +133,6 @@ public class RegularBuildRunTest extends BaseTest {
                 .put(pauseQueueRequest);
 
         BuildRunRequest buildRunRequest = TeamCityDataGenerator.generateBuildRun(buildConfigId);
-
         var startedBuildRunResponse = new ValidatedCrudRequester<BuildRunResponse>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_QUEUE,
@@ -188,7 +186,6 @@ public class RegularBuildRunTest extends BaseTest {
         var buildConfigId = buildConfig.getId();
 
         BuildRunRequest buildRunRequest = TeamCityDataGenerator.generateBuildRun(buildConfigId);
-
         var startedBuildRunResponse = new ValidatedCrudRequester<BuildRunResponse>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_QUEUE,

@@ -35,16 +35,6 @@ public class WaitUtils {
                 .until(supplier, condition);
     }
 
-//    public static <T> T waitFor(Callable<T> supplier, Predicate<T> condition, Duration timeout, Duration pollInterval) {
-//        return getDefaultAwait(timeout,pollInterval)
-//                .until(supplier, condition);
-//    }
-
-//    public static <T> T waitFor(Callable<T> supplier, Predicate<T> condition) {
-//        // Здесь мы сами задаем 20 секунд таймаута и 2 секунды интервала по умолчанию
-//        return waitFor(supplier, condition, Duration.ofSeconds(20), Duration.ofSeconds(2));
-//    }
-
     public static void waitForCondition(Callable<Boolean> condition) {
         getDefaultAwait()
                 .until(condition);
