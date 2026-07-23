@@ -5,6 +5,7 @@ import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
+import api.models.build.*;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
@@ -16,8 +17,6 @@ import lombok.AllArgsConstructor;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import static common.configs.Config.API_PREFIX;
 
 @Getter
 @AllArgsConstructor
@@ -78,6 +77,31 @@ public enum Endpoint {
             AuthorizeAgentRequest.class,
             AuthorizeAgentResponse.class
 
+    ),
+    BUILD_STEP_CREATE(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEPS_READ(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
+            BuildTypeStepsList.class
+    ),
+    BUILD_STEP_READ(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_UPDATE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_DELETE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BaseModel.class
     );
 
     private String url;

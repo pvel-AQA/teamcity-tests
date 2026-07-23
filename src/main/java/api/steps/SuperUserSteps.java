@@ -2,8 +2,8 @@ package api.steps;
 
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
-import api.models.Role;
-import api.models.Roles;
+import api.models.user.Role;
+import api.models.user.Roles;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
 import api.models.user.UserRequest;
