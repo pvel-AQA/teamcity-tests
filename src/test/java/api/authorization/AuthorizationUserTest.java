@@ -2,6 +2,7 @@ package api.authorization;
 
 import api.generators.RandomGenerator;
 import api.enums.errors.AuthErrorMessage;
+import api.generators.TeamCityDataGenerator;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
@@ -30,9 +31,9 @@ public class AuthorizationUserTest extends BaseTest {
     public static Stream<Arguments> userInvalidData() {
 
         return Stream.of(
-                Arguments.of("wrong password", ADMIN_USERNAME, RandomGenerator.generateString()),
-                Arguments.of("wrong username", RandomGenerator.generateString(), ADMIN_PASSWORD),
-                Arguments.of("all wrong", RandomGenerator.generateString(), RandomGenerator.generateString())
+                Arguments.of("wrong password", ADMIN_USERNAME, TeamCityDataGenerator.generateString()),
+                Arguments.of("wrong username", TeamCityDataGenerator.generateString(), ADMIN_PASSWORD),
+                Arguments.of("all wrong", TeamCityDataGenerator.generateString(), TeamCityDataGenerator.generateString())
         );
     }
 
@@ -57,7 +58,7 @@ public class AuthorizationUserTest extends BaseTest {
     @Test
     public void invalidBearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.adminSpec(RandomGenerator.generateString()),
+                RequestSpec.adminSpec(TeamCityDataGenerator.generateString()),
                 Endpoint.SERVER,
                 ResponseSpec.returnsUnauthorized(AuthErrorMessage.OAUTH_FAILED))
                 .get();

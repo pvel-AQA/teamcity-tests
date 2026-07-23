@@ -145,7 +145,7 @@ public class UserSteps {
 
     public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, String stepType) {
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString(5))
+                .name(TeamCityDataGenerator.generateString(5))
                 .type(stepType)
                 .build();
 
