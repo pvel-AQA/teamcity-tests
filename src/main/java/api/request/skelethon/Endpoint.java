@@ -2,8 +2,7 @@ package api.request.skelethon;
 
 import api.models.*;
 import api.models.agent.GetAgentsResponse;
-import api.models.build.BuildConfigurationRequest;
-import api.models.build.BuildConfigurationResponse;
+import api.models.build.*;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -64,6 +63,31 @@ public enum Endpoint {
             "/agents",
             BaseModel.class,
             GetAgentsResponse.class
+    ),
+    BUILD_QUEUE(
+            "/buildQueue",
+            BuildRunRequest.class,
+            BuildRunResponse.class
+    ),
+    BUILD_QUEUE_ITEM(
+            "/buildQueue/{queuedBuildLocato}",
+            BaseModel.class,
+            BuildRunResponse.class
+    ),
+    BUILD(
+            "/builds/{buildLocator}",
+            BuildRunRequest.class,        // Для обычного GET запроса тела нет
+            BuildRunResponse.class   // GET возвращает стандартный объект сборки
+    ),
+    BUILD_CANCEL(
+            "/builds/{buildLocator}",
+            BuildCancelRequest.class, // POST принимает запрос на отмену
+            BuildCancelResponse.class // POST возвращает статус отмены
+    ),
+    BUILD_QUEUE_PAUSED_STATE(
+            "/buildQueue/pausedState",
+            BuildQueuePausedRequest.class,
+            Void.class
     );
     private String url;
     private Class<?> requestModel;

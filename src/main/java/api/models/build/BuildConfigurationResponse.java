@@ -31,5 +31,7 @@ public class BuildConfigurationResponse extends BaseModel {
     private Integer count;
     private String href;
     private List<BuildConfigurationResponse> buildType;
+
+    private Boolean paused;
 }
 

@@ -35,6 +35,11 @@ public class WaitUtils {
                 .until(supplier, condition);
     }
 
+    public static <T> T waitFor(Callable<T> supplier, Predicate<T> condition, Duration timeout, Duration pollInterval) {
+        return getDefaultAwait(timeout,pollInterval)
+                .until(supplier, condition);
+    }
+
     public static void waitForCondition(Callable<Boolean> condition) {
         getDefaultAwait()
                 .until(condition);

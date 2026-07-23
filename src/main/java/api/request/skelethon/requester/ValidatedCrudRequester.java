@@ -49,14 +49,14 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
         return (T) crudRequester.put(model, pathParams).extract().as(endpoint.getResponseModel());
     }
 
+    public String put(Object plainBody, Object... pathParams) {
+        return crudRequester.put(plainBody, pathParams).extract().asString();
+    }
+
     @Override
     public T delete(Object... pathParams) {
         return (T) crudRequester.delete(pathParams).extract().as(endpoint.getResponseModel());
     }
-
-//    public T delete(String id, BaseModel body) {
-//        return (T) crudRequester.delete(id, body).extract().as(endpoint.getResponseModel());
-//    }
 
     @Override
     public List<T> getAll(Class<?> clazz) {

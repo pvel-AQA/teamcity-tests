@@ -5,6 +5,7 @@ import api.request.skelethon.Endpoint;
 import api.request.skelethon.HttpRequest;
 import api.request.skelethon.interfaces.CrudEndpointInterface;
 import api.request.skelethon.interfaces.GetAllEndpointInterface;
+import common.helpers.StepLogger;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -60,6 +61,21 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .put(targetUrl)
                 .then()
                 .spec(responseSpecification);
+    }
+
+    @Override
+    public ValidatableResponse put(Object plainBody, Object... pathParams) {
+        return StepLogger.log("PUT text request to " + endpoint.getUrl(), () -> {
+            var body = plainBody == null ? "" : plainBody.toString();
+
+            return prepareRequest(pathParams)
+                    .body(body) // Передаем строку "true" или "false"
+                    .when()
+                    .put(targetUrl)
+                    .then()
+                    .assertThat()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
