@@ -33,7 +33,7 @@ public class EntityStorage {
         while ((url = endpointsToDelete.get().pollLast()) != null) {
             try {
                 new CrudRequester(
-                        RequestSpec.basicAuthSpec(),
+                        RequestSpec.superUserSpec(),
                         Endpoint.PROJECTS,
                         new ResponseSpecBuilder().build()
                 ).deleteMethodForStorage(url);
