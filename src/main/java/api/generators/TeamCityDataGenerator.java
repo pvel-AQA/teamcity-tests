@@ -26,19 +26,10 @@ public class TeamCityDataGenerator {
         return buildRequest;
     }
 
-//    public static BuildTypeStepsModel generateBuildConfigurationStepRequest(String name) {
-//
-//        return BuildTypeStepsModel.builder()
-//                .name(RandomGenerator.generateString(name, 3))
-//                .type("simpleRunner")
-//                .build();
-//    }
-
     public static BuildTypeStepsModel generateBuildConfigurationStepRequest(String name) {
         return generateBuildConfigurationStepRequest(name, null);
     }
 
-    // 2. Универсальный метод: принимает имя и параметры, запечатывая внутри тип "simpleRunner"
     public static BuildTypeStepsModel generateBuildConfigurationStepRequest(String name, StepProperties properties) {
         return BuildTypeStepsModel.builder()
                 .name(generateString(name, 3))

@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BuildQueuePausedRequest extends BaseModel {
     private Boolean paused;
-    private String reason; // Опционально, можно передавать причину
+    private String reason;
 }

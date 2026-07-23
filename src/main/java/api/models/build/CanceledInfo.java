@@ -9,5 +9,5 @@ import lombok.Data;
 public class CanceledInfo {
     private UserResponse user;
     private String timestamp;
-    private String text; // Сюда придет ваш комментарий "Stopped by test"
+    private String text;
 }
