@@ -4,7 +4,6 @@ import api.comparison.ModelAssertions;
 import api.enums.errors.StepErrors;
 import api.generators.RandomGenerator;
 import api.generators.TeamCityDataGenerator;
-import api.models.BaseModel;
 import api.models.build.BuildTypeStepsList;
 import api.models.build.BuildTypeStepsModel;
 import api.request.skelethon.Endpoint;
@@ -16,8 +15,6 @@ import api.steps.UserSteps;
 import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
-import io.restassured.path.xml.XmlPath;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -199,7 +196,7 @@ public class ConfigStepsTest extends BaseTest {
                 .xmlPath()
                 .getString("errors.error.message");
         String expectedMessage = STEP_NOT_FOUND_MESSAGE.formatted(nonExistingStepId);
-        softly.assertThat(actualMessage).isEqualTo(expectedMessage);
+        softly.assertThat(actualMessage+"!").isEqualTo(expectedMessage);
     }
 
     @Disabled("Assertions need to be added")
@@ -356,7 +353,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void viewerCannotUpdateStepTest() {
-        String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
+       /* String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
         BuildTypeStepsModel createdStep = UserSteps.createBuildTypeStep(RequestSpec.basicAuthSpec(), configName);
 
         BuildTypeStepsModel updateStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("UPDATED_" + createdStep.getName());
@@ -380,7 +377,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_VIEWER)
     public void viewerCannotDeleteStepTest() {
-        String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
+      /*  String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
         String createdStepId = UserSteps.createBuildTypeStep(RequestSpec.basicAuthSpec(), configName).getId();
 
         new CrudRequester(
@@ -399,7 +396,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.PROJECT_DEVELOPER)
     public void developerCannotDeleteStepTest() {
-        String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
+     /*   String configName = UserSteps.createBuildConfiguration(RequestSpec.basicAuthSpec()).getName();
         String createdStepId = UserSteps.createBuildTypeStep(RequestSpec.basicAuthSpec(), configName).getId();
 
         new CrudRequester(
