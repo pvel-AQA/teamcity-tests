@@ -92,18 +92,4 @@ public class RandomGenerator {
         }
         return Collections.emptyList();
     }
-
-    public static String generateString(String prefix, int length) {
-        String randomPart = UUID.randomUUID().toString().substring(0, Math.min(length, 8));
-        return prefix + randomPart;
-    }
-
-
-    public static String generateString() {
-        return generateString("", 8);
-    }
-
-    public static String generateString(int length) {
-        return generateString("", length);
-    }
 }

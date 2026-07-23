@@ -1,7 +1,9 @@
 package api.steps;
 
+import api.enums.build.BuildStepCommand;
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
+import api.generators.TeamCityDataGenerator;
 import api.models.UserTokenRequest;
 import api.models.UserTokenResponse;
 import api.models.agent.Agent;
@@ -121,7 +123,7 @@ public class UserSteps {
                 .post(buildConf);
     }
 
-    public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId){
+    public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId) {
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_READ,
@@ -129,21 +131,33 @@ public class UserSteps {
                 .get(configName, stepId);
     }
 
-    public static BuildTypeStepsModel createBuildTypeStep(String configName, String stepType){
-        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName, stepType);
-    }
-
-    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, String stepType){
-        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString(5))
-                .type(stepType)
-                .build();
-
+    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, BuildTypeStepsModel stepRequest) {
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
                 spec,
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsOk())
-                .post(createStepRequest,configName);
+                .post(stepRequest, configName);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(String configName, String stepType) {
+        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName, stepType);
+    }
+
+    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, String stepType) {
+        BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
+                .name(TeamCityDataGenerator.generateString(5))
+                .type(stepType)
+                .build();
+
+        return createBuildTypeStep(spec, configName, createStepRequest);
+    }
+
+    public static BuildConfigurationResponse createBuildConfigurationWithSteps(BuildStepCommand command) {
+        var buildConfig = createBuildConfiguration();
+        var stepWithCommand = TeamCityDataGenerator.generateBuildConfigurationStepRequestWithCommand(command);
+
+        createBuildTypeStep(RequestSpec.withAuthExtensionUser(), buildConfig.getName(), stepWithCommand);
+        return buildConfig;
     }
 
     public static BuildConfigurationResponse getBuilds() {

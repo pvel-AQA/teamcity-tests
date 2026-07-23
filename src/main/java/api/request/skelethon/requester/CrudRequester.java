@@ -94,6 +94,11 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     }
 
     @Override
+    public ValidatableResponse put(BaseModel model) {
+        return put(model, new Object[0]);
+    }
+
+    @Override
     public ValidatableResponse delete(Object... pathParams) {
         RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Delete request to" + targetUrl, () -> {
@@ -123,6 +128,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .then()
                 .spec(responseSpecification);
     }
+
 
     @Override
     public ValidatableResponse getAll(Class<?> clazz) {

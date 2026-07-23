@@ -17,7 +17,7 @@ public class BuildTypeModel extends BaseModel {
     public String internalId;
     public String name;
     public Boolean templateFlag;
-    public String type; //regular, composite, deployment
+    public String type;
     public Boolean paused;
     public String uuid;
     public String description;

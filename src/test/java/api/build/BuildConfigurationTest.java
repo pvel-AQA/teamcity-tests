@@ -125,7 +125,7 @@ public class BuildConfigurationTest extends BaseTest {
     public void userCannotCreateBuildConfigurationWithInvalidId() {
         var invalidBuild = TeamCityDataGenerator.generateBuildConfigurationFor();
 
-        invalidBuild.setId(RandomGenerator.generateString("_", 8));
+        invalidBuild.setId(TeamCityDataGenerator.generateString("_", 8));
 
         new CrudRequester(RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
