@@ -270,7 +270,7 @@
      }
     ],
     "responses": {
-     "default": {
+     "204": {
       "description": "successful operation"
      },
      "401": {
@@ -574,7 +574,7 @@
      }
     ],
     "responses": {
-     "default": {
+     "204": {
       "description": "successful operation"
      },
      "401": {
@@ -902,7 +902,7 @@
      }
     ],
     "responses": {
-     "default": {
+     "204": {
       "description": "successful operation"
      },
      "401": {

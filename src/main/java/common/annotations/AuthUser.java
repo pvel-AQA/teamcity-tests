@@ -16,4 +16,6 @@ public @interface AuthUser {
 
     UserRoles role() default UserRoles.USER_ROLE;
 
+    boolean seedBrowserSession() default false;
+
 }

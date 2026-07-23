@@ -1,6 +1,9 @@
 package common.helpers;
 
 import io.qameta.allure.Allure;
+import io.restassured.response.ValidatableResponse;
+
+import java.util.function.Supplier;
 
 public class StepLogger {
 

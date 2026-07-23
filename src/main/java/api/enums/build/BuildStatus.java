@@ -1,4 +1,4 @@
-package api.enums.buildStates;
+package api.enums.build;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;

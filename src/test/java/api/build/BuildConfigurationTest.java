@@ -14,10 +14,10 @@ import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
 import base.BaseTest;
+import common.annotations.AuthUser;
+import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static common.configs.Config.ADMIN_TOKEN;
 
 
 public class BuildConfigurationTest extends BaseTest {
@@ -25,6 +25,7 @@ public class BuildConfigurationTest extends BaseTest {
     private static final String[] IGNORED_BUILD_FIELDS = {"project", "settings"};
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCanCreateBuildConfiguration() {
         var projectResponse = UserSteps.createProject();
 
@@ -32,14 +33,14 @@ public class BuildConfigurationTest extends BaseTest {
         buildRequest.getProject().setId(projectResponse.getId());
 
         var buildResponse = new ValidatedCrudRequester<BuildConfigurationResponse>
-                (RequestSpec.adminSpec(ADMIN_TOKEN),
+                (RequestSpec.withAuthExtensionUser(),
                         Endpoint.BUILD_TYPES,
                         ResponseSpec.returnsOk())
                 .post(buildRequest);
 
 
         var builds = new ValidatedCrudRequester<BuildConfigurationResponse>
-                (RequestSpec.adminSpec(ADMIN_TOKEN),
+                (RequestSpec.withAuthExtensionUser(),
                         Endpoint.BUILD_TYPES,
                         ResponseSpec.returnsOk())
                 .get();
@@ -55,13 +56,14 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCanCopyBuildConfiguration() {
         var buildResponse = UserSteps.createBuildConfiguration();
 
         var copyBuildRequest = CopyBuildConfigurationRequest.createFrom(buildResponse);
 
         var copyBuildResponse = new ValidatedCrudRequester<BuildConfigurationResponse>
-                (RequestSpec.adminSpec(ADMIN_TOKEN),
+                (RequestSpec.withAuthExtensionUser(),
                         Endpoint.PROJECTS_BUILD_TYPES,
                         ResponseSpec.returnsOk())
                 .post(copyBuildRequest, buildResponse.getProject().getId());
@@ -79,10 +81,11 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCanDeleteBuildConfiguration() {
         var buildRequest = UserSteps.createBuildConfiguration();
 
-        new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
+        new CrudRequester(RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPE,
                 ResponseSpec.returnsNoContent())
                 .delete(LocatorType.ID + buildRequest.getId());
@@ -95,6 +98,7 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCannotCreateBuildConfigurationWithDuplicateId() {
         var project = UserSteps.createProject();
         var firstBuild = TeamCityDataGenerator.generateBuildConfigurationFor(project.getId());
@@ -104,7 +108,7 @@ public class BuildConfigurationTest extends BaseTest {
         var duplicateBuild = TeamCityDataGenerator.generateBuildConfigurationFor(project.getId());
         duplicateBuild.setId(firstBuild.getId());
 
-        new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
+        new CrudRequester(RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsBadRequest())
                 .post(duplicateBuild);
@@ -117,12 +121,13 @@ public class BuildConfigurationTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void userCannotCreateBuildConfigurationWithInvalidId() {
         var invalidBuild = TeamCityDataGenerator.generateBuildConfigurationFor();
 
         invalidBuild.setId(RandomGenerator.generateString("_", 8));
 
-        new CrudRequester(RequestSpec.adminSpec(ADMIN_TOKEN),
+        new CrudRequester(RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsInternalServerError())
                 .post(invalidBuild);

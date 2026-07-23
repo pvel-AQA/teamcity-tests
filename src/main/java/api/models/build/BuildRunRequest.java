@@ -16,10 +16,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class BuildRunRequest extends BaseModel {
 
-    @JsonIgnore // Jackson проигнорирует само поле при сериализации
+    @JsonIgnore
     private String buildTypeId;
 
-    // Jackson вызовет этот метод и создаст в JSON объект {"buildType": {"id": "..."}}
     @JsonProperty("buildType")
     public Map<String, String> getBuildTypeJson() {
         if (this.buildTypeId == null) {

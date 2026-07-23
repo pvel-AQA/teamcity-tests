@@ -1,8 +1,13 @@
 package api.request.skelethon;
 
 import api.models.*;
+import api.models.agent.Agent;
+import api.models.agent.AuthorizeAgentRequest;
+import api.models.agent.AuthorizeAgentResponse;
 import api.models.agent.GetAgentsResponse;
 import api.models.build.*;
+import api.models.build.BuildConfigurationRequest;
+import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -64,31 +69,63 @@ public enum Endpoint {
             BaseModel.class,
             GetAgentsResponse.class
     ),
+    AGENTS_WITH_LOCATOR(
+            "/agents/{locator}",
+            BaseModel.class,
+            Agent.class
+    ),
+    AGENTS_AUTHORIZED_INFO(
+            "/agents/{agentLocator}/authorizedInfo",
+            AuthorizeAgentRequest.class,
+            AuthorizeAgentResponse.class
+
+    ),
+    BUILD_STEP_CREATE(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEPS_READ(
+            "/buildTypes/{btLocator}/steps",
+            BaseModel.class,
+            BuildTypeStepsList.class
+    ),
+    BUILD_STEP_READ(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_UPDATE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BuildTypeStepsModel.class,
+            BuildTypeStepsModel.class
+    ),
+    BUILD_STEP_DELETE(
+            "/buildTypes/{btLocator}/steps/{stepId}",
+            BaseModel.class,
+            BaseModel.class
+    ),
     BUILD_QUEUE(
             "/buildQueue",
             BuildRunRequest.class,
             BuildRunResponse.class
     ),
-    BUILD_QUEUE_ITEM(
-            "/buildQueue/{queuedBuildLocato}",
-            BaseModel.class,
-            BuildRunResponse.class
-    ),
     BUILD(
             "/builds/{buildLocator}",
-            BuildRunRequest.class,        // Для обычного GET запроса тела нет
-            BuildRunResponse.class   // GET возвращает стандартный объект сборки
+            BuildRunRequest.class,
+            BuildRunResponse.class
     ),
     BUILD_CANCEL(
             "/builds/{buildLocator}",
-            BuildCancelRequest.class, // POST принимает запрос на отмену
-            BuildCancelResponse.class // POST возвращает статус отмены
+            BuildCancelRequest.class,
+            BuildCancelResponse.class
     ),
     BUILD_QUEUE_PAUSED_STATE(
             "/buildQueue/pausedState",
             BuildQueuePausedRequest.class,
-            Void.class
+            BaseModel.class
     );
+
     private String url;
     private Class<?> requestModel;
     private Class<?> responseModel;

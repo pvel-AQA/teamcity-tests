@@ -40,6 +40,7 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
         return (T) crudRequester.post(model).extract().as(endpoint.getResponseModel());
     }
 
+    @Override
     public T post(BaseModel model, Object... pathParams) {
         return (T) crudRequester.post(model, pathParams).extract().as(endpoint.getResponseModel());
     }
@@ -49,8 +50,9 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
         return (T) crudRequester.put(model, pathParams).extract().as(endpoint.getResponseModel());
     }
 
-    public String put(Object plainBody, Object... pathParams) {
-        return crudRequester.put(plainBody, pathParams).extract().asString();
+    @Override
+    public Object put(BaseModel model) {
+        return put(model, new Object[0]);
     }
 
     @Override

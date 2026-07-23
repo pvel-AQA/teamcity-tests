@@ -1,5 +1,7 @@
 package api.specs;
 
+import api.request.skelethon.Endpoint;
+import com.codeborne.selenide.WebDriverRunner;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
@@ -20,8 +22,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
+import static io.restassured.RestAssured.given;
 
 public class RequestSpec {
+
+    public static final String SESSION_COOKIE_NAME = "TCSESSIONID";
 
     private static String superUserAuthToken;
 
@@ -73,7 +78,7 @@ public class RequestSpec {
 
     public static RequestSpecification superUserSpec() {
         return defaultSpecBuilder()
-                .setAuth(RestAssured.basic("", getSuperUserAuthToken()))
+                .setAuth(RestAssured.basic("", Config.SUPER_USER_AUTH_TOKEN))
                 .build();
     }
 
@@ -86,6 +91,46 @@ public class RequestSpec {
     public static RequestSpecification withAuthExtensionUser() {
         return defaultSpecBuilder()
                 .setAuth(RestAssured.oauth2(AuthUserExtension.getAuthUserToken().getValue()))
+                .build();
+    }
+
+    public static io.restassured.http.Cookie fetchSessionCookie(String username, String password) {
+        return given()
+                .spec(basicAuthSpec(username, password))
+                .when()
+                .get(Config.API_PREFIX + Endpoint.SERVER.getUrl())
+                .then()
+                .spec(api.specs.ResponseSpec.requestReturnsSessionCookie())
+                .extract()
+                .detailedCookie(SESSION_COOKIE_NAME);
+    }
+
+    public static void setCookieInBrowser(io.restassured.http.Cookie restAssuredCookie) {
+        org.openqa.selenium.Cookie.Builder builder =
+                new org.openqa.selenium.Cookie.Builder(restAssuredCookie.getName(), restAssuredCookie.getValue())
+                        .path(restAssuredCookie.getPath() != null ? restAssuredCookie.getPath() : "/")
+                        .isHttpOnly(restAssuredCookie.isHttpOnly())
+                        .isSecure(restAssuredCookie.isSecured());
+
+        if (restAssuredCookie.getDomain() != null) {
+            builder.domain(restAssuredCookie.getDomain());
+        }
+        if (restAssuredCookie.getExpiryDate() != null) {
+            builder.expiresOn(restAssuredCookie.getExpiryDate());
+        }
+
+        WebDriverRunner.getWebDriver().manage().addCookie(builder.build());
+    }
+
+    public static String getBrowserSessionCookieValue() {
+        org.openqa.selenium.Cookie cookie =
+                WebDriverRunner.getWebDriver().manage().getCookieNamed(SESSION_COOKIE_NAME);
+        return cookie == null ? null : cookie.getValue();
+    }
+
+    public static RequestSpecification authWithTcSessionId(String sessionId) {
+        return defaultSpecBuilder()
+                .addCookie(SESSION_COOKIE_NAME, sessionId)
                 .build();
     }
 
