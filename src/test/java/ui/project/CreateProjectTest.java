@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import ui.BaseUiTest;
 import ui.elements.ProjectElement;
 import ui.enums.errors.ProjectValidationError;
+import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
 import ui.pages.ProjectsPage;
 
@@ -28,8 +29,9 @@ public class CreateProjectTest extends BaseUiTest {
         ProjectElement uiProject = new CreateProjectPage()
                 .open()
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
-                .getPage(ProjectsPage.class)
-                .open()
+                .getPage(ConnectVCSPage.class)
+                .proceedWithoutRepository()
+                .skip()
                 .getProjects()
                 .stream()
                 .filter(p -> p.getProjectName().equals(projectRequest.getName()))
@@ -48,15 +50,10 @@ public class CreateProjectTest extends BaseUiTest {
     public void userCantCreateProjectWithInvalidIdTest() {
         var projectRequest = RandomGenerator.generate(ProjectRequest.class, "id");
 
-        assertThat(new CreateProjectPage()
+        new CreateProjectPage()
                 .open()
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
-                .checkProjectIdError(ProjectValidationError.INVALID_PROJECT_ID)
-                .getPage(ProjectsPage.class)
-                .open()
-                .getProjects().stream()
-                .noneMatch(p -> p.getProjectName().equals(projectRequest.getName())))
-                .isTrue();
+                .checkProjectIdError(ProjectValidationError.INVALID_PROJECT_ID);
 
         long foundProject = UserSteps.getAllProjects().getProjects().stream()
                 .filter(project -> project.getId().equals(projectRequest.getId())).count();
@@ -69,15 +66,10 @@ public class CreateProjectTest extends BaseUiTest {
     public void userCantCreateProjectWithEmptyNameTest() {
         var projectRequest = RandomGenerator.generate(ProjectRequest.class, "name");
 
-        assertThat(new CreateProjectPage()
+        new CreateProjectPage()
                 .open()
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
-                .checkProjectNameError(ProjectValidationError.PROJECT_NAME_CANNOT_BE_EMPTY)
-                .getPage(ProjectsPage.class)
-                .open()
-                .getProjects().stream()
-                .noneMatch(p -> p.getProjectName().equals(projectRequest.getName())))
-                .isTrue();
+                .checkProjectNameError(ProjectValidationError.PROJECT_NAME_CANNOT_BE_EMPTY);
 
         long foundProject = UserSteps.getAllProjects().getProjects().stream()
                 .filter(project -> project.getId().equals(projectRequest.getId())).count();

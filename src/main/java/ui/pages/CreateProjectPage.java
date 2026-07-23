@@ -12,19 +12,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CreateProjectPage extends BasePage<CreateProjectPage> {
 
-    SelenideElement projectNameInput = $(Selectors.byAttribute("data-test", "project-name-input"));
+    private final SelenideElement projectNameInput = $(Selectors.byAttribute("data-test", "project-name-input"));
 
-    SelenideElement projectIdInput = $(Selectors.byAttribute("data-test", "project-id-input"));
+    private final SelenideElement projectIdInput = $(Selectors.byAttribute("data-test", "project-id-input"));
 
-    SelenideElement projectDescriptionInput = $(Selectors.byAttribute("aria-label", "Project description"));
+    private final SelenideElement projectDescriptionInput = $(Selectors.byAttribute("aria-label", "Project description"));
 
-    SelenideElement createButton = $(Selectors.byText("Create"));
+    private final SelenideElement createButton = $(Selectors.byText("Create"));
 
-    SelenideElement cancelButton = $(Selectors.byText("Cancel"));
+    private final SelenideElement cancelButton = $(Selectors.byText("Cancel"));
 
-    SelenideElement projectNameError = $(Selectors.byAttribute("data-test", "project-name-error"));
+    private final SelenideElement projectNameError = $(Selectors.byAttribute("data-test", "project-name-error"));
 
-    SelenideElement projectIdError = $(Selectors.byAttribute("data-test", "project-id-error"));
+    private final SelenideElement projectIdError = $(Selectors.byAttribute("data-test", "project-id-error"));
 
 
     public CreateProjectPage createProject(String projectName, String projectId, String projectDescription) {
@@ -35,9 +35,9 @@ public class CreateProjectPage extends BasePage<CreateProjectPage> {
         return this;
     }
 
-    public CreateProjectPage cancelProject() {
+    public ProjectsPage cancelProject() {
         cancelButton.click();
-        return this;
+        return getPage(ProjectsPage.class);
     }
 
     public CreateProjectPage checkProjectNameError(ProjectValidationError error) {
