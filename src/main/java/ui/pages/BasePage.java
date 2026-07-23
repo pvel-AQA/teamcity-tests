@@ -9,7 +9,7 @@ import ui.elements.BaseElement;
 import java.util.List;
 import java.util.function.Function;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes", "TypeParameterHidesVisibleType"})
 public abstract class BasePage<T extends BasePage> {
 
 
@@ -26,7 +26,7 @@ public abstract class BasePage<T extends BasePage> {
         RequestSpec.setCookieInBrowser(RequestSpec.fetchSessionCookie(username, password));
     }
 
-    public T getPage(Class<T> pageClass) {
+    public <T extends BasePage> T getPage(Class<T> pageClass) {
         return Selenide.page(pageClass);
     }
 
