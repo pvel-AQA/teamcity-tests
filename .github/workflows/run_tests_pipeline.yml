@@ -35,6 +35,9 @@ jobs:
           teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
           docker-compose-dir: infra/docker_compose
 
+      - name: Wait for agent synchronization
+        run: sleep 300
+
       - name: Run tests
         run: ./mvnw clean test -P all -q
         env:

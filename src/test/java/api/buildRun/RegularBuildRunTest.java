@@ -23,11 +23,14 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import static api.steps.UserSteps.createBuildConfigurationWithSteps;
+import static io.restassured.RestAssured.given;
 
 @Execution(ExecutionMode.SAME_THREAD)
 public class RegularBuildRunTest extends BaseTest {
 
     private static final String[] IGNORED_BUILD_FIELDS = {"href", "state", "status", "webUrl", "statusText"};
+    private static final String PAUSED_FIELD = "buildType.paused";
+
 
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     @Test
@@ -44,14 +47,35 @@ public class RegularBuildRunTest extends BaseTest {
         var buildId = startedBuildRunResponse.getId();
 
         RequestSpecification authSpec = RequestSpec.withAuthExtensionUser();
-        BuildRunResponse finishedBuildRunResponse = WaitUtils.waitFor(() ->
-                        new ValidatedCrudRequester<BuildRunResponse>(
-                                authSpec,
-                                Endpoint.BUILD,
-                                ResponseSpec.returnsOk())
-                                .get(LocatorType.ID + buildId),
-                res -> res.getState().equals(BuildState.FINISHED)
-        );
+        BuildRunResponse finishedBuildRunResponse;
+
+        try {
+            finishedBuildRunResponse = WaitUtils.waitFor(() ->
+                            new ValidatedCrudRequester<BuildRunResponse>(
+                                    authSpec,
+                                    Endpoint.BUILD,
+                                    ResponseSpec.returnsOk())
+                                    .get(LocatorType.ID + buildId),
+                    res -> res.getState().equals(BuildState.FINISHED)
+            );
+        } catch (Throwable e) {
+            System.out.println("=== НАЧАЛО ДЕБАГА ЗАВИСАНИЯ СБОРКИ ===");
+
+            // 1. Смотрим, какие агенты сейчас вообще видит сервер и в каком они статусе
+            String agents = given().spec(authSpec).get("/app/rest/agents?locator=authorized:any").asString();
+            System.out.println("СОСТОЯНИЕ АГЕНТОВ НА СЕРВЕРЕ:\n" + agents);
+
+            // 2. Смотрим совместимость конкретно этого билда с агентами (TeamCity сам пишет, почему они не подходят!)
+            String compatibility = given().spec(authSpec).get("/app/rest/agents?locator=compatible:(build:(id:" + buildId + "))").asString();
+            System.out.println("СОВМЕСТИМЫЕ АГЕНТЫ ДЛЯ БИЛДА:\n" + compatibility);
+
+            // 3. Смотрим, какие шаги реально применились к этой конфигурации
+            String buildTypeDetails = given().spec(authSpec).get("/app/rest/buildTypes/id:" + buildConfigId).asString();
+            System.out.println("ЧТО СЕЙЧАС С ВНУТРЕННОСТЯМИ КОНФИГУРАЦИИ:\n" + buildTypeDetails);
+
+            System.out.println("=== КОНЕЦ ДЕБАГА ===");
+            throw e; // Пробрасываем ошибку дальше, чтобы тест честно упал
+        }
 
         softly.assertThat(finishedBuildRunResponse.getStatus()).isEqualTo(BuildStatus.SUCCESS);
         softly.assertThat(finishedBuildRunResponse.getState()).isEqualTo(BuildState.FINISHED);
@@ -175,7 +199,7 @@ public class RegularBuildRunTest extends BaseTest {
         Assertions.assertThat(startedBuildRunResponse)
                 .usingRecursiveComparison()
                 .ignoringFields(IGNORED_BUILD_FIELDS)
-                .ignoringFields("buildType.paused")
+                .ignoringFields(PAUSED_FIELD)
                 .isEqualTo(finishedBuildRunResponse);
     }
 
@@ -211,7 +235,6 @@ public class RegularBuildRunTest extends BaseTest {
         Assertions.assertThat(startedBuildRunResponse)
                 .usingRecursiveComparison()
                 .ignoringFields(IGNORED_BUILD_FIELDS)
-                .ignoringFields("status", "statusText")
                 .isEqualTo(failedBuildRunResponse);
     }
 }
