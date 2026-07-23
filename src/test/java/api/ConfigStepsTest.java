@@ -4,6 +4,7 @@ import api.comparison.ModelAssertions;
 import api.enums.errors.StepErrors;
 import api.generators.RandomGenerator;
 import api.generators.TeamCityDataGenerator;
+import api.models.BaseModel;
 import api.models.build.BuildTypeStepsList;
 import api.models.build.BuildTypeStepsModel;
 import api.request.skelethon.Endpoint;
@@ -15,12 +16,18 @@ import api.steps.UserSteps;
 import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
+import io.restassured.path.xml.XmlPath;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static api.enums.errors.AuthErrorMessage.*;
 
 public class ConfigStepsTest extends BaseTest {
+    private static final String STEP_TYPE_SIMPLE_RUNNER = "simpleRunner";
+    private static final String STEP_NOT_FOUND_MESSAGE =
+            "No step with id '%s' is found  in the build configuration.";
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
@@ -28,8 +35,8 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString("AutoStep", 3))
-                .type("simpleRunner")
+                .name(RandomGenerator.generateString(9))
+                .type(STEP_TYPE_SIMPLE_RUNNER)
                 .build();
 
         BuildTypeStepsModel createStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
@@ -40,9 +47,7 @@ public class ConfigStepsTest extends BaseTest {
 
         ModelAssertions.assertThatModels(createStepResponse, createStepRequest).match();
 
-        softly.assertThat(createStepResponse.getId())
-                .as("Server assigns an id to a created step")
-                .isNotBlank();
+        softly.assertThat(createStepResponse.getId()).isNotBlank();
 
         String createdStepId = createStepResponse.getId();
         BuildTypeStepsModel getStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
@@ -56,12 +61,12 @@ public class ConfigStepsTest extends BaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
-    public void configStepSuccessfulUpdateTest() {
+    public void configStepSuccessfullyUpdateNameTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
-        BuildTypeStepsModel createdStep =  UserSteps.createBuildTypeStep(configName);
+        BuildTypeStepsModel createdStep =  UserSteps.createBuildTypeStep(configName, STEP_TYPE_SIMPLE_RUNNER);
         BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
                 .name("UPDATED_"+ createdStep.getName())
-                .type("simpleRunner")
+                .type(STEP_TYPE_SIMPLE_RUNNER)
                 .build();
 
         BuildTypeStepsModel updateStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
@@ -71,7 +76,29 @@ public class ConfigStepsTest extends BaseTest {
                 .put(updateStepRequest,configName,createdStep.getId());
 
         softly.assertThat(updateStepResponse.getName())
-                .as("Update changes the step name")
+                .isEqualTo(updateStepRequest.getName());
+
+        BuildTypeStepsModel checkUpdatedStep = UserSteps.getBuildTypeStep(configName,createdStep.getId());
+        ModelAssertions.assertThatModels(updateStepResponse, checkUpdatedStep).match();
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
+    public void configStepSuccessfullyUpdateTypeTest() {
+        String configName = UserSteps.createBuildConfiguration().getName();
+        BuildTypeStepsModel createdStep =  UserSteps.createBuildTypeStep(configName, STEP_TYPE_SIMPLE_RUNNER);
+        BuildTypeStepsModel updateStepRequest = BuildTypeStepsModel.builder()
+                .name("UPDATED_"+ createdStep.getName())
+                .type("NewType")
+                .build();
+
+        BuildTypeStepsModel updateStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEP_UPDATE,
+                ResponseSpec.returnsOk())
+                .put(updateStepRequest,configName,createdStep.getId());
+
+        softly.assertThat(updateStepResponse.getName())
                 .isEqualTo(updateStepRequest.getName());
 
         BuildTypeStepsModel checkUpdatedStep = UserSteps.getBuildTypeStep(configName,createdStep.getId());
@@ -82,7 +109,7 @@ public class ConfigStepsTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void configStepSuccessfulDeleteTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
-        String createdStepId = UserSteps.createBuildTypeStep(configName).getId();
+        String createdStepId = UserSteps.createBuildTypeStep(configName, STEP_TYPE_SIMPLE_RUNNER).getId();
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
@@ -101,9 +128,7 @@ public class ConfigStepsTest extends BaseTest {
                 Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
-        softly.assertThat(steps.getCount())
-                .as("Step should be deleted")
-                .isZero();
+        softly.assertThat(steps.getCount()).isZero();
     }
 
     @Test
@@ -112,7 +137,7 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .type("simpleRunner")
+                .type(STEP_TYPE_SIMPLE_RUNNER)
                 .build();
 
         BuildTypeStepsModel createStepResponse = new ValidatedCrudRequester<BuildTypeStepsModel>(
@@ -122,18 +147,14 @@ public class ConfigStepsTest extends BaseTest {
                 .post(createStepRequest, configName);
 
         String createdStepId = createStepResponse.getId();
-        softly.assertThat(createdStepId)
-                .as("A step created without a name should still receive an id")
-                .isNotBlank();
+        softly.assertThat(createdStepId).isNotBlank();
 
         BuildTypeStepsList steps = new ValidatedCrudRequester<BuildTypeStepsList>(
                 RequestSpec.withAuthExtensionUser(),
                 Endpoint.BUILD_STEPS_READ,
                 ResponseSpec.returnsOk())
                 .get(configName);
-
         softly.assertThat(steps.getStep())
-                .as("The config should contain exactly the step that was just created")
                 .extracting(BuildTypeStepsModel::getId)
                 .containsExactly(createdStepId);
     }
@@ -144,7 +165,7 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString("AutoStep", 3))
+                .name(RandomGenerator.generateString(5))
                 .build();
 
         new CrudRequester(
@@ -159,23 +180,26 @@ public class ConfigStepsTest extends BaseTest {
                 ResponseSpec.returnsOk())
                 .get(configName);
 
-        softly.assertThat(steps.getCount())
-                .as("A step without a type must not be created")
-                .isEqualTo(0);
+        softly.assertThat(steps.getCount()).isEqualTo(0);
     }
 
-    @Disabled("Assertions need to be added")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void cannotGetNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
-        String nonExistingStepId = RandomGenerator.generateString("NoStep", 8);
+        String nonExistingStepId = RandomGenerator.generateString(8);
 
-        new CrudRequester(
+        ValidatableResponse response = new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
-                Endpoint.BUILD_STEP_UPDATE,
+                Endpoint.BUILD_STEP_READ,
                 ResponseSpec.returnsNotFound())
                 .get(configName, nonExistingStepId);
+
+        String actualMessage = response.extract()
+                .xmlPath()
+                .getString("errors.error.message");
+        String expectedMessage = STEP_NOT_FOUND_MESSAGE.formatted(nonExistingStepId);
+        softly.assertThat(actualMessage).isEqualTo(expectedMessage);
     }
 
     @Disabled("Assertions need to be added")
@@ -281,8 +305,8 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     public void cannotCreateStepWithInvalidBasicCredentialsTest() {
-        String configName = RandomGenerator.generateString("NoConfig", 8);
-        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
+        String configName = RandomGenerator.generateString(5);
+        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest(RandomGenerator.generateString(9));
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(

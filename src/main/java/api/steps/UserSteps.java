@@ -129,14 +129,14 @@ public class UserSteps {
                 .get(configName, stepId);
     }
 
-    public static BuildTypeStepsModel createBuildTypeStep(String configName){
-        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName);
+    public static BuildTypeStepsModel createBuildTypeStep(String configName, String stepType){
+        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName, stepType);
     }
 
-    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName){
+    public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, String stepType){
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString("AutoStep", 3))
-                .type("simpleRunner")
+                .name(RandomGenerator.generateString(5))
+                .type(stepType)
                 .build();
 
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
