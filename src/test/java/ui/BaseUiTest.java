@@ -1,5 +1,6 @@
 package ui;
 
+import base.BaseTest;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import common.configs.Config;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 import java.util.Map;
 
-public class BaseUiTest {
+public class BaseUiTest extends BaseTest {
 
     @BeforeAll
     public static void setupSelenoid() {
