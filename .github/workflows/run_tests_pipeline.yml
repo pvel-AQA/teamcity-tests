@@ -58,6 +58,14 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
+      - name: Install xargs and dependencies
+        if: always()
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y findutils
+          which xargs || echo "xargs not found"
+          xargs --version || echo "xargs installed"
+
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.14
         if: always()
