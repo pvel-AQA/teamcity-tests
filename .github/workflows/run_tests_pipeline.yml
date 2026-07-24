@@ -59,12 +59,13 @@ jobs:
           path: gh-pages
 
       - name: Build test report
-        uses: simple-elf/allure-report-action@v1.12
+        uses: simple-elf/allure-report-action@v1.14
         if: always()
         with:
           gh_pages: gh-pages
           allure_results: target/allure-results
           allure_history: allure-history
+          keep_reports: 100
 
       - name: Build Swagger Coverage report
         if: always()
