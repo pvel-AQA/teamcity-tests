@@ -1,6 +1,7 @@
 package api.models.build;
 
 import api.generators.RandomGenerator;
+import api.generators.TeamCityDataGenerator;
 import api.models.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,7 @@ public class CopyBuildConfigurationRequest extends BaseModel {
     public static CopyBuildConfigurationRequest createFrom(BuildConfigurationResponse buildConf) {
         return CopyBuildConfigurationRequest.builder()
                 .sourceBuildTypeLocator("id:" + buildConf.getId())
-                .id("copy_" + RandomGenerator.generateString())
+                .id("copy_" + TeamCityDataGenerator.generateString())
                 .name("Copy of " + buildConf.getName())
                 .copyAllAssociatedSettings(true)
                 .build();
