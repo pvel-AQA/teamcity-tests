@@ -9,6 +9,8 @@ import ui.elements.BaseElement;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.codeborne.selenide.Condition.visible;
+
 @SuppressWarnings({"unchecked", "rawtypes", "TypeParameterHidesVisibleType"})
 public abstract class BasePage<T extends BasePage> {
 
@@ -32,5 +34,11 @@ public abstract class BasePage<T extends BasePage> {
 
     public <T extends BaseElement> List<T> generatePageElements(ElementsCollection elementsCollection, Function<SelenideElement, T> constructor) {
         return elementsCollection.stream().map(constructor).toList();
+    }
+
+    public void sendKeysIfNotNull(SelenideElement element, String value) {
+        if (value != null) {
+            element.shouldBe(visible).sendKeys(value);
+        }
     }
 }

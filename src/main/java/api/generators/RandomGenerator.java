@@ -58,6 +58,9 @@ public class RandomGenerator {
             return generateRandomList(field);
         } else if (type.equals(Date.class)) {
             return new Date(System.currentTimeMillis() - random.nextInt(1000000000));
+        } else if (type.isEnum()) {
+            Object[] enumConstants = type.getEnumConstants();
+            return enumConstants[random.nextInt(enumConstants.length)];
         } else {
             // Вложенный объект
             return generate(type);
