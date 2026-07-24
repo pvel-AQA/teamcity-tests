@@ -55,10 +55,10 @@ public class CreateProjectTest extends BaseUiTest {
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
                 .checkProjectIdError(ProjectValidationError.INVALID_PROJECT_ID);
 
-        long foundProject = UserSteps.getAllProjects().getProjects().stream()
-                .filter(project -> project.getId().equals(projectRequest.getId())).count();
+        boolean projectExists = UserSteps.getAllProjects().getProjects().stream()
+                .anyMatch(project -> project.getId().equals(projectRequest.getId()));
 
-        assertThat(foundProject).isZero();
+        assertThat(projectExists).isFalse();
     }
 
     @Test
@@ -71,10 +71,10 @@ public class CreateProjectTest extends BaseUiTest {
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
                 .checkProjectNameError(ProjectValidationError.PROJECT_NAME_CANNOT_BE_EMPTY);
 
-        long foundProject = UserSteps.getAllProjects().getProjects().stream()
-                .filter(project -> project.getId().equals(projectRequest.getId())).count();
+        boolean projectExists = UserSteps.getAllProjects().getProjects().stream()
+                .anyMatch(project -> project.getId().equals(projectRequest.getId()));
 
-        assertThat(foundProject).isZero();
+        assertThat(projectExists).isFalse();
     }
 
 
