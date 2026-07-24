@@ -8,11 +8,11 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage extends BasePage<LoginPage> {
 
-    private SelenideElement usernameField = $("input#username");
-    private SelenideElement passwordField = $("input#password");
-    private SelenideElement rememberMeCheckbox = $("#remember");
-    private SelenideElement resetPasswordLink = $("span#resetPasswordContainer");
-    private SelenideElement lgoinButton = $(Selectors.byXpath("//input[@value='Log in']"));
+    private final SelenideElement usernameField = $("input#username");
+    private final SelenideElement passwordField = $("input#password");
+    private final SelenideElement rememberMeCheckbox = $("#remember");
+    private final SelenideElement resetPasswordLink = $("span#resetPasswordContainer");
+    private final SelenideElement lgoinButton = $(Selectors.byXpath("//input[@value='Log in']"));
 
     @Override
     public String url() {
