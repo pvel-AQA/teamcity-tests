@@ -9,7 +9,7 @@ import ui.elements.BaseElement;
 import java.util.List;
 import java.util.function.Function;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes", "TypeParameterHidesVisibleType"})
 public abstract class BasePage<T extends BasePage> {
 
 
