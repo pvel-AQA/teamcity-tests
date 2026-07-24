@@ -6,8 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import common.helpers.RetryUtils;
 
 import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 
 public class ProjectsPage extends BasePage<ProjectsPage> {
