@@ -80,9 +80,12 @@ public class UserSteps {
 
     public static BuildConfigurationResponse createBuildConfiguration() {
         ProjectResponse project = createProject();
-        BuildConfigurationRequest buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
-        buildRequest.getProject().setId(project.getId());
+        return createBuildConfiguration(project);
+    }
 
+    public static BuildConfigurationResponse createBuildConfiguration(ProjectResponse projectResponse) {
+        BuildConfigurationRequest buildRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
+        buildRequest.getProject().setId(projectResponse.getId());
         return createBuildConfiguration(buildRequest);
     }
 
