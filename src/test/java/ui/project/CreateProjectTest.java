@@ -15,16 +15,17 @@ import ui.elements.ProjectElement;
 import ui.enums.errors.ProjectValidationError;
 import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
-import ui.pages.ProjectsPage;
 
-import static api.enums.errors.ProjectErrors.PROJECT_NAME_CANNOT_BE_EMPTY;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static ui.enums.errors.ProjectValidationError.INVALID_PROJECT_ID;
+import static ui.enums.errors.ProjectValidationError.PROJECT_NAME_CANNOT_BE_EMPTY;
 
 
 public class CreateProjectTest extends BaseUiTest {
 
     private final static String INVALID_ID_TO_BE_GENERATED = "id";
     private final static String INVALID_NAME_TO_BE_GENERATED = "name";
+
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCanCreateProjectTest() {
@@ -58,7 +59,7 @@ public class CreateProjectTest extends BaseUiTest {
                 .open()
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
                 .getProjectIdError().shouldBe(Condition.visible)
-                .shouldHave(Condition.text(PROJECT_NAME_CANNOT_BE_EMPTY.getErrorMsg()));
+                .shouldHave(Condition.text(INVALID_PROJECT_ID.getErrorMsg()));
 
         boolean projectExists = UserSteps.getAllProjects().getProjects().stream()
                 .anyMatch(project -> project.getId().equals(projectRequest.getId()));
