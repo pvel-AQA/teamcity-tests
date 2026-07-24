@@ -91,4 +91,5 @@ public class SuperUserSteps {
                 ResponseSpec.returnsOk()
         ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
     }
+
 }
