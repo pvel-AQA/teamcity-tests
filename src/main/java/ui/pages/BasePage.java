@@ -23,6 +23,10 @@ public abstract class BasePage<T extends BasePage> {
         return Selenide.open(url(), (Class<T>) this.getClass());
     }
 
+    public T open(Object... params) {
+        return Selenide.open(String.format(url(), params), (Class<T>) this.getClass());
+    }
+
     public static void authAsUser(String username, String password) {
         Selenide.open("/");
         RequestSpec.setCookieInBrowser(RequestSpec.fetchSessionCookie(username, password));

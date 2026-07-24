@@ -32,7 +32,7 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString(9))
+                .name(TeamCityDataGenerator.generateString(9))
                 .type(STEP_TYPE_SIMPLE_RUNNER)
                 .build();
 
@@ -162,7 +162,7 @@ public class ConfigStepsTest extends BaseTest {
         String configName = UserSteps.createBuildConfiguration().getName();
 
         BuildTypeStepsModel createStepRequest = BuildTypeStepsModel.builder()
-                .name(RandomGenerator.generateString(5))
+                .name(TeamCityDataGenerator.generateString(5))
                 .build();
 
         new CrudRequester(
@@ -185,7 +185,7 @@ public class ConfigStepsTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void cannotGetNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
-        String nonExistingStepId = RandomGenerator.generateString(8);
+        String nonExistingStepId = TeamCityDataGenerator.generateString(8);
 
         ValidatableResponse response = new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
@@ -210,7 +210,7 @@ public class ConfigStepsTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void cannotUpdateNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
-        String nonExistingStepId = RandomGenerator.generateString("NoStep", 8);
+        String nonExistingStepId = TeamCityDataGenerator.generateString("NoStep", 8);
         BuildTypeStepsModel updateStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("");
 
         new CrudRequester(
@@ -227,7 +227,7 @@ public class ConfigStepsTest extends BaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void cannotDeleteNonExistingStepTest() {
         String configName = UserSteps.createBuildConfiguration().getName();
-        String nonExistingStepId = RandomGenerator.generateString("NoStep", 8);
+        String nonExistingStepId = TeamCityDataGenerator.generateString("NoStep", 8);
 
         new CrudRequester(
                 RequestSpec.withAuthExtensionUser(),
@@ -242,7 +242,7 @@ public class ConfigStepsTest extends BaseTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void cannotCreateStepForNonExistingConfigTest() {
-        String nonExistingConfig = RandomGenerator.generateString("NoConfig", 8);
+        String nonExistingConfig = TeamCityDataGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel createStepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
@@ -255,7 +255,7 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     public void cannotCreateConfigStepWithoutAuthTest() {
-        String configLocator = RandomGenerator.generateString("NoConfig", 8);
+        String configLocator = TeamCityDataGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
@@ -268,8 +268,8 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     public void cannotUpdateConfigStepWithoutAuthTest() {
-        String configLocator = RandomGenerator.generateString("NoConfig", 8);
-        String stepLocator = RandomGenerator.generateString("NoStep", 8);
+        String configLocator = TeamCityDataGenerator.generateString("NoConfig", 8);
+        String stepLocator = TeamCityDataGenerator.generateString("NoStep", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
@@ -282,8 +282,8 @@ public class ConfigStepsTest extends BaseTest {
 
     @Disabled("Assertions need to be added")  @Test
     public void cannotDeleteConfigStepWithoutAuthTest() {
-        String configLocator = RandomGenerator.generateString("NoConfig", 8);
-        String stepLocator = RandomGenerator.generateString("NoStep", 8);
+        String configLocator = TeamCityDataGenerator.generateString("NoConfig", 8);
+        String stepLocator = TeamCityDataGenerator.generateString("NoStep", 8);
 
         new CrudRequester(
                 RequestSpec.unAuth(),
@@ -295,8 +295,8 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     public void cannotGetConfigStepWithoutAuthTest() {
-        String configLocator = RandomGenerator.generateString("NoConfig", 8);
-        String stepLocator = RandomGenerator.generateString("NoStep", 8);
+        String configLocator = TeamCityDataGenerator.generateString("NoConfig", 8);
+        String stepLocator = TeamCityDataGenerator.generateString("NoStep", 8);
 
         new CrudRequester(
                 RequestSpec.unAuth(),
@@ -308,13 +308,13 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     public void cannotCreateStepWithInvalidBasicCredentialsTest() {
-        String configName = RandomGenerator.generateString(5);
-        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest(RandomGenerator.generateString(9));
+        String configName = TeamCityDataGenerator.generateString(5);
+        BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest(TeamCityDataGenerator.generateString(9));
 
         new CrudRequester(
                 RequestSpec.basicAuthSpec(
-                        RandomGenerator.generateString(),
-                        RandomGenerator.generateString()),
+                        TeamCityDataGenerator.generateString(),
+                        TeamCityDataGenerator.generateString()),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsUnauthorized(BASIC_AUTH_FAILED))
                 .post(stepRequest, configName);
@@ -420,11 +420,11 @@ public class ConfigStepsTest extends BaseTest {
     @Disabled("Assertions need to be added")
     @Test
     public void cannotCreateStepWithInvalidBearerTokenTest() {
-        String configLocator = RandomGenerator.generateString("NoConfig", 8);
+        String configLocator = TeamCityDataGenerator.generateString("NoConfig", 8);
         BuildTypeStepsModel stepRequest = TeamCityDataGenerator.generateBuildConfigurationStepRequest("AutoStep");
 
         new CrudRequester(
-                RequestSpec.adminSpec(RandomGenerator.generateString()),
+                RequestSpec.adminSpec(TeamCityDataGenerator.generateString()),
                 Endpoint.BUILD_STEP_CREATE,
                 ResponseSpec.returnsUnauthorized(OAUTH_FAILED))
                 .post(stepRequest, configLocator);

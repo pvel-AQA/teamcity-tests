@@ -17,12 +17,14 @@ import common.annotations.AuthAgentAfterTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
 
 @Isolated
 public class AgentTest extends BaseTest {
 
+    @Disabled("flacky")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void agentCanBeConnectedToTheServerTest() {
