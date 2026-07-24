@@ -11,16 +11,21 @@ public class RandomGenerator {
 
     private static final Random random = new Random();
 
-    public static <T> T generate(Class<T> clazz) {
+    public static <T> T generate(Class<T> clazz, String... fieldsToInvalidate) {
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
+            List<String> invalidFields = List.of(fieldsToInvalidate);
             for (Field field : getFields(clazz)) {
                 field.setAccessible(true);
                 GeneratingRule rule = field.getAnnotation(GeneratingRule.class);
                 Object value;
 
                 if (rule != null && !rule.regex().isEmpty()) {
-                    value = generateFromRegex(rule.regex(), field.getType());
+                    if (invalidFields.contains(field.getName()) && !rule.invalidRegex().isEmpty()) {
+                        value = generateFromRegex(rule.invalidRegex(), field.getType());
+                    } else {
+                        value = generateFromRegex(rule.regex(), field.getType());
+                    }
                 } else {
                     value = generateRandomValue(field);
                 }
@@ -31,6 +36,10 @@ public class RandomGenerator {
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate entity", e);
         }
+    }
+
+    public static <T> T generate(Class<T> clazz) {
+        return generate(clazz, new String[0]);
     }
 
     private static List<Field> getFields(Class<?> clazz) {
