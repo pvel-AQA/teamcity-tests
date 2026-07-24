@@ -18,6 +18,6 @@ public class EditProjectPage extends BasePage<EditProjectPage> {
 
     @Override
     public String url() {
-        return "/";
+        return "";
     }
 }

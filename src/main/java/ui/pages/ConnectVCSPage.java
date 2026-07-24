@@ -9,7 +9,7 @@ public class ConnectVCSPage extends BasePage<ConnectVCSPage> {
 
     private final SelenideElement proceedWithoutRepositoryButton = $(Selectors.byText("Proceed without repository"));
 
-    public CreateBuildConfigurationPage proceedWithoutRepository() {
+    public CreateBuildConfigurationPage clickProceedWithoutRepositoryButton() {
         proceedWithoutRepositoryButton.click();
         return getPage(CreateBuildConfigurationPage.class);
     }
