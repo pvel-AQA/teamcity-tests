@@ -18,8 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static common.configs.Config.API_PREFIX;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
