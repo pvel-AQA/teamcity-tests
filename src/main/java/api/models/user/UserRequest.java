@@ -2,7 +2,6 @@ package api.models.user;
 
 import api.generators.GeneratingRule;
 import api.models.BaseModel;
-import api.models.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

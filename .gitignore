@@ -45,3 +45,4 @@ allure-results/
 allure-report/
 target/
 /infra/docker_compose/backups/
+/src/main/resources/config.properties

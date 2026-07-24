@@ -102,4 +102,8 @@ public class RandomGenerator {
     public static String generateString() {
         return generateString("", 8);
     }
+
+    public static String generateString(int length) {
+        return generateString("", length);
+    }
 }

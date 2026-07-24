@@ -46,4 +46,7 @@ public class AuthUserExtension implements BeforeEachCallback, AfterEachCallback 
         return token.get();
     }
 
+    public static UserRequest getAuthUserRequest() {
+        return user.get();
+    }
 }
