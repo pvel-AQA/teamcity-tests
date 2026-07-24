@@ -12,7 +12,6 @@ import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 import ui.BaseUiTest;
 import ui.elements.ProjectElement;
-import ui.enums.errors.ProjectValidationError;
 import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
 
