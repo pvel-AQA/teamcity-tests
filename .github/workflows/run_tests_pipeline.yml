@@ -51,6 +51,12 @@ jobs:
         if: always()
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
 
+      - name: Install xargs
+        if: always()
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y findutils
+
       - name: Load test report history
         uses: actions/checkout@v6
         if: always()
