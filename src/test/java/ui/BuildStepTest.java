@@ -10,6 +10,7 @@ import common.enums.PowerShellOptions;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 import ui.models.PowerShellUiModel;
 import ui.pages.buildsteps.BuildStepsPage;
 
@@ -24,7 +25,7 @@ public class BuildStepTest extends BaseUiTest {
         uiPowerShellStep
                 .setStepId(null)
                 .setScript(PowerShellOptions.CODE)
-                .setScriptSource(RandomGenerator.generateString("echo Hello_", 8))
+                .setScriptSource("echo Hello_" + uiPowerShellStep.getScriptSource())
                 .setScriptExecutionMode(null);
 
         boolean isBuildStepCreated = new BuildStepsPage()
