@@ -1,0 +1,635 @@
+<html lang="en" class="ua-js ring-variables-light"><head>
+      <title>Log in to TeamCity — TeamCity</title>
+      
+
+
+
+
+
+
+
+      
+
+
+
+<link rel="Shortcut Icon" href="/img/icons/favicon.ico?v10" type="image/x-icon" sizes="16x16 32x32">
+<meta charset="UTF-8">
+
+<meta name="format-detection" content="telephone=no">
+
+<meta name="application-name" content="TeamCity (Log in to TeamCity &amp;mdash; TeamCity)">
+<meta name="description" content="Powerful Continuous Integration and Build Server">
+<meta name="viewport" content="width=1000">
+
+<link rel="apple-touch-icon" sizes="57x57" href="/img/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/img/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/img/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/img/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/img/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/img/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/img/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png">
+
+<meta name="msapplication-TileColor" content="#000000">
+
+<meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="/img/icons/mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="/img/icons/mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="/img/icons/mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="/img/icons/mstile-310x310.png">
+<meta name="tc-csrf-token" content="3211dfb7-a726-456e-ac79-be4822d85c58">
+<meta name="robots" content="noindex">
+
+
+      
+
+
+<style id="19f8f369833" type="text/css">
+    @import "/res/6114880409683721742.css?v=1784814111147";
+  
+</style>
+
+
+      
+
+
+<script type="text/javascript" src="/res/-3603535750726916660.js?v=1784814111147"></script>
+
+
+      <script type="text/javascript">
+  var base_uri=window.location.protocol+"//"+window.location.host+"";
+</script>
+
+
+      
+
+
+
+<script type="text/javascript" src="/res/-6060474511570324796.js?v=1784814111147"></script>
+
+
+      
+
+
+
+
+<style id="19f8f369835" type="text/css">
+    @import "/res/459560978433157637.css?v=1784814111147";
+  
+</style>
+
+
+
+
+
+<script type="text/javascript" src="/res/5833290380196265600.js?v=1784814111147"></script>
+
+
+<script type="text/javascript">
+  window.$j = jQuery.noConflict();
+</script>
+
+
+
+
+<script type="text/javascript" src="/res/-5410233700357870077.js?v=1784814111147"></script>
+
+
+      
+
+
+
+<script type="text/javascript" src="/res/-4735258447288317237.js?v=1784814111147"></script>
+
+      
+
+
+
+<script type="text/javascript" src="/res/-4985008087834695917.js?v=1784814111147"></script>
+
+
+
+      
+<script type="text/javascript">
+  var internalProps = [];
+
+  internalProps['teamcity.ui.experimental'] = 'enableDefault';
+  internalProps['teamcity.ui.useServiceWorkers'] =  true;
+
+  internalProps['teamcity.cloud.enabled'] =  false;
+
+  internalProps['teamcity.ui.dormOnly.enabled'] =  false;
+
+  internalProps['teamcity.ui.websocket.connectTimeout'] =  3000;
+  internalProps['teamcity.ui.webSocket.logToConsole'] =  false;
+
+  internalProps['teamcity.ui.pollInterval'] = 6;
+  internalProps['teamcity.ui.serverAvailability.pollInterval'] = 3;
+
+  internalProps['teamcity.ui.events.pollInterval'] = 6;
+  internalProps['teamcity.ui.systemProblems.pollInterval'] = 40;
+  internalProps['teamcity.ui.problemsSummary.pollInterval'] = 8;
+  internalProps['teamcity.ui.buildQueueEstimates.pollInterval'] = 10;
+  internalProps['teamcity.ui.subscriptions.debounceInterval'] = 3000;
+
+  // Doesn't use BS.SubscriptionManager and standard subscription mechanism
+  internalProps['teamcity.ui.cleanupNotificatorProgress.pollInterval'] = 6;
+
+  internalProps['teamcity.ui.serverRestart.warningDelay'] = 120;
+  internalProps['teamcity.ui.serverUpdate.warningDelay'] = 120;
+
+  internalProps['teamcity.ui.editSettings.showResolveValueIcon'] = false;
+
+  internalProps['teamcity.internal.buildChangesPopupLimit'] = '100';
+
+  internalProps['teamcity.internal.agent.distribution.jdk.bundle.enabled'] = true; // disabled in cloud, see TCCI-4497 Enable "Agent Distributions" page in Cloud
+
+  internalProps['teamcity.development.mode'] = false;
+
+  internalProps['teamcity.ui.showObligatoryHints'] = false;
+
+  internalProps['teamcity.ui.showLicenseAgreementToAllUsers'] = true;
+
+  internalProps['teamcity.ui.showDownloadAllArtifactsLink'] = true; // disabled in cloud
+
+  internalProps['teamcity.ui.newInvestigationsPage'] = false;
+
+  internalProps['teamcity.ui.customWelcomeTitle'] = ''; // overridden in cloud
+
+  internalProps['teamcity.ui.sakuraInvestigationsTab'] = false;
+
+  internalProps['teamcity.ui.sakuraProblemsTab'] = true;
+
+  internalProps['teamcity.ui.requestPoolSize'] = 5;
+
+  internalProps['teamcity.ui.newAgentCompatibleConfigurationsTab'] = false;
+
+  internalProps['teamcity.ui.agentPoolsFavoriteLimit'] = 30;
+
+  internalProps['teamcity.overviewPage.buildTypes.limit'] = 200;
+
+  internalProps['teamcity.ui.agentPreviewsUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.agentDataUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.statuses.throttleInterval'] = -1;
+
+  internalProps['teamcity.ui.sidebar.saveSearchState'] = false;
+  internalProps['teamcity.ui.sidebar.skipWSEventsSubscription'] = true;
+  internalProps['teamcity.ui.createProject.newui.enabled'] = true;
+  internalProps['teamcity.ui.createBuildType.newui.enabled'] = true;
+  internalProps['teamcity.ui.createConnection.newui.enabled'] = true;
+  internalProps['teamcity.ui.chainPanning.enabled'] = true;
+  internalProps['teamcity.ui.fromAnyGitURL.enabled'] = false;
+
+  internalProps['teamcity.cloudProfiles.hiddenCloudTypes'] = '';
+
+  internalProps['teamcity.feedback.csat.enabled'] = true;
+  internalProps['teamcity.feedback.csat.testing.enabled'] = false;
+  internalProps['teamcity.feedback.csat.testing.delayInSecondsToShow'] = -1;
+
+  internalProps['teamcity.pipelines.enabled'] = true;
+  internalProps['teamcity.pipelines.creation.enabled'] = false;
+  internalProps['teamcity.pipelines.creation.prohibitedVcsTypes'] = 'svn,mercurial,tfs';
+  internalProps['teamcity.pipelines.projects.enabled'] = true;
+  internalProps['teamcity.pipelines.jobCountSoftLimit'] = 20;
+  internalProps['teamcity.pipelines.jobCountHardLimit'] = 30;
+  internalProps['teamcity.pipelines.testNpmConnection.enabled'] = false;
+  internalProps['teamcity.pipelines.unity.enabled'] = false;
+  internalProps['teamcity.pipelines.dependencyCache.enabled'] = false;
+  internalProps['teamcity.pipelines.customAgentsNames'] = '';
+  internalProps['teamcity.pipelines.feature.smoothParameterReplacement.enabled'] = false;
+  internalProps['teamcity.pipelines.agentPage.enabled'] = false;
+  internalProps['teamcity.pipelines.muteInvestigateButton.enabled'] = true;
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.enabled'] = false;
+  internalProps['teamcity.pipelines.interviewRecruitmentPopup.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.notifications.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.pipeline.notifications.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.compatibilityAgents.enabled'] = true;
+  internalProps['teamcity.pipelines.runOn.enabled'] = false;
+  internalProps['teamcity.pipelines.feedbackForm.enabled'] = false;
+  internalProps['teamcity.pipelines.statusPublishing.configuration.enabled'] = true;
+  internalProps['teamcity.pipelines.feature.withoutVcs.enabled'] = true;
+  internalProps['teamcity.pipelines.welcomePopup.enabled'] = true;
+  internalProps['teamcity.pipelines.earlyAccessLabel.enabled'] = true;
+  internalProps['teamcity.pipelines.feature.testDriveJob'] = false;
+  internalProps['teamcity.pipelines.classicUIBanner.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.pullRequests.enabled'] = true;
+  internalProps['teamcity.pipelines.tryPipelinesLink.enabled'] = true;
+  internalProps['teamcity.pipelines.buildFeatures.enabled'] = true;
+  internalProps['teamcity.ai.assistant.grazietoken'] = 'none';
+  internalProps['teamcity.internal.ai.assistant.buildsServerFeedbackLink'] = false;
+  internalProps['teamcity.internal.ai.assistant.feedbackNonprod'] = false;
+  internalProps['teamcity.internal.ai.assistant.streamProcessingDelay'] = 100;
+  internalProps['teamcity.internal.ai.assistant.minRandomStatusChangeDelay'] = 300;
+  internalProps['teamcity.internal.ai.assistant.maxRandomStatusChangeDelay'] = 800;
+  internalProps['teamcity.pipelines.runActions.enabled'] = true;
+  internalProps['teamcity.ui.buildPage.headerActions.enabled'] = false;
+  internalProps['teamcity.pipelines.integrations.newui.enabled'] = true;
+  internalProps['teamcity.pipelines.parameterInheritance.enabled'] = false;
+  internalProps['teamcity.pipelines.buildChains.enabled'] = true;
+  internalProps['teamcity.pipelines.buildChains.view.enabled'] = true;
+  internalProps['teamcity.pipelines.buildChains.snapshotDependencies.downstream.enabled'] = true;
+  internalProps['teamcity.pipelines.pipelineRunClassicRedirect.enabled'] = false;
+  internalProps['teamcity.pipelines.kotlinDSL.enabled'] = true;
+
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.link'] = 'https://surveys.jetbrains.com/s3/teamcity-pipelines-feedback-survey';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.buttonName'] = 'Take the survey';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.mainMessage'] = 'Help Shape the Future of Pipelines! ';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.additionalMessage'] = 'Take a 5-minute survey about your experience, share your ideas, and get a chance to win a prize!';
+
+  internalProps['teamcity.ui.sakura.releaseBanner.enabled'] = true;
+
+  internalProps['teamcity.hidden.artifacts.use.extended.names'] = true;
+
+  internalProps['teamcity.ui.darkTheme.allowed'] = true;
+  internalProps['teamcity.ui.darkTheme.adapter.enabled'] = true;
+  internalProps['teamcity.ui.compositeBuildsOnTimeline.enabled'] = false; // TW-87696
+
+  internalProps['teamcity.ui.buildStepSelector.enabled'] = true;
+  internalProps['teamcity.ui.buildStepSelector.privateRecipeList.pageSize'] = 8;
+  internalProps['teamcity.ui.buildStepSelector.publicRecipeList.pageSize'] = 20;
+  internalProps['teamcity.recipes.public.enabled'] = true;
+  internalProps['teamcity.recipes.public.marketplace.url'] = 'https://plugins.jetbrains.com';
+  internalProps['teamcity.internal.nightly'] = false;
+  internalProps['teamcity.properties.automaticallyMarkImportantBuildsAsFavorite.enabled'] = false
+
+  internalProps['teamcity.ui.stopAutocompleteForPrivateDockerIntegrations.enabled'] = true
+
+  internalProps['teamcity.pipelines.runCustomActions.enabled'] = true;
+  internalProps['teamcity.pipelines.lastRun.enabled'] = false;
+  internalProps['teamcity.pipelines.overview.enabled'] = true;
+  internalProps['teamcity.pipelines.outputParameters.enabled'] = true;
+  internalProps['teamcity.pipelines.addRepository.existingVcsRoot.enabled'] = false;
+  internalProps['teamcity.pipelines.creationFlow.pipelineFirst.enabled'] = false;
+  internalProps['teamcity.pipelines.addRepository.existingVcsRoot.enabled'] = true;
+
+</script>
+
+
+      
+
+
+<script type="text/javascript" src="/res/-4634852899786694785.js?v=1784814111147"></script>
+
+
+      
+
+
+
+<script type="text/javascript" src="/res/2083999511917917652.js?v=1784814111147"></script>
+
+
+      
+
+
+
+
+<style id="19f8f36983b" type="text/css">
+    @import "/res/-3342039278521329535.css?v=1784814111147";
+  
+</style>
+
+  <script type="text/javascript">
+  var base_uri=window.location.protocol+"//"+window.location.host+"";
+</script>
+
+  <script>
+    window.ReactUIPromise ??= new Promise(resolve => {
+      window.markReactUIReady = () => resolve(window.ReactUI);
+    });
+    // add sync fallback for APIs used in plugins
+    window.ReactUI = {
+      darkThemeAdapter: {
+        async disable() {
+          const ReactUI = await window.ReactUIPromise;
+          ReactUI.darkThemeAdapter.disable();
+        }
+      },
+      AgentAuth: window.ReactUIPromise.then(ReactUI => ReactUI.AgentAuth),
+      async renderConnected(elementOrId, TypePromise, props, ...restArgs) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.renderConnected(
+          elementOrId,
+          await TypePromise,
+          {
+            ...props,
+            children: await props?.children
+          },
+          ...restArgs
+        );
+      },
+      async storeUrlExtensions(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.storeUrlExtensions(...args);
+      },
+      async createElement(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        return ReactUI.createElement(...args);
+      },
+      async unmountComponentAtNode(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.unmountComponentAtNode(...args);
+      },
+      store: {
+        async dispatch(...args) {
+          const ReactUI = await window.ReactUIPromise;
+          ReactUI.store.dispatch(...args);
+        }
+      },
+      async setIsExperimentalUI() {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.setIsExperimentalUI();
+      },
+      async setGlobalTheme(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        ReactUI.setGlobalTheme(...args);
+      },
+      BuildBranch: window.ReactUIPromise.then(ReactUI => ReactUI.BuildBranch),
+      async loadInternalPlugin(...args) {
+        const ReactUI = await window.ReactUIPromise;
+        return ReactUI.loadInternalPlugin(...args);
+      }
+    };
+  </script>
+<script type="module" async="" src="/js/ring/vendors-node_modules_hypnosphi_recompose_dist_Recompose_esm_js-node_modules_inline-svg-unique-d12366.e7329811cb3a5699d36e.js"></script>
+<script type="module" async="" src="/js/ring/bundle.831090136551fd6bc387.js"></script>
+
+  <script src="/js/ring/teamCityAPI.js"></script>
+  
+  
+
+
+
+      
+
+
+<style id="19f8f36983c" type="text/css">
+    @import "/res/-1503540342333606626.css?v=1784814111147";
+  
+</style>
+
+    
+
+
+
+
+    
+
+
+<script type="text/javascript" src="/res/-419506198816766862.js?v=1784814111147"></script>
+
+    <script>
+      ReactUIPromise.then(ReactUI => ReactUI.serviceWorkers.cleanServiceWorkerCaches());
+      localStorage.clear();
+    </script>
+    <script type="text/javascript">
+      $j(document).ready(function($) {
+        var loginForm = $('.loginForm');
+
+        $("#username").focus();
+
+        loginForm.attr('action', '/loginSubmit.html');
+        loginForm.submit(function() {
+          return BS.LoginForm.submitLogin();
+        });
+
+
+        if (BS.Cookie.get("RecentLogin") !== null) {
+          const errBlock = document.querySelector('#errorMessage');
+          errBlock.textContent = "Clear the browser cookies or restart the browser to log in.";
+          errBlock.style.display = "block";
+          BS.Cookie.remove("RecentLogin");
+        }
+
+        if ($('#fading').length > 0) {
+          BS.Highlight('fading');
+        }
+
+        const username = {
+          name: 'Username',
+          input: document.getElementById('username'),
+          error: document.getElementById('username-error'),
+          maxLength: 191
+        };
+        const password = {
+          name: 'Password',
+          input: document.getElementById('password'),
+          error: document.getElementById('password-error'),
+          maxLength: 128
+        };
+        const submit = document.querySelector('.loginButton');
+        function validateInput({name, input, error, maxLength}) {
+          if (input.value.length > maxLength) {
+            input.classList.add('errorField');
+            error.textContent = name + ' should be no longer than ' + maxLength + ' characters';
+            return false
+          } else {
+            input.classList.remove('errorField');
+            error.textContent = '';
+            return true;
+          }
+        }
+        function handleChange() {
+          const usernameValid = validateInput(username);
+          const passwordValid = validateInput(password);
+          submit.disabled = !usernameValid || !passwordValid;
+        }
+        username.input.addEventListener('input', handleChange);
+        password.input.addEventListener('input', handleChange);
+      });
+    </script>
+
+    <style type="text/css">
+.tc-icon_bitbucket {
+  background: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%20role%3D%22presentation%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M4.77%205c-.48%200-.839.44-.759.88L7.248%2025.7c.08.52.52.88%201.04.88h15.665c.36%200%20.679-.28.759-.64l3.277-20.02c.08-.48-.28-.88-.76-.88zm13.748%2014.307h-4.996l-1.319-7.074h7.554z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22url(%23i0)%22%20d%3D%22M26.91%2012.233h-7.193l-1.2%207.074h-4.995L7.648%2026.3s.28.24.68.24h15.665c.36%200%20.679-.28.759-.64z%22%3E%3C%2Fpath%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22i0%22%20x1%3D%2228.593%22%20x2%3D%2216.672%22%20y1%3D%2214.226%22%20y2%3D%2223.532%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20offset%3D%220.176%22%20stop-color%3D%22%236C707E%22%3E%3C%2Fstop%3E%3Cstop%20offset%3D%221%22%3E%3C%2Fstop%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E');
+  background-size: 140% 140%;
+  background-position: 50% 55%;
+}</style><style type="text/css">
+.tc-icon_bitbucket_disabled {
+  background: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%20role%3D%22presentation%22%3E%3Cpath%20fill%3D%22%23e5e5e5%22%20d%3D%22M4.77%205c-.48%200-.839.44-.759.88L7.248%2025.7c.08.52.52.88%201.04.88h15.665c.36%200%20.679-.28.759-.64l3.277-20.02c.08-.48-.28-.88-.76-.88zm13.748%2014.307h-4.996l-1.319-7.074h7.554z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22url(%23i1)%22%20d%3D%22M26.91%2012.233h-7.193l-1.2%207.074h-4.995L7.648%2026.3s.28.24.68.24h15.665c.36%200%20.679-.28.759-.64z%22%3E%3C%2Fpath%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22i1%22%20x1%3D%2228.593%22%20x2%3D%2216.672%22%20y1%3D%2214.226%22%20y2%3D%2223.532%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20offset%3D%220.176%22%20stop-color%3D%22%236C707E%22%3E%3C%2Fstop%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23e5e5e5%22%3E%3C%2Fstop%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E');
+  background-size: 140% 140%;
+  background-position: 50% 55%;
+}</style><style type="text/css">
+.tc-icon_gitlab,
+  .tc-icon_gitlab_disabled,
+  .tc-icon_gitlab-enterprise,
+  .tc-icon_gitlab-enterprise_disabled {
+  background: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22none%22%20viewBox%3D%220%200%2016%2016%22%20role%3D%22presentation%22%3E%3Cpath%20fill%3D%22%23FC6D26%22%20d%3D%22m14.974%209.005-.784-2.616-1.552-5.19a.3.3%200%200%200-.098-.144.254.254%200%200%200-.314%200%20.3.3%200%200%200-.097.144l-1.552%205.186H5.421L3.869%201.2a.3.3%200%200%200-.098-.144A.25.25%200%200%200%203.615%201a.25.25%200%200%200-.157.055.3.3%200%200%200-.098.144L1.81%206.385l-.783%202.62a.63.63%200%200%200%200%20.358.6.6%200%200%200%20.193.29L8%2015l6.778-5.347a.6.6%200%200%200%20.195-.29.63.63%200%200%200%20.001-.358%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23E24329%22%20d%3D%22m8%2014.998%202.578-8.611H5.423z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FC6D26%22%20d%3D%22M8%2014.998%205.42%206.387H1.813z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FCA326%22%20d%3D%22m1.81%206.387-.784%202.616a.63.63%200%200%200%200%20.358.6.6%200%200%200%20.193.29L8%2014.999z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23E24329%22%20d%3D%22M1.812%206.389h3.612L3.87%201.203a.3.3%200%200%200-.097-.144.254.254%200%200%200-.314%200%20.3.3%200%200%200-.097.144L1.81%206.389Z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FC6D26%22%20d%3D%22m8%2014.998%202.578-8.611h3.614z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23FCA326%22%20d%3D%22m14.19%206.387.784%202.616a.63.63%200%200%201%200%20.358.6.6%200%200%201-.194.29L8%2014.995l6.188-8.608h.001Z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23E24329%22%20d%3D%22M14.19%206.389h-3.61l1.551-5.186a.3.3%200%200%201%20.098-.144.254.254%200%200%201%20.313%200q.07.056.098.144l1.552%205.186Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E');
+  background-size: 110%;
+  background-position: 50% 55%;
+}</style><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/vendors-node_modules_re-resizable_lib_index_js.90c480c9ec07757ccc61.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_App_SidebarPanel_SidebarPanelContent_SidebarHeader_SidebarHeader_tsx-components_Ap-f31d3b.06086b7e13aac0e4e578.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/AdminSidebarPanel.cfa5d55861f38da2445b.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/vendors-node_modules_anser_lib_index_js.16b742f5f00e22b034c6.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/vendors-node_modules_jetbrains_ring-ui-built_components_grid_grid_js-node_modules_jetbrains_r-ac8d73.47243fa587d9bc78a36a.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_packages_BuildLog_BuildLogInfo_BuildLogInfo_tsx-components_packages_BuildLog_Build-ef976c.f55c3fd27752093afc24.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_packages_BuildLog_BuildLogTimeline_BuildLogTimeline_container_ts-components_packag-648083.53f1c1a0271897ce6783.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/components_packages_BuildLog_BuildLogTab_BuildLogTab_container_tsx.328b0abbe2e5c3cdc053.js"><link charset="utf-8" rel="prefetch" as="script" href="http://teamcity-server:8111/js/ring/App.7004f7a8521a84c46d6f.js"></head>
+
+    <body>
+    
+
+
+
+
+
+<link data-ignore-dark-theme-adapter="" href="/js/ring/styles.0619771a895daa7e1f26.css" rel="stylesheet">
+
+
+    
+
+
+
+
+
+
+
+
+    
+
+
+
+
+<div id="loginPage" class="initialPage">
+  <div class="page-content-wrapper">
+    <div id="pageContent">
+      <span class="logo" title="TeamCity"></span>
+      <h1 id="header">Log in to TeamCity</h1>
+
+      
+      
+
+      
+
+
+
+
+
+      
+
+
+
+      
+
+
+
+      <div id="errorMessage"></div>
+
+      
+
+      
+
+      <div id="loginForm">
+
+        <form class="loginForm" method="post" action="/loginSubmit.html">
+          
+            <div>
+              <label for="username">Username</label>
+              <input class="text" id="username" type="text" name="username">
+              <span class="error" id="username-error"></span>
+            </div>
+          
+
+          <div>
+            <label for="password">Password</label>
+            <input class="text" id="password" type="password" name="password">
+            <span class="error" id="password-error"></span>
+          </div>
+
+
+          <div class="remember-section">
+          <div class="remember-section__inner">
+  
+    <span class="custom-checkbox ring-checkbox-checkbox checkbox custom-checkbox_checked">
+      <input type="checkbox" class="custom-checkbox_input ring-checkbox-input" name="remember" id="remember" checked="" value="true">
+      <div class="ring-checkbox-cellWrapper">
+        <span class="ring-checkbox-cell">
+          <span class="svg-icon ring-checkbox-check ring-checkbox-icon ring-icon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"><path fill-rule="evenodd" d="M10.899 2.05a.6.6 0 0 1 .05.847L4.808 9.8a.6.6 0 0 1-.876.023L1.073 6.92a.6.6 0 0 1 .854-.843l2.41 2.447L10.053 2.1a.6.6 0 0 1 .847-.05Z" clip-rule="evenodd"></path></svg></span>
+        </span>
+      </div>
+      <input type="hidden" name="_remember" value="">
+    </span>
+  
+  
+
+
+            <label class="rememberMe" for="remember">Remember me</label></div>
+
+            <span id="resetPasswordContainer"><a href="/forgotPassword.html">Reset password</a></span>
+          </div>
+
+          <noscript>
+            <div class="noJavaScriptEnabledMessage">
+              Please enable JavaScript in your browser to proceed with the login.
+            </div>
+          </noscript>
+
+
+          <div class="buttons">
+            <input class="btn loginButton" type="submit" name="submitLogin" value="Log in">
+            <div class="loader-cell"><i id="saving" style="display: none; " class="ring-loader-inline progressRing progressRingSubmitBlock" title="Please wait..."></i></div>
+          </div>
+
+          <input type="hidden" id="publicKey" name="publicKey" value="0082ed04e290c53a7d8b8ee308a9a3d85e78dae3d12c36508a57e3fe0189a849be81d0e25ca77c026b329f4bdc13b0073815890b57474bedc1532db64e0ba1015ebdea3cfdbe40e1d8fcc21a4d3059cdf6680f6bb411fea0c718c120fd0be2f6484b0c7c8c1589ff3df86523e6ed2e313f04df26c7c836ea98f79fdf42945d78c1">
+          
+        </form>
+
+        
+          
+        
+      </div>
+
+      
+
+      
+        
+        
+
+
+
+
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.controllers.resetPassword.ResetPasswordPageExtension: name:resetPasswordLink: /resetPasswordLink.jsp -->
+      
+
+
+<script type="text/javascript">
+  $j('#resetPasswordContainer').append('<a href="/forgotPassword.html">Reset password</a>');
+</script>
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.controllers.resetPassword.ResetPasswordPageExtension -->
+  
+
+    <!-- START EXTENSION CONTENT jetbrains.buildServer.web.forbiddenDomains.ForbiddenDomainHeaderWarning$Extension: name:jetbrains.buildServer.web.forbiddenDomains.ForbiddenDomainHeaderWarning: /forbiddenDomainWarning.jsp -->
+      
+
+
+
+
+
+
+
+
+
+  <!-- END EXTENSION CONTENT jetbrains.buildServer.web.forbiddenDomains.ForbiddenDomainHeaderWarning$Extension -->
+  
+
+
+
+
+      
+    
+
+      <div class="version">
+        
+  
+  
+    <span class="greyNote version"><span class="vWord">Version</span> 2026.1.1 (build 222577)</span>
+  
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div data-iframe-height=""></div>
+    
+    
+  
+
+
+</body></html>
