@@ -65,7 +65,6 @@ jobs:
           gh_pages: gh-pages
           allure_results: target/allure-results
           allure_history: allure-history
-          keep_reports: 100
 
       - name: Build Swagger Coverage report
         if: always()
