@@ -34,7 +34,7 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
     }
 
     public BuildStepsPage openBuildStepsTab(String buildConfigId) {
-        String formattedUrl = "http://localhost:8111/admin/editBuildRunners.html?id=buildType%%3A%s"
+        String formattedUrl = "/admin/editBuildRunners.html?id=buildType%%3A%s"
                 .formatted(buildConfigId);
         Selenide.open(formattedUrl);
         return new BuildStepsPage();

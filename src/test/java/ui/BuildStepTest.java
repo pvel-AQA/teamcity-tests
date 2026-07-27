@@ -10,7 +10,6 @@ import common.enums.PowerShellOptions;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 import ui.models.PowerShellUiModel;
 import ui.pages.buildsteps.BuildStepsPage;
 
