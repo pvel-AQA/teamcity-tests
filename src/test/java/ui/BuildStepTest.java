@@ -28,7 +28,7 @@ public class BuildStepTest extends BaseUiTest {
                 .setScriptExecutionMode(null);
 
         boolean isBuildStepCreated = new BuildStepsPage()
-                .openBuildStepsTab(buildConfigurationResponse.getId())
+                .open(buildConfigurationResponse.getId())
                 .selectPowerShellRunner()
                 .addBuildStep(uiPowerShellStep)
                 .isBuildStepExists(uiPowerShellStep.getStepName());

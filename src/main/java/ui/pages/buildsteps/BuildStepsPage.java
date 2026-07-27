@@ -30,14 +30,7 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
 
     @Override
     public String url() {
-        return "/";
-    }
-
-    public BuildStepsPage openBuildStepsTab(String buildConfigId) {
-        String formattedUrl = "/admin/editBuildRunners.html?id=buildType%%3A%s"
-                .formatted(buildConfigId);
-        Selenide.open(formattedUrl);
-        return new BuildStepsPage();
+        return "/admin/editBuildRunners.html?id=buildType:%s";
     }
 
     public PowerShellStepPage selectPowerShellRunner() {
