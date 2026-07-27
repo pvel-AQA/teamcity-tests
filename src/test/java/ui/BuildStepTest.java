@@ -10,7 +10,6 @@ import common.annotations.AuthUser;
 import common.enums.PowerShellOptions;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import ui.models.PowerShellUiModel;
 import ui.pages.SetupYourBuildPage;
@@ -18,12 +17,9 @@ import ui.pages.buildsteps.BuildStepsPage;
 
 public class BuildStepTest extends BaseUiTest {
 
-    private static long oldPageLoadTimeout;
-
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCanCreatePowerShellBuildStepTest() {
-        oldPageLoadTimeout = Configuration.pageLoadTimeout;
         Configuration.pageLoadTimeout = 60000;
         ProjectResponse projectResponse = UserSteps.createProject();
         BuildConfigurationResponse buildConfigurationResponse = UserSteps.createBuildConfiguration(projectResponse);
@@ -54,11 +50,6 @@ public class BuildStepTest extends BaseUiTest {
                 .as("Assert that ui model fields equals to the api models")
                 .matches(m -> m.getId().equals(uiPowerShellStep.getStepId()) &&
                         m.getName().equals(uiPowerShellStep.getStepName()) );
-    }
-
-    @AfterAll
-    public static void afterTest() {
-        Configuration.pageLoadTimeout = oldPageLoadTimeout;
     }
 
 }
