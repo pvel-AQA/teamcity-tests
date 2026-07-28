@@ -102,6 +102,26 @@ public enum Endpoint {
             "/buildTypes/{btLocator}/steps/{stepId}",
             BaseModel.class,
             BaseModel.class
+    ),
+    BUILD_QUEUE(
+            "/buildQueue",
+            BuildRunRequest.class,
+            BuildRunResponse.class
+    ),
+    BUILD(
+            "/builds/{buildLocator}",
+            BuildRunRequest.class,
+            BuildRunResponse.class
+    ),
+    BUILD_CANCEL(
+            "/builds/{buildLocator}",
+            BuildCancelRequest.class,
+            BuildCancelResponse.class
+    ),
+    BUILD_QUEUE_PAUSED_STATE(
+            "/buildQueue/pausedState",
+            BuildQueuePausedRequest.class,
+            BaseModel.class
     );
 
     private String url;
