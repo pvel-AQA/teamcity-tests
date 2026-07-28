@@ -1,6 +1,8 @@
 package ui;
 
+import api.generators.RandomGenerator;
 import api.models.project.AllProjectsResponse;
+import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;
 import common.annotations.AuthUser;
@@ -21,8 +23,13 @@ public class AdminProjectsTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminCanOpenAdminProjectsPageAndSeeTopProjectsInfoTest() {
+        ProjectRequest projectRequest1 = RandomGenerator.generate(ProjectRequest.class);
+        ProjectResponse testProject1 = UserSteps.createProjectWithExtension(projectRequest1);
+        ProjectRequest projectRequest2 = RandomGenerator.generate(ProjectRequest.class);
+        ProjectResponse testProject2 = UserSteps.createProjectWithExtension(projectRequest2);
+        System.out.println(testProject1.getName());
+        System.out.println(testProject2.getName());
 
-        //UserSteps.createProject();
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
                 .checkHeaderIsVisible();
@@ -42,7 +49,7 @@ public class AdminProjectsTest extends BaseUiTest {
 
         softly.assertThat(uiProjects).containsExactlyInAnyOrderEntriesOf(apiProjects);
         softly.assertThat(displayedCount).isEqualTo(allProjects.getCount());
-        softly.assertThat(descriptionCount-1).isEqualTo(allProjects.getCount());
+        softly.assertThat(descriptionCount).isEqualTo(allProjects.getCount());
     }
 
     private static void attachProjects(String name, Map<String, String> projects) {
