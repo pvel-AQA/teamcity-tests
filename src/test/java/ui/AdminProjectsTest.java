@@ -22,7 +22,7 @@ public class AdminProjectsTest extends BaseUiTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminCanOpenAdminProjectsPageAndSeeTopProjectsInfoTest() {
 
-        UserSteps.createProject();
+        //UserSteps.createProject();
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
                 .checkHeaderIsVisible();
