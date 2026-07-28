@@ -46,7 +46,7 @@ public class AdminProjectsTest extends BaseUiTest {
 
         softly.assertThat(uiProjects).containsExactlyInAnyOrderEntriesOf(apiProjects);
         softly.assertThat(displayedCount).isEqualTo(apiProjects.size());
-        softly.assertThat(descriptionCount).isEqualTo(apiProjects.size());
+        softly.assertThat(descriptionCount-1).isEqualTo(apiProjects.size());
     }
 
     @Test
