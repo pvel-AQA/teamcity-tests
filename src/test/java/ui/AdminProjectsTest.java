@@ -23,12 +23,12 @@ public class AdminProjectsTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminCanOpenAdminProjectsPageAndSeeTopProjectsInfoTest() {
-        ProjectRequest projectRequest1 = RandomGenerator.generate(ProjectRequest.class);
+        /*ProjectRequest projectRequest1 = RandomGenerator.generate(ProjectRequest.class);
         ProjectResponse testProject1 = UserSteps.createProjectWithExtension(projectRequest1);
         ProjectRequest projectRequest2 = RandomGenerator.generate(ProjectRequest.class);
         ProjectResponse testProject2 = UserSteps.createProjectWithExtension(projectRequest2);
         System.out.println(testProject1.getName());
-        System.out.println(testProject2.getName());
+        System.out.println(testProject2.getName());*/
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
