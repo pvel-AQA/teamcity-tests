@@ -9,6 +9,9 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
 import ui.pages.AdminProjectsPage;
 
 import java.util.Map;
@@ -21,15 +24,9 @@ import java.util.stream.Collectors;
 public class AdminProjectsTest extends BaseUiTest {
 
     @Test
+    @ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    void adminCanOpenAdminProjectsPageAndSeeTopProjectsInfoTest() {
-        /*ProjectRequest projectRequest1 = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse testProject1 = UserSteps.createProjectWithExtension(projectRequest1);
-        ProjectRequest projectRequest2 = RandomGenerator.generate(ProjectRequest.class);
-        ProjectResponse testProject2 = UserSteps.createProjectWithExtension(projectRequest2);
-        System.out.println(testProject1.getName());
-        System.out.println(testProject2.getName());*/
-
+    void adminSeesExactlyTheSameProjectsOnAdminPageAsApiReturnsTest() {
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
                 .checkHeaderIsVisible();
@@ -48,8 +45,33 @@ public class AdminProjectsTest extends BaseUiTest {
         attachComparison(uiProjects, apiProjects);
 
         softly.assertThat(uiProjects).containsExactlyInAnyOrderEntriesOf(apiProjects);
-        softly.assertThat(displayedCount).isEqualTo(allProjects.getCount());
-        softly.assertThat(descriptionCount).isEqualTo(allProjects.getCount());
+        softly.assertThat(displayedCount).isEqualTo(apiProjects.size());
+        softly.assertThat(descriptionCount).isEqualTo(apiProjects.size());
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
+    void adminSeesOwnCreatedProjectsOnAdminPageTest() {
+        ProjectResponse firstProject =
+                UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
+        ProjectResponse secondProject =
+                UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
+
+        Map<String, String> expectedProjects = Map.of(
+                firstProject.getId(), firstProject.getName(),
+                secondProject.getId(), secondProject.getName());
+
+        Map<String, String> uiProjects = new AdminProjectsPage().open()
+                .checkItIsCorrectPage()
+                .checkHeaderIsVisible()
+                .getDisplayedProjects();
+
+        attachProjects("Projects created by this test", expectedProjects);
+        attachProjects("UI projects (Admin page)", uiProjects);
+
+        softly.assertThat(uiProjects)
+                .as("Admin page must list every project this test created, with the correct name")
+                .containsAllEntriesOf(expectedProjects);
     }
 
     private static void attachProjects(String name, Map<String, String> projects) {

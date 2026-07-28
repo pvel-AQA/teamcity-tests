@@ -88,8 +88,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     }
 
     public int getDisplayedProjectsCount() {
-        restPageRootProjectContentList.shouldBe(visible);
-        return projectSettingsLinks.shouldHave(CollectionCondition.sizeGreaterThan(0)).size();
+        return getDisplayedProjects().size();
     }
 
     private String projectIdFrom(String settingsHref) {
