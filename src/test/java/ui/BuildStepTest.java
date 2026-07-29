@@ -5,9 +5,7 @@ import api.models.build.BuildConfigurationResponse;
 import api.models.build.BuildTypeStepsModel;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;
-import com.codeborne.selenide.Configuration;
 import common.annotations.AuthUser;
-import common.enums.PowerShellOptions;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,36 +18,26 @@ public class BuildStepTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCanCreatePowerShellBuildStepTest() {
-        Configuration.pageLoadTimeout = 60000;
-        Configuration.timeout = 15000;
         ProjectResponse projectResponse = UserSteps.createProject();
         BuildConfigurationResponse buildConfigurationResponse = UserSteps.createBuildConfiguration(projectResponse);
         PowerShellUiModel uiPowerShellStep = RandomGenerator.generate(PowerShellUiModel.class);
-        uiPowerShellStep
-                .setStepId(null)
-                .setScript(PowerShellOptions.CODE)
-                .setScriptSource("echo Hello_" + uiPowerShellStep.getScriptSource())
-                .setScriptExecutionMode(null);
+        uiPowerShellStep.setStepId(null); // stepId = stepName after entering stepName field
         new SetupYourBuildPage()
                 .open(projectResponse.getId());
-        boolean isBuildStepCreated = new BuildStepsPage()
+        new BuildStepsPage()
                 .open(buildConfigurationResponse.getId())
                 .selectPowerShellRunner()
                 .addBuildStep(uiPowerShellStep)
-                .isBuildStepExists(uiPowerShellStep.getStepName());
-
-        Assertions.assertThat(isBuildStepCreated)
-                .isTrue()
-                .as("Created build step should be displayed");
+                .isBuildStepVisible(uiPowerShellStep.getStepName());
 
         BuildTypeStepsModel apiBuildStepResponse = UserSteps
                 .getBuildTypeStep(buildConfigurationResponse.getName(), uiPowerShellStep.getStepName());
 
-        uiPowerShellStep.setStepId(uiPowerShellStep.getStepName()); // stepId = stepName after entering
+        uiPowerShellStep.setStepId(uiPowerShellStep.getStepName());
         Assertions.assertThat(apiBuildStepResponse)
                 .as("Assert that ui model fields equals to the api models")
                 .matches(m -> m.getId().equals(uiPowerShellStep.getStepId()) &&
-                        m.getName().equals(uiPowerShellStep.getStepName()) );
+                        m.getName().equals(uiPowerShellStep.getStepName()));
     }
 
 }
