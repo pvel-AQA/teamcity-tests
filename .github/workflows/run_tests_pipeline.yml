@@ -124,6 +124,7 @@ jobs:
       - name: Create browser summary page
         if: always()
         run: |
+          mkdir -p allure-history/${{ github.run_number }}
           cat > allure-history/${{ github.run_number }}/browsers-summary.html << 'EOF'
           <!DOCTYPE html>
           <html>
