@@ -1,8 +1,6 @@
 package ui;
 
 import api.generators.RandomGenerator;
-import api.generators.TeamCityDataGenerator;
-import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -11,23 +9,15 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.ResourceAccessMode;
-import org.junit.jupiter.api.parallel.ResourceLock;
-import org.junit.jupiter.api.parallel.Resources;
 import ui.pages.AdminProjectsPage;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AdminProjectsTest extends BaseUiTest {
 
     @Test
-    @ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
+    //@ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesExactlyTheSameProjectsOnAdminPageAsApiReturnsTest() {
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
@@ -72,9 +62,7 @@ public class AdminProjectsTest extends BaseUiTest {
         attachProjects("Projects created by this test", expectedProjects);
         attachProjects("UI projects (Admin page)", uiProjects);
 
-        softly.assertThat(uiProjects)
-                .as("Admin page must list every project this test created, with the correct name")
-                .containsAllEntriesOf(expectedProjects);
+        softly.assertThat(uiProjects).containsAllEntriesOf(expectedProjects);
     }
 
     @Test
