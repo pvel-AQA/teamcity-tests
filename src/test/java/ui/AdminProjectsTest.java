@@ -1,6 +1,8 @@
 package ui;
 
 import api.generators.RandomGenerator;
+import api.generators.TeamCityDataGenerator;
+import api.models.build.BuildConfigurationResponse;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 import org.junit.jupiter.api.parallel.Resources;
 import ui.pages.AdminProjectsPage;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
