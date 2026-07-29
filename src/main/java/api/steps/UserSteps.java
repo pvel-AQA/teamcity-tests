@@ -11,6 +11,7 @@ import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
+import api.models.build.BuildRunResponse;
 import api.models.build.BuildTypeStepsModel;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
@@ -231,6 +232,14 @@ public class UserSteps {
                 Endpoint.AGENTS_WITH_LOCATOR,
                 ResponseSpec.returnsOk()
         ).get(LocatorType.ID.getPrefix() + agentId);
+    }
+
+    public static BuildRunResponse getBuildRunInfo(String buildId) {
+        return new ValidatedCrudRequester<BuildRunResponse>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD,
+                ResponseSpec.returnsOk())
+                .get(LocatorType.ID + buildId);
     }
 }
 

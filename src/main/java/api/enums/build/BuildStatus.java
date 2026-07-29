@@ -10,7 +10,8 @@ public enum BuildStatus {
     SUCCESS("SUCCESS"),
     FAILURE("FAILURE"),
     ERROR("ERROR"),
-    UNKNOWN("UNKNOWN");
+    UNKNOWN("UNKNOWN"),
+    RUNNING("RUNNING");
 
     @JsonValue
     private final String value;

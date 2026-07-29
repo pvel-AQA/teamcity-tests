@@ -1,6 +1,7 @@
 package ui.pages;
 
 import com.codeborne.selenide.ClickOptions;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static ui.enums.errors.ProjectValidationError.PROJECT_NAME_CANNOT_BE_EMPTY;
 
 @Getter
 public class CreateProjectPage extends BasePage<CreateProjectPage> {
@@ -34,6 +36,18 @@ public class CreateProjectPage extends BasePage<CreateProjectPage> {
         projectIdInput.setValue(projectId);
         projectDescriptionInput.setValue(projectDescription);
         createButton.getWrappedElement().click();
+        return this;
+    }
+
+    public CreateProjectPage checkProjectNameErrorMessageAppearsOnCreation(ProjectValidationError error) {
+        getProjectNameError().shouldBe(Condition.visible)
+                .shouldHave(Condition.text(error.getErrorMsg()));
+        return this;
+    }
+
+    public CreateProjectPage checkProjectIDErrorMessageAppearsOnCreation(ProjectValidationError error) {
+        getProjectIdError().shouldBe(Condition.visible)
+                .shouldHave(Condition.text(error.getErrorMsg()));
         return this;
     }
 
