@@ -8,8 +8,6 @@ import api.steps.UserSteps;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import ui.base.SingleThreadBaseTest;
 import ui.pages.EditBuildConfigurationPage;
 
