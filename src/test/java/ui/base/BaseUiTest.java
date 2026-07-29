@@ -6,6 +6,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import common.configs.Config;
 import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import io.qameta.allure.model.Label;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
@@ -31,6 +32,7 @@ public class BaseUiTest extends BaseTest {
     }
 
     @BeforeEach
+    @Step("Setup browser: {browser}")
     public void setupBeforeEach() {
         browser = System.getProperty("browser");
         if (browser == null || browser.isBlank()) {
@@ -39,6 +41,7 @@ public class BaseUiTest extends BaseTest {
             Configuration.browser = browser;
         }
 
+        Allure.label("browser", browser);
         Allure.getLifecycle().updateTestCase(testResult -> {
             testResult.setName(testResult.getName() + " [" + browser + "]");
         });
