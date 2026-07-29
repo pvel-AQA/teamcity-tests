@@ -12,20 +12,17 @@ import api.request.skelethon.requester.CrudRequester;
 import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
-import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import common.helpers.WaitUtils;
 import io.restassured.specification.RequestSpecification;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
+import ui.base.SingleThreadBaseTest;
 
 import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 
-@Execution(ExecutionMode.SAME_THREAD)
-public class RegularBuildRunTest extends BaseTest {
+public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     private static final String[] IGNORED_BUILD_FIELDS = {"href", "state", "status", "webUrl", "statusText"};
     private static final String PAUSED_FIELD = "buildType.paused";
