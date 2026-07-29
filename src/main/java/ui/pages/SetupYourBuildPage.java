@@ -35,7 +35,6 @@ public class SetupYourBuildPage extends BasePage<SetupYourBuildPage> {
     public SetupYourBuildPage clickBuildConfigurationDropdown() {
         buildConfigurationDropdown.shouldBe(Condition.visible);
         buildConfigurationDropdown.click();
-        System.out.println("my result is: " + buildConfigurationDropdown.getAttribute("aria-expanded"));
         buildConfigurationDropdown.shouldHave(Condition.attribute("aria-expanded", "true"));
 
         return this;

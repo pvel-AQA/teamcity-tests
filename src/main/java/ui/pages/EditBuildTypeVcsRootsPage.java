@@ -1,13 +1,8 @@
 package ui.pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Selenide.$;
-
-public class EditBuildTypeVcsRootsPage extends BasePage<EditBuildTypeVcsRootsPage> {
-
-    private final SelenideElement lastSelectedBuildTypeBreadcrumbs = $("li.last.selected.buildType");
+public class EditBuildTypeVcsRootsPage extends EditBuildHeaderPage {
 
     @Override
     public String url() {
