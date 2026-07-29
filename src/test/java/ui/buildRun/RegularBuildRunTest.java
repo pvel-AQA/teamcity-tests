@@ -15,7 +15,6 @@ import ui.pages.EditBuildConfigurationPage;
 
 import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 
-@Execution(ExecutionMode.SAME_THREAD)
 public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
