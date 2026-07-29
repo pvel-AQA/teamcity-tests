@@ -1,5 +1,6 @@
 package ui.buildRun;
 
+import api.comparison.ModelAssertions;
 import api.enums.build.BuildState;
 import api.enums.build.BuildStatus;
 import api.enums.build.BuildStepCommand;
@@ -27,9 +28,11 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .checkIsStatus(BuildStatus.SUCCESS)
                 .getBuildRunId();
 
-       var buildRunResponse =  UserSteps.getBuildRunInfo(buildRunId);
+        var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);
 
         softly.assertThat(buildRunResponse.getStatus()).isEqualTo(BuildStatus.SUCCESS);
         softly.assertThat(buildRunResponse.getState()).isEqualTo(BuildState.FINISHED);
+
+        ModelAssertions.assertThatModels(buildConfig, buildRunResponse).match();
     }
 }
