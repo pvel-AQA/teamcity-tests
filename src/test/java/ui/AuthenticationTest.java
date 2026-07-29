@@ -7,6 +7,7 @@ import api.specs.ResponseSpec;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
+import ui.base.BaseUiTest;
 import ui.pages.ProjectsPage;
 
 public class AuthenticationTest extends BaseUiTest {

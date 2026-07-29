@@ -9,6 +9,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ui.base.BaseUiTest;
 import ui.models.PowerShellUiModel;
 import ui.pages.SetupYourBuildPage;
 import ui.pages.buildsteps.BuildStepsPage;

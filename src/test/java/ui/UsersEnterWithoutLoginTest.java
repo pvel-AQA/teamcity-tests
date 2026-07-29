@@ -6,6 +6,7 @@ import common.enums.UserRoles;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ui.base.BaseUiTest;
 import ui.pages.ProjectsPage;
 
 public class UsersEnterWithoutLoginTest extends BaseUiTest {

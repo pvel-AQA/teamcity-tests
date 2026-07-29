@@ -10,9 +10,8 @@ import com.codeborne.selenide.Condition;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
-import ui.BaseUiTest;
+import ui.base.BaseUiTest;
 import ui.elements.ProjectElement;
-import ui.enums.errors.ProjectValidationError;
 import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
 

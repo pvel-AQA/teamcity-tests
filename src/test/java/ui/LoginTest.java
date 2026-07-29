@@ -9,6 +9,7 @@ import common.enums.UserRoles;
 import common.extensions.AuthUserExtension;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ui.base.BaseUiTest;
 import ui.pages.LoginPage;
 import ui.pages.ProjectsPage;
 
