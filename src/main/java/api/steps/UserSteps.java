@@ -11,6 +11,7 @@ import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
+import api.models.build.BuildRunResponse;
 import api.models.build.BuildTypeStepsModel;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
@@ -26,6 +27,7 @@ import io.restassured.specification.RequestSpecification;
 
 import java.time.Duration;
 
+import static api.specs.RequestSpec.withAuthExtensionUser;
 import static common.configs.Config.ADMIN_PASSWORD;
 import static common.configs.Config.ADMIN_USERNAME;
 
@@ -48,7 +50,7 @@ public class UserSteps {
 
     public static ProjectResponse createProjectWithExtension(ProjectRequest projectRequest) {
         return new ValidatedCrudRequester<ProjectResponse>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsOk()
         ).post(projectRequest);
@@ -56,7 +58,7 @@ public class UserSteps {
 
     public static AllProjectsResponse getAllProjects() {
         return new ValidatedCrudRequester<AllProjectsResponse>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.ALL_PROJECTS,
                 ResponseSpec.returnsOk()
         ).get();
@@ -64,7 +66,7 @@ public class UserSteps {
 
     public static ProjectResponse getProjectById(String id) {
         return new ValidatedCrudRequester<ProjectResponse>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsOk()
         ).get(id);
@@ -77,7 +79,7 @@ public class UserSteps {
 
     public static void deleteProjectWithAuthExtensionUser(ProjectResponse projectResponse) {
         new CrudRequester(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsDeleted()
         ).delete(projectResponse.getId());
@@ -117,7 +119,7 @@ public class UserSteps {
 
     public static BuildConfigurationResponse createBuildConfiguration(BuildConfigurationRequest buildConf) {
         return new ValidatedCrudRequester<BuildConfigurationResponse>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .post(buildConf);
@@ -125,7 +127,7 @@ public class UserSteps {
 
     public static BuildTypeStepsModel getBuildTypeStep(String configName, String stepId) {
         return new ValidatedCrudRequester<BuildTypeStepsModel>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.BUILD_STEP_READ,
                 ResponseSpec.returnsOk())
                 .get(configName, stepId);
@@ -140,7 +142,7 @@ public class UserSteps {
     }
 
     public static BuildTypeStepsModel createBuildTypeStep(String configName, String stepType) {
-        return createBuildTypeStep(RequestSpec.withAuthExtensionUser(), configName, stepType);
+        return createBuildTypeStep(withAuthExtensionUser(), configName, stepType);
     }
 
     public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, String stepType) {
@@ -156,13 +158,13 @@ public class UserSteps {
         var buildConfig = createBuildConfiguration();
         var stepWithCommand = TeamCityDataGenerator.generateBuildConfigurationStepRequestWithCommand(command);
 
-        createBuildTypeStep(RequestSpec.withAuthExtensionUser(), buildConfig.getName(), stepWithCommand);
+        createBuildTypeStep(withAuthExtensionUser(), buildConfig.getName(), stepWithCommand);
         return buildConfig;
     }
 
     public static BuildConfigurationResponse getBuilds() {
         return new ValidatedCrudRequester<BuildConfigurationResponse>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.BUILD_TYPES,
                 ResponseSpec.returnsOk())
                 .get();
@@ -180,7 +182,7 @@ public class UserSteps {
     public static int getAgentId() {
         return StepLogger.log("Get Agent id", () -> {
             return new ValidatedCrudRequester<GetAgentsResponse>(
-                    RequestSpec.withAuthExtensionUser(),
+                    withAuthExtensionUser(),
                     Endpoint.AGENTS,
                     ResponseSpec.returnsOk()
             ).get(new CrudRequester.QueryBuilder()
@@ -205,7 +207,7 @@ public class UserSteps {
 
     public static boolean getAgentAuthorizedStatus(int agentId) {
         return new ValidatedCrudRequester<Agent>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.AGENTS_WITH_LOCATOR,
                 ResponseSpec.returnsOk()
         ).get(LocatorType.ID.getPrefix() + agentId)
@@ -216,7 +218,7 @@ public class UserSteps {
         var authorizeAgentRequest = RandomGenerator.generate(AuthorizeAgentRequest.class);
 
         new CrudRequester(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.AGENTS_AUTHORIZED_INFO,
                 ResponseSpec.returnsOk()
         ).put(authorizeAgentRequest, LocatorType.ID.getPrefix() + agentId);
@@ -224,10 +226,18 @@ public class UserSteps {
 
     public static Agent getAgentInfo(int agentId) {
         return new ValidatedCrudRequester<Agent>(
-                RequestSpec.withAuthExtensionUser(),
+                withAuthExtensionUser(),
                 Endpoint.AGENTS_WITH_LOCATOR,
                 ResponseSpec.returnsOk()
         ).get(LocatorType.ID.getPrefix() + agentId);
+    }
+
+    public static BuildRunResponse getBuildRunInfo(String buildId) {
+        return new ValidatedCrudRequester<BuildRunResponse>(
+                withAuthExtensionUser(),
+                Endpoint.BUILD,
+                ResponseSpec.returnsOk())
+                .get(LocatorType.ID + buildId);
     }
 }
 

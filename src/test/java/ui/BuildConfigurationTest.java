@@ -10,6 +10,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ui.base.BaseUiTest;
 import ui.pages.EditBuildGeneralPage;
 import ui.pages.EditBuildTypeVcsRootsPage;
 import ui.pages.SetupYourBuildPage;

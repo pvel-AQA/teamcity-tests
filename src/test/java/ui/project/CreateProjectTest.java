@@ -12,7 +12,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ui.BaseUiTest;
+import ui.base.BaseUiTest;
 import ui.elements.ProjectElement;
 import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
@@ -119,6 +119,5 @@ public class CreateProjectTest extends BaseUiTest {
 
         Assertions.assertThat(listOfProjects).hasSize(EXPECTED_COUNT);
     }
-
 
 }

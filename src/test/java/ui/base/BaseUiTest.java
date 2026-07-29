@@ -1,4 +1,4 @@
-package ui;
+package ui.base;
 
 import base.BaseTest;
 import com.codeborne.selenide.Configuration;
