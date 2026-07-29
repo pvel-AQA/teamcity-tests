@@ -40,7 +40,7 @@ public class BaseUiTest extends BaseTest {
         }
 
         Allure.getLifecycle().updateTestCase(testResult -> {
-            testResult.getLabels().add(new Label().setName("browser").setValue(browser));
+            testResult.setName(testResult.getName() + " [" + browser + "]");
         });
     }
 

@@ -93,15 +93,22 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: all-results
-          pattern: allure-results-*
-          merge-multiple: true
+
+      - name: Merge Allure results without overwriting
+        run: |
+          mkdir -p all-results-merged
+          for dir in all-results/allure-results-*; do
+            if [ -d "$dir" ]; then
+              cp -rn "$dir"/* all-results-merged/ || true
+            fi
+          done
 
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.15
         if: always()
         with:
           gh_pages: gh-pages
-          allure_results: all-results
+          allure_results: all-results-merged
           allure_history: allure-history
 
       - name: Copy Swagger Coverage report
