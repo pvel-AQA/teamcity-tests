@@ -11,6 +11,7 @@ import common.enums.PowerShellOptions;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ui.base.BaseUiTest;
 import ui.models.PowerShellUiModel;
 import ui.pages.SetupYourBuildPage;
 import ui.pages.buildsteps.BuildStepsPage;
@@ -20,16 +21,10 @@ public class BuildStepTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCanCreatePowerShellBuildStepTest() {
-        Configuration.pageLoadTimeout = 60000;
-        Configuration.timeout = 15000;
         ProjectResponse projectResponse = UserSteps.createProject();
         BuildConfigurationResponse buildConfigurationResponse = UserSteps.createBuildConfiguration(projectResponse);
         PowerShellUiModel uiPowerShellStep = RandomGenerator.generate(PowerShellUiModel.class);
-        uiPowerShellStep
-                .setStepId(null)
-                .setScript(PowerShellOptions.CODE)
-                .setScriptSource("echo Hello_" + uiPowerShellStep.getScriptSource())
-                .setScriptExecutionMode(null);
+        uiPowerShellStep.setStepId(null);
         new SetupYourBuildPage()
                 .open(projectResponse.getId());
         boolean isBuildStepCreated = new BuildStepsPage()
