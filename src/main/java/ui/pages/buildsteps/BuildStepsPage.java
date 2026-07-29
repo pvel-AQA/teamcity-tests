@@ -2,7 +2,6 @@ package ui.pages.buildsteps;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.enums.BuildStepsRunners;
 import lombok.Getter;
@@ -40,7 +39,7 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
     @SuppressWarnings("unchecked")
     protected <T extends BuildStepsPage> T selectRunner(BuildStepsRunners runner) {
         addBuildStepBtn.shouldBe(visible).click();
-        newBuildStepTitle.shouldHave(appear, Duration.ofSeconds(5));
+        newBuildStepTitle.shouldHave(appear);
         searchField.shouldBe(visible).sendKeys(runner.getDisplayName());
         searchResults.shouldHave(sizeGreaterThan(0));
         SelenideElement target = searchResults

@@ -5,7 +5,6 @@ import api.models.user.UserRequest;
 import api.steps.SuperUserSteps;
 import api.steps.UserSteps;
 import common.annotations.AuthUser;
-import lombok.Getter;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -13,7 +12,6 @@ import ui.pages.BasePage;
 
 public class AuthUserExtension implements BeforeEachCallback, AfterEachCallback {
 
-    @Getter
     private static final ThreadLocal<UserRequest> user = new ThreadLocal<>();
     private static final ThreadLocal<UserTokenResponse> token = new ThreadLocal<>();
 
