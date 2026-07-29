@@ -1,4 +1,4 @@
-package ui;
+package ui.base;
 
 import base.BaseTest;
 import com.codeborne.selenide.Configuration;
@@ -6,6 +6,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import common.configs.Config;
 import io.qameta.allure.Allure;
+import io.qameta.allure.model.Label;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,17 +16,12 @@ import java.util.Map;
 
 public class BaseUiTest extends BaseTest {
 
-    private static String browserName;
+    private String browser;
 
     @BeforeAll
     public static void setupSelenoid() {
-        browserName = System.getProperty("browser");
-        if (browserName == null || browserName.isEmpty()) {
-            Configuration.browser = Config.getProperty("browser");
-        }
         Configuration.remote = Config.getProperty("uiRemote");
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
-        Configuration.browser = browserName;
         Configuration.browserSize = Config.getProperty("browserSize");
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
@@ -35,8 +31,17 @@ public class BaseUiTest extends BaseTest {
     }
 
     @BeforeEach
-    public void addAllureLabels() {
-        Allure.label("browser", browserName);
+    public void setupBeforeEach() {
+        browser = System.getProperty("browser");
+        if (browser == null || browser.isBlank()) {
+            Configuration.browser = Config.getProperty("browser");
+        } else {
+            Configuration.browser = browser;
+        }
+
+        Allure.getLifecycle().updateTestCase(testResult -> {
+            testResult.getLabels().add(new Label().setName("browser").setValue(browser));
+        });
     }
 
     @AfterEach
