@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ui.base.BaseUiTest;
 import ui.elements.ProjectElement;
+import ui.enums.errors.ProjectValidationError;
 import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
 
@@ -60,8 +61,7 @@ public class CreateProjectTest extends BaseUiTest {
         new CreateProjectPage()
                 .open()
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
-                .getProjectIdError().shouldBe(Condition.visible)
-                .shouldHave(Condition.text(INVALID_PROJECT_ID.getErrorMsg()));
+                .checkProjectIDErrorMessageAppearsOnCreation(INVALID_PROJECT_ID);
 
         boolean projectExists = UserSteps.getAllProjects().getProjects().stream()
                 .anyMatch(project -> project.getId().equals(projectRequest.getId()));
@@ -77,8 +77,7 @@ public class CreateProjectTest extends BaseUiTest {
         new CreateProjectPage()
                 .open()
                 .createProject(projectRequest.getName(), projectRequest.getId(), projectRequest.getDescription())
-                .getProjectNameError().shouldBe(Condition.visible)
-                .shouldHave(Condition.text(PROJECT_NAME_CANNOT_BE_EMPTY.getErrorMsg()));
+                .checkProjectNameErrorMessageAppearsOnCreation(PROJECT_NAME_CANNOT_BE_EMPTY);
 
         boolean projectExists = UserSteps.getAllProjects().getProjects().stream()
                 .anyMatch(project -> project.getId().equals(projectRequest.getId()));
@@ -88,14 +87,13 @@ public class CreateProjectTest extends BaseUiTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void userCannotCreateProjectWithNameAlreadyExistsTest() {
+    public void userCannotCreateProjectWithAlreadyExistingNameTest() {
         var projectResponse = UserSteps.createProject();
 
         new CreateProjectPage()
                 .open()
                 .createProject(projectResponse.getName(), projectResponse.getId(), projectResponse.getDescription())
-                .getProjectNameError().shouldBe(Condition.visible)
-                .shouldHave(Condition.text(PROJECT_WITH_THIS_NAME_ALREADY_EXISTS.getErrorMsg()));
+                .checkProjectNameErrorMessageAppearsOnCreation(PROJECT_WITH_THIS_NAME_ALREADY_EXISTS);
 
         var listOfProjects = UserSteps.getAllProjects().getProjects().stream()
                 .filter(project -> project.getId().equals(projectResponse.getId())).toList();
@@ -105,14 +103,13 @@ public class CreateProjectTest extends BaseUiTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void userCannotCreateProjectWithIDAlreadyExistsTest() {
+    public void userCannotCreateProjectWithAlreadyExistingIDTest() {
         var projectResponse = UserSteps.createProject();
 
         new CreateProjectPage()
                 .open()
                 .createProject(TeamCityDataGenerator.generateString(), projectResponse.getId(), projectResponse.getDescription())
-                .getProjectIdError().shouldBe(Condition.visible)
-                .shouldHave(Condition.text(PROJECT_WITH_THIS_ID_ALREADY_EXIESTS.getErrorMsg()));
+                .checkProjectIDErrorMessageAppearsOnCreation(PROJECT_WITH_THIS_ID_ALREADY_EXIESTS);
 
         var listOfProjects = UserSteps.getAllProjects().getProjects().stream()
                 .filter(project -> project.getId().equals(projectResponse.getId())).toList();
