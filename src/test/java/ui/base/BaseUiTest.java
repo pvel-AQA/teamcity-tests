@@ -41,7 +41,6 @@ public class BaseUiTest extends BaseTest {
             Configuration.browser = browser;
         }
 
-        Allure.label("browser", browser);
         Allure.getLifecycle().updateTestCase(testResult -> {
             testResult.setName(testResult.getName() + " [" + browser + "]");
         });
