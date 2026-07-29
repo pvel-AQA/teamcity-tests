@@ -9,6 +9,9 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
 import ui.pages.AdminProjectsPage;
 
 import java.util.*;
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
 public class AdminProjectsTest extends BaseUiTest {
 
     @Test
-    //@ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
+    @ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesExactlyTheSameProjectsOnAdminPageAsApiReturnsTest() {
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
