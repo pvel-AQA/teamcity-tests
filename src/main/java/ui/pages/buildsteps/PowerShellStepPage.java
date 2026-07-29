@@ -7,8 +7,6 @@ import common.helpers.CodeMirrorHelper;
 import lombok.Getter;
 import ui.models.PowerShellUiModel;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -24,12 +22,17 @@ public class PowerShellStepPage extends BuildStepsPage {
     private final SelenideElement runStepWithinContainerFieldInput = $(Selectors.byId("plugin.docker.imageId"));
     private final SelenideElement codeMirrorFieldForCodeOption = $x("//div[@class='CodeMirror-scroll']");
 
+    @Override
+    public String url() {
+        return "";
+    }
+
     public PowerShellStepPage addBuildStep(PowerShellUiModel model) {
-        sendKeysIfNotNull(buildStepNameFieldInput, model.getStepName());
+        editStepNameField(model.getStepName());
         sendKeysIfNotNull(stepIdFieldInput, model.getStepId());
         setPowerShellOptionAndValue(model);
         sendKeysIfNotNull(runStepWithinContainerFieldInput, model.getRunStepWithinContainer());
-        saveBtn.shouldBe(visible).click();
+        saveBuildStep();
         return this;
     }
 
@@ -39,14 +42,24 @@ public class PowerShellStepPage extends BuildStepsPage {
             enterPowerShellScriptContent(model.getScriptSource());
         }
         if (model.getScript().equals(PowerShellOptions.FILE)) {
-            sendKeysIfNotNull(scriptFileFieldInput, model.getScriptFile());
+            sendKeysIfNotNull(scriptFileFieldInput, model.getScriptFile() + ".ps1");
         }
         return this;
     }
 
     public PowerShellStepPage enterPowerShellScriptContent(String value) {
-        codeMirrorFieldForCodeOption.shouldBe(visible, Duration.ofSeconds(5));
+        codeMirrorFieldForCodeOption.shouldBe(visible);
         CodeMirrorHelper.setValue(value);
+        return this;
+    }
+
+    public PowerShellStepPage saveBuildStep() {
+        saveBtn.shouldBe(visible).click();
+        return this;
+    }
+
+    public PowerShellStepPage editStepNameField(String stepName) {
+        sendKeysIfNotNull(buildStepNameFieldInput, stepName);
         return this;
     }
 
