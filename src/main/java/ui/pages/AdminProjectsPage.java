@@ -67,7 +67,6 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageRootProjectContentList.shouldBe(visible);
         restPageSearchByBuildNumberField.shouldBe(visible);
         createProjectLink.shouldBe(Condition.visible);
-        sleep(3000);
 
         return this;
     }
@@ -106,10 +105,8 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
 
     public AdminProjectsPage showArchivedProjects() {
         restPageShowArchivedLabel.shouldBe(visible).click();
-        sleep(3000);
         webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
         restPageRootProjectContentList.shouldBe(visible);
-        sleep(3000);
         return this;
     }
 
@@ -125,7 +122,6 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageFilterBtn.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(KEYWORD_URL_PARAMETER + keyword));
         restPageAllProjectsBlock.shouldBe(visible);
-        sleep(3000);
         return this;
     }
 
@@ -133,7 +129,6 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageResetFilterLink.shouldBe(visible).click();
         restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
         restPageRootProjectContentList.shouldBe(visible);
-        sleep(3000);
         return this;
     }
 
@@ -158,13 +153,11 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
 
     public AdminProjectsPage expandAllProjects() {
         restPageExpandAllBtn.shouldBe(visible).click();
-        sleep(3000);
         return this;
     }
 
     public AdminProjectsPage checkProjectIsVisible(String projectId, String projectName) {
         projectSettingsLink(projectId).shouldBe(visible, EXPAND_TIMEOUT).shouldHave(exactText(projectName));
-        sleep(3000);
         return this;
     }
 
