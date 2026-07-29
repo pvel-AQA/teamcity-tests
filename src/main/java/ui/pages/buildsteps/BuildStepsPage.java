@@ -6,6 +6,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.enums.BuildStepsRunners;
 import lombok.Getter;
+import org.assertj.core.api.Assertions;
 import ui.pages.BasePage;
 
 import java.time.Duration;
@@ -38,9 +39,9 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T extends BuildStepsPage> T selectRunner(BuildStepsRunners runner) {
+    public <T extends BuildStepsPage> T selectRunner(BuildStepsRunners runner) {
         addBuildStepBtn.shouldBe(visible).click();
-        newBuildStepTitle.shouldHave(appear, Duration.ofSeconds(5));
+        newBuildStepTitle.shouldHave(appear);
         searchField.shouldBe(visible).sendKeys(runner.getDisplayName());
         searchResults.shouldHave(sizeGreaterThan(0));
         SelenideElement target = searchResults
@@ -54,8 +55,11 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
         $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).shouldBe(visible).click();
     }
 
-    public boolean isBuildStepExists(String buildStepName) {
-        return $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).is(visible, Duration.ofSeconds(5));
+    public BuildStepsPage isBuildStepVisible(String buildStepName) {
+        Assertions.assertThat($x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).is(visible, Duration.ofSeconds(5)))
+                .isTrue()
+                .as("Created build step should be displayed");
+        return this;
     }
 
 }
