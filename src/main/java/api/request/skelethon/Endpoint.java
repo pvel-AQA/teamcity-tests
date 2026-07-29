@@ -37,6 +37,11 @@ public enum Endpoint {
             BaseModel.class,
             AllProjectsResponse.class
     ),
+    PROJECT_ARCHIVED(
+            "/projects/{projectLocator}/archived",
+            BaseModel.class,
+            BaseModel.class
+    ),
     USERS(
             "/users",
             UserRequest.class,
@@ -76,7 +81,6 @@ public enum Endpoint {
             "/agents/{agentLocator}/authorizedInfo",
             AuthorizeAgentRequest.class,
             AuthorizeAgentResponse.class
-
     ),
     BUILD_STEP_CREATE(
             "/buildTypes/{btLocator}/steps",

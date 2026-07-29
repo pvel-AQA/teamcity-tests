@@ -13,8 +13,10 @@ import api.models.build.BuildConfigurationRequest;
 import api.models.build.BuildConfigurationResponse;
 import api.models.build.BuildTypeStepsModel;
 import api.models.project.AllProjectsResponse;
+import api.models.project.ProjectLocator;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
+import api.models.project.SubProjectRequest;
 import api.models.user.UserRequest;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
@@ -52,6 +54,33 @@ public class UserSteps {
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsOk()
         ).post(projectRequest);
+    }
+
+    public static ProjectResponse createSubProject(String parentProjectId) {
+        ProjectRequest generated = RandomGenerator.generate(ProjectRequest.class);
+        SubProjectRequest subProject = SubProjectRequest.builder()
+                .id(generated.getId())
+                .name(generated.getName())
+                .parentProject(ProjectLocator.builder()
+                        .locator(LocatorType.ID.getPrefix() + parentProjectId)
+                        .build())
+                .build();
+
+        return new ValidatedCrudRequester<ProjectResponse>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.PROJECTS,
+                ResponseSpec.returnsOk()
+        ).post(subProject);
+    }
+
+    public static void setProjectArchived(String projectId, boolean archived) {
+        StepLogger.log("Set archived=%s for project %s".formatted(archived, projectId), () -> {
+            new CrudRequester(
+                    RequestSpec.withAuthExtensionUser(),
+                    Endpoint.PROJECT_ARCHIVED,
+                    ResponseSpec.returnsOk()
+            ).put(archived, LocatorType.ID.getPrefix() + projectId);
+        });
     }
 
     public static AllProjectsResponse getAllProjects() {

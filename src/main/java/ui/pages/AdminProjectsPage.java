@@ -2,24 +2,26 @@ package ui.pages;
 
 import com.codeborne.selenide.*;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 
 public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
 
     public static final String ADMIN_PROJECTS_URL_MARKER = "admin.html?item=projects";
     private static final String LOGIN_PAGE_MARKER = "login.html";
+    private static final String INCLUDE_ARCHIVED_URL_MARKER = "includeArchived=true";
     public static final String ROOT_PROJECT_ID = "_Root";
     private static final String PROJECTS_TITLE = "Projects";
     private static final Pattern ACTIVE_PROJECTS_COUNT = Pattern.compile("(\\d+)\\s+active projects");
+    private static final Pattern PROJECT_DEPTH = Pattern.compile("depth-(\\d+)");
+    private static final Duration EXPAND_TIMEOUT = Duration.ofSeconds(20);
 
     private final SelenideElement createProjectLink = $("p.createProject a[href*='/projects/create']");
     private final SelenideElement accessDeniedMessage = $(Selectors.byXpath(
@@ -33,9 +35,10 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     private final SelenideElement restPageProjectsDescription = $("div.descr");
     //private final SelenideElement restPageKeywordSearchField = $();
     //private final SelenideElement restPageFilterBtn = $();
-    //private final SelenideElement restPageShowArchivedCheckBox = $();
-    //private final SelenideElement restPageExpandAllBtn = $();
-    //private final SelenideElement restPageCollapseAllBtn = $();
+    private final SelenideElement restPageShowArchivedCheckBox = $("#includeArchived");
+    private final SelenideElement restPageShowArchivedLabel = $("label[for='includeArchived']");
+    private final SelenideElement restPageExpandAllBtn = $("a[title='Expand All']");
+    private final SelenideElement restPageCollapseAllBtn = $("a[title='Collapse All']");
     //private final SelenideElement restPageRootProjectHeader = $();
     private final SelenideElement restPageRootProjectContentList = $("#adminOverview");
     private final ElementsCollection projectSettingsLinks =
@@ -55,6 +58,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageRootProjectContentList.shouldBe(visible);
         restPageSearchByBuildNumberField.shouldBe(visible);
         createProjectLink.shouldBe(Condition.visible);
+        sleep(3000);
 
         return this;
     }
@@ -89,6 +93,50 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
 
     public int getDisplayedProjectsCount() {
         return getDisplayedProjects().size();
+    }
+
+    public AdminProjectsPage showArchivedProjects() {
+        restPageShowArchivedLabel.shouldBe(visible).click();
+        sleep(3000);
+        webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
+        restPageRootProjectContentList.shouldBe(visible);
+        sleep(3000);
+        return this;
+    }
+
+    public AdminProjectsPage expandAllProjects() {
+        restPageExpandAllBtn.shouldBe(visible).click();
+        sleep(3000);
+        return this;
+    }
+
+    public AdminProjectsPage checkProjectIsVisible(String projectId, String projectName) {
+        projectSettingsLink(projectId).shouldBe(visible, EXPAND_TIMEOUT).shouldHave(exactText(projectName));
+        sleep(3000);
+        return this;
+    }
+
+    public boolean isProjectMarkedArchived(String projectId) {
+        return projectNameCell(projectId).$("span.archived_project").exists();
+    }
+
+    public int getProjectDepth(String projectId) {
+        String cssClasses = projectNameCell(projectId).shouldBe(visible).getAttribute("class");
+
+        Matcher matcher = PROJECT_DEPTH.matcher(cssClasses == null ? "" : cssClasses);
+        if (!matcher.find()) {
+            throw new IllegalStateException(
+                    "No depth-N class on the row of project " + projectId + ": " + cssClasses);
+        }
+        return Integer.parseInt(matcher.group(1));
+    }
+
+    private SelenideElement projectSettingsLink(String projectId) {
+        return $("#adminOverview a[href$='projectId=" + projectId + "']");
+    }
+
+    private SelenideElement projectNameCell(String projectId) {
+        return projectSettingsLink(projectId).ancestor(".project_name");
     }
 
     private String projectIdFrom(String settingsHref) {

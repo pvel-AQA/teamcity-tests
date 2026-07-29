@@ -74,6 +74,53 @@ public class AdminProjectsTest extends BaseUiTest {
                 .containsAllEntriesOf(expectedProjects);
     }
 
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
+    void adminSeesArchivedProjectOnAdminPageAfterEnablingShowArchivedTest() {
+        ProjectResponse archivedProject =
+                UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
+        UserSteps.setProjectArchived(archivedProject.getId(), true);
+
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage()
+                .checkHeaderIsVisible();
+
+        attachProjects("UI projects before 'Show archived'", adminProjectsPage.getDisplayedProjects());
+
+        softly.assertThat(adminProjectsPage.getDisplayedProjects()).doesNotContainKey(archivedProject.getId());
+
+        adminProjectsPage.showArchivedProjects();
+
+        attachProjects("UI projects after 'Show archived'", adminProjectsPage.getDisplayedProjects());
+
+        softly.assertThat(adminProjectsPage.getDisplayedProjects())
+                .containsEntry(archivedProject.getId(), archivedProject.getName());
+        softly.assertThat(adminProjectsPage.isProjectMarkedArchived(archivedProject.getId())).isTrue();
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
+    void adminSeesSubProjectNestedUnderItsParentOnAdminPageTest() {
+        ProjectResponse parentProject =
+                UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
+        ProjectResponse subProject = UserSteps.createSubProject(parentProject.getId());
+
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage()
+                .checkHeaderIsVisible()
+                .expandAllProjects()
+                .checkProjectIsVisible(parentProject.getId(), parentProject.getName())
+                .checkProjectIsVisible(subProject.getId(), subProject.getName());
+
+        attachProjects("Projects created by this test", Map.of(
+                parentProject.getId(), parentProject.getName(),
+                subProject.getId(), subProject.getName()));
+
+        softly.assertThat(subProject.getParentProjectId()).isEqualTo(parentProject.getId());
+        softly.assertThat(adminProjectsPage.getProjectDepth(subProject.getId()))
+                .isEqualTo(adminProjectsPage.getProjectDepth(parentProject.getId()) + 1);
+    }
+
     private static void attachProjects(String name, Map<String, String> projects) {
         String body = new TreeMap<>(projects).entrySet().stream()
                 .map(project -> project.getKey() + " = " + project.getValue())
