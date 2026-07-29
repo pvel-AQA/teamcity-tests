@@ -56,50 +56,6 @@ jobs:
         if: always()
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
 
-      - name: Upload Allure results for ${{ matrix.browser }}
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results-${{ matrix.browser }}
-          path: target/allure-results
-          retention-days: 30
-
-      - name: Upload Swagger Coverage results for ${{ matrix.browser }}
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: swagger-coverage-${{ matrix.browser }}
-          path: target/swagger-coverage-output
-          retention-days: 30
-
-      - name: Clean up services
-        if: always()
-        run: cd infra/docker_compose && docker compose -p teamcity down
-
-  generate_report:
-    name: Generate and publish combined report
-    needs: [ run_tests ]
-    runs-on: ubuntu-latest
-    if: always()
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Download Allure results from all browsers
-        uses: actions/download-artifact@v4
-        with:
-          path: all-allure-results
-          pattern: allure-results-*
-          merge-multiple: true
-
-      - name: Download Swagger Coverage from all browsers
-        uses: actions/download-artifact@v4
-        with:
-          path: all-swagger-coverage
-          pattern: swagger-coverage-*
-          merge-multiple: true
-
       - name: Load test report history
         uses: actions/checkout@v7
         if: always()
@@ -107,86 +63,17 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Build Allure test report
+      - name: Build test report
         uses: simple-elf/allure-report-action@v1.15
         if: always()
         with:
           gh_pages: gh-pages
-          allure_results: all-allure-results
+          allure_results: target/allure-results
           allure_history: allure-history
 
       - name: Build Swagger Coverage report
         if: always()
-        run: |
-          # Копируем swagger-coverage-report.html в директорию Allure
-          sudo cp all-swagger-coverage/swagger-coverage-report.html allure-history/${{ github.run_number }}/swagger-coverage-report.html
-
-      - name: Create browser summary page
-        if: always()
-        run: |
-          mkdir -p allure-history/${{ github.run_number }}
-          chmod 777 allure-history/${{ github.run_number }}
-          cat > allure-history/${{ github.run_number }}/browsers-summary.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>Cross-Browser Test Results</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
-              h1 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-              .summary { display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
-              .browser-card { 
-                border: 1px solid #ddd; 
-                border-radius: 8px; 
-                padding: 20px; 
-                flex: 1;
-                min-width: 200px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                background: #f9f9f9;
-              }
-              .browser-card h3 { margin-top: 0; color: #555; }
-              .pass { color: #28a745; font-weight: bold; }
-              .fail { color: #dc3545; font-weight: bold; }
-              .reports { margin-top: 30px; padding: 20px; background: #f0f0f0; border-radius: 8px; }
-              .reports a { display: inline-block; margin: 5px 10px 5px 0; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
-              .reports a:hover { background: #0056b3; }
-            </style>
-          </head>
-          <body>
-            <h1>🌐 Cross-Browser Test Results</h1>
-            <p><strong>Run #${{ github.run_number }}</strong> | <strong>Branch:</strong> ${{ github.ref_name }} | <strong>Commit:</strong> ${{ github.sha }}</p>
-          
-            <div class="summary">
-              <div class="browser-card">
-                <h3>🌐 Chrome</h3>
-                <p>Status: <span class="pass">✅ Passed</span></p>
-                <p><a href="allure/${{ github.run_number }}/index.html?browser=chrome">View detailed report</a></p>
-              </div>
-              <div class="browser-card">
-                <h3>🌐 Firefox</h3>
-                <p>Status: <span class="pass">✅ Passed</span></p>
-                <p><a href="allure/${{ github.run_number }}/index.html?browser=firefox">View detailed report</a></p>
-              </div>
-              <div class="browser-card">
-                <h3>🌐 Edge</h3>
-                <p>Status: <span class="pass">✅ Passed</span></p>
-                <p><a href="allure/${{ github.run_number }}/index.html?browser=edge">View detailed report</a></p>
-              </div>
-            </div>
-          
-            <div class="reports">
-              <h3>📊 Additional Reports</h3>
-              <a href="swagger-coverage-report.html">📝 Swagger Coverage Report</a>
-              <a href="allure/${{ github.run_number }}/index.html">📊 Full Allure Report</a>
-              <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">🔍 View Run Logs</a>
-            </div>
-          
-            <p style="margin-top: 30px; color: #888; font-size: 12px;">
-              Generated by GitHub Actions on $(date)
-            </p>
-          </body>
-          </html>
-          EOF
+        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
@@ -195,27 +82,17 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          keep_files: true
+
+      - name: Clean up services
+        if: always()
+        run: cd infra/docker_compose && docker compose -p teamcity down
 
   notify:
     name: Telegram notification
-    needs: [ run_tests, generate_report ]
+    needs: [ run_tests ]
     runs-on: ubuntu-latest
     if: always()
-
     steps:
-      - name: Prepare status message
-        id: status
-        run: |
-          # Check status for each browser
-          if [[ "${{ needs.run_tests.result }}" == "success" ]] && [[ "${{ needs.generate_report.result }}" == "success" ]]; then
-            echo "status=✅ Passed" >> $GITHUB_OUTPUT
-            echo "emoji=✅" >> $GITHUB_OUTPUT
-          else
-            echo "status=❌ Failed" >> $GITHUB_OUTPUT
-            echo "emoji=❌" >> $GITHUB_OUTPUT
-          fi
-
       - name: Send Telegram notification
         uses: appleboy/telegram-action@v1.0.1
         with:
@@ -223,18 +100,11 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>${{ steps.status.outputs.emoji }} ${{ steps.status.outputs.status }}</b> — Teamcity cross-browser tests
+            <b>${{ needs.run_tests.result == 'success' && '✅ Passed' || '❌ Failed' }}</b> — Teamcity tests
             Branch: <code>${{ github.ref_name }}</code>
             Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
-            
-            <b>🌐 Browsers:</b>
-            Chrome: ${{ needs.run_tests.result == 'success' && '✅' || '❌' }}
-            Firefox: ${{ needs.run_tests.result == 'success' && '✅' || '❌' }}
-            Edge: ${{ needs.run_tests.result == 'success' && '✅' || '❌' }}
-            
+
             <b>📊 Reports:</b>
-            <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">Allure Report</a>
-            <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/browsers-summary.html">Browser Summary</a>
-            <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
-            
+            Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
+            Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
