@@ -1,0 +1,208 @@
+<html lang="en" class=" ua-js"><head>
+        <title>TeamCity</title>
+
+        
+
+        
+
+
+
+
+
+
+
+
+        
+
+
+
+<link rel="Shortcut Icon" href="/img/icons/favicon.ico?v10" type="image/x-icon" sizes="16x16 32x32">
+<meta charset="UTF-8">
+
+<meta name="format-detection" content="telephone=no">
+
+<meta name="application-name" content="TeamCity ()">
+<meta name="description" content="Powerful Continuous Integration and Build Server">
+<meta name="viewport" content="width=1000">
+
+<link rel="apple-touch-icon" sizes="57x57" href="/img/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/img/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/img/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/img/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/img/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/img/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/img/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png">
+
+<meta name="msapplication-TileColor" content="#000000">
+
+<meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="/img/icons/mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="/img/icons/mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="/img/icons/mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="/img/icons/mstile-310x310.png">
+<meta name="tc-csrf-token" content="9de1e0f9-a61a-4cb7-9065-43f050ed7843">
+<meta name="robots" content="noindex">
+
+
+        
+
+
+
+<script type="text/javascript" src="/res/-6060474511570324796.js?v=1785334547289"></script>
+
+
+
+        
+
+
+
+
+<style id="19fae3b9fee" type="text/css">
+    @import "/res/459560978433157637.css?v=1785334547289";
+  
+</style>
+
+
+
+
+
+<script type="text/javascript" src="/res/5833290380196265600.js?v=1785334547289"></script>
+
+
+<script type="text/javascript">
+  window.$j = jQuery.noConflict();
+</script>
+
+
+
+
+<script type="text/javascript" src="/res/-5410233700357870077.js?v=1785334547289"></script>
+
+
+        <script>
+          (function() {
+            const Theme = {DARK: 'dark', LIGHT: 'light'}
+            const storageKey = 'tc:lastTheme'
+            const darkClass = 'ring-ui-theme-dark'
+            const getStored = () => {
+              try {
+                return window.localStorage.getItem(storageKey)
+              } catch {
+                return null
+              }
+            }
+            const prefersDark = () => {
+              try {
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              } catch {
+                return false
+              }
+            }
+            const stored = getStored()
+            const theme = stored === Theme.DARK || stored === Theme.LIGHT ? stored : prefersDark() ? Theme.DARK : Theme.LIGHT
+            document.documentElement.classList.toggle(darkClass, theme === Theme.DARK)
+          })();
+        </script>
+        
+
+
+<style id="19fae3b9fef" type="text/css">
+    @import "/res/-5770894604672683989.css?v=1785334547289";
+  
+</style>
+
+
+        
+
+
+<script type="text/javascript" src="/res/-3603535750726916660.js?v=1785334547289"></script>
+
+
+        <script type="text/javascript">
+  var base_uri=window.location.protocol+"//"+window.location.host+"";
+</script>
+
+        
+
+        
+
+
+
+<script type="text/javascript" src="/res/-4735258447288317237.js?v=1785334547289"></script>
+
+        
+
+
+
+<script type="text/javascript" src="/res/-4985008087834695917.js?v=1785334547289"></script>
+
+
+
+        
+<script type="text/javascript">
+  var internalProps = [];
+
+  internalProps['teamcity.ui.experimental'] = 'enableDefault';
+  internalProps['teamcity.ui.useServiceWorkers'] =  true;
+
+  internalProps['teamcity.cloud.enabled'] =  false;
+
+  internalProps['teamcity.ui.dormOnly.enabled'] =  false;
+
+  internalProps['teamcity.ui.websocket.connectTimeout'] =  3000;
+  internalProps['teamcity.ui.webSocket.logToConsole'] =  false;
+
+  internalProps['teamcity.ui.pollInterval'] = 6;
+  internalProps['teamcity.ui.serverAvailability.pollInterval'] = 3;
+
+  internalProps['teamcity.ui.events.pollInterval'] = 6;
+  internalProps['teamcity.ui.systemProblems.pollInterval'] = 40;
+  internalProps['teamcity.ui.problemsSummary.pollInterval'] = 8;
+  internalProps['teamcity.ui.buildQueueEstimates.pollInterval'] = 10;
+  internalProps['teamcity.ui.subscriptions.debounceInterval'] = 3000;
+
+  // Doesn't use BS.SubscriptionManager and standard subscription mechanism
+  internalProps['teamcity.ui.cleanupNotificatorProgress.pollInterval'] = 6;
+
+  internalProps['teamcity.ui.serverRestart.warningDelay'] = 120;
+  internalProps['teamcity.ui.serverUpdate.warningDelay'] = 120;
+
+  internalProps['teamcity.ui.editSettings.showResolveValueIcon'] = false;
+
+  internalProps['teamcity.internal.buildChangesPopupLimit'] = '100';
+
+  internalProps['teamcity.internal.agent.distribution.jdk.bundle.enabled'] = true; // disabled in cloud, see TCCI-4497 Enable "Agent Distributions" page in Cloud
+
+  internalProps['teamcity.development.mode'] = false;
+
+  internalProps['teamcity.ui.showObligatoryHints'] = false;
+
+  internalProps['teamcity.ui.showLicenseAgreementToAllUsers'] = true;
+
+  internalProps['teamcity.ui.showDownloadAllArtifactsLink'] = true; // disabled in cloud
+
+  internalProps['teamcity.ui.newInvestigationsPage'] = false;
+
+  internalProps['teamcity.ui.customWelcomeTitle'] = ''; // overridden in cloud
+
+  internalProps['teamcity.ui.sakuraInvestigationsTab'] = false;
+
+  internalProps['teamcity.ui.sakuraProblemsTab'] = true;
+
+  internalProps['teamcity.ui.requestPoolSize'] = 5;
+
+  internalProps['teamcity.ui.newAgentCompatibleConfigurationsTab'] = false;
+
+  internalProps['teamcity.ui.agentPoolsFavoriteLimit'] = 30;
+
+  internalProps['teamcity.overviewPage.buildTypes.limit'] = 200;
+
+  internalProps['teamcity.ui.agentPreviewsUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.agentDataUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.statuses.throttleInterval'] = -1;
+
+  internalProps['teamcity.</script></head></html>
