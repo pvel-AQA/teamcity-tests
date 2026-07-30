@@ -12,17 +12,15 @@ import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
-import base.BaseTest;
 import common.annotations.AuthAgentAfterTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Isolated;
+import ui.base.SingleThreadBaseTest;
 
-@Isolated
-public class AgentTest extends BaseTest {
+public class AgentTest extends SingleThreadBaseTest {
 
     @Disabled("flacky")
     @Test
