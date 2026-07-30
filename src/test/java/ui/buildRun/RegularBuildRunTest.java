@@ -4,7 +4,6 @@ import api.comparison.ModelAssertions;
 import api.enums.build.BuildState;
 import api.enums.build.BuildStatus;
 import api.enums.build.BuildStepCommand;
-import api.models.build.BuildConfigurationResponse;
 import api.steps.UserSteps;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;

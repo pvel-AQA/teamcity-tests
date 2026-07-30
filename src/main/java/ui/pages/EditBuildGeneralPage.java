@@ -5,11 +5,13 @@ import com.codeborne.selenide.SelenideElement;
 import ui.enums.successmessages.UISuccessMessage;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class EditBuildGeneralPage extends EditBuildHeaderPage {
     private final SelenideElement buildConfigNameTextbox = $("#name");
     private final SelenideElement buildConfigurationIdTextbox = $("#externalId");
     private final SelenideElement saveButton = $(".saveButtonsBlock input[value='Save']");
+    private final SelenideElement buildConfigAdminActionsMenuButton = $("[data-hint-container-id='build-configuration-admin-actions']");
 
     public String getBuildConfigNameText() {
         buildConfigNameTextbox.shouldBe(Condition.visible);
@@ -32,6 +34,20 @@ public class EditBuildGeneralPage extends EditBuildHeaderPage {
     public EditBuildGeneralPage clickSaveButton() {
         saveButton.shouldBe(Condition.visible);
         saveButton.click();
+
+        return this;
+    }
+
+    public EditBuildGeneralPage clickBuildConfigAdminActionsMenuButton() {
+        buildConfigAdminActionsMenuButton.shouldBe(Condition.visible);
+        buildConfigAdminActionsMenuButton.click();
+
+        return this;
+    }
+
+    public EditBuildGeneralPage clickDeleteBuildConfigButton() {
+        $x("//li[@class='menuItem']//a[text()='Delete...']").shouldBe(Condition.visible)
+                .click();
 
         return this;
     }

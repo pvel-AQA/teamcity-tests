@@ -6,6 +6,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import ui.enums.errors.BuildConfigErrorMessage;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -17,7 +18,6 @@ public class SetupYourBuildPage extends BasePage<SetupYourBuildPage> {
     private final SelenideElement showMoreButton = $(Selectors.byXpath("//button[text()='Show more']"));
     private final SelenideElement buildConfigurationTypeDropdown = $(Selectors.byXpath("//label[text()='Build configuration type']/../div[@data-test='ring-select']"));
     private final SelenideElement createButton = $(Selectors.byXpath("//button[@type='submit']"));
-
 
 
     @Override
@@ -85,6 +85,15 @@ public class SetupYourBuildPage extends BasePage<SetupYourBuildPage> {
     public SetupYourBuildPage clickCreateButton() {
         createButton.shouldBe(Condition.visible);
         createButton.click();
+
+        return this;
+    }
+
+    public SetupYourBuildPage checkErrorNotificationAppearsOnCreationWithExistingName(
+            BuildConfigErrorMessage buildConfigErrorMessage, String buildConfigName, String projectName) {
+        $("[data-test='alert-container']").shouldBe(Condition.visible)
+                .shouldHave(Condition.text(
+                        buildConfigErrorMessage.getMessage().formatted(buildConfigName, projectName)));
 
         return this;
     }

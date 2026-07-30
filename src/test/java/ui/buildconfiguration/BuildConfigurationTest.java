@@ -12,14 +12,14 @@ import common.enums.UserRoles;
 import common.helpers.StepLogger;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ui.BaseUiTest;
+import ui.base.BaseUiTest;
+import ui.enums.alerts.BuildConfigAlert;
+import ui.enums.errors.BuildConfigErrorMessage;
 import ui.enums.successmessages.UISuccessMessage;
-import ui.pages.EditBuildGeneralPage;
-import ui.pages.EditBuildTypeVcsRootsPage;
-import ui.pages.ProjectsPage;
-import ui.pages.SetupYourBuildPage;
+import ui.pages.*;
 
 public class BuildConfigurationTest extends BaseUiTest {
+    private static final int EXPECTED_NUMBER_OF_BUILD_CONFIGS_ONE = 1;
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
@@ -45,7 +45,7 @@ public class BuildConfigurationTest extends BaseUiTest {
 
         var listOfBuildConfigs = UserSteps.getBuilds().getBuildType().stream()
                 .filter(build -> build.getId().equals(buildConfigIdText)).toList();
-        Assertions.assertThat(listOfBuildConfigs).hasSize(1);
+        Assertions.assertThat(listOfBuildConfigs).hasSize(EXPECTED_NUMBER_OF_BUILD_CONFIGS_ONE);
         var buildConfigApiResponse = listOfBuildConfigs.getFirst();
 
         softly.assertThat(buildConfigurationRequest.getName()).isEqualTo(configBuildName);
@@ -86,7 +86,7 @@ public class BuildConfigurationTest extends BaseUiTest {
                     var listOfBuildConfigs = UserSteps.getBuilds().getBuildType().stream()
                             .filter(build -> build.getId().equals(buildConfigIdText)).toList();
 
-                    Assertions.assertThat(listOfBuildConfigs).hasSize(1);
+                    Assertions.assertThat(listOfBuildConfigs).hasSize(EXPECTED_NUMBER_OF_BUILD_CONFIGS_ONE);
                     return listOfBuildConfigs.getFirst();
                 });
 
@@ -124,5 +124,54 @@ public class BuildConfigurationTest extends BaseUiTest {
 
         softly.assertThat(buildConfigurationResponse.getName()).isEqualTo(buildConfigNameUIText);
         softly.assertThat(buildConfigurationResponse.getId()).isEqualTo(buildConfigIdUIText);
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
+    public void buildConfigurationCanBeDeletedTest() {
+        var createdBuildConfiguration = UserSteps.createBuildConfiguration();
+
+        new ProjectsPage().open()
+                .getProjectsSideBar()
+                .expandProjectWithProjectIdIfRequired(createdBuildConfiguration.getProjectId())
+                .clickBuildConfigurationWithBuildConfigId(createdBuildConfiguration.getId())
+                .clickSettingsButton()
+                .clickBuildConfigAdminActionsMenuButton()
+                .clickDeleteBuildConfigButton()
+
+                .checkAlertMessageAndAccept(BuildConfigAlert.DELETE_BUILD_CONFIG
+                        .addBuildconfigNameToFormattedString(createdBuildConfiguration.getName()))
+
+                .getPage(EditProjectPage.class)
+                .checkSuccessMessageAppearsOnBuildConfigDeletion(
+                        UISuccessMessage.BUILD_CONFIGURATION_DELETED, createdBuildConfiguration.getName());
+
+        var buildConfigurationResponse = UserSteps.getBuilds().getBuildType().stream()
+                .filter(build -> build.getId().equals(createdBuildConfiguration.getId()))
+                .toList();
+
+        Assertions.assertThat(buildConfigurationResponse.size()).isZero();
+    }
+
+    @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
+    public void buildConfigurationCanNotBeCreatedWithAlreadyExistingNameTest() {
+        var createdBuildConfiguration = UserSteps.createBuildConfiguration();
+
+        new SetupYourBuildPage().open(createdBuildConfiguration.getProjectId())
+                .clickBuildConfigurationButton()
+                .selectOptionFromBuildConfigurationDropdown(BuildConfigDropdown.WITHOUT_REPOSITORY)
+                .populateNameTextbox(createdBuildConfiguration.getName())
+                .clickCreateButton()
+
+                .checkErrorNotificationAppearsOnCreationWithExistingName(
+                        BuildConfigErrorMessage.BUILD_CONFIG_ALREADY_EXISTS,
+                        createdBuildConfiguration.getName(), createdBuildConfiguration.getProjectName());
+
+        var buildConfigurationResponse = UserSteps.getBuilds().getBuildType().stream()
+                .filter(build -> build.getName().equals(createdBuildConfiguration.getName()))
+                .toList();
+
+        Assertions.assertThat(buildConfigurationResponse.size()).isEqualTo(EXPECTED_NUMBER_OF_BUILD_CONFIGS_ONE);
     }
 }
