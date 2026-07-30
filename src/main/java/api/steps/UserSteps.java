@@ -57,11 +57,20 @@ public class UserSteps {
         ).post(projectRequest);
     }
 
+    public static ProjectResponse createProjectWithName(String name) {
+        ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
+        projectRequest.setName(name);
+        return createProjectWithExtension(projectRequest);
+    }
+
     public static ProjectResponse createSubProject(String parentProjectId) {
-        ProjectRequest generated = RandomGenerator.generate(ProjectRequest.class);
+        return createSubProject(parentProjectId, RandomGenerator.generate(ProjectRequest.class).getName());
+    }
+
+    public static ProjectResponse createSubProject(String parentProjectId, String name) {
         SubProjectRequest subProject = SubProjectRequest.builder()
-                .id(generated.getId())
-                .name(generated.getName())
+                .id(RandomGenerator.generate(ProjectRequest.class).getId())
+                .name(name)
                 .parentProject(ProjectLocator.builder()
                         .locator(LocatorType.ID.getPrefix() + parentProjectId)
                         .build())
@@ -72,6 +81,12 @@ public class UserSteps {
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsOk()
         ).post(subProject);
+    }
+
+    public static ProjectResponse createArchivedProjectWithName(String name) {
+        ProjectResponse project = createProjectWithName(name);
+        setProjectArchived(project.getId(), true);
+        return project;
     }
 
     public static void setProjectArchived(String projectId, boolean archived) {

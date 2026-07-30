@@ -103,6 +103,38 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         return getDisplayedProjects().size();
     }
 
+    public AdminProjectsPage checkFilterIsAvailable() {
+        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
+        restPageFilterBtn.shouldBe(visible);
+        restPageFilterHint.shouldBe(visible).shouldHave(Condition.text(FILTER_HINT));
+        restPageShowArchivedLabel.shouldBe(visible);
+        return this;
+    }
+
+    public AdminProjectsPage filterByKeyword(String keyword) {
+        restPageKeywordSearchField.shouldBe(visible).setValue(keyword);
+        restPageFilterBtn.shouldBe(visible).click();
+        webdriver().shouldHave(urlContaining(KEYWORD_URL_PARAMETER + keyword));
+        return this;
+    }
+
+    public String getFilterKeyword() {
+        return restPageKeywordSearchField.shouldBe(visible).getValue();
+    }
+
+    public AdminProjectsPage checkNothingMatchesTheFilter() {
+        restPageAllProjectsBlock.shouldBe(visible).shouldHave(Condition.text(NO_MATCHES_MESSAGE));
+        restPageRootProjectContentList.shouldNot(exist);
+        return this;
+    }
+
+    public AdminProjectsPage resetFilter() {
+        restPageResetFilterLink.shouldBe(visible).click();
+        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
+        restPageRootProjectContentList.shouldBe(visible);
+        return this;
+    }
+
     public AdminProjectsPage showArchivedProjects() {
         restPageShowArchivedLabel.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
