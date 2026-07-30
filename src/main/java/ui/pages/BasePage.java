@@ -6,6 +6,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import ui.elements.BaseElement;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
@@ -42,7 +43,7 @@ public abstract class BasePage<T extends BasePage> {
 
     public void sendKeysIfNotNull(SelenideElement element, String value) {
         if (value != null) {
-            element.shouldBe(visible).sendKeys(value);
+            element.shouldBe(visible, Duration.ofSeconds(10)).sendKeys(value);
         }
     }
 }
