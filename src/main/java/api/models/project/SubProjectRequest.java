@@ -17,5 +17,4 @@ public class SubProjectRequest extends BaseModel {
     private String id;
     private String name;
     private ProjectLocator parentProject;
-
 }
