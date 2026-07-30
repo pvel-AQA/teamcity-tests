@@ -1,4 +1,4 @@
-package api.enums.build;
+package common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,11 @@ public enum BuildStatus {
     FAILURE("FAILURE"),
     ERROR("ERROR"),
     UNKNOWN("UNKNOWN"),
-    RUNNING("RUNNING");
+    FAILED("FAILED"),//for ui
+    RUNNING("RUNNING"),//for ui
+    CANCELED("CANCELED"),//for ui
+    BUILD_QUEUE_WAS_PAUSED("Build queue was paused"),//for ui
+    IN_QUEUE("In queue");//for ui
 
     @JsonValue
     private final String value;

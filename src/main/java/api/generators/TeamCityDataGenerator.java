@@ -1,11 +1,9 @@
 package api.generators;
 
-import api.enums.build.BuildStepCommand;
+import common.enums.BuildStepCommand;
 import api.models.build.*;
 import api.models.project.ProjectResponse;
 import api.models.project.PropertyItem;
-import api.models.user.PropertiesContainer;
-import api.models.user.Property;
 import api.steps.UserSteps;
 
 import java.util.List;
