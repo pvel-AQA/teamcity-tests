@@ -13,6 +13,8 @@ import common.enums.UserRoles;
 import common.helpers.EntityStorage;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
+import ui.pages.CreateProjectPage;
+import ui.pages.EditProjectPage;
 import ui.pages.QueuePage;
 import ui.pages.EditBuildGeneralPage;
 
@@ -51,7 +53,9 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void runningBuildTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
-        var buildRunId = new EditBuildGeneralPage()
+        var buildRunId = new CreateProjectPage()
+                .open()
+                .getPage(EditBuildGeneralPage.class)
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(RUNNING)
