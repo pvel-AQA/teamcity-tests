@@ -4,13 +4,12 @@ import api.comparison.ModelAssertions;
 import api.enums.build.BuildState;
 import api.enums.build.BuildStatus;
 import api.enums.build.BuildStepCommand;
-import api.models.build.BuildConfigurationResponse;
 import api.steps.UserSteps;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
-import ui.pages.EditBuildConfigurationPage;
+import ui.pages.EditBuildGeneralPage;
 
 import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 
@@ -21,7 +20,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void buildRunTest() {
         var buildConfigResponse = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
-        var buildRunId = new EditBuildConfigurationPage()
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfigResponse.getId())
                 .runBuild()
                 .checkIsStatus(BuildStatus.RUNNING)

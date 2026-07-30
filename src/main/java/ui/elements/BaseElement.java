@@ -1,8 +1,10 @@
 package ui.elements;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
+import ui.pages.BasePage;
 
 public abstract class BaseElement {
     protected final SelenideElement element;
@@ -18,4 +20,8 @@ public abstract class BaseElement {
     protected ElementsCollection findAll(By selector) {return element.findAll(selector);}
 
     protected ElementsCollection findAll(String cssSelector) {return element.findAll(cssSelector);}
+
+    public <T extends BasePage> T getPage(Class<T> pageClass) {
+        return Selenide.page(pageClass);
+    }
 }
