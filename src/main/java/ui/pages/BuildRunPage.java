@@ -17,11 +17,10 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     private final SelenideElement buildStatusBadge = $(Selectors.byXpath("//div[contains(@class, 'StatusBadge-module__status')]"));
     private final SelenideElement timelineButton = $(Selectors.byAttribute("data-hint-container-id", "buildlog-timeline-button"));
     private final SelenideElement runningStepText = $(Selectors.byXpath("//span[contains(@class, 'RunningStep-module__wrapper')]"));
-    private final SelenideElement stopBuildButton = $(Selectors.byAttribute("title","Stop build..."));
-    private final SelenideElement confirmStopButton = $(Selectors.byAttribute("value","Stop"));
+    private final SelenideElement stopBuildButton = $(Selectors.byAttribute("title", "Stop build..."));
+    private final SelenideElement confirmStopButton = $(Selectors.byAttribute("value", "Stop"));
     private final SelenideElement timelineStatus = $(Selectors.byXpath("//div[contains(@class, 'BuildLogTimeline-module__timeline')]"));
     private final SelenideElement buildLogMessages = $(Selectors.byXpath("//div[contains(@class, 'BuildLogRunningMessages-module')]"));
-
 
 
     @Override
@@ -29,43 +28,9 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         return "/buildConfiguration/%s/%s";
     }
 
-    public BuildRunPage waitUntilStatusBecomes(BuildStatus buildStatus) {
-        RetryUtils.retry(
-                "Wait until status of Build Run is correct",
-                buildStatusHeader::getText,
-                value -> value.equalsIgnoreCase(buildStatus.getValue()),
-                5,
-                5000
-        );
-        return this;
-    }
 
     public BuildRunPage checkBuildStatusHeaderIs(BuildStatus buildStatus) {
         buildStatusHeader.shouldBe(Condition.visible).shouldHave(Condition.text(buildStatus.getValue()));
-        return this;
-    }
-
-    public BuildRunPage waitUntilErrorStatusBecomes(BuildStepCommand command) {
-        String expectedRegex = command.getUiStatusText() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
-
-        RetryUtils.retry(
-                "Wait until status of Build Run is failed",
-                () -> buildStatusHeader.getText().trim(),
-                value -> value.matches(expectedRegex),
-                5,
-                5000
-        );
-        return this;
-    }
-
-    public BuildRunPage checkStatusBadgeIs(BuildStatus buildStatus) {
-        RetryUtils.retry(
-                "Wait until status of Build Run is correct",
-                buildStatusBadge::getText,
-                value -> value.equalsIgnoreCase(buildStatus.getValue()),
-                5,
-                5000
-        );
         return this;
     }
 
@@ -92,6 +57,44 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
 
+    public BuildRunPage waitUntilStatusBecomes(BuildStatus buildStatus) {
+        return checkStatus(buildStatus, buildStatusHeader);
+    }
+
+    public BuildRunPage checkStatusBadgeIs(BuildStatus buildStatus) {
+        return checkStatus(buildStatus, buildStatusBadge);
+    }
+
+    private BuildRunPage checkStatus(BuildStatus buildStatus, SelenideElement element) {
+        RetryUtils.retry(
+                "Wait until status of Build Run is correct",
+                element::getText,
+                value -> value.equalsIgnoreCase(buildStatus.getValue()),
+                5,
+                5000
+        );
+        return this;
+    }
+
+    public BuildRunPage waitUntilErrorStatusBecomes(BuildStepCommand command) {
+        String expectedRegex = command.getUiStatusText() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
+
+        RetryUtils.retry(
+                "Wait until status of Build Run is failed",
+                () -> buildStatusHeader.getText().trim(),
+                value -> value.matches(expectedRegex),
+                5,
+                5000
+        );
+        return this;
+    }
+
+    public BuildRunPage stopBuildRun() {
+        stopBuildButton.shouldBe(Condition.visible).click();
+        confirmStopButton.click();
+        return this;
+    }
+
     public String getBuildRunId() {
         String currentUrl = WebDriverRunner.url();
 
@@ -99,11 +102,5 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         String buildId = urlParts[urlParts.length - 1];
 
         return buildId;
-    }
-
-    public BuildRunPage stopBuildRun() {
-        stopBuildButton.shouldBe(Condition.visible).click();
-        confirmStopButton.click();
-        return this;
     }
 }
