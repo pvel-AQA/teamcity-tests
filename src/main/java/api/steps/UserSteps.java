@@ -14,8 +14,10 @@ import api.models.build.BuildConfigurationResponse;
 import api.models.build.BuildRunResponse;
 import api.models.build.BuildTypeStepsModel;
 import api.models.project.AllProjectsResponse;
+import api.models.project.ProjectLocator;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
+import api.models.project.SubProjectRequest;
 import api.models.user.UserRequest;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.CrudRequester;
@@ -53,6 +55,48 @@ public class UserSteps {
                 Endpoint.PROJECTS,
                 ResponseSpec.returnsOk()
         ).post(projectRequest);
+    }
+
+    public static ProjectResponse createProjectWithName(String name) {
+        ProjectRequest projectRequest = RandomGenerator.generate(ProjectRequest.class);
+        projectRequest.setName(name);
+        return createProjectWithExtension(projectRequest);
+    }
+
+    public static ProjectResponse createSubProject(String parentProjectId) {
+        return createSubProject(parentProjectId, RandomGenerator.generate(ProjectRequest.class).getName());
+    }
+
+    public static ProjectResponse createSubProject(String parentProjectId, String name) {
+        SubProjectRequest subProject = SubProjectRequest.builder()
+                .id(RandomGenerator.generate(ProjectRequest.class).getId())
+                .name(name)
+                .parentProject(ProjectLocator.builder()
+                        .locator(LocatorType.ID.getPrefix() + parentProjectId)
+                        .build())
+                .build();
+
+        return new ValidatedCrudRequester<ProjectResponse>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.PROJECTS,
+                ResponseSpec.returnsOk()
+        ).post(subProject);
+    }
+
+    public static ProjectResponse createArchivedProjectWithName(String name) {
+        ProjectResponse project = createProjectWithName(name);
+        setProjectArchived(project.getId(), true);
+        return project;
+    }
+
+    public static void setProjectArchived(String projectId, boolean archived) {
+        StepLogger.log("Set archived=%s for project %s".formatted(archived, projectId), () -> {
+            new CrudRequester(
+                    RequestSpec.withAuthExtensionUser(),
+                    Endpoint.PROJECT_ARCHIVED,
+                    ResponseSpec.returnsOk()
+            ).put(archived, LocatorType.ID.getPrefix() + projectId);
+        });
     }
 
     public static AllProjectsResponse getAllProjects() {

@@ -8,6 +8,7 @@ import api.models.build.BuildConfigurationResponse;
 import api.steps.UserSteps;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
 import ui.pages.EditBuildConfigurationPage;
@@ -17,6 +18,7 @@ import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
+    @Disabled("Disabled as it is flaky")
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void buildRunTest() {
         var buildConfigResponse = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);

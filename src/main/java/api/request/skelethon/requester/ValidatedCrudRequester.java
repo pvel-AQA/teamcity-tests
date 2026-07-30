@@ -56,6 +56,9 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
     }
 
     @Override
+    public Object put(Object body, Object... pathParams) { return put(body, new Object[0]);}
+
+    @Override
     public T delete(Object... pathParams) {
         return (T) crudRequester.delete(pathParams).extract().as(endpoint.getResponseModel());
     }

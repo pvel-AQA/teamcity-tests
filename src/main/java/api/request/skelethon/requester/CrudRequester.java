@@ -7,6 +7,7 @@ import api.request.skelethon.interfaces.CrudEndpointInterface;
 import api.request.skelethon.interfaces.GetAllEndpointInterface;
 import common.helpers.StepLogger;
 import common.helpers.EntityStorage;
+import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -96,6 +97,21 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     @Override
     public ValidatableResponse put(BaseModel model) {
         return put(model, new Object[0]);
+    }
+
+    @Override
+    public ValidatableResponse put(Object body, Object... pathParams) {
+        RequestSpecification request = prepareRequest(pathParams);
+        return StepLogger.log("Put request to " + targetUrl, () -> {
+            return request
+                    .contentType(ContentType.TEXT)
+                    .accept(ContentType.TEXT)
+                    .body(String.valueOf(body))
+                    .when()
+                    .put(targetUrl)
+                    .then()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
