@@ -9,10 +9,7 @@ import api.models.UserTokenResponse;
 import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
-import api.models.build.BuildConfigurationRequest;
-import api.models.build.BuildConfigurationResponse;
-import api.models.build.BuildRunResponse;
-import api.models.build.BuildTypeStepsModel;
+import api.models.build.*;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
@@ -237,6 +234,32 @@ public class UserSteps {
                 Endpoint.BUILD,
                 ResponseSpec.returnsOk())
                 .get(LocatorType.ID + buildId);
+    }
+
+    private static void changeStateForBuildQueue(boolean isPaused) {
+        BuildQueuePausedRequest pauseQueueRequest = TeamCityDataGenerator.generateBuildQueuePausedRequest(isPaused);
+        new CrudRequester(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_QUEUE_PAUSED_STATE,
+                ResponseSpec.returnsNoContent())
+                .put(pauseQueueRequest);
+    }
+
+    public static void resumeBuildQueue() {
+        changeStateForBuildQueue(false);
+    }
+
+    public static void pauseBuildQueue() {
+        changeStateForBuildQueue(true);
+    }
+
+    public static BuildRunResponse initiateBuildRun(String buildConfigId) {
+        BuildRunRequest buildRunRequest = TeamCityDataGenerator.generateBuildRun(buildConfigId);
+        return new ValidatedCrudRequester<BuildRunResponse>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_QUEUE,
+                ResponseSpec.returnsOk())
+                .post(buildRunRequest);
     }
 }
 

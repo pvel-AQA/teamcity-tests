@@ -7,6 +7,8 @@ import io.restassured.builder.ResponseSpecBuilder;
 import lombok.Getter;
 
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class EntityStorage {
@@ -15,8 +17,18 @@ public class EntityStorage {
     private static final ThreadLocal<Deque<String>> endpointsToDelete =
             ThreadLocal.withInitial(ConcurrentLinkedDeque::new);
 
+    private static final ThreadLocal<Map<String, Object>> createdEntities =
+            ThreadLocal.withInitial(HashMap::new);
+
+    private EntityStorage() {
+    }
+
+
     public static void init() {
         endpointsToDelete.set(new ConcurrentLinkedDeque<>());
+        if (createdEntities.get() == null) {
+            createdEntities.set(new HashMap<>());
+        }
     }
 
     public static void addUrl(String url) {
@@ -25,7 +37,15 @@ public class EntityStorage {
 
     public static void removeUrlFromListIfExists(String url) {
         endpointsToDelete.get().remove(url);
+    }
 
+    public static void addEntity(String key, Object entity) {
+        createdEntities.get().put(key, entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getEntity(String key) {
+        return (T) createdEntities.get().get(key);
     }
 
     public static void clear() {
@@ -42,6 +62,7 @@ public class EntityStorage {
             }
         }
         endpointsToDelete.remove();
+        createdEntities.remove();
     }
 
 }

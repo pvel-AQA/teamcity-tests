@@ -1,32 +1,96 @@
 package ui.pages;
 
-import api.enums.build.BuildStatus;
+import common.enums.BuildStatus;
+import api.enums.build.BuildStepCommand;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import common.helpers.RetryUtils;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class BuildRunPage extends BasePage<BuildRunPage> {
 
-    private final SelenideElement buildStatusElement = $(Selectors.byXpath("//div[contains(@class, 'Description-module__text')]"));
+    private final SelenideElement buildStatusHeader = $(Selectors.byXpath("//div[contains(@class, 'Description-module__text')]"));
+    private final SelenideElement buildStatusBadge = $(Selectors.byXpath("//div[contains(@class, 'StatusBadge-module__status')]"));
+    private final SelenideElement timelineButton = $(Selectors.byAttribute("data-hint-container-id", "buildlog-timeline-button"));
+    private final SelenideElement runningStepText = $(Selectors.byXpath("//span[contains(@class, 'RunningStep-module__wrapper')]"));
+    private final SelenideElement stopBuildButton = $(Selectors.byAttribute("title","Stop build..."));
+    private final SelenideElement confirmStopButton = $(Selectors.byAttribute("value","Stop"));
+    private final SelenideElement timelineStatus = $(Selectors.byXpath("//div[contains(@class, 'BuildLogTimeline-module__timeline')]"));
+    private final SelenideElement buildLogMessages = $(Selectors.byXpath("//div[contains(@class, 'BuildLogRunningMessages-module')]"));
+
+
 
     @Override
     public String url() {
         return "";
     }
 
-    public BuildRunPage checkIsStatus(BuildStatus buildStatus) {
+    public BuildRunPage waitUntilStatusBecomes(BuildStatus buildStatus) {
         RetryUtils.retry(
                 "Wait until status of Build Run is correct",
-                buildStatusElement::getText,
+                buildStatusHeader::getText,
                 value -> value.equalsIgnoreCase(buildStatus.getValue()),
                 5,
                 5000
         );
         return this;
     }
+
+    public BuildRunPage checkBuildStatusHeader(BuildStatus buildStatus) {
+        buildStatusHeader.shouldBe(Condition.visible).shouldHave(Condition.text(buildStatus.getValue()));
+        return this;
+    }
+
+    public BuildRunPage waitUntilErrorStatusBecomes(BuildStepCommand command) {
+        String expectedRegex = command.getUiStatusText() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
+
+        RetryUtils.retry(
+                "Wait until status of Build Run is failed",
+                () -> buildStatusHeader.getText().trim(),
+                value -> value.matches(expectedRegex),
+                5,
+                5000
+        );
+        return this;
+    }
+
+    public BuildRunPage checkStatusBadge(BuildStatus buildStatus) {
+        RetryUtils.retry(
+                "Wait until status of Build Run is correct",
+                buildStatusBadge::getText,
+                value -> value.equalsIgnoreCase(buildStatus.getValue()),
+                5,
+                5000
+        );
+        return this;
+    }
+
+    public BuildRunPage checkTimeLineStatus(BuildStatus buildStatus) {
+        timelineStatus.shouldBe(Condition.visible)
+                .shouldHave(Condition.text(buildStatus.getValue()));
+        return this;
+    }
+
+    public BuildRunPage checkStatusIndicator(BuildStatus buildStatus) {
+        runningStepText.shouldBe(Condition.visible)
+                .shouldHave(Condition.text(buildStatus.getValue()));
+        return this;
+    }
+
+    public BuildLogOverlay openLogOverlayViaTimeline() {
+        timelineButton.click();
+        return getPage(BuildLogOverlay.class);
+    }
+
+    public BuildLogOverlay openLogOverlayViaBuildLogMessages() {
+        buildLogMessages.click();
+        return getPage(BuildLogOverlay.class);
+    }
+
 
     public String getBuildRunId() {
         String currentUrl = WebDriverRunner.url();
@@ -35,5 +99,11 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         String buildId = urlParts[urlParts.length - 1];
 
         return buildId;
+    }
+
+    public BuildRunPage stopBuildRun() {
+        stopBuildButton.shouldBe(Condition.visible).click();
+        confirmStopButton.click();
+        return this;
     }
 }

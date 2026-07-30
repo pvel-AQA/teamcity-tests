@@ -1,7 +1,7 @@
 package api.buildRun;
 
 import api.enums.build.BuildState;
-import api.enums.build.BuildStatus;
+import common.enums.BuildStatus;
 import api.enums.build.BuildStatusText;
 import api.enums.build.BuildStepCommand;
 import api.enums.locators.LocatorType;
