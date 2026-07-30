@@ -110,47 +110,6 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         return this;
     }
 
-    public AdminProjectsPage checkFilterIsAvailable() {
-        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
-        restPageFilterBtn.shouldBe(visible);
-        restPageFilterHint.shouldBe(visible).shouldHave(exactText(FILTER_HINT));
-        return this;
-    }
-
-    public AdminProjectsPage filterByKeyword(String keyword) {
-        restPageKeywordSearchField.shouldBe(visible).setValue(keyword);
-        restPageFilterBtn.shouldBe(visible).click();
-        webdriver().shouldHave(urlContaining(KEYWORD_URL_PARAMETER + keyword));
-        restPageAllProjectsBlock.shouldBe(visible);
-        return this;
-    }
-
-    public AdminProjectsPage resetFilter() {
-        restPageResetFilterLink.shouldBe(visible).click();
-        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
-        restPageRootProjectContentList.shouldBe(visible);
-        return this;
-    }
-
-    public String getFilterKeyword() {
-        return restPageKeywordSearchField.shouldBe(visible).getValue();
-    }
-
-    public Map<String, String> getDisplayedBuildConfigurations() {
-        restPageAllProjectsBlock.shouldBe(visible);
-        return buildConfigurationLinks.asFixedIterable().stream()
-                .map(link -> Map.entry(
-                        buildTypeIdFrom(link.getAttribute("href")),
-                        link.$("span.build_type_name_inner").getAttribute("textContent").trim()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public AdminProjectsPage checkNothingMatchesTheFilter() {
-        restPageAllProjectsBlock.shouldBe(visible).shouldHave(text(NO_MATCHES_MESSAGE));
-        restPageRootProjectContentList.shouldNot(exist);
-        return this;
-    }
-
     public AdminProjectsPage expandAllProjects() {
         restPageExpandAllBtn.shouldBe(visible).click();
         return this;
@@ -186,13 +145,5 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
 
     private String projectIdFrom(String settingsHref) {
         return settingsHref.replaceAll(".*projectId=([^&]+).*", "$1");
-    }
-
-    private String buildTypeIdFrom(String settingsHref) {
-        Matcher matcher = BUILD_TYPE_ID.matcher(settingsHref == null ? "" : settingsHref);
-        if (!matcher.find()) {
-            throw new IllegalStateException("No build configuration id in the settings link: " + settingsHref);
-        }
-        return matcher.group(1);
     }
 }
