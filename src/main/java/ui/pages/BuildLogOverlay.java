@@ -13,13 +13,13 @@ public class BuildLogOverlay extends BasePage<BuildLogOverlay> {
     private final SelenideElement buildLogHeaderStatusText = $(Selectors.byXpath("//div[contains(@class, 'BuildLogPopupHeader-module__descriptionText')]"));
     private final SelenideElement closeButton = $(Selectors.byXpath("//span[@data-test='ring-icon' and contains(@class, 'ring-dialog-closeIcon')]"));
 
-    public BuildLogOverlay checkLogHeaderStatus(BuildStatus buildStatus) {
+    public BuildLogOverlay checkLogHeaderStatusIs(BuildStatus buildStatus) {
         buildLogHeaderStatusText.shouldBe(Condition.visible)
                 .shouldHave(Condition.text(buildStatus.getValue()));
         return this;
     }
 
-    public BuildLogOverlay checkLogHeaderErrorStatus(BuildStepCommand error) {
+    public BuildLogOverlay checkLogHeaderErrorStatusIs(BuildStepCommand error) {
         String expectedRegex = error.getUiStatusText() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
         buildLogHeaderStatusText.shouldBe(Condition.visible)
                 .shouldHave(Condition.matchText(expectedRegex));

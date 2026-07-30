@@ -40,7 +40,7 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         return this;
     }
 
-    public BuildRunPage checkBuildStatusHeader(BuildStatus buildStatus) {
+    public BuildRunPage checkBuildStatusHeaderIs(BuildStatus buildStatus) {
         buildStatusHeader.shouldBe(Condition.visible).shouldHave(Condition.text(buildStatus.getValue()));
         return this;
     }
@@ -58,7 +58,7 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         return this;
     }
 
-    public BuildRunPage checkStatusBadge(BuildStatus buildStatus) {
+    public BuildRunPage checkStatusBadgeIs(BuildStatus buildStatus) {
         RetryUtils.retry(
                 "Wait until status of Build Run is correct",
                 buildStatusBadge::getText,
@@ -69,13 +69,13 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         return this;
     }
 
-    public BuildRunPage checkTimeLineStatus(BuildStatus buildStatus) {
+    public BuildRunPage checkTimeLineStatusIs(BuildStatus buildStatus) {
         timelineStatus.shouldBe(Condition.visible)
                 .shouldHave(Condition.text(buildStatus.getValue()));
         return this;
     }
 
-    public BuildRunPage checkStatusIndicator(BuildStatus buildStatus) {
+    public BuildRunPage checkStatusIndicatorIs(BuildStatus buildStatus) {
         runningStepText.shouldBe(Condition.visible)
                 .shouldHave(Condition.text(buildStatus.getValue()));
         return this;

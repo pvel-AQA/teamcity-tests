@@ -26,9 +26,6 @@ public class EntityStorage {
 
     public static void init() {
         endpointsToDelete.set(new ConcurrentLinkedDeque<>());
-        if (createdEntities.get() == null) {
-            createdEntities.set(new HashMap<>());
-        }
     }
 
     public static void addUrl(String url) {

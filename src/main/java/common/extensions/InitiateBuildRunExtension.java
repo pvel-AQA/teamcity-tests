@@ -19,7 +19,7 @@ public class InitiateBuildRunExtension implements BeforeEachCallback {
             BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
             UserSteps.initiateBuildRun(buildConfig.getId());
 
-            EntityStorage.addEntity(BUILD_CONFIGURATION.getName(), buildConfig);
+            EntityStorage.addEntity(BUILD_CONFIGURATION.name(), buildConfig);
         }
     }
 }

@@ -33,9 +33,9 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(SUCCESS)
-                .checkStatusBadge(SUCCESS)
+                .checkStatusBadgeIs(SUCCESS)
                 .openLogOverlayViaTimeline()
-                .checkLogHeaderStatus(SUCCESS)
+                .checkLogHeaderStatusIs(SUCCESS)
                 .getBuildRunId();
 
         var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);
@@ -55,8 +55,8 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(RUNNING)
-                .checkStatusBadge(RUNNING)
-                .checkStatusIndicator(RUNNING)
+                .checkStatusBadgeIs(RUNNING)
+                .checkStatusIndicatorIs(RUNNING)
                 .getBuildRunId();
 
         var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);
@@ -76,9 +76,9 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilErrorStatusBecomes(EXIT_WITH_ERROR)
-                .checkStatusBadge(FAILED)
+                .checkStatusBadgeIs(FAILED)
                 .openLogOverlayViaTimeline()
-                .checkLogHeaderErrorStatus(EXIT_WITH_ERROR)
+                .checkLogHeaderErrorStatusIs(EXIT_WITH_ERROR)
                 .getBuildRunId();
 
         var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);
@@ -99,9 +99,9 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .runBuild()
                 .stopBuildRun()
                 .waitUntilStatusBecomes(CANCELED)
-                .checkStatusBadge(CANCELED)
+                .checkStatusBadgeIs(CANCELED)
                 .openLogOverlayViaTimeline()
-                .checkLogHeaderStatus(CANCELED)
+                .checkLogHeaderStatusIs(CANCELED)
                 .getBuildRunId();
 
         var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);
@@ -126,10 +126,10 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .runBuild()
                 .checkBuildStatusLinkIs(BUILD_QUEUE_WAS_PAUSED)
                 .openBuild()
-                .checkBuildStatusHeader(BUILD_QUEUE_WAS_PAUSED)
-                .checkTimeLineStatus(IN_QUEUE)
+                .checkBuildStatusHeaderIs(BUILD_QUEUE_WAS_PAUSED)
+                .checkTimeLineStatusIs(IN_QUEUE)
                 .openLogOverlayViaBuildLogMessages()
-                .checkLogHeaderStatus(BUILD_QUEUE_WAS_PAUSED)
+                .checkLogHeaderStatusIs(BUILD_QUEUE_WAS_PAUSED)
                 .getBuildRunId();
 
         var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);
@@ -144,7 +144,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     @PauseBuildQueue
     @InititateBuildRun
     public void resumeBuildRunTest() {
-        BuildConfigurationResponse buildConfig = EntityStorage.getEntity(BUILD_CONFIGURATION.getName());
+        BuildConfigurationResponse buildConfig = EntityStorage.getEntity(BUILD_CONFIGURATION.name());
 
         var buildRunId = new QueuePage()
                 .open()
@@ -156,10 +156,10 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
                 .clickOnProject(buildConfig.getProjectName())
                 .checkBuildStatusLinkIs(SUCCESS)
                 .openBuild()
-                .checkBuildStatusHeader(SUCCESS)
-                .checkStatusBadge(SUCCESS)
+                .checkBuildStatusHeaderIs(SUCCESS)
+                .checkStatusBadgeIs(SUCCESS)
                 .openLogOverlayViaTimeline()
-                .checkLogHeaderStatus(SUCCESS)
+                .checkLogHeaderStatusIs(SUCCESS)
                 .getBuildRunId();
 
         var buildRunResponse = UserSteps.getBuildRunInfo(buildRunId);

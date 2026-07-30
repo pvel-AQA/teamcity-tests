@@ -6,7 +6,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public enum TeamCityEntity {
-    BUILD_CONFIGURATION;
-
-    private String name;
+    BUILD_CONFIGURATION
 }
