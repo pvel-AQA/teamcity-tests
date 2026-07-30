@@ -1,15 +1,12 @@
 package ui.pages;
 
 import com.codeborne.selenide.*;
-import common.enums.BuildStatus;
 import common.helpers.RetryUtils;
 import ui.elements.ProjectElement;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
-import static common.enums.BuildStatus.BUILD_QUEUE_WAS_PAUSED;
-import static common.enums.BuildStatus.SUCCESS;
 
 public class ProjectsPage extends BasePage<ProjectsPage> {
 

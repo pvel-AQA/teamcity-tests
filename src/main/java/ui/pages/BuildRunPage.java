@@ -1,15 +1,14 @@
 package ui.pages;
 
-import common.enums.BuildStatus;
-import common.enums.BuildStepCommand;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import common.enums.BuildStatus;
+import common.enums.BuildStepCommand;
 import common.helpers.RetryUtils;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 
 public class BuildRunPage extends BasePage<BuildRunPage> {
 
