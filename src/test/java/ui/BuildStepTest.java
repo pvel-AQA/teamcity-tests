@@ -16,8 +16,6 @@ import ui.models.PowerShellUiModel;
 import ui.pages.SetupYourBuildPage;
 import ui.pages.buildsteps.BuildStepsPage;
 
-import java.util.List;
-
 import static com.codeborne.selenide.Condition.disabled;
 
 public class BuildStepTest extends BaseUiTest {

@@ -54,7 +54,7 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
 
     @SuppressWarnings("unchecked")
     protected <T extends BuildStepsPage> T selectRunner(BuildStepsRunners runner) {
-        addBuildStepBtn.shouldBe(visible).click();
+        addBuildStepBtn.shouldBe(visible, Duration.ofSeconds(6)).click();
         newBuildStepTitle.shouldHave(appear);
         searchField.shouldBe(visible).sendKeys(runner.getDisplayName());
         searchResults.shouldHave(sizeGreaterThan(0));
