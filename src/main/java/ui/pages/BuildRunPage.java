@@ -70,8 +70,8 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
                 "Wait until status of Build Run is correct",
                 element::getText,
                 value -> value.equalsIgnoreCase(buildStatus.getValue()),
-                5,
-                5000
+                20,
+                1000
         );
         return this;
     }
@@ -83,8 +83,8 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
                 "Wait until status of Build Run is failed",
                 () -> buildStatusHeader.getText().trim(),
                 value -> value.matches(expectedRegex),
-                5,
-                5000
+                20,
+                1000
         );
         return this;
     }

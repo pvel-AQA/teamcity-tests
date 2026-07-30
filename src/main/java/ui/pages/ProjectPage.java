@@ -23,8 +23,8 @@ public class ProjectPage extends ProjectsPage {
         RetryUtils.retry("Wait until Build Run status is Success",
                 buildStatusText::getText,
                 value -> value.equalsIgnoreCase(buildStatus.getValue()),
-                5,
-                5000);
+                20,
+                1000);
 
         return this;
     }
