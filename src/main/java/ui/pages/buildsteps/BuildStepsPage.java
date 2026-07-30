@@ -4,7 +4,10 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import common.enums.BuildStepsRunners;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.Alert;
 import ui.pages.BasePage;
 
 import java.time.Duration;
@@ -16,16 +19,29 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.switchTo;
 
 @Getter
 public class BuildStepsPage extends BasePage<BuildStepsPage> {
 
     private static final String BUILD_STEP_ROW_XPATH = "//tr[@class='editBuildStepRow'][.//strong[text()='%s']]";
+    private static final String BUILD_STEP_MENU_BTN = ".//button[contains(@class, 'popupLink')]";
+    private static final String BUILD_STEP_MENU_OPTION = "//ul[contains(@class, 'menuList')]//a[text()='%s']";
 
     private final SelenideElement addBuildStepBtn = $x("//a[@class='btn' and .//span[text()='Add build step']]");
     private final SelenideElement newBuildStepTitle = $x("//span[contains(text(), 'New Build Step')]");
     private final SelenideElement searchField = $(Selectors.byPlaceholder("Search for recipes or runners..."));
     private final ElementsCollection searchResults = $$x("//div[@data-test='build-step-selector-item runner']");
+
+    @AllArgsConstructor
+    @Getter
+    public enum BuildStepMenuActions {
+        COPY_BUILD_STEP("Copy build step..."),
+        DISABLE_BUILD_STEP("Disable build step"),
+        DELETE("Delete");
+
+        private final String action;
+    }
 
     @Override
     public String url() {
@@ -49,12 +65,55 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
         return (T) runner.createPage();
     }
 
-    public void selectBuildStepByName(String buildStepName) {
+    public PowerShellStepPage selectBuildStepByName(String buildStepName) {
         $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).shouldBe(visible).click();
+        return new PowerShellStepPage();
     }
 
-    public boolean isBuildStepExists(String buildStepName) {
-        return $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).is(visible, Duration.ofSeconds(5));
+    public BuildStepsPage isBuildStepVisible(String buildStepName) {
+        Assertions.assertThat($x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).is(visible, Duration.ofSeconds(5)))
+                .isTrue()
+                .as("Created build step should be displayed");
+        return this;
+    }
+
+    public BuildStepsPage isBuildStepNotVisible(String buildStepName) {
+        Assertions.assertThat($x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).is(visible, Duration.ofSeconds(5)))
+                .isFalse()
+                .as("Created build step should be displayed");
+        return this;
+    }
+
+    public BuildStepsPage deleteBuildStep(String buildStepName) {
+        performAction(buildStepName, BuildStepMenuActions.DELETE);
+        return this;
+    }
+
+    public void performAction(String stepName, BuildStepMenuActions actionText) {
+        getMenuBtnForBuildStep(stepName).click();
+        String formattedXpath = BUILD_STEP_MENU_OPTION.formatted(actionText.getAction());
+
+        $x(formattedXpath)
+                .parent()
+                .shouldBe(visible)
+                .click();
+    }
+
+    public BuildStepsPage acceptAlert(boolean value) {
+        Alert alert = switchTo().alert();
+        if (value) {
+            alert.accept();
+        } else {
+            alert.dismiss();
+        }
+        return this;
+    }
+
+    private SelenideElement getMenuBtnForBuildStep(String buildStepName) {
+        SelenideElement row = $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).shouldBe(visible);
+        return row
+                .$x(BUILD_STEP_MENU_BTN)
+                .shouldBe(visible);
     }
 
 }

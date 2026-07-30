@@ -10,14 +10,16 @@ import ui.models.PowerShellUiModel;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.ScrollIntoViewOptions.instant;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
 public class PowerShellStepPage extends BuildStepsPage {
 
-    private final SelenideElement saveBtn = $(Selectors.byValue("Save"));
+    private final SelenideElement saveBtn = $(Selectors.byName("submitButton"));
     private final SelenideElement buildStepNameFieldInput = $(Selectors.byId("buildStepName"));
+    private final SelenideElement runnerIdFieldInput = $(Selectors.byId("newRunnerId"));
     private final SelenideElement powerShellFieldOption = $(Selectors.byId("powershell_option"));
     private final SelenideElement stepIdFieldInput = $(Selectors.byId("newRunnerId"));
     private final SelenideElement scriptFileFieldInput = $(Selectors.byId("jetbrains_powershell_script_file"));
@@ -25,11 +27,11 @@ public class PowerShellStepPage extends BuildStepsPage {
     private final SelenideElement codeMirrorFieldForCodeOption = $x("//div[@class='CodeMirror-scroll']");
 
     public PowerShellStepPage addBuildStep(PowerShellUiModel model) {
-        sendKeysIfNotNull(buildStepNameFieldInput, model.getStepName());
+        setStepNameValue(model.getStepName());
         sendKeysIfNotNull(stepIdFieldInput, model.getStepId());
         setPowerShellOptionAndValue(model);
         sendKeysIfNotNull(runStepWithinContainerFieldInput, model.getRunStepWithinContainer());
-        saveBtn.shouldBe(visible).click();
+        clickSaveButton();
         return this;
     }
 
@@ -39,7 +41,7 @@ public class PowerShellStepPage extends BuildStepsPage {
             enterPowerShellScriptContent(model.getScriptSource());
         }
         if (model.getScript().equals(PowerShellOptions.FILE)) {
-            sendKeysIfNotNull(scriptFileFieldInput, model.getScriptFile());
+            sendKeysIfNotNull(scriptFileFieldInput, model.getScriptFile() + ".ps1");
         }
         return this;
     }
@@ -47,6 +49,21 @@ public class PowerShellStepPage extends BuildStepsPage {
     public PowerShellStepPage enterPowerShellScriptContent(String value) {
         codeMirrorFieldForCodeOption.shouldBe(visible, Duration.ofSeconds(5));
         CodeMirrorHelper.setValue(value);
+        return this;
+    }
+
+    public PowerShellStepPage setStepNameValue(String value) {
+        sendKeysIfNotNull(buildStepNameFieldInput, value);
+        return this;
+    }
+
+    public PowerShellStepPage setRunnerIdValue(String value) {
+        sendKeysIfNotNull(runnerIdFieldInput, value);
+        return this;
+    }
+
+    public PowerShellStepPage clickSaveButton() {
+        saveBtn.scrollIntoView(instant()).shouldBe(visible).click();
         return this;
     }
 
