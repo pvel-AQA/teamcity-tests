@@ -27,7 +27,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void successfulBuildRunTest() {
+    public void checkSuccessBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
         var buildRunId = new EditBuildGeneralPage()
@@ -49,7 +49,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void runningBuildTest() {
+    public void checkRunningBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
         var buildRunId = new CreateProjectPage()
@@ -72,7 +72,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void failedBuildRunTest() {
+    public void checkFailedBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(EXIT_WITH_ERROR);
 
         var buildRunId = new EditBuildGeneralPage()
@@ -94,7 +94,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void canceledBuildRunTest() {
+    public void checkCanceledBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
         var buildRunId = new EditBuildGeneralPage()
@@ -118,7 +118,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     @ResumeBuildQueueAfterTest
-    public void pausedBuildRunTest() {
+    public void checkPausedBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
         var buildRunId = new QueuePage()
@@ -146,7 +146,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     @PauseBuildQueue
     @InititateBuildRun
-    public void resumeBuildRunTest() {
+    public void buildRunCanBeResumedAfterPauseTest() {
         BuildConfigurationResponse buildConfig = EntityStorage.getEntity(BUILD_CONFIGURATION.name());
 
         var buildRunId = new QueuePage()
