@@ -7,7 +7,7 @@ import common.helpers.EntityStorage;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-import static api.enums.build.BuildStepCommand.ECHO_HELLO_WORLD;
+import static common.enums.BuildStepCommand.ECHO_HELLO_WORLD;
 import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 import static common.enums.TeamCityEntity.BUILD_CONFIGURATION;
 

@@ -2,7 +2,7 @@ package ui.buildRun;
 
 import api.comparison.ModelAssertions;
 import api.enums.build.BuildState;
-import api.enums.build.BuildStepCommand;
+import common.enums.BuildStepCommand;
 import api.models.build.BuildConfigurationResponse;
 import api.steps.UserSteps;
 import common.annotations.AuthUser;
@@ -14,13 +14,12 @@ import common.helpers.EntityStorage;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
 import ui.pages.CreateProjectPage;
-import ui.pages.EditProjectPage;
 import ui.pages.QueuePage;
 import ui.pages.EditBuildGeneralPage;
 
 import static common.enums.BuildStatus.*;
-import static api.enums.build.BuildStepCommand.ECHO_HELLO_WORLD;
-import static api.enums.build.BuildStepCommand.EXIT_WITH_ERROR;
+import static common.enums.BuildStepCommand.ECHO_HELLO_WORLD;
+import static common.enums.BuildStepCommand.EXIT_WITH_ERROR;
 import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 import static common.enums.TeamCityEntity.BUILD_CONFIGURATION;
 

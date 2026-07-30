@@ -1,4 +1,4 @@
-package api.enums.build;
+package common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ public enum BuildStepCommand {
     EXIT_WITH_ERROR("exit 1", "Exit code 1");
 
     private final String script;
-    private final String uiStatusText;
+    private final String resultOfCommand;
 
 }

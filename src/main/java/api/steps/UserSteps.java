@@ -1,6 +1,6 @@
 package api.steps;
 
-import api.enums.build.BuildStepCommand;
+import common.enums.BuildStepCommand;
 import api.enums.locators.LocatorType;
 import api.generators.RandomGenerator;
 import api.generators.TeamCityDataGenerator;

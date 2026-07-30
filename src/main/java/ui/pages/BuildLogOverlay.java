@@ -1,7 +1,7 @@
 package ui.pages;
 
 import common.enums.BuildStatus;
-import api.enums.build.BuildStepCommand;
+import common.enums.BuildStepCommand;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
@@ -20,7 +20,7 @@ public class BuildLogOverlay extends BasePage<BuildLogOverlay> {
     }
 
     public BuildLogOverlay checkLogHeaderErrorStatusIs(BuildStepCommand error) {
-        String expectedRegex = error.getUiStatusText() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
+        String expectedRegex = error.getResultOfCommand() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
         buildLogHeaderStatusText.shouldBe(Condition.visible)
                 .shouldHave(Condition.matchText(expectedRegex));
 

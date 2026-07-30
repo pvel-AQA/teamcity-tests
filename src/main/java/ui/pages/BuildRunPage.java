@@ -1,7 +1,7 @@
 package ui.pages;
 
 import common.enums.BuildStatus;
-import api.enums.build.BuildStepCommand;
+import common.enums.BuildStepCommand;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
@@ -77,7 +77,7 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
     public BuildRunPage waitUntilErrorStatusBecomes(BuildStepCommand command) {
-        String expectedRegex = command.getUiStatusText() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
+        String expectedRegex = command.getResultOfCommand() + " \\(Step: .+ \\(Command Line\\)\\) \\(new\\)";
 
         RetryUtils.retry(
                 "Wait until status of Build Run is failed",
