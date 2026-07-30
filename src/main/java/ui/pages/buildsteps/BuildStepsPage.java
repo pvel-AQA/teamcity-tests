@@ -54,8 +54,8 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
 
     @SuppressWarnings("unchecked")
     protected <T extends BuildStepsPage> T selectRunner(BuildStepsRunners runner) {
-        addBuildStepBtn.shouldBe(visible, Duration.ofSeconds(6)).click();
-        newBuildStepTitle.shouldHave(appear, Duration.ofSeconds(6));
+        addBuildStepBtn.shouldBe(visible).click();
+        newBuildStepTitle.shouldBe(appear, Duration.ofSeconds(6));
         searchField.shouldBe(visible).sendKeys(runner.getDisplayName());
         searchResults.shouldHave(sizeGreaterThan(0));
         SelenideElement target = searchResults
@@ -66,7 +66,7 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
     }
 
     public PowerShellStepPage selectBuildStepByName(String buildStepName) {
-        $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).shouldBe(visible).click();
+        $x(BUILD_STEP_ROW_XPATH.formatted(buildStepName)).click();
         return new PowerShellStepPage();
     }
 
