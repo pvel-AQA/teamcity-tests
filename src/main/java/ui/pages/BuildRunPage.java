@@ -26,7 +26,7 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
 
     @Override
     public String url() {
-        return "";
+        return "/buildConfiguration/%s/%s";
     }
 
     public BuildRunPage waitUntilStatusBecomes(BuildStatus buildStatus) {

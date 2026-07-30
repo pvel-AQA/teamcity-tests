@@ -13,8 +13,8 @@ import common.enums.UserRoles;
 import common.helpers.EntityStorage;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
-import ui.pages.EditBuildConfigurationPage;
 import ui.pages.QueuePage;
+import ui.pages.EditBuildGeneralPage;
 
 import static common.enums.BuildStatus.*;
 import static api.enums.build.BuildStepCommand.ECHO_HELLO_WORLD;
@@ -29,7 +29,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void successfulBuildRunTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
-        var buildRunId = new EditBuildConfigurationPage()
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(SUCCESS)
@@ -51,7 +51,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void runningBuildTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
-        var buildRunId = new EditBuildConfigurationPage()
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(RUNNING)
@@ -72,7 +72,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void failedBuildRunTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(EXIT_WITH_ERROR);
 
-        var buildRunId = new EditBuildConfigurationPage()
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilErrorStatusBecomes(EXIT_WITH_ERROR)
@@ -94,7 +94,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void canceledBuildRunTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
-        var buildRunId = new EditBuildConfigurationPage()
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .stopBuildRun()
