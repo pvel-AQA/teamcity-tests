@@ -326,19 +326,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
+                        <button type="button" class="btn btn-sm">DELETE</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes</span>
+                    <span>/app/rest/projects/{projectLocator}</span>
                 </div>
                 <div class="col-2">
-                    21 calls
+                    34 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                5/9
-                (55.556%)
+                4/6
+                (66.667%)
             condition covered
         </div>
     </div>
@@ -349,11 +349,11 @@
 
         <div class="progress" style="height: 16px;">
             <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 55.555555555556%"
-                    aria-valuenow="5"
+                    class="progress-bar bg-success" role="progressbar"
+                    style="width: 66.666666666667%"
+                    aria-valuenow="4"
                     aria-valuemin="0"
-                    aria-valuemax="9">
+                    aria-valuemax="6">
             </div>
 
         </div>
@@ -378,7 +378,7 @@
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;HTTP status 200
+                        &nbsp;HTTP status 204
                     </td>
                     <td></td>
                 </tr>
@@ -387,16 +387,6 @@
                     <td>
                             <span>
                                 <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;HTTP status 401
                     </td>
@@ -413,22 +403,12 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 405
-                    </td>
-                    <td></td>
-                </tr>
-
                 <tr class="table-success">
                     <td>
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;HTTP status 500
+                        &nbsp;HTTP status 404
                     </td>
                     <td></td>
                 </tr>
@@ -438,17 +418,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;not empty body request
+                        &nbsp;path «projectLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -472,432 +442,6 @@
             <div class="row"
                  data-toggle="collapse"
                  data-target="#condition-2"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
-                </div>
-                <div class="col-2">
-                    5 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                5/9
-                (55.556%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 55.555555555556%"
-                    aria-valuenow="5"
-                    aria-valuemin="0"
-                    aria-valuemax="9">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="condition-2" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#condition-3"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildQueue</span>
-                </div>
-                <div class="col-2">
-                    4 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                3/9
-                (33.333%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 33.333333333333%"
-                    aria-valuenow="3"
-                    aria-valuemin="0"
-                    aria-valuemax="9">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="condition-3" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 405
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 500
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «moveToTop» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;not empty body request
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#condition-4"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">DELETE</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}</span>
-                </div>
-                <div class="col-2">
-                    20 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                2/6
-                (33.333%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 33.333333333333%"
-                    aria-valuenow="2"
-                    aria-valuemin="0"
-                    aria-valuemax="6">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="condition-4" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 204
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#condition-5"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -940,7 +484,7 @@
                 </div>
             </div>
         </div>
-        <div id="condition-5" class="collapse" aria-labelledby="headingOne">
+        <div id="condition-2" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -1029,7 +573,7 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#condition-6"
+                 data-target="#condition-3"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -1072,7 +616,7 @@
                 </div>
             </div>
         </div>
-        <div id="condition-6" class="collapse" aria-labelledby="headingOne">
+        <div id="condition-3" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -1171,7 +715,301 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#condition-7"
+                 data-target="#condition-4"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">GET</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/builds/{buildLocator}</span>
+                </div>
+                <div class="col-2">
+                    13 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                3/8
+                (37.5%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 37.5%"
+                    aria-valuenow="3"
+                    aria-valuemin="0"
+                    aria-valuemax="8">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="condition-4" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «buildLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#condition-5"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">POST</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/users</span>
+                </div>
+                <div class="col-2">
+                    40 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                3/9
+                (33.333%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 33.333333333333%"
+                    aria-valuenow="3"
+                    aria-valuemin="0"
+                    aria-valuemax="9">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="condition-5" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 405
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 500
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;not empty body request
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#condition-6"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -1214,7 +1052,7 @@
                 </div>
             </div>
         </div>
-        <div id="condition-7" class="collapse" aria-labelledby="headingOne">
+        <div id="condition-6" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -1333,129 +1171,7 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#condition-8"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">DELETE</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/projects/{projectLocator}</span>
-                </div>
-                <div class="col-2">
-                    34 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                4/6
-                (66.667%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-success" role="progressbar"
-                    style="width: 66.666666666667%"
-                    aria-valuenow="4"
-                    aria-valuemin="0"
-                    aria-valuemax="6">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="condition-8" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 204
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «projectLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#condition-9"
+                 data-target="#condition-7"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -1465,10 +1181,10 @@
                         <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/users</span>
+                    <span>/app/rest/buildQueue</span>
                 </div>
                 <div class="col-2">
-                    40 calls
+                    4 calls
                 </div>
                 <div class="col-4">
     <div class="row">
@@ -1498,7 +1214,7 @@
                 </div>
             </div>
         </div>
-        <div id="condition-9" class="collapse" aria-labelledby="headingOne">
+        <div id="condition-7" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -1574,6 +1290,310 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
+                        &nbsp;query «moveToTop» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;not empty body request
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#condition-8"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">GET</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
+                </div>
+                <div class="col-2">
+                    5 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                5/9
+                (55.556%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 55.555555555556%"
+                    aria-valuenow="5"
+                    aria-valuemin="0"
+                    aria-valuemax="9">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="condition-8" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#condition-9"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">POST</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/buildTypes</span>
+                </div>
+                <div class="col-2">
+                    21 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                5/9
+                (55.556%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 55.555555555556%"
+                    aria-valuenow="5"
+                    aria-valuemin="0"
+                    aria-valuemax="9">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="condition-9" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 405
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 500
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
                         &nbsp;query «fields» is not empty
                     </td>
                     <td></td>
@@ -1614,19 +1634,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">PUT</button>
+                        <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
+                    <span>/app/rest/projects</span>
                 </div>
                 <div class="col-2">
-                    2 calls
+                    31 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                5/11
-                (45.455%)
+                5/8
+                (62.5%)
             condition covered
         </div>
     </div>
@@ -1638,10 +1658,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 45.454545454545%"
+                    style="width: 62.5%"
                     aria-valuenow="5"
                     aria-valuemin="0"
-                    aria-valuemax="11">
+                    aria-valuemax="8">
             </div>
 
         </div>
@@ -1671,20 +1691,20 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
+                <tr class="table-success">
                     <td>
                             <span>
-                                <i class="fas fa-bug"></i>
+                                <i class="fas fa-check"></i>
                             </span>
                         &nbsp;HTTP status 400
                     </td>
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
+                <tr class="table-success">
                     <td>
                             <span>
-                                <i class="fas fa-bug"></i>
+                                <i class="fas fa-check"></i>
                             </span>
                         &nbsp;HTTP status 401
                     </td>
@@ -1706,7 +1726,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 404
+                        &nbsp;HTTP status 405
                     </td>
                     <td></td>
                 </tr>
@@ -1716,37 +1736,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 415
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
+                        &nbsp;HTTP status 500
                     </td>
                     <td></td>
                 </tr>
@@ -1786,19 +1776,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
+                        <button type="button" class="btn btn-sm">DELETE</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/builds/{buildLocator}</span>
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
                 </div>
                 <div class="col-2">
-                    13 calls
+                    10 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                3/8
-                (37.5%)
+                4/7
+                (57.143%)
             condition covered
         </div>
     </div>
@@ -1810,10 +1800,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 37.5%"
-                    aria-valuenow="3"
+                    style="width: 57.142857142857%"
+                    aria-valuenow="4"
                     aria-valuemin="0"
-                    aria-valuemax="8">
+                    aria-valuemax="7">
             </div>
 
         </div>
@@ -1838,17 +1828,7 @@
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
+                        &nbsp;HTTP status 204
                     </td>
                     <td></td>
                 </tr>
@@ -1888,17 +1868,17 @@
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;path «buildLocator» is not empty
+                        &nbsp;path «btLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
+                <tr class="table-success">
                     <td>
                             <span>
-                                <i class="fas fa-bug"></i>
+                                <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;query «fields» is not empty
+                        &nbsp;path «stepId» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -2093,16 +2073,16 @@
                         <button type="button" class="btn btn-sm">DELETE</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
+                    <span>/app/rest/buildTypes/{btLocator}</span>
                 </div>
                 <div class="col-2">
-                    10 calls
+                    20 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                4/7
-                (57.143%)
+                2/6
+                (33.333%)
             condition covered
         </div>
     </div>
@@ -2114,10 +2094,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 57.142857142857%"
-                    aria-valuenow="4"
+                    style="width: 33.333333333333%"
+                    aria-valuenow="2"
                     aria-valuemin="0"
-                    aria-valuemax="7">
+                    aria-valuemax="6">
             </div>
 
         </div>
@@ -2177,22 +2157,12 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-success">
+                <tr class="table-danger">
                     <td>
                             <span>
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «stepId» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -2222,19 +2192,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
+                        <button type="button" class="btn btn-sm">PUT</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/projects</span>
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
                 </div>
                 <div class="col-2">
-                    31 calls
+                    2 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                5/8
-                (62.5%)
+                5/11
+                (45.455%)
             condition covered
         </div>
     </div>
@@ -2246,10 +2216,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 62.5%"
+                    style="width: 45.454545454545%"
                     aria-valuenow="5"
                     aria-valuemin="0"
-                    aria-valuemax="8">
+                    aria-valuemax="11">
             </div>
 
         </div>
@@ -2279,20 +2249,20 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-success">
+                <tr class="table-danger">
                     <td>
                             <span>
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;HTTP status 400
                     </td>
                     <td></td>
                 </tr>
 
-                <tr class="table-success">
+                <tr class="table-danger">
                     <td>
                             <span>
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;HTTP status 401
                     </td>
@@ -2314,7 +2284,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 405
+                        &nbsp;HTTP status 404
                     </td>
                     <td></td>
                 </tr>
@@ -2324,7 +2294,37 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 500
+                        &nbsp;HTTP status 415
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -2358,168 +2358,6 @@
             <div class="row"
                  data-toggle="collapse"
                  data-target="#condition-15"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-        <span class="badge badge-dark">No call</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/snapshot-dependencies</span>
-                </div>
-                <div class="col-2">
-                    0 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                0/10
-                (0%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-danger" role="progressbar"
-                    style="width: 0%"
-                    aria-valuenow="0"
-                    aria-valuemin="0"
-                    aria-valuemax="10">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="condition-15" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 405
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 500
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;not empty body request
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td>No call - no statuses...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#condition-16"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -2562,7 +2400,7 @@
                 </div>
             </div>
         </div>
-        <div id="condition-16" class="collapse" aria-labelledby="headingOne">
+        <div id="condition-15" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -2681,17 +2519,17 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#condition-17"
+                 data-target="#condition-16"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">PUT</button>
+                        <button type="button" class="btn btn-sm">GET</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}/{fieldName}</span>
+                    <span>/app/rest/buildQueue/{queuedBuildLocator}</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -2699,7 +2537,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/11
+                0/8
                 (0%)
             condition covered
         </div>
@@ -2715,7 +2553,149 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="11">
+                    aria-valuemax="8">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="condition-16" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «queuedBuildLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td>No call - no statuses...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#condition-17"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+        <span class="badge badge-dark">No call</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">PUT</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/projects/{projectLocator}/{field}</span>
+                </div>
+                <div class="col-2">
+                    0 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                0/10
+                (0%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-danger" role="progressbar"
+                    style="width: 0%"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="10">
             </div>
 
         </div>
@@ -2800,7 +2780,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «btLocator» is not empty
+                        &nbsp;path «projectLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -2810,17 +2790,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «fieldName» is not empty
+                        &nbsp;path «field» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -3002,10 +2972,10 @@
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
+                        <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildQueue/{queuedBuildLocator}</span>
+                    <span>/app/rest/buildTypes/{btLocator}/snapshot-dependencies</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -3013,7 +2983,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/8
+                0/10
                 (0%)
             condition covered
         </div>
@@ -3029,7 +2999,7 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="8">
+                    aria-valuemax="10">
             </div>
 
         </div>
@@ -3094,7 +3064,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 404
+                        &nbsp;HTTP status 405
                     </td>
                     <td></td>
                 </tr>
@@ -3104,7 +3074,17 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «queuedBuildLocator» is not empty
+                        &nbsp;HTTP status 500
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -3115,6 +3095,16 @@
                                 <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;not empty body request
                     </td>
                     <td></td>
                 </tr>
@@ -3147,7 +3137,7 @@
                         <button type="button" class="btn btn-sm">PUT</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/projects/{projectLocator}/{field}</span>
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}/{fieldName}</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -3155,7 +3145,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/10
+                0/11
                 (0%)
             condition covered
         </div>
@@ -3171,7 +3161,7 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="10">
+                    aria-valuemax="11">
             </div>
 
         </div>
@@ -3256,7 +3246,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «projectLocator» is not empty
+                        &nbsp;path «btLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -3266,7 +3256,17 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «field» is not empty
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «fieldName» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -3314,19 +3314,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
+                        <button type="button" class="btn btn-sm">DELETE</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes</span>
+                    <span>/app/rest/projects/{projectLocator}</span>
                 </div>
                 <div class="col-2">
-                    21 calls
+                    34 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                5/9
-                (55.556%)
+                4/6
+                (66.667%)
             condition covered
         </div>
     </div>
@@ -3337,11 +3337,11 @@
 
         <div class="progress" style="height: 16px;">
             <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 55.555555555556%"
-                    aria-valuenow="5"
+                    class="progress-bar bg-success" role="progressbar"
+                    style="width: 66.666666666667%"
+                    aria-valuenow="4"
                     aria-valuemin="0"
-                    aria-valuemax="9">
+                    aria-valuemax="6">
             </div>
 
         </div>
@@ -3366,7 +3366,7 @@
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;HTTP status 200
+                        &nbsp;HTTP status 204
                     </td>
                     <td></td>
                 </tr>
@@ -3375,16 +3375,6 @@
                     <td>
                             <span>
                                 <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;HTTP status 401
                     </td>
@@ -3401,22 +3391,12 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 405
-                    </td>
-                    <td></td>
-                </tr>
-
                 <tr class="table-success">
                     <td>
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;HTTP status 500
+                        &nbsp;HTTP status 404
                     </td>
                     <td></td>
                 </tr>
@@ -3426,17 +3406,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;not empty body request
+                        &nbsp;path «projectLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -3460,432 +3430,6 @@
             <div class="row"
                  data-toggle="collapse"
                  data-target="#party-2"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
-                </div>
-                <div class="col-2">
-                    5 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                5/9
-                (55.556%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 55.555555555556%"
-                    aria-valuenow="5"
-                    aria-valuemin="0"
-                    aria-valuemax="9">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="party-2" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#party-3"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildQueue</span>
-                </div>
-                <div class="col-2">
-                    4 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                3/9
-                (33.333%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 33.333333333333%"
-                    aria-valuenow="3"
-                    aria-valuemin="0"
-                    aria-valuemax="9">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="party-3" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 405
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 500
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «moveToTop» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;not empty body request
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#party-4"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">DELETE</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}</span>
-                </div>
-                <div class="col-2">
-                    20 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                2/6
-                (33.333%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-warning" role="progressbar"
-                    style="width: 33.333333333333%"
-                    aria-valuenow="2"
-                    aria-valuemin="0"
-                    aria-valuemax="6">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="party-4" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 204
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#party-5"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -3928,7 +3472,7 @@
                 </div>
             </div>
         </div>
-        <div id="party-5" class="collapse" aria-labelledby="headingOne">
+        <div id="party-2" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -4017,7 +3561,7 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#party-6"
+                 data-target="#party-3"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -4060,7 +3604,7 @@
                 </div>
             </div>
         </div>
-        <div id="party-6" class="collapse" aria-labelledby="headingOne">
+        <div id="party-3" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -4159,7 +3703,301 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#party-7"
+                 data-target="#party-4"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">GET</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/builds/{buildLocator}</span>
+                </div>
+                <div class="col-2">
+                    13 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                3/8
+                (37.5%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 37.5%"
+                    aria-valuenow="3"
+                    aria-valuemin="0"
+                    aria-valuemax="8">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="party-4" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «buildLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#party-5"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">POST</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/users</span>
+                </div>
+                <div class="col-2">
+                    40 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                3/9
+                (33.333%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 33.333333333333%"
+                    aria-valuenow="3"
+                    aria-valuemin="0"
+                    aria-valuemax="9">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="party-5" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 405
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 500
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;not empty body request
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#party-6"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -4202,7 +4040,7 @@
                 </div>
             </div>
         </div>
-        <div id="party-7" class="collapse" aria-labelledby="headingOne">
+        <div id="party-6" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -4321,129 +4159,7 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#party-8"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-                <span class="badge badge-warning">Partial</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">DELETE</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/projects/{projectLocator}</span>
-                </div>
-                <div class="col-2">
-                    34 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                4/6
-                (66.667%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-success" role="progressbar"
-                    style="width: 66.666666666667%"
-                    aria-valuenow="4"
-                    aria-valuemin="0"
-                    aria-valuemax="6">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="party-8" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 204
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «projectLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#party-9"
+                 data-target="#party-7"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -4453,10 +4169,10 @@
                         <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/users</span>
+                    <span>/app/rest/buildQueue</span>
                 </div>
                 <div class="col-2">
-                    40 calls
+                    4 calls
                 </div>
                 <div class="col-4">
     <div class="row">
@@ -4486,7 +4202,7 @@
                 </div>
             </div>
         </div>
-        <div id="party-9" class="collapse" aria-labelledby="headingOne">
+        <div id="party-7" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -4562,6 +4278,310 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
+                        &nbsp;query «moveToTop» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;not empty body request
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#party-8"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">GET</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
+                </div>
+                <div class="col-2">
+                    5 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                5/9
+                (55.556%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 55.555555555556%"
+                    aria-valuenow="5"
+                    aria-valuemin="0"
+                    aria-valuemax="9">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="party-8" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#party-9"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+                <span class="badge badge-warning">Partial</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">POST</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/buildTypes</span>
+                </div>
+                <div class="col-2">
+                    21 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                5/9
+                (55.556%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-warning" role="progressbar"
+                    style="width: 55.555555555556%"
+                    aria-valuenow="5"
+                    aria-valuemin="0"
+                    aria-valuemax="9">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="party-9" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 405
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;HTTP status 500
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
                         &nbsp;query «fields» is not empty
                     </td>
                     <td></td>
@@ -4602,19 +4622,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">PUT</button>
+                        <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
+                    <span>/app/rest/projects</span>
                 </div>
                 <div class="col-2">
-                    2 calls
+                    31 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                5/11
-                (45.455%)
+                5/8
+                (62.5%)
             condition covered
         </div>
     </div>
@@ -4626,10 +4646,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 45.454545454545%"
+                    style="width: 62.5%"
                     aria-valuenow="5"
                     aria-valuemin="0"
-                    aria-valuemax="11">
+                    aria-valuemax="8">
             </div>
 
         </div>
@@ -4659,20 +4679,20 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
+                <tr class="table-success">
                     <td>
                             <span>
-                                <i class="fas fa-bug"></i>
+                                <i class="fas fa-check"></i>
                             </span>
                         &nbsp;HTTP status 400
                     </td>
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
+                <tr class="table-success">
                     <td>
                             <span>
-                                <i class="fas fa-bug"></i>
+                                <i class="fas fa-check"></i>
                             </span>
                         &nbsp;HTTP status 401
                     </td>
@@ -4694,7 +4714,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 404
+                        &nbsp;HTTP status 405
                     </td>
                     <td></td>
                 </tr>
@@ -4704,37 +4724,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 415
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
+                        &nbsp;HTTP status 500
                     </td>
                     <td></td>
                 </tr>
@@ -4774,19 +4764,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
+                        <button type="button" class="btn btn-sm">DELETE</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/builds/{buildLocator}</span>
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
                 </div>
                 <div class="col-2">
-                    13 calls
+                    10 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                3/8
-                (37.5%)
+                4/7
+                (57.143%)
             condition covered
         </div>
     </div>
@@ -4798,10 +4788,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 37.5%"
-                    aria-valuenow="3"
+                    style="width: 57.142857142857%"
+                    aria-valuenow="4"
                     aria-valuemin="0"
-                    aria-valuemax="8">
+                    aria-valuemax="7">
             </div>
 
         </div>
@@ -4826,17 +4816,7 @@
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
+                        &nbsp;HTTP status 204
                     </td>
                     <td></td>
                 </tr>
@@ -4876,17 +4856,17 @@
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;path «buildLocator» is not empty
+                        &nbsp;path «btLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
 
-                <tr class="table-danger">
+                <tr class="table-success">
                     <td>
                             <span>
-                                <i class="fas fa-bug"></i>
+                                <i class="fas fa-check"></i>
                             </span>
-                        &nbsp;query «fields» is not empty
+                        &nbsp;path «stepId» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -5081,16 +5061,16 @@
                         <button type="button" class="btn btn-sm">DELETE</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
+                    <span>/app/rest/buildTypes/{btLocator}</span>
                 </div>
                 <div class="col-2">
-                    10 calls
+                    20 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                4/7
-                (57.143%)
+                2/6
+                (33.333%)
             condition covered
         </div>
     </div>
@@ -5102,10 +5082,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 57.142857142857%"
-                    aria-valuenow="4"
+                    style="width: 33.333333333333%"
+                    aria-valuenow="2"
                     aria-valuemin="0"
-                    aria-valuemax="7">
+                    aria-valuemax="6">
             </div>
 
         </div>
@@ -5165,22 +5145,12 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-success">
+                <tr class="table-danger">
                     <td>
                             <span>
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-success">
-                    <td>
-                            <span>
-                                <i class="fas fa-check"></i>
-                            </span>
-                        &nbsp;path «stepId» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -5210,19 +5180,19 @@
                 <span class="badge badge-warning">Partial</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
+                        <button type="button" class="btn btn-sm">PUT</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/projects</span>
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}</span>
                 </div>
                 <div class="col-2">
-                    31 calls
+                    2 calls
                 </div>
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                5/8
-                (62.5%)
+                5/11
+                (45.455%)
             condition covered
         </div>
     </div>
@@ -5234,10 +5204,10 @@
         <div class="progress" style="height: 16px;">
             <div
                     class="progress-bar bg-warning" role="progressbar"
-                    style="width: 62.5%"
+                    style="width: 45.454545454545%"
                     aria-valuenow="5"
                     aria-valuemin="0"
-                    aria-valuemax="8">
+                    aria-valuemax="11">
             </div>
 
         </div>
@@ -5267,20 +5237,20 @@
                     <td></td>
                 </tr>
 
-                <tr class="table-success">
+                <tr class="table-danger">
                     <td>
                             <span>
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;HTTP status 400
                     </td>
                     <td></td>
                 </tr>
 
-                <tr class="table-success">
+                <tr class="table-danger">
                     <td>
                             <span>
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;HTTP status 401
                     </td>
@@ -5302,7 +5272,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 405
+                        &nbsp;HTTP status 404
                     </td>
                     <td></td>
                 </tr>
@@ -5312,7 +5282,37 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 500
+                        &nbsp;HTTP status 415
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -5356,168 +5356,6 @@
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">POST</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/snapshot-dependencies</span>
-                </div>
-                <div class="col-2">
-                    0 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                0/10
-                (0%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-danger" role="progressbar"
-                    style="width: 0%"
-                    aria-valuenow="0"
-                    aria-valuemin="0"
-                    aria-valuemax="10">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="empty-1" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 405
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 500
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «btLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;not empty body request
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td>No call - no statuses...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#empty-2"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-        <span class="badge badge-dark">No call</span>
-                </div>
-                <div class="col-1">
                         <button type="button" class="btn btn-sm">PUT</button>
                 </div>
                 <div class="col-4">
@@ -5554,7 +5392,7 @@
                 </div>
             </div>
         </div>
-        <div id="empty-2" class="collapse" aria-labelledby="headingOne">
+        <div id="empty-1" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -5673,17 +5511,17 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#empty-3"
+                 data-target="#empty-2"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">PUT</button>
+                        <button type="button" class="btn btn-sm">GET</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}/{fieldName}</span>
+                    <span>/app/rest/buildQueue/{queuedBuildLocator}</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -5691,7 +5529,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/11
+                0/8
                 (0%)
             condition covered
         </div>
@@ -5707,7 +5545,149 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="11">
+                    aria-valuemax="8">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="empty-2" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «queuedBuildLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td>No call - no statuses...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#empty-3"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+        <span class="badge badge-dark">No call</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">PUT</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/projects/{projectLocator}/{field}</span>
+                </div>
+                <div class="col-2">
+                    0 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                0/10
+                (0%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-danger" role="progressbar"
+                    style="width: 0%"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="10">
             </div>
 
         </div>
@@ -5792,7 +5772,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «btLocator» is not empty
+                        &nbsp;path «projectLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -5802,17 +5782,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «fieldName» is not empty
+                        &nbsp;path «field» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -5994,314 +5964,6 @@
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/buildQueue/{queuedBuildLocator}</span>
-                </div>
-                <div class="col-2">
-                    0 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                0/8
-                (0%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-danger" role="progressbar"
-                    style="width: 0%"
-                    aria-valuenow="0"
-                    aria-valuemin="0"
-                    aria-valuemax="8">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="empty-5" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «queuedBuildLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;query «fields» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td>No call - no statuses...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#empty-6"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-        <span class="badge badge-dark">No call</span>
-                </div>
-                <div class="col-1">
-                        <button type="button" class="btn btn-sm">PUT</button>
-                </div>
-                <div class="col-4">
-                    <span>/app/rest/projects/{projectLocator}/{field}</span>
-                </div>
-                <div class="col-2">
-                    0 calls
-                </div>
-                <div class="col-4">
-    <div class="row">
-        <div class="col-12">
-                0/10
-                (0%)
-            condition covered
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-
-
-
-        <div class="progress" style="height: 16px;">
-            <div
-                    class="progress-bar bg-danger" role="progressbar"
-                    style="width: 0%"
-                    aria-valuenow="0"
-                    aria-valuemin="0"
-                    aria-valuemax="10">
-            </div>
-
-        </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-        <div id="empty-6" class="collapse" aria-labelledby="headingOne">
-    <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Condition name</th>
-                <th scope="col">Details</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 200
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 400
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 401
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 403
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 404
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;HTTP status 415
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «projectLocator» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «field» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;not empty body request
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;only declared status
-                    </td>
-                    <td>No call - no statuses...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-        </div>
-    </div>
-    </div>
-                        </div>
-                        <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
-    <div class="accordion" id="zero-accordion">
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#zero-1"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-1">
-        <span class="badge badge-dark">No call</span>
-                </div>
-                <div class="col-1">
                         <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
@@ -6338,7 +6000,7 @@
                 </div>
             </div>
         </div>
-        <div id="zero-1" class="collapse" aria-labelledby="headingOne">
+        <div id="empty-5" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -6457,7 +6119,183 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#zero-2"
+                 data-target="#empty-6"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+        <span class="badge badge-dark">No call</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">PUT</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}/{fieldName}</span>
+                </div>
+                <div class="col-2">
+                    0 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                0/11
+                (0%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-danger" role="progressbar"
+                    style="width: 0%"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="11">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="empty-6" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 415
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «fieldName» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;not empty body request
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td>No call - no statuses...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    </div>
+                        </div>
+                        <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
+    <div class="accordion" id="zero-accordion">
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#zero-1"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
@@ -6500,7 +6338,7 @@
                 </div>
             </div>
         </div>
-        <div id="zero-2" class="collapse" aria-labelledby="headingOne">
+        <div id="zero-1" class="collapse" aria-labelledby="headingOne">
     <div class="card-body">
         <table class="table table-sm">
             <thead>
@@ -6619,17 +6457,17 @@
         <div class="card-header">
             <div class="row"
                  data-toggle="collapse"
-                 data-target="#zero-3"
+                 data-target="#zero-2"
                  aria-expanded="true"
                  aria-controls="collapseOne">
                 <div class="col-1">
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">PUT</button>
+                        <button type="button" class="btn btn-sm">GET</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}/{fieldName}</span>
+                    <span>/app/rest/buildQueue/{queuedBuildLocator}</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -6637,7 +6475,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/11
+                0/8
                 (0%)
             condition covered
         </div>
@@ -6653,7 +6491,149 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="11">
+                    aria-valuemax="8">
+            </div>
+
+        </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div id="zero-2" class="collapse" aria-labelledby="headingOne">
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Condition name</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 200
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 400
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 401
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 403
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;HTTP status 404
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «queuedBuildLocator» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;only declared status
+                    </td>
+                    <td>No call - no statuses...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#zero-3"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-1">
+        <span class="badge badge-dark">No call</span>
+                </div>
+                <div class="col-1">
+                        <button type="button" class="btn btn-sm">PUT</button>
+                </div>
+                <div class="col-4">
+                    <span>/app/rest/projects/{projectLocator}/{field}</span>
+                </div>
+                <div class="col-2">
+                    0 calls
+                </div>
+                <div class="col-4">
+    <div class="row">
+        <div class="col-12">
+                0/10
+                (0%)
+            condition covered
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+
+
+        <div class="progress" style="height: 16px;">
+            <div
+                    class="progress-bar bg-danger" role="progressbar"
+                    style="width: 0%"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="10">
             </div>
 
         </div>
@@ -6738,7 +6718,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «btLocator» is not empty
+                        &nbsp;path «projectLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -6748,17 +6728,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «stepId» is not empty
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr class="table-danger">
-                    <td>
-                            <span>
-                                <i class="fas fa-bug"></i>
-                            </span>
-                        &nbsp;path «fieldName» is not empty
+                        &nbsp;path «field» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -6940,10 +6910,10 @@
         <span class="badge badge-dark">No call</span>
                 </div>
                 <div class="col-1">
-                        <button type="button" class="btn btn-sm">GET</button>
+                        <button type="button" class="btn btn-sm">POST</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/buildQueue/{queuedBuildLocator}</span>
+                    <span>/app/rest/buildTypes/{btLocator}/snapshot-dependencies</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -6951,7 +6921,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/8
+                0/10
                 (0%)
             condition covered
         </div>
@@ -6967,7 +6937,7 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="8">
+                    aria-valuemax="10">
             </div>
 
         </div>
@@ -7032,7 +7002,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;HTTP status 404
+                        &nbsp;HTTP status 405
                     </td>
                     <td></td>
                 </tr>
@@ -7042,7 +7012,17 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «queuedBuildLocator» is not empty
+                        &nbsp;HTTP status 500
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «btLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -7053,6 +7033,16 @@
                                 <i class="fas fa-bug"></i>
                             </span>
                         &nbsp;query «fields» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;not empty body request
                     </td>
                     <td></td>
                 </tr>
@@ -7085,7 +7075,7 @@
                         <button type="button" class="btn btn-sm">PUT</button>
                 </div>
                 <div class="col-4">
-                    <span>/app/rest/projects/{projectLocator}/{field}</span>
+                    <span>/app/rest/buildTypes/{btLocator}/steps/{stepId}/{fieldName}</span>
                 </div>
                 <div class="col-2">
                     0 calls
@@ -7093,7 +7083,7 @@
                 <div class="col-4">
     <div class="row">
         <div class="col-12">
-                0/10
+                0/11
                 (0%)
             condition covered
         </div>
@@ -7109,7 +7099,7 @@
                     style="width: 0%"
                     aria-valuenow="0"
                     aria-valuemin="0"
-                    aria-valuemax="10">
+                    aria-valuemax="11">
             </div>
 
         </div>
@@ -7194,7 +7184,7 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «projectLocator» is not empty
+                        &nbsp;path «btLocator» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -7204,7 +7194,17 @@
                             <span>
                                 <i class="fas fa-bug"></i>
                             </span>
-                        &nbsp;path «field» is not empty
+                        &nbsp;path «stepId» is not empty
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
+                        &nbsp;path «fieldName» is not empty
                     </td>
                     <td></td>
                 </tr>
@@ -7907,7 +7907,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/Bcb4fwRM DELETE
+                            /app/rest/users/BNjNYEJx DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -7953,7 +7953,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/CYBRtMyj DELETE
+                            /app/rest/users/BOjiOJSG DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -7999,7 +7999,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/D1pv2E06 DELETE
+                            /app/rest/users/BxVBQBii DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8045,7 +8045,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/DxdliKIU DELETE
+                            /app/rest/users/Cr8y6SF4 DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8091,7 +8091,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/EjXrOlT4 DELETE
+                            /app/rest/users/ER8xHq5o DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8137,7 +8137,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/HdJNt4eR DELETE
+                            /app/rest/users/EWmtUWIu DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8183,7 +8183,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/K3MGGXlH DELETE
+                            /app/rest/users/FXCtlQPn DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8229,7 +8229,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/Ld4yH16r DELETE
+                            /app/rest/users/HV88qolO DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8275,7 +8275,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/LdmeF7ot DELETE
+                            /app/rest/users/JFmCBp0n DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8321,7 +8321,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/MtQHVxYa DELETE
+                            /app/rest/users/JUJgCLyx DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8367,7 +8367,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/OOLZQSj0 DELETE
+                            /app/rest/users/JwhgEl4a DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8413,7 +8413,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/PNc56fmQ DELETE
+                            /app/rest/users/LaqhCYuu DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8459,7 +8459,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/RLjAKxUN DELETE
+                            /app/rest/users/Mt7gc4mN DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8505,7 +8505,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/SDFO7vin DELETE
+                            /app/rest/users/QY4DvsC0 DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8551,7 +8551,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/V5NzkLbL DELETE
+                            /app/rest/users/Qj6Ne1tG DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8597,7 +8597,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/VHJ2M88U DELETE
+                            /app/rest/users/QydfBuoY DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8643,7 +8643,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/WWDTLU2s DELETE
+                            /app/rest/users/ReIKwWWW DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8689,7 +8689,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/X1oCnrkb DELETE
+                            /app/rest/users/WXvVDGxx DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8735,7 +8735,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/d5cLwmB1 DELETE
+                            /app/rest/users/Y1qiyBUs DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8781,7 +8781,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/f0Ru0oLS DELETE
+                            /app/rest/users/Z1hBuP2c DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8827,7 +8827,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/fMWQdDnE DELETE
+                            /app/rest/users/ZEf6A3zN DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8873,7 +8873,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/fhBMbZjX DELETE
+                            /app/rest/users/cMjJEMod DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8919,7 +8919,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/g16o5WEQ DELETE
+                            /app/rest/users/cZdzN4Qe DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -8965,7 +8965,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/gTkmrB7q DELETE
+                            /app/rest/users/dSJA1Cxr DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9011,7 +9011,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/gbfNhB85 DELETE
+                            /app/rest/users/ddjc7kAi DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9057,7 +9057,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/giwH8ZCP DELETE
+                            /app/rest/users/dijGjQaC DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9103,7 +9103,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/h3tjTXmh DELETE
+                            /app/rest/users/eEqTCIog DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9149,7 +9149,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/iVW6Rt5y DELETE
+                            /app/rest/users/gh568hN7 DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9195,7 +9195,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/kb5c4lWc DELETE
+                            /app/rest/users/gvRdyjVc DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9241,7 +9241,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/n8u784Os DELETE
+                            /app/rest/users/h5En5lov DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9287,7 +9287,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/nBZhsbFo DELETE
+                            /app/rest/users/iua3wUlX DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9333,7 +9333,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/q4BAPvxr DELETE
+                            /app/rest/users/lHOMvhfD DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9379,7 +9379,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/q8iVDadv DELETE
+                            /app/rest/users/lmfsQ9wt DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9425,7 +9425,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/spN4vjmq DELETE
+                            /app/rest/users/lvFcgT7t DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9471,7 +9471,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/wotpnfAg DELETE
+                            /app/rest/users/ocM6xZ5T DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9517,7 +9517,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/x6KwPAG5 DELETE
+                            /app/rest/users/qaiqZO2n DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9563,7 +9563,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/xXhGyxZ9 DELETE
+                            /app/rest/users/svPbC5Ae DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9609,7 +9609,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/yPkWItIb DELETE
+                            /app/rest/users/vIb4yyxT DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9655,7 +9655,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/ylWgGIQ2 DELETE
+                            /app/rest/users/wxeyUqUv DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -9701,7 +9701,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-9">
-                            /app/rest/users/zHpfUPG8 DELETE
+                            /app/rest/users/yoN4v7TT DELETE
                         </div>
                         <div class="col-3">
                             Response status: 204
@@ -15464,10 +15464,10 @@
     <div class="row">
         <div class="col-sm">
             <div class="col-12">
-                Parsed result files: 367<br>
-                Generation time: 726 ms<br>
-                Result file create interval: 2026-07-30 17:13:43 - 2026-07-30 17:16:02<br>
-                Generation report date: 2026-07-30 17:16:04<br>
+                Parsed result files: 366<br>
+                Generation time: 719 ms<br>
+                Result file create interval: 2026-07-30 18:19:39 - 2026-07-30 18:21:57<br>
+                Generation report date: 2026-07-30 18:21:59<br>
             </div>
         </div>
     </div>
