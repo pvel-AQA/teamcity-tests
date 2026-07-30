@@ -34,8 +34,8 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     private final SelenideElement leftPanelProjects = $("a[href*='item=projects']");
     private final SelenideElement restPageSearchByBuildNumberField = $("#headerSearchField");
     private final SelenideElement restPageProjects = $("div.restPageTitleWrapper");
-    //private final SelenideElement restPageInstallBuildAgentsLink = $();
-    //private final SelenideElement restPageCreateProjectBtn = $();
+    private final SelenideElement restPageInstallBuildAgentsLink = $("div.quickLinks a");
+    private final SelenideElement restPageCreateProjectBtn = $("p.createProject a");
     private final SelenideElement restPageProjectsDescription = $("div.descr");
     private final SelenideElement restPageKeywordSearchField = $("#keyword");
     private final SelenideElement restPageFilterBtn = $("input[name='submitFilter']");
@@ -46,7 +46,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     private final SelenideElement restPageShowArchivedLabel = $("label[for='includeArchived']");
     private final SelenideElement restPageExpandAllBtn = $("a[title='Expand All']");
     private final SelenideElement restPageCollapseAllBtn = $("a[title='Collapse All']");
-    //private final SelenideElement restPageRootProjectHeader = $();
+    private final SelenideElement restPageRootProjectHeader = $("td.project_name.depth-0");
     private final SelenideElement restPageRootProjectContentList = $("#adminOverview");
     private final ElementsCollection projectSettingsLinks =
             $$("#adminOverview a[href*='editProject.html'][href*='projectId=']");
@@ -107,47 +107,6 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageShowArchivedLabel.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
         restPageRootProjectContentList.shouldBe(visible);
-        return this;
-    }
-
-    public AdminProjectsPage checkFilterIsAvailable() {
-        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
-        restPageFilterBtn.shouldBe(visible);
-        restPageFilterHint.shouldBe(visible).shouldHave(exactText(FILTER_HINT));
-        return this;
-    }
-
-    public AdminProjectsPage filterByKeyword(String keyword) {
-        restPageKeywordSearchField.shouldBe(visible).setValue(keyword);
-        restPageFilterBtn.shouldBe(visible).click();
-        webdriver().shouldHave(urlContaining(KEYWORD_URL_PARAMETER + keyword));
-        restPageAllProjectsBlock.shouldBe(visible);
-        return this;
-    }
-
-    public AdminProjectsPage resetFilter() {
-        restPageResetFilterLink.shouldBe(visible).click();
-        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
-        restPageRootProjectContentList.shouldBe(visible);
-        return this;
-    }
-
-    public String getFilterKeyword() {
-        return restPageKeywordSearchField.shouldBe(visible).getValue();
-    }
-
-    public Map<String, String> getDisplayedBuildConfigurations() {
-        restPageAllProjectsBlock.shouldBe(visible);
-        return buildConfigurationLinks.asFixedIterable().stream()
-                .map(link -> Map.entry(
-                        buildTypeIdFrom(link.getAttribute("href")),
-                        link.$("span.build_type_name_inner").getAttribute("textContent").trim()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public AdminProjectsPage checkNothingMatchesTheFilter() {
-        restPageAllProjectsBlock.shouldBe(visible).shouldHave(text(NO_MATCHES_MESSAGE));
-        restPageRootProjectContentList.shouldNot(exist);
         return this;
     }
 
