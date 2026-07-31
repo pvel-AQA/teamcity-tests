@@ -14,8 +14,9 @@ public class CreateBuildConfigurationPage extends BasePage<CreateBuildConfigurat
     private final SelenideElement skipButton = $(Selectors.byText("Skip"));
 
     public EditProjectPage clickSkipButton() {
-        retryUntilElementIsDisplayed(skipButton);
-        skipButton.click();
+//        retryUntilElementIsDisplayed(skipButton);
+        skipButton.shouldBe(Condition.visible).click();
+//        skipButton.click();
         return getPage(EditProjectPage.class);
     }
 

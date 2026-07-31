@@ -13,7 +13,6 @@ import common.enums.UserRoles;
 import common.helpers.EntityStorage;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
-import ui.pages.CreateProjectPage;
 import ui.pages.QueuePage;
 import ui.pages.EditBuildGeneralPage;
 
