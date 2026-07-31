@@ -199,17 +199,13 @@ public class AdminProjectsTest extends BaseUiTest {
     void adminSeesFilteredOutProjectsAgainAfterResettingFilterTest() {
         int unrelatedToCreate = RandomGenerator.generateInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
         Allure.parameter("Unrelated projects to create", unrelatedToCreate);
-
         List<ProjectResponse> unrelatedProjects = IntStream.range(0, unrelatedToCreate)
                 .mapToObj(index -> UserSteps.createProjectWithExtension(
                         RandomGenerator.generate(ProjectRequest.class)))
                 .toList();
-
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
-
         ProjectResponse matchingOne = UserSteps.createProjectWithName(keyword + "ProjectOne");
         ProjectResponse matchingTwo = UserSteps.createProjectWithName(keyword + "ProjectTwo");
-
         List<ProjectResponse> allProjects = new ArrayList<>(unrelatedProjects);
         allProjects.addAll(List.of(matchingOne, matchingTwo));
 
