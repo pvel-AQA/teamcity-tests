@@ -139,16 +139,27 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageShowArchivedLabel.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
         restPageRootProjectContentList.shouldBe(visible);
+        sleep(3000);
+        return this;
+    }
+
+    public AdminProjectsPage doNotShowArchivedProjects() {
+        restPageShowArchivedLabel.shouldBe(visible).click();
+        webdriver().shouldNotHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
+        restPageRootProjectContentList.shouldBe(visible);
+        sleep(3000);
         return this;
     }
 
     public AdminProjectsPage expandAllProjects() {
         restPageExpandAllBtn.shouldBe(visible).click();
+        sleep(3000);
         return this;
     }
 
     public AdminProjectsPage checkProjectIsVisible(String projectId, String projectName) {
         projectSettingsLink(projectId).shouldBe(visible, EXPAND_TIMEOUT).shouldHave(exactText(projectName));
+        sleep(3000);
         return this;
     }
 

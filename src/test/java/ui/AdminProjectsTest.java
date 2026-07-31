@@ -22,32 +22,6 @@ import java.util.stream.Collectors;
 public class AdminProjectsTest extends BaseUiTest {
 
     @Test
-    @ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
-    @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    void adminSeesExactlyTheSameProjectsOnAdminPageAsApiReturnsTest() {
-        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
-                .checkItIsCorrectPage()
-                .checkHeaderIsVisible();
-
-        Map<String, String> uiProjects = adminProjectsPage.getDisplayedProjects();
-        int displayedCount = adminProjectsPage.getDisplayedProjectsCount();
-        int descriptionCount = adminProjectsPage.getActiveProjectsCountFromDescription();
-
-        AllProjectsResponse allProjects = UserSteps.getAllProjects();
-        Map<String, String> apiProjects = allProjects.getProjects().stream()
-                .filter(project -> !AdminProjectsPage.ROOT_PROJECT_ID.equals(project.getId()))
-                .collect(Collectors.toMap(ProjectResponse::getId, ProjectResponse::getName));
-
-        attachProjects("UI projects (Admin page)", uiProjects);
-        attachProjects("API projects", apiProjects);
-        attachComparison(uiProjects, apiProjects);
-
-        softly.assertThat(uiProjects).containsExactlyInAnyOrderEntriesOf(apiProjects);
-        softly.assertThat(displayedCount).isEqualTo(apiProjects.size());
-        softly.assertThat(descriptionCount-1).isEqualTo(apiProjects.size());
-    }
-
-    @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesOwnCreatedProjectsOnAdminPageTest() {
         ProjectResponse firstProject =
@@ -120,8 +94,6 @@ public class AdminProjectsTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminFiltersProjectsByKeywordOnAdminPageTest() {
-        // The keyword is unique per run, so only the projects created below can match it.
-        // Projects that must not match still get a unique suffix to keep their names free of collisions.
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
         String unrelatedSuffix = TeamCityDataGenerator.generateString("Other", 8);
 
@@ -166,6 +138,8 @@ public class AdminProjectsTest extends BaseUiTest {
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
                 .checkHeaderIsVisible()
+                .showArchivedProjects()
+                .doNotShowArchivedProjects()
                 .checkFilterIsAvailable()
                 .filterByKeyword(keyword);
 
@@ -189,16 +163,20 @@ public class AdminProjectsTest extends BaseUiTest {
                 .as("Projects that do not match the keyword must be filtered out")
                 .doesNotContainAnyElementsOf(expectedNonMatches.keySet());
 
-        adminProjectsPage.checkProjectIsVisible(matchingSubOne.getId(), matchingSubOne.getName())
+        adminProjectsPage
+                .checkProjectIsVisible(matchingSubOne.getId(), matchingSubOne.getName())
                 .checkProjectIsVisible(matchingSubTwo.getId(), matchingSubTwo.getName());
         softly.assertThat(adminProjectsPage.getProjectDepth(matchingSubOne.getId()))
                 .as("A matching sub-project must stay nested under its parent in the filtered tree")
                 .isEqualTo(adminProjectsPage.getProjectDepth(parentOfMatchingSubOne.getId()) + 1);
 
-        adminProjectsPage.filterByKeyword(TeamCityDataGenerator.generateString("NoSuchProject", 8))
+        adminProjectsPage
+                .filterByKeyword(TeamCityDataGenerator.generateString("NoSuchProject", 8))
                 .checkNothingMatchesTheFilter();
 
-        Map<String, String> projectsAfterReset = adminProjectsPage.resetFilter().getDisplayedProjects();
+        Map<String, String> projectsAfterReset = adminProjectsPage
+                .resetFilter()
+                .getDisplayedProjects();
         attachProjects("UI projects after filter reset", projectsAfterReset);
 
         softly.assertThat(projectsAfterReset)
@@ -212,7 +190,8 @@ public class AdminProjectsTest extends BaseUiTest {
                 .as("Resetting the filter must not reveal archived projects")
                 .doesNotContainAnyElementsOf(expectedArchivedMatches.keySet());
 
-        Map<String, String> matchesWithArchived = adminProjectsPage.filterByKeyword(keyword)
+        Map<String, String> matchesWithArchived = adminProjectsPage
+                .filterByKeyword(keyword)
                 .showArchivedProjects()
                 .getDisplayedProjects();
         attachProjects("UI projects filtered by '" + keyword + "' with archived shown", matchesWithArchived);
@@ -240,14 +219,14 @@ public class AdminProjectsTest extends BaseUiTest {
         return merged;
     }
 
-    private static void attachProjects(String name, Map<String, String> projects) {
+    static void attachProjects(String name, Map<String, String> projects) {
         String body = new TreeMap<>(projects).entrySet().stream()
                 .map(project -> project.getKey() + " = " + project.getValue())
                 .collect(Collectors.joining("\n"));
         Allure.addAttachment(name + " [" + projects.size() + "]", "text/plain", body, ".txt");
     }
 
-    private static void attachComparison(Map<String, String> uiProjects, Map<String, String> apiProjects) {
+    static void attachComparison(Map<String, String> uiProjects, Map<String, String> apiProjects) {
         Set<String> allIds = new TreeSet<>(uiProjects.keySet());
         allIds.addAll(apiProjects.keySet());
 
