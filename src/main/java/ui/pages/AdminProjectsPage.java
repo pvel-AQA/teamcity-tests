@@ -68,6 +68,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         restPageSearchByBuildNumberField.shouldBe(visible);
         createProjectLink.shouldBe(Condition.visible);
         checkHeaderIsVisible();
+        checkFilterIsAvailable();
         return this;
     }
 

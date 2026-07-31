@@ -100,7 +100,8 @@ public class AdminProjectsTest extends BaseUiTest {
 
         Map<String, String> expectedMatches = asMap(keywordAtStart, keywordInMiddle, keywordAtEnd);
 
-        AdminProjectsPage adminProjectsPage = openAdminProjectsPage().filterByKeyword(keyword);
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage().filterByKeyword(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", displayedProjects);
@@ -121,7 +122,8 @@ public class AdminProjectsTest extends BaseUiTest {
         ProjectResponse matchingSubProject =
                 UserSteps.createSubProject(parentProject.getId(), "Sub" + keyword + "One");
 
-        AdminProjectsPage adminProjectsPage = openAdminProjectsPage().filterByKeyword(keyword);
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage().filterByKeyword(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", displayedProjects);
@@ -130,39 +132,40 @@ public class AdminProjectsTest extends BaseUiTest {
         adminProjectsPage.checkProjectIsVisible(matchingSubProject.getId(), matchingSubProject.getName());
 
         softly.assertThat(displayedProjects)
-                .containsExactlyInAnyOrderEntriesOf(asMap(parentProject, matchingSubProject));
+                .isEqualTo(asMap(parentProject, matchingSubProject));
         softly.assertThat(adminProjectsPage.getProjectDepth(matchingSubProject.getId()))
                 .isEqualTo(adminProjectsPage.getProjectDepth(parentProject.getId()) + 1);
     }
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    void adminDoesNotSeeArchivedMatchesWhileShowArchivedIsOffTest() {
+    void adminDoesNotSeeArchivedMatchesWhileShowArchivedIsOffWhenFilteringTest() {
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
 
         ProjectResponse activeMatch = UserSteps.createProjectWithName("Active" + keyword + "Project");
         ProjectResponse archivedMatch = UserSteps.createProjectWithNameAndArchiveIt("Archived" + keyword + "Project");
 
-        AdminProjectsPage adminProjectsPage = openAdminProjectsPage().filterByKeyword(keyword);
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage().filterByKeyword(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", displayedProjects);
         attachProjects("Expected match", asMap(activeMatch));
         attachProjects("Expected archived match (hidden until 'Show archived')", asMap(archivedMatch));
 
-        softly.assertThat(displayedProjects)
-                .containsExactlyInAnyOrderEntriesOf(asMap(activeMatch));
+        softly.assertThat(displayedProjects).isEqualTo(asMap(activeMatch));
     }
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    void adminSeesArchivedMatchesAfterEnablingShowArchivedWhileFilteringTest() {
+    void adminSeesArchivedMatchesAfterEnablingShowArchivedWhenFilteringTest() {
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
 
         ProjectResponse activeMatch = UserSteps.createProjectWithName("Active" + keyword + "Project");
         ProjectResponse archivedMatch = UserSteps.createProjectWithNameAndArchiveIt("Archived" + keyword + "Project");
 
-        AdminProjectsPage adminProjectsPage = openAdminProjectsPage()
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage()
                 .filterByKeyword(keyword)
                 .showArchivedProjects();
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
@@ -170,64 +173,69 @@ public class AdminProjectsTest extends BaseUiTest {
         attachProjects("UI projects filtered by '" + keyword + "' with archived shown", displayedProjects);
         attachProjects("Expected matches", asMap(activeMatch, archivedMatch));
 
-        softly.assertThat(adminProjectsPage.getFilterKeyword())
-                .isEqualTo(keyword);
-        softly.assertThat(displayedProjects)
-                .containsExactlyInAnyOrderEntriesOf(asMap(activeMatch, archivedMatch));
-        softly.assertThat(adminProjectsPage.isProjectMarkedArchived(archivedMatch.getId()))
-                .isTrue();
+        softly.assertThat(adminProjectsPage.getFilterKeyword()).isEqualTo(keyword);
+        softly.assertThat(displayedProjects).isEqualTo(asMap(activeMatch, archivedMatch));
+        softly.assertThat(adminProjectsPage.isProjectMarkedArchived(archivedMatch.getId())).isTrue();
     }
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    void adminSeesNoMatchesMessageWhenKeywordMatchesNothingTest() {
+    void adminSeesNoMatchesMessageWhenKeywordMatchesNothingWhenFilteringTest() {
         ProjectResponse existingProject =
                 UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
 
-        AdminProjectsPage adminProjectsPage = openAdminProjectsPage();
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage();
         attachProjects("UI projects before filtering", adminProjectsPage.getDisplayedProjects());
 
         adminProjectsPage
                 .checkProjectIsVisible(existingProject.getId(), existingProject.getName())
-                .filterByKeyword(TeamCityDataGenerator.generateString("NoSuchProject", 8))
+                .filterByKeyword(TeamCityDataGenerator.generateString(8))
                 .checkNothingMatchesTheFilter();
     }
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesFilteredOutProjectsAgainAfterResettingFilterTest() {
+        int unrelatedToCreate = RandomGenerator.generateInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
+        Allure.parameter("Unrelated projects to create", unrelatedToCreate);
+
+        List<ProjectResponse> unrelatedProjects = IntStream.range(0, unrelatedToCreate)
+                .mapToObj(index -> UserSteps.createProjectWithExtension(
+                        RandomGenerator.generate(ProjectRequest.class)))
+                .toList();
+
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
 
         ProjectResponse matchingOne = UserSteps.createProjectWithName(keyword + "ProjectOne");
         ProjectResponse matchingTwo = UserSteps.createProjectWithName(keyword + "ProjectTwo");
-        ProjectResponse unrelated =
-                UserSteps.createProjectWithName(TeamCityDataGenerator.generateString("UnrelatedProject", 8));
 
-        AdminProjectsPage adminProjectsPage = openAdminProjectsPage().filterByKeyword(keyword);
+        List<ProjectResponse> allProjects = new ArrayList<>(unrelatedProjects);
+        allProjects.addAll(List.of(matchingOne, matchingTwo));
+
+        AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
+                .checkItIsCorrectPage().filterByKeyword(keyword);
         Map<String, String> filteredProjects = adminProjectsPage.getDisplayedProjects();
         Map<String, String> projectsAfterReset = adminProjectsPage.resetFilter().getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", filteredProjects);
         attachProjects("UI projects after filter reset", projectsAfterReset);
+        attachProjects("Projects created by this test", asMap(allProjects));
 
         softly.assertThat(filteredProjects)
                 .containsExactlyInAnyOrderEntriesOf(asMap(matchingOne, matchingTwo));
         softly.assertThat(projectsAfterReset)
-                .containsAllEntriesOf(asMap(matchingOne, matchingTwo, unrelated));
-    }
-
-    private static AdminProjectsPage openAdminProjectsPage() {
-        return new AdminProjectsPage().open()
-                .checkItIsCorrectPage()
-                .checkFilterIsAvailable();
+                .containsAllEntriesOf(asMap(allProjects));
     }
 
     private static Map<String, String> asMap(ProjectResponse... projects) {
-        return Arrays.stream(projects)
-                .collect(Collectors.toMap(ProjectResponse::getId, ProjectResponse::getName));
+        return asMap(List.of(projects));
     }
 
-    //--------------------------------------------------------------------------------------------
+    private static Map<String, String> asMap(Collection<ProjectResponse> projects) {
+        return projects.stream()
+                .collect(Collectors.toMap(ProjectResponse::getId, ProjectResponse::getName));
+    }
 
     static void attachProjects(String name, Map<String, String> projects) {
         String body = new TreeMap<>(projects).entrySet().stream()
