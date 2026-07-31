@@ -1,7 +1,9 @@
 package ui.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.RetryUtils;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.back;
@@ -11,23 +13,7 @@ public class CreateBuildConfigurationPage extends BasePage<CreateBuildConfigurat
 
     private final SelenideElement skipButton = $(Selectors.byText("Skip"));
 
-    public EditProjectPage clickSkipButton() throws InterruptedException {
-//        int maxAttempts = 2;
-//        for (int i = 0; i < maxAttempts; i++) {
-//            try {
-//                skipButton.click();
-//                break;
-//            } catch (Exception | AssertionError e) {
-//                if (i == maxAttempts - 1) {
-//                    throw e;
-//                }
-//                back();
-//                sleep(1000);
-//                getPage(ConnectVCSPage.class).clickProceedWithoutRepositoryButton();
-//                sleep(1000);
-//            }
-//        }
-//        return getPage(EditProjectPage.class);
+    public EditProjectPage clickSkipButton() {
         retryUntilElementIsDisplayed(skipButton);
         skipButton.click();
         return getPage(EditProjectPage.class);

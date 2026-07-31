@@ -29,7 +29,7 @@ public class CreateProjectTest extends BaseUiTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void userCanCreateProjectTest() throws InterruptedException {
+    public void userCanCreateProjectTest() {
         var projectRequest = RandomGenerator.generate(ProjectRequest.class);
 
         ProjectElement uiProject = new CreateProjectPage()
