@@ -13,13 +13,12 @@ import common.helpers.StepLogger;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ui.base.BaseUiTest;
-import ui.base.SingleThreadBaseTest;
 import ui.enums.alerts.BuildConfigAlert;
 import ui.enums.errors.BuildConfigErrorMessage;
 import ui.enums.successmessages.UISuccessMessage;
 import ui.pages.*;
 
-public class BuildConfigurationTest extends SingleThreadBaseTest {
+public class BuildConfigurationTest extends BaseUiTest {
     private static final int EXPECTED_NUMBER_OF_BUILD_CONFIGS_ONE = 1;
 
     @Test
