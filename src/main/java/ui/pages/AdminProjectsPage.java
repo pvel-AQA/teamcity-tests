@@ -32,22 +32,22 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
             "//*[contains(normalize-space(.), 'Access denied')"
                     + " or contains(normalize-space(.), 'do not have enough permissions')]"));
     private final SelenideElement leftPanelProjects = $("a[href*='item=projects']");
-    private final SelenideElement restPageSearchByBuildNumberField = $("#headerSearchField");
-    private final SelenideElement restPageProjects = $("div.restPageTitleWrapper");
+    private final SelenideElement SearchByBuildNumberField = $("#headerSearchField");
+    private final SelenideElement Projects = $("div.restPageTitleWrapper");
     //private final SelenideElement restPageInstallBuildAgentsLink = $();
     //private final SelenideElement restPageCreateProjectBtn = $();
-    private final SelenideElement restPageProjectsDescription = $("div.descr");
-    private final SelenideElement restPageKeywordSearchField = $("#keyword");
-    private final SelenideElement restPageFilterBtn = $("input[name='submitFilter']");
-    private final SelenideElement restPageResetFilterLink = $("a.reset[title='Reset the filter']");
-    private final SelenideElement restPageFilterHint = $("div.actionBar div.smallNote");
-    private final SelenideElement restPageAllProjectsBlock = $("#all-projects");
+    private final SelenideElement ProjectsDescription = $("div.descr");
+    private final SelenideElement KeywordSearchField = $("#keyword");
+    private final SelenideElement FilterBtn = $("input[name='submitFilter']");
+    private final SelenideElement ResetFilterLink = $("a.reset[title='Reset the filter']");
+    private final SelenideElement FilterHint = $("div.actionBar div.smallNote");
+    private final SelenideElement AllProjectsBlock = $("#all-projects");
     private final SelenideElement restPageShowArchivedCheckBox = $("#includeArchived");
-    private final SelenideElement restPageShowArchivedLabel = $("label[for='includeArchived']");
-    private final SelenideElement restPageExpandAllBtn = $("a[title='Expand All']");
-    private final SelenideElement restPageCollapseAllBtn = $("a[title='Collapse All']");
+    private final SelenideElement ShowArchivedLabel = $("label[for='includeArchived']");
+    private final SelenideElement ExpandAllBtn = $("a[title='Expand All']");
+    private final SelenideElement CollapseAllBtn = $("a[title='Collapse All']");
     //private final SelenideElement restPageRootProjectHeader = $();
-    private final SelenideElement restPageRootProjectContentList = $("#adminOverview");
+    private final SelenideElement RootProjectContentList = $("#adminOverview");
     private final ElementsCollection projectSettingsLinks =
             $$("#adminOverview a[href*='editProject.html'][href*='projectId=']");
     private final ElementsCollection buildConfigurationLinks =
@@ -62,10 +62,10 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         webdriver().shouldHave(urlContaining(ADMIN_PROJECTS_URL_MARKER));
         webdriver().shouldNotHave(urlContaining(LOGIN_PAGE_MARKER));
         leftPanelProjects.shouldBe(visible);
-        restPageProjects.shouldBe(visible).shouldHave(Condition.text(PROJECTS_TITLE));
-        restPageProjectsDescription.shouldBe(visible);
-        restPageRootProjectContentList.shouldBe(visible);
-        restPageSearchByBuildNumberField.shouldBe(visible);
+        Projects.shouldBe(visible).shouldHave(Condition.text(PROJECTS_TITLE));
+        ProjectsDescription.shouldBe(visible);
+        RootProjectContentList.shouldBe(visible);
+        SearchByBuildNumberField.shouldBe(visible);
         createProjectLink.shouldBe(Condition.visible);
         checkHeaderIsVisible();
         checkFilterIsAvailable();
@@ -78,7 +78,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     }
 
     public Map<String, String> getDisplayedProjects() {
-        restPageRootProjectContentList.shouldBe(visible);
+        RootProjectContentList.shouldBe(visible);
         return projectSettingsLinks.shouldHave(CollectionCondition.sizeGreaterThan(0))
                 .asFixedIterable().stream()
                 .map(link -> Map.entry(
@@ -89,7 +89,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     }
 
     public int getActiveProjectsCountFromDescription() {
-        String description = restPageProjectsDescription.shouldBe(visible)
+        String description = ProjectsDescription.shouldBe(visible)
                 .shouldHave(matchText(ACTIVE_PROJECTS_COUNT.pattern()))
                 .getText();
 
@@ -105,62 +105,58 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     }
 
     public AdminProjectsPage checkFilterIsAvailable() {
-        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
-        restPageFilterBtn.shouldBe(visible);
-        restPageFilterHint.shouldBe(visible).shouldHave(Condition.text(FILTER_HINT));
-        restPageShowArchivedLabel.shouldBe(visible);
+        KeywordSearchField.shouldBe(visible).shouldBe(empty);
+        FilterBtn.shouldBe(visible);
+        FilterHint.shouldBe(visible).shouldHave(Condition.text(FILTER_HINT));
+        ShowArchivedLabel.shouldBe(visible);
         return this;
     }
 
     public AdminProjectsPage filterByKeyword(String keyword) {
-        restPageKeywordSearchField.shouldBe(visible).setValue(keyword);
-        restPageFilterBtn.shouldBe(visible).click();
+        KeywordSearchField.shouldBe(visible).setValue(keyword);
+        FilterBtn.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(KEYWORD_URL_PARAMETER + keyword));
         return this;
     }
 
     public String getFilterKeyword() {
-        return restPageKeywordSearchField.shouldBe(visible).getValue();
+        return KeywordSearchField.shouldBe(visible).getValue();
     }
 
     public AdminProjectsPage checkNothingMatchesTheFilter() {
-        restPageAllProjectsBlock.shouldBe(visible).shouldHave(Condition.text(NO_MATCHES_MESSAGE));
-        restPageRootProjectContentList.shouldNot(exist);
+        AllProjectsBlock.shouldBe(visible).shouldHave(Condition.text(NO_MATCHES_MESSAGE));
+        RootProjectContentList.shouldNot(exist);
         return this;
     }
 
     public AdminProjectsPage resetFilter() {
-        restPageResetFilterLink.shouldBe(visible).click();
-        restPageKeywordSearchField.shouldBe(visible).shouldBe(empty);
-        restPageRootProjectContentList.shouldBe(visible);
+        ResetFilterLink.shouldBe(visible).click();
+        KeywordSearchField.shouldBe(visible).shouldBe(empty);
+        RootProjectContentList.shouldBe(visible);
         return this;
     }
 
     public AdminProjectsPage showArchivedProjects() {
-        restPageShowArchivedLabel.shouldBe(visible).click();
+        ShowArchivedLabel.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
-        restPageRootProjectContentList.shouldBe(visible);
-        sleep(3000);
+        RootProjectContentList.shouldBe(visible);
         return this;
     }
 
     public AdminProjectsPage doNotShowArchivedProjects() {
-        restPageShowArchivedLabel.shouldBe(visible).click();
+        ShowArchivedLabel.shouldBe(visible).click();
         webdriver().shouldNotHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
-        restPageRootProjectContentList.shouldBe(visible);
-        sleep(3000);
+        RootProjectContentList.shouldBe(visible);
         return this;
     }
 
     public AdminProjectsPage expandAllProjects() {
-        restPageExpandAllBtn.shouldBe(visible).click();
-        sleep(3000);
+        ExpandAllBtn.shouldBe(visible).click();
         return this;
     }
 
     public AdminProjectsPage checkProjectIsVisible(String projectId, String projectName) {
         projectSettingsLink(projectId).shouldBe(visible, EXPAND_TIMEOUT).shouldHave(exactText(projectName));
-        sleep(3000);
         return this;
     }
 
