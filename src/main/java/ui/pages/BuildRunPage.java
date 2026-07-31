@@ -99,7 +99,7 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
                 3000
                 );
         stopBuildButton.shouldBe(Condition.visible).click();
-        confirmStopButton.click();
+        $(Selectors.byAttribute("value", "Stop")).click();
 
         return this;
     }
