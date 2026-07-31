@@ -25,7 +25,7 @@ public abstract class BaseElement {
     protected void retryUntilElementIsDisplayed(SelenideElement element) {
         RetryUtils.retry(
                 "Wait until web element is displayed",
-                () -> element.isDisplayed(),
+                () -> element.isDisplayed() && element.isEnabled(),
                 visible -> visible,
                 60,
                 1000
