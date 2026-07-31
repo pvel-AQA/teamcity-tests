@@ -90,8 +90,15 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
     public BuildRunPage stopBuildRun() {
-        stopBuildButton.shouldBe(Condition.visible).click();
-        confirmStopButton.click();
+        RetryUtils.retry(
+                "Wait until Stop Build button appears",
+                stopBuildButton::isDisplayed,
+                visible -> visible,
+                20,
+                1000
+        );
+        stopBuildButton.click();
+        confirmStopButton.shouldBe(Condition.visible).click();
         return this;
     }
 
