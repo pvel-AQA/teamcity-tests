@@ -5,7 +5,8 @@
       "128.0": {
         "image": "selenoid/vnc:chrome_128.0",
         "port": "4444",
-        "path": "/"
+        "path": "/",
+        "shmSize": 2147483648
       }
     }
   },
