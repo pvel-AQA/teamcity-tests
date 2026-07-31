@@ -13,6 +13,7 @@ import ui.base.BaseUiTest;
 import ui.pages.AdminProjectsPage;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,10 +25,10 @@ public class AdminProjectsTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesOwnCreatedProjectsOnAdminPageTest() {
-        int projectsToCreate = RandomGenerator.generateInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
-        Allure.parameter("Projects to create", projectsToCreate);
+        int numberOfProjectsToCreate = ThreadLocalRandom.current().nextInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
+        Allure.parameter("Projects to create", numberOfProjectsToCreate);
 
-        Map<String, String> expectedProjects = asMap(IntStream.range(0, projectsToCreate)
+        Map<String, String> expectedProjects = asMap(IntStream.range(0, numberOfProjectsToCreate)
                 .mapToObj(index -> UserSteps.createProjectWithExtension(
                         RandomGenerator.generate(ProjectRequest.class)))
                 .toArray(ProjectResponse[]::new));
@@ -197,9 +198,9 @@ public class AdminProjectsTest extends BaseUiTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesFilteredOutProjectsAgainAfterResettingFilterTest() {
-        int unrelatedToCreate = RandomGenerator.generateInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
-        Allure.parameter("Unrelated projects to create", unrelatedToCreate);
-        List<ProjectResponse> unrelatedProjects = IntStream.range(0, unrelatedToCreate)
+        int unrelatedProjectsToCreate = ThreadLocalRandom.current().nextInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
+        Allure.parameter("Unrelated projects to create", unrelatedProjectsToCreate);
+        List<ProjectResponse> unrelatedProjects = IntStream.range(0, unrelatedProjectsToCreate)
                 .mapToObj(index -> UserSteps.createProjectWithExtension(
                         RandomGenerator.generate(ProjectRequest.class)))
                 .toList();

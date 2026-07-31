@@ -12,10 +12,6 @@ public class RandomGenerator {
 
     private static final Random random = new Random();
 
-    public static int generateInt(int minInclusive, int maxInclusive) {
-        return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
-    }
-
     public static <T> T generate(Class<T> clazz, String... fieldsToInvalidate) {
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
