@@ -99,8 +99,8 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
 
     private void retryUntilElementIsDisplayed(SelenideElement element) {
         RetryUtils.retry(
-                "Wait until Stop Build button appears",
-                element::isDisplayed,
+                "Wait until web element is displayed",
+                () -> element.isDisplayed() && element.isEnabled(),
                 visible -> visible,
                 60,
                 1000
