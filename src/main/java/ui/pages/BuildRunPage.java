@@ -90,7 +90,9 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
     public BuildRunPage stopBuildRun() {
-        stopBuildButton.shouldBe(Condition.visible).click();
+        retryUntilElementIsDisplayed(stopBuildButton);
+        stopBuildButton.click();
+        retryUntilElementIsDisplayed(confirmStopButton);
         confirmStopButton.click();
         return this;
     }

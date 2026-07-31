@@ -13,7 +13,6 @@ import common.enums.UserRoles;
 import common.helpers.EntityStorage;
 import org.junit.jupiter.api.Test;
 import ui.base.SingleThreadBaseTest;
-import ui.pages.CreateProjectPage;
 import ui.pages.QueuePage;
 import ui.pages.EditBuildGeneralPage;
 
@@ -27,7 +26,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void checkSuccessBuildStatusIsDisplayedTest() {
+    public void successBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
         var buildRunId = new EditBuildGeneralPage()
@@ -49,12 +48,10 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void checkRunningBuildStatusIsDisplayedTest() {
+    public void runningBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
-        var buildRunId = new CreateProjectPage()
-                .open()
-                .getPage(EditBuildGeneralPage.class)
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(RUNNING)
@@ -72,7 +69,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void checkFailedBuildStatusIsDisplayedTest() {
+    public void failedBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(EXIT_WITH_ERROR);
 
         var buildRunId = new EditBuildGeneralPage()
@@ -94,7 +91,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    public void checkCanceledBuildStatusIsDisplayedTest() {
+    public void canceledBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
         var buildRunId = new EditBuildGeneralPage()
@@ -118,7 +115,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     @ResumeBuildQueueAfterTest
-    public void checkPausedBuildStatusIsDisplayedTest() {
+    public void inQueueBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
         var buildRunId = new QueuePage()
