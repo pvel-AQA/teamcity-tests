@@ -19,6 +19,7 @@ public class BaseTest {
     public static void setupAgent() {
         int agentId = SuperUserSteps.getAgentId();
         SuperUserSteps.authorizeAgent(agentId);
+        //
     }
 
     @BeforeEach
