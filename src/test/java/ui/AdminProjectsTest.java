@@ -28,6 +28,7 @@ public class AdminProjectsTest extends BaseUiTest {
         int numberOfProjectsToCreate = ThreadLocalRandom.current().nextInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
         Allure.parameter("Projects to create", numberOfProjectsToCreate);
 
+        //can it be done via
         Map<String, String> expectedProjects = asMap(IntStream.range(0, numberOfProjectsToCreate)
                 .mapToObj(index -> UserSteps.createProjectWithExtension(
                         RandomGenerator.generate(ProjectRequest.class)))
@@ -57,7 +58,7 @@ public class AdminProjectsTest extends BaseUiTest {
 
         softly.assertThat(adminProjectsPage.getDisplayedProjects()).doesNotContainKey(archivedProject.getId());
 
-        adminProjectsPage.showArchivedProjects();
+        adminProjectsPage.clickShowArchivedProjects();
 
         attachProjects("UI projects after 'Show archived'", adminProjectsPage.getDisplayedProjects());
 
@@ -102,7 +103,7 @@ public class AdminProjectsTest extends BaseUiTest {
         Map<String, String> expectedMatches = asMap(keywordAtStart, keywordInMiddle, keywordAtEnd);
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
-                .checkItIsCorrectPage().filterByKeyword(keyword);
+                .checkItIsCorrectPage().enterKeywordAndClickFilterButton(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", displayedProjects);
@@ -124,7 +125,7 @@ public class AdminProjectsTest extends BaseUiTest {
                 UserSteps.createSubProject(parentProject.getId(), "Sub" + keyword + "One");
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
-                .checkItIsCorrectPage().filterByKeyword(keyword);
+                .checkItIsCorrectPage().enterKeywordAndClickFilterButton(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", displayedProjects);
@@ -147,7 +148,7 @@ public class AdminProjectsTest extends BaseUiTest {
         ProjectResponse archivedMatch = UserSteps.createProjectWithNameAndArchiveIt("Archived" + keyword + "Project");
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
-                .checkItIsCorrectPage().filterByKeyword(keyword);
+                .checkItIsCorrectPage().enterKeywordAndClickFilterButton(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "'", displayedProjects);
@@ -167,8 +168,8 @@ public class AdminProjectsTest extends BaseUiTest {
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
-                .filterByKeyword(keyword)
-                .showArchivedProjects();
+                .enterKeywordAndClickFilterButton(keyword)
+                .clickShowArchivedProjects();
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
 
         attachProjects("UI projects filtered by '" + keyword + "' with archived shown", displayedProjects);
@@ -191,7 +192,7 @@ public class AdminProjectsTest extends BaseUiTest {
 
         adminProjectsPage
                 .checkProjectIsVisible(existingProject.getId(), existingProject.getName())
-                .filterByKeyword(TeamCityDataGenerator.generateString(8))
+                .enterKeywordAndClickFilterButton(TeamCityDataGenerator.generateString(8))
                 .checkNothingMatchesTheFilter();
     }
 
@@ -211,7 +212,7 @@ public class AdminProjectsTest extends BaseUiTest {
         allProjects.addAll(List.of(matchingOne, matchingTwo));
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
-                .checkItIsCorrectPage().filterByKeyword(keyword);
+                .checkItIsCorrectPage().enterKeywordAndClickFilterButton(keyword);
         Map<String, String> filteredProjects = adminProjectsPage.getDisplayedProjects();
         Map<String, String> projectsAfterReset = adminProjectsPage.resetFilter().getDisplayedProjects();
 
@@ -225,6 +226,7 @@ public class AdminProjectsTest extends BaseUiTest {
                 .containsAllEntriesOf(asMap(allProjects));
     }
 
+    //name with logic and update
     private static Map<String, String> asMap(ProjectResponse... projects) {
         return asMap(List.of(projects));
     }

@@ -18,7 +18,6 @@ import static api.steps.UserSteps.createBuildConfigurationWithSteps;
 public class RegularBuildRunTest extends SingleThreadBaseTest {
 
     @Test
-    @Disabled("Disabled as it is flaky")
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void buildRunTest() {
         var buildConfigResponse = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);

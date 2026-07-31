@@ -22,8 +22,7 @@ public class BaseUiTest extends BaseTest {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
-                                                        Map.of("enableVNC", true, "enableLog", true)
-        );
+                                                        Map.of("enableVNC", true, "enableLog", true));
     }
 
     @AfterEach

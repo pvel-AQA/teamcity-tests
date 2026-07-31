@@ -21,6 +21,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     public static final String NO_MATCHES_MESSAGE = "No active projects and build configurations match the query.";
     public static final String FILTER_HINT = "Filter projects, build configurations and pipelines by name, ID or description";
     private static final String PROJECTS_TITLE = "Projects";
+    //private static final String PROJECT_ARCHIVED = "Projects";
     private static final String KEYWORD_URL_PARAMETER = "keyword=";
     private static final Pattern ACTIVE_PROJECTS_COUNT = Pattern.compile("(\\d+)\\s+active projects");
     private static final Pattern PROJECT_DEPTH = Pattern.compile("depth-(\\d+)");
@@ -112,8 +113,8 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         return this;
     }
 
-    public AdminProjectsPage filterByKeyword(String keyword) {
-        KeywordSearchField.shouldBe(visible).setValue(keyword);
+    public AdminProjectsPage enterKeywordAndClickFilterButton(String keyword) {
+        KeywordSearchField.shouldBe(visible).sendKeys(keyword);
         FilterBtn.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(KEYWORD_URL_PARAMETER + keyword));
         return this;
@@ -136,7 +137,7 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         return this;
     }
 
-    public AdminProjectsPage showArchivedProjects() {
+    public AdminProjectsPage clickShowArchivedProjects() {
         ShowArchivedLabel.shouldBe(visible).click();
         webdriver().shouldHave(urlContaining(INCLUDE_ARCHIVED_URL_MARKER));
         RootProjectContentList.shouldBe(visible);
@@ -156,16 +157,18 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
     }
 
     public AdminProjectsPage checkProjectIsVisible(String projectId, String projectName) {
-        projectSettingsLink(projectId).shouldBe(visible, EXPAND_TIMEOUT).shouldHave(exactText(projectName));
+        getProjectSettingsLinkElementWithID(projectId).shouldBe(visible, EXPAND_TIMEOUT).shouldHave(exactText(projectName));
         return this;
     }
 
+    //redo and update test chain
     public boolean isProjectMarkedArchived(String projectId) {
-        return projectNameCell(projectId).$("span.archived_project").exists();
+        return getProjectNameFromTheList(projectId).$("span.archived_project").exists();
     }
 
+    // how to write more clear code? what is matchers? to put it into a separate variable
     public int getProjectDepth(String projectId) {
-        String cssClasses = projectNameCell(projectId).shouldBe(visible).getAttribute("class");
+        String cssClasses = getProjectNameFromTheList(projectId).shouldBe(visible).getAttribute("class");
 
         Matcher matcher = PROJECT_DEPTH.matcher(cssClasses == null ? "" : cssClasses);
         if (!matcher.find()) {
@@ -175,15 +178,18 @@ public class AdminProjectsPage extends AuthBasePage<AdminProjectsPage> {
         return Integer.parseInt(matcher.group(1));
     }
 
-    private SelenideElement projectSettingsLink(String projectId) {
+
+    private SelenideElement getProjectSettingsLinkElementWithID(String projectId) {
         return $("#adminOverview a[href$='projectId=" + projectId + "']");
     }
 
-    private SelenideElement projectNameCell(String projectId) {
-        return projectSettingsLink(projectId).ancestor(".project_name");
+    //get Project Name from the list
+    private SelenideElement getProjectNameFromTheList(String projectId) {
+        return getProjectSettingsLinkElementWithID(projectId).ancestor(".project_name");
     }
 
     private String projectIdFrom(String settingsHref) {
+
         return settingsHref.replaceAll(".*projectId=([^&]+).*", "$1");
     }
 }

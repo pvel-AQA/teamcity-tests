@@ -81,7 +81,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         }
     }
 
-   /* @Override
+   /*@Override
     public ValidatableResponse put(BaseModel model, Object... pathParams) {
         RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Put request to" + targetUrl, () -> {
