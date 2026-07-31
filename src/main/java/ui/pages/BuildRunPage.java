@@ -90,16 +90,21 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
     public BuildRunPage stopBuildRun() {
+        retryUntilElementIsDisplayed(stopBuildButton);
+        stopBuildButton.click();
+        retryUntilElementIsDisplayed(confirmStopButton);
+        confirmStopButton.click();
+        return this;
+    }
+
+    private void retryUntilElementIsDisplayed(SelenideElement element) {
         RetryUtils.retry(
                 "Wait until Stop Build button appears",
-                stopBuildButton::isDisplayed,
+                element::isDisplayed,
                 visible -> visible,
-                20,
+                60,
                 1000
         );
-        stopBuildButton.click();
-        confirmStopButton.shouldBe(Condition.visible).click();
-        return this;
     }
 
     public String getBuildRunId() {
