@@ -19,11 +19,11 @@ public class BaseUiTest extends BaseTest {
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
         Configuration.browserCapabilities.setCapability("selenoid:options",
-                Map.of("enableVNC", true, "enableLog", true)
-        );
+                Map.of("enableVNC", true, "enableLog", true));
+        Configuration.pageLoadStrategy = "eager";
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @AfterEach
