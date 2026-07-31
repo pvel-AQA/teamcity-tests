@@ -3,13 +3,13 @@ package ui;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;
-import base.BaseTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
 import org.junit.jupiter.api.parallel.Resources;
+import ui.base.BaseUiTest;
 import ui.pages.AdminProjectsPage;
 
 import java.util.Map;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static ui.AdminProjectsTest.attachComparison;
 import static ui.AdminProjectsTest.attachProjects;
 
-public class AdminIsolatedTest extends BaseTest {
+public class AdminIsolatedTest extends BaseUiTest {
     @Test
     @ResourceLock(value = Resources.GLOBAL, mode = ResourceAccessMode.READ_WRITE)
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)

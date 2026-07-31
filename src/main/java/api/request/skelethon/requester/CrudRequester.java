@@ -81,7 +81,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         }
     }
 
-    @Override
+   /* @Override
     public ValidatableResponse put(BaseModel model, Object... pathParams) {
         RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Put request to" + targetUrl, () -> {
@@ -92,7 +92,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                     .then()
                     .spec(responseSpecification);
         });
-    }
+    }*/
 
     @Override
     public ValidatableResponse put(BaseModel model) {
@@ -103,10 +103,14 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
     public ValidatableResponse put(Object body, Object... pathParams) {
         RequestSpecification request = prepareRequest(pathParams);
         return StepLogger.log("Put request to " + targetUrl, () -> {
+            if (body instanceof BaseModel) {
+                request.body(body);
+            } else {
+                request.contentType(ContentType.TEXT)
+                        .accept(ContentType.TEXT)
+                        .body(String.valueOf(body));
+            }
             return request
-                    .contentType(ContentType.TEXT)
-                    .accept(ContentType.TEXT)
-                    .body(String.valueOf(body))
                     .when()
                     .put(targetUrl)
                     .then()

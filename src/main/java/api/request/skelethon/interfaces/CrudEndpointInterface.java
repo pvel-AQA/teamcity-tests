@@ -14,7 +14,7 @@ public interface CrudEndpointInterface {
 
     Object post(BaseModel body, Object... pathParams);
 
-    Object put(BaseModel body, Object... pathParams);
+    //Object put(BaseModel body, Object... pathParams);
 
     Object put(BaseModel body);
 
