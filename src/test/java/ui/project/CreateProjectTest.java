@@ -7,14 +7,12 @@ import api.generators.TeamCityDataGenerator;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;
-import com.codeborne.selenide.Condition;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ui.base.BaseUiTest;
 import ui.elements.ProjectElement;
-import ui.enums.errors.ProjectValidationError;
 import ui.pages.ConnectVCSPage;
 import ui.pages.CreateProjectPage;
 

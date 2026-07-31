@@ -55,7 +55,7 @@ public class BuildStepsPage extends BasePage<BuildStepsPage> {
     @SuppressWarnings("unchecked")
     protected <T extends BuildStepsPage> T selectRunner(BuildStepsRunners runner) {
         addBuildStepBtn.shouldBe(visible).click();
-        newBuildStepTitle.shouldBe(appear, Duration.ofSeconds(6));
+        newBuildStepTitle.shouldBe(visible, Duration.ofSeconds(10));
         searchField.shouldBe(visible).sendKeys(runner.getDisplayName());
         searchResults.shouldHave(sizeGreaterThan(0));
         SelenideElement target = searchResults
