@@ -27,8 +27,8 @@ public class ProjectElement extends BaseElement {
         projectItem.hover();
 
         SelenideElement projectPlusButton = projectItem.find(Selectors.byXpath(".//button[@data-create-entity-button='true']"));
-        projectPlusButton.shouldBe(Condition.visible)
-                .click();
+        retryUntilElementIsDisplayed(projectPlusButton);
+        projectPlusButton.click();
 
         return this;
     }

@@ -100,16 +100,6 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
         return this;
     }
 
-    private void retryUntilElementIsDisplayed(SelenideElement element) {
-        RetryUtils.retry(
-                "Wait until web element is displayed",
-                () -> element.isDisplayed() && element.isEnabled(),
-                visible -> visible,
-                60,
-                1000
-        );
-    }
-
     public String getBuildRunId() {
         String currentUrl = WebDriverRunner.url();
 
