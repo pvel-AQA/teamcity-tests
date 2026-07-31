@@ -9,8 +9,11 @@ import common.enums.BuildStepCommand;
 import common.helpers.RetryUtils;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class BuildRunPage extends BasePage<BuildRunPage> {
+
+    private static final String RUNNING_EXPECTED_TEXT = "Running";
 
     private final SelenideElement buildStatusHeader = $(Selectors.byXpath("//div[contains(@class, 'Description-module__text')]"));
     private final SelenideElement buildStatusBadge = $(Selectors.byXpath("//div[contains(@class, 'StatusBadge-module__status')]"));
@@ -89,8 +92,15 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
     public BuildRunPage stopBuildRun() {
+        RetryUtils.retry("Wait until running appears",
+                () -> $x("//*[@class='RunningStep-module__wrapper--t4']").shouldBe(Condition.visible).getText(),
+                text -> text.equals(RUNNING_EXPECTED_TEXT),
+                3,
+                3000
+                );
         stopBuildButton.shouldBe(Condition.visible).click();
         confirmStopButton.click();
+
         return this;
     }
 
