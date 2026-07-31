@@ -61,7 +61,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/:/etc/selenoid/:ro
-    command: [ "-container-network", "teamcity-net" ]
+    command: [
+      "-container-network", "teamcity-net",
+      "-session-attempt-timeout", "5m"
+    ]
     depends_on:
       - teamcity-server
     networks:

@@ -73,9 +73,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void failedBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(EXIT_WITH_ERROR);
 
-        var buildRunId = new CreateProjectPage()
-                .open()
-                .getPage(EditBuildGeneralPage.class)
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilErrorStatusBecomes(EXIT_WITH_ERROR)
@@ -98,7 +96,6 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
         var buildRunId = new EditBuildGeneralPage()
-                .getPage(EditBuildGeneralPage.class)
                 .open(buildConfig.getId())
                 .runBuild()
                 .stopBuildRun()
