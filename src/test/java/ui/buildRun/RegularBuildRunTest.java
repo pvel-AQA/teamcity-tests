@@ -52,9 +52,7 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void checkRunningBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(BuildStepCommand.ECHO_HELLO_WORLD);
 
-        var buildRunId = new CreateProjectPage()
-                .open()
-                .getPage(EditBuildGeneralPage.class)
+        var buildRunId = new EditBuildGeneralPage()
                 .open(buildConfig.getId())
                 .runBuild()
                 .waitUntilStatusBecomes(RUNNING)
@@ -97,7 +95,9 @@ public class RegularBuildRunTest extends SingleThreadBaseTest {
     public void checkCanceledBuildStatusIsDisplayedTest() {
         BuildConfigurationResponse buildConfig = createBuildConfigurationWithSteps(ECHO_HELLO_WORLD);
 
-        var buildRunId = new EditBuildGeneralPage()
+        var buildRunId = new CreateProjectPage()
+                .open()
+                .getPage(EditBuildGeneralPage.class)
                 .open(buildConfig.getId())
                 .runBuild()
                 .stopBuildRun()
