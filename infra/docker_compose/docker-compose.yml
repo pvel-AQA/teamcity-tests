@@ -62,7 +62,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/:/etc/selenoid/:ro
     command: [
-      "-container-network", "teamcity-net"
+      "-container-network", "teamcity-net",
       "-limit", "5",
       "-service-startup-timeout", "3m",
       "-session-attempt-timeout", "5m"
