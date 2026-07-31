@@ -83,7 +83,7 @@ public class UserSteps {
         ).post(subProject);
     }
 
-    public static ProjectResponse createArchivedProjectWithName(String name) {
+    public static ProjectResponse createProjectWithNameAndArchiveIt(String name) {
         ProjectResponse project = createProjectWithName(name);
         setProjectArchived(project.getId(), true);
         return project;

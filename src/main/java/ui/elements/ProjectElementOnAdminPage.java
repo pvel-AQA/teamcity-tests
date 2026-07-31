@@ -1,6 +1,10 @@
+package ui.elements;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class ProjectElementOnAdminPage {
     private String name;
     private int indentLevel;
@@ -24,10 +28,4 @@ public class ProjectElementOnAdminPage {
     public void addChild(ProjectElementOnAdminPage child) {
         this.children.add(child);
     }
-
-    // Getters
-    public String getName() { return name; }
-    public int getIndentLevel() { return indentLevel; }
-    public boolean isExpanded() { return expanded; }
-    public List<ProjectElementOnAdminPage> getChildren() { return children; }
 }

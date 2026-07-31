@@ -14,24 +14,26 @@ import ui.pages.AdminProjectsPage;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class AdminProjectsTest extends BaseUiTest {
+
+    private static final int MIN_PROJECTS_TO_CREATE = 2;
+    private static final int MAX_PROJECTS_TO_CREATE = 5;
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSeesOwnCreatedProjectsOnAdminPageTest() {
-        ProjectResponse firstProject =
-                UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
-        ProjectResponse secondProject =
-                UserSteps.createProjectWithExtension(RandomGenerator.generate(ProjectRequest.class));
+        int projectsToCreate = RandomGenerator.generateInt(MIN_PROJECTS_TO_CREATE, MAX_PROJECTS_TO_CREATE);
+        Allure.parameter("Projects to create", projectsToCreate);
 
-        Map<String, String> expectedProjects = Map.of(
-                firstProject.getId(), firstProject.getName(),
-                secondProject.getId(), secondProject.getName());
+        Map<String, String> expectedProjects = asMap(IntStream.range(0, projectsToCreate)
+                .mapToObj(index -> UserSteps.createProjectWithExtension(
+                        RandomGenerator.generate(ProjectRequest.class)))
+                .toArray(ProjectResponse[]::new));
 
         Map<String, String> uiProjects = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
-                .checkHeaderIsVisible()
                 .getDisplayedProjects();
 
         attachProjects("Projects created by this test", expectedProjects);
@@ -48,8 +50,7 @@ public class AdminProjectsTest extends BaseUiTest {
         UserSteps.setProjectArchived(archivedProject.getId(), true);
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
-                .checkItIsCorrectPage()
-                .checkHeaderIsVisible();
+                .checkItIsCorrectPage();
 
         attachProjects("UI projects before 'Show archived'", adminProjectsPage.getDisplayedProjects());
 
@@ -73,7 +74,6 @@ public class AdminProjectsTest extends BaseUiTest {
 
         AdminProjectsPage adminProjectsPage = new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
-                .checkHeaderIsVisible()
                 .expandAllProjects()
                 .checkProjectIsVisible(parentProject.getId(), parentProject.getName())
                 .checkProjectIsVisible(subProject.getId(), subProject.getName());
@@ -107,13 +107,8 @@ public class AdminProjectsTest extends BaseUiTest {
         attachProjects("Expected matches", expectedMatches);
         attachProjects("Expected non-matches", asMap(unrelated));
 
-        softly.assertThat(adminProjectsPage.getFilterKeyword())
-                .as("Keyword field must keep the applied filter")
-                .isEqualTo(keyword);
-        softly.assertThat(displayedProjects)
-                .as("Filter must show every project whose name contains the keyword at any position, "
-                        + "and nothing else")
-                .containsExactlyInAnyOrderEntriesOf(expectedMatches);
+        softly.assertThat(adminProjectsPage.getFilterKeyword()).isEqualTo(keyword);
+        softly.assertThat(displayedProjects).containsExactlyInAnyOrderEntriesOf(expectedMatches);
     }
 
     @Test
@@ -135,11 +130,8 @@ public class AdminProjectsTest extends BaseUiTest {
         adminProjectsPage.checkProjectIsVisible(matchingSubProject.getId(), matchingSubProject.getName());
 
         softly.assertThat(displayedProjects)
-                .as("A parent that does not match the keyword must still be shown as the context "
-                        + "of its matching sub-project")
                 .containsExactlyInAnyOrderEntriesOf(asMap(parentProject, matchingSubProject));
         softly.assertThat(adminProjectsPage.getProjectDepth(matchingSubProject.getId()))
-                .as("A matching sub-project must stay nested under its parent in the filtered tree")
                 .isEqualTo(adminProjectsPage.getProjectDepth(parentProject.getId()) + 1);
     }
 
@@ -149,7 +141,7 @@ public class AdminProjectsTest extends BaseUiTest {
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
 
         ProjectResponse activeMatch = UserSteps.createProjectWithName("Active" + keyword + "Project");
-        ProjectResponse archivedMatch = UserSteps.createArchivedProjectWithName("Archived" + keyword + "Project");
+        ProjectResponse archivedMatch = UserSteps.createProjectWithNameAndArchiveIt("Archived" + keyword + "Project");
 
         AdminProjectsPage adminProjectsPage = openAdminProjectsPage().filterByKeyword(keyword);
         Map<String, String> displayedProjects = adminProjectsPage.getDisplayedProjects();
@@ -159,7 +151,6 @@ public class AdminProjectsTest extends BaseUiTest {
         attachProjects("Expected archived match (hidden until 'Show archived')", asMap(archivedMatch));
 
         softly.assertThat(displayedProjects)
-                .as("Only the active match may be listed while 'Show archived' is off")
                 .containsExactlyInAnyOrderEntriesOf(asMap(activeMatch));
     }
 
@@ -169,7 +160,7 @@ public class AdminProjectsTest extends BaseUiTest {
         String keyword = TeamCityDataGenerator.generateString("Fltr", 8);
 
         ProjectResponse activeMatch = UserSteps.createProjectWithName("Active" + keyword + "Project");
-        ProjectResponse archivedMatch = UserSteps.createArchivedProjectWithName("Archived" + keyword + "Project");
+        ProjectResponse archivedMatch = UserSteps.createProjectWithNameAndArchiveIt("Archived" + keyword + "Project");
 
         AdminProjectsPage adminProjectsPage = openAdminProjectsPage()
                 .filterByKeyword(keyword)
@@ -180,13 +171,10 @@ public class AdminProjectsTest extends BaseUiTest {
         attachProjects("Expected matches", asMap(activeMatch, archivedMatch));
 
         softly.assertThat(adminProjectsPage.getFilterKeyword())
-                .as("Keyword field must keep the applied filter after enabling 'Show archived'")
                 .isEqualTo(keyword);
         softly.assertThat(displayedProjects)
-                .as("'Show archived' must add the matching archived project to the filtered result")
                 .containsExactlyInAnyOrderEntriesOf(asMap(activeMatch, archivedMatch));
         softly.assertThat(adminProjectsPage.isProjectMarkedArchived(archivedMatch.getId()))
-                .as("Project %s must be marked as archived", archivedMatch.getId())
                 .isTrue();
     }
 
@@ -223,18 +211,14 @@ public class AdminProjectsTest extends BaseUiTest {
         attachProjects("UI projects after filter reset", projectsAfterReset);
 
         softly.assertThat(filteredProjects)
-                .as("Filter must hide the project that does not match the keyword")
                 .containsExactlyInAnyOrderEntriesOf(asMap(matchingOne, matchingTwo));
         softly.assertThat(projectsAfterReset)
-                .as("Resetting the filter must bring back every project, "
-                        + "including the one the keyword filtered out")
                 .containsAllEntriesOf(asMap(matchingOne, matchingTwo, unrelated));
     }
 
     private static AdminProjectsPage openAdminProjectsPage() {
         return new AdminProjectsPage().open()
                 .checkItIsCorrectPage()
-                .checkHeaderIsVisible()
                 .checkFilterIsAvailable();
     }
 
@@ -242,6 +226,8 @@ public class AdminProjectsTest extends BaseUiTest {
         return Arrays.stream(projects)
                 .collect(Collectors.toMap(ProjectResponse::getId, ProjectResponse::getName));
     }
+
+    //--------------------------------------------------------------------------------------------
 
     static void attachProjects(String name, Map<String, String> projects) {
         String body = new TreeMap<>(projects).entrySet().stream()

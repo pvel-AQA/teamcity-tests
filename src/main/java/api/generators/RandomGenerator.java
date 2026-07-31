@@ -6,10 +6,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomGenerator {
 
     private static final Random random = new Random();
+
+    public static int generateInt(int minInclusive, int maxInclusive) {
+        return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
+    }
 
     public static <T> T generate(Class<T> clazz, String... fieldsToInvalidate) {
         try {
