@@ -92,16 +92,22 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
     }
 
     public BuildRunPage stopBuildRun() {
-        RetryUtils.retry("Wait until running appears",
-                () -> $x("//*[@class='RunningStep-module__wrapper--t4']").shouldBe(Condition.visible).getText(),
-                text -> text.equals(RUNNING_EXPECTED_TEXT),
-                3,
-                3000
-                );
-        stopBuildButton.shouldBe(Condition.visible).click();
-        $(Selectors.byAttribute("value", "Stop")).click();
+        retryUntilElementIsDisplayed(stopBuildButton);
+        stopBuildButton.click();
+        retryUntilElementIsDisplayed(confirmStopButton);
+        confirmStopButton.click();
 
         return this;
+    }
+
+    private void retryUntilElementIsDisplayed(SelenideElement element) {
+        RetryUtils.retry(
+                "Wait until web element is displayed",
+                () -> element.isDisplayed() && element.isEnabled(),
+                visible -> visible,
+                60,
+                1000
+        );
     }
 
     public String getBuildRunId() {

@@ -45,6 +45,7 @@ jobs:
           API_PREFIX: /app/rest
           UIBASEURL: http://teamcity-server:8111
           UIREMOTE: http://localhost:4444/wd/hub
+          HEADLESS: true
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
       - name: Run Swagger Coverage
