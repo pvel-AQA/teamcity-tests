@@ -9,7 +9,6 @@ import common.enums.BuildStepCommand;
 import common.helpers.RetryUtils;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 
 public class BuildRunPage extends BasePage<BuildRunPage> {
 
