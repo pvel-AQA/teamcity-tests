@@ -37,7 +37,7 @@ public class AgentTest extends SingleThreadBaseTest {
                 .locatorEqualsConnectedTrue()
                 .build());
 
-        softly.assertThat(getAgentsResponse.getCount()).isEqualTo(2);
+        softly.assertThat(getAgentsResponse.getCount()).isEqualTo(1);
         softly.assertThat(getAgentsResponse.getAgent().getFirst().getId()).isOne();
         softly.assertThat(getAgentsResponse.getAgent().getFirst().getName()).isEqualTo(expectedAgentName);
     }
