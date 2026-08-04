@@ -22,7 +22,7 @@ import ui.base.SingleThreadBaseTest;
 
 public class AgentTest extends SingleThreadBaseTest {
 
-    @Disabled("flacky")
+//    @Disabled("flacky")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void agentCanBeConnectedToTheServerTest() {
