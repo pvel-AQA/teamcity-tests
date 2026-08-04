@@ -1,11 +1,11 @@
 package ui.pages;
 
-import common.enums.BuildStatus;
-import common.enums.BuildStepCommand;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import common.enums.BuildStatus;
+import common.enums.BuildStepCommand;
 
 import static com.codeborne.selenide.Selenide.$;
 

@@ -1,6 +1,5 @@
 package api.authorization;
 
-import api.generators.RandomGenerator;
 import api.enums.errors.AuthErrorMessage;
 import api.generators.TeamCityDataGenerator;
 import api.request.skelethon.Endpoint;
@@ -8,6 +7,8 @@ import api.request.skelethon.requester.CrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import base.BaseTest;
+import common.annotations.AuthUser;
+import common.enums.UserRoles;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -47,9 +48,10 @@ public class AuthorizationUserTest extends BaseTest {
     }
 
     @Test
+    @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void bearerTokenAuthTest() {
         new CrudRequester(
-                RequestSpec.adminSpec(),
+                RequestSpec.withAuthExtensionUser(),
                 Endpoint.SERVER,
                 ResponseSpec.returnsOk())
                 .get();
