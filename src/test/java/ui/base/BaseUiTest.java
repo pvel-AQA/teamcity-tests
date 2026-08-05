@@ -10,6 +10,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import java.util.Map;
 
@@ -23,11 +24,32 @@ public class BaseUiTest extends BaseTest {
         Configuration.browser = browser;
         Configuration.browserSize = Config.getProperty("browserSize");
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        // Увеличиваем таймаут поиска элементов для CI
+        Configuration.timeout = 10000;
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true));
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
         );
+    }
+
+    @BeforeEach
+    public void setupAllureBrowserContext(TestInfo testInfo) {
+        String browser = Configuration.browser;
+
+        // 1. Добавляем имя браузера к displayName и обновляем historyId перед запуском каждого теста
+        String displayName = testInfo.getDisplayName() + " [" + browser.toUpperCase() + "]";
+
+        Allure.getLifecycle().updateTestCase(testCase -> {
+            testCase.setName(displayName);
+            testCase.setHistoryId(testCase.getHistoryId() + "-" + browser);
+        });
+
+        // 2. Явно пишем параметр браузера в карточку теста
+        Allure.parameter("Browser", browser);
     }
 
 //    @BeforeEach
