@@ -1,0 +1,100 @@
+{
+  "_comment": [
+    "Quality gate targets for scripts/build_quality_dashboard.py.",
+    "Semantics: 'value' is the hard threshold (breaching it is a FAIL);",
+    "'warn' is a buffer sitting just short of 'value', so amber means 'close to breaching'.",
+    "  direction=minimum -> good if actual >= warn, warn if actual >= value, else bad",
+    "  direction=maximum -> good if actual <= warn, warn if actual <= value, else bad",
+    "Values are taken from real runs 339-359 so the gates are meaningful rather than",
+    "aspirational. Test coverage is deliberately not a gate: it is exactly 100 - skip_rate,",
+    "so gating both would double-count one signal. It remains a KPI tile."
+  ],
+  "pass_rate": {
+    "name": "Pass rate",
+    "value": 98.0,
+    "warn": 99.0,
+    "direction": "minimum",
+    "unit": "percent",
+    "recommendation": "Investigate failing tests; a sustained dip below 98% usually means a real product or environment regression."
+  },
+  "fail_rate": {
+    "name": "Fail rate",
+    "value": 2.0,
+    "warn": 1.0,
+    "direction": "maximum",
+    "unit": "percent",
+    "recommendation": "Assertion failures point at product behaviour. Triage before they become accepted noise."
+  },
+  "broken_rate": {
+    "name": "Broken rate",
+    "value": 2.0,
+    "warn": 1.0,
+    "direction": "maximum",
+    "unit": "percent",
+    "recommendation": "Broken tests are infrastructure or setup errors, not product bugs. Check TeamCity startup and fixture cleanup."
+  },
+  "skip_rate": {
+    "name": "Skip rate",
+    "value": 26.0,
+    "warn": 24.0,
+    "direction": "maximum",
+    "unit": "percent",
+    "recommendation": "Around a quarter of the suite is currently disabled. Re-enable or delete skipped tests: a skipped test is untested code that still looks green."
+  },
+  "flaky_rate": {
+    "name": "Flaky rate",
+    "value": 5.0,
+    "warn": 3.0,
+    "direction": "maximum",
+    "unit": "percent",
+    "recommendation": "Tests whose status flips across runs without a code change. Stabilise waits and test data isolation."
+  },
+  "critical_failures": {
+    "name": "Critical failures",
+    "value": 0.0,
+    "warn": 0.0,
+    "direction": "maximum",
+    "unit": "count",
+    "recommendation": "Any failed or broken test in the latest run. Once @Severity annotations exist this narrows to blocker/critical only."
+  },
+  "avg_duration_sec": {
+    "name": "Average test duration",
+    "value": 12.0,
+    "warn": 10.5,
+    "direction": "maximum",
+    "unit": "seconds",
+    "recommendation": "Mean wall time per executed test. Look at the slowest-tests table before optimising anything else."
+  },
+  "suite_duration_sec": {
+    "name": "Suite duration",
+    "value": 260.0,
+    "warn": 200.0,
+    "direction": "maximum",
+    "unit": "seconds",
+    "recommendation": "End-to-end suite wall time, excluding CI setup and the agent-sync wait."
+  },
+  "api_coverage": {
+    "name": "API coverage",
+    "value": 30.0,
+    "warn": 35.0,
+    "direction": "minimum",
+    "unit": "percent",
+    "recommendation": "Share of spec operations touched by at least one request (full + partial). Add tests for the endpoints listed as empty."
+  },
+  "conditions_coverage": {
+    "name": "Conditions coverage",
+    "value": 13.0,
+    "warn": 16.0,
+    "direction": "minimum",
+    "unit": "percent",
+    "recommendation": "Share of swagger-coverage conditions met - status codes, parameters and body variants. The strictest coverage signal available."
+  },
+  "full_coverage_rate": {
+    "name": "Fully covered operations",
+    "value": 0.0,
+    "warn": 5.0,
+    "direction": "minimum",
+    "unit": "percent",
+    "recommendation": "Operations where every declared condition is met. Currently zero: most endpoints are exercised only on the happy path."
+  }
+}
