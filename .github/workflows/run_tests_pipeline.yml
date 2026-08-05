@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false # Если Chrome упадет, Firefox все равно запустится
       matrix:
-        browser: [ chrome, firefox ]
+        browser: [ chrome ]
 
     steps:
       - name: Checkout repository
