@@ -1,6 +1,5 @@
 package common.annotations;
 
-import common.extensions.AuthAgentAfterTestExtension;
 import common.extensions.ResumeBuildQueueAfterTestExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
