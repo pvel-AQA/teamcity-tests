@@ -2,13 +2,12 @@ name: Run tests
 
 on: [ push, workflow_dispatch ]
 
-# stages analogy
 jobs:
   run_tests:
     name: Run tests on ${{ matrix.browser }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false # Если Chrome упадет, Firefox все равно запустится
+      fail-fast: false
       matrix:
         browser: [ chrome, firefox ]
 
@@ -44,7 +43,7 @@ jobs:
         run: sleep 300
 
       - name: Run tests
-        run: ./mvnw clean test -P all -q -Dbrowser=${{ matrix.browser }}
+        run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
@@ -52,11 +51,17 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
+      - name: Create Allure Environment properties
+        if: always()
+        run: |
+          mkdir -p target/allure-results
+          echo "Browser=${{ matrix.browser }}" >> target/allure-results/environment.properties
+          echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
+
       - name: Run Swagger Coverage
         if: always()
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
 
-        # Сохраняем сырые результаты Allure для каждого браузера
       - name: Upload Allure Results Artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -69,7 +74,6 @@ jobs:
         if: always()
         run: cd infra/docker_compose && docker compose -p teamcity down
 
-        # Отдельная джоба для объединения результатов и пуширования отчета в GitHub Pages
   publish_report:
     name: Generate and Publish Allure Report
     needs: [ run_tests ]
@@ -79,13 +83,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      # Скачиваем результаты от ВСЕХ браузеров в единую папку target/allure-results
       - name: Download all Allure artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
-          path: target/allure-results
-          merge-multiple: true
+          path: target/allure-results-temp
+
+      - name: Merge Allure results
+        run: |
+          mkdir -p target/allure-results
+          cp -r target/allure-results-temp/*/* target/allure-results/ 2>/dev/null || true
 
       - name: Load test report history
         uses: actions/checkout@v7
