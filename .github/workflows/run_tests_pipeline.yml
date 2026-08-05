@@ -120,15 +120,23 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
-      # 2. Вставляем дашборд метрик прямо внутрь сформированной папки allure-history
+      # 2. Помещаем дашборд в персональную папку автора и в общую (для ветки main)
       - name: Inject Quality Dashboard into Allure History
         if: always()
         run: |
-          sudo mkdir -p allure-history/quality
-          sudo cp -r target/quality-dashboard/* allure-history/quality/
+          # Персональный дашборд (не перезаписывает чужие отчеты)
+          sudo mkdir -p allure-history/quality/authors/${{ github.actor }}
+          sudo cp -r target/quality-dashboard/* allure-history/quality/authors/${{ github.actor }}/
+
+          # При пуше в main обновляем также и общий коренной дашборд
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            sudo mkdir -p allure-history/quality
+            sudo cp -r target/quality-dashboard/* allure-history/quality/
+          fi
+
           sudo touch allure-history/.nojekyll
 
-      # 3. Публикуем итоговую директорию allure-history со всеми отчетами и дашбордом
+      # 3. Публикуем итоговую директорию allure-history
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         if: always()
@@ -155,7 +163,7 @@ jobs:
             Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
             
             <b>📊 Reports:</b>
-            • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/quality/">Quality Metrics Dashboard</a>
+            • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/quality/authors/${{ github.actor }}/">Quality Dashboard (${{ github.actor }})</a>
             • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">Allure Report #${{ github.run_number }}</a>
             
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
