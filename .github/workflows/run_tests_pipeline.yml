@@ -7,6 +7,11 @@ jobs:
   run_tests:
     name: Set up services (review apps) and run tests
     runs-on: ubuntu-latest
+    outputs:
+      telegram_block: ${{ steps.quality.outputs.telegram_block }}
+      dashboard_url: ${{ steps.quality.outputs.dashboard_url }}
+      gate_icon: ${{ steps.quality.outputs.gate_icon }}
+      gate_verdict: ${{ steps.quality.outputs.gate_verdict }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -68,7 +73,36 @@ jobs:
 
       - name: Build Swagger Coverage report
         if: always()
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+        run: |
+          sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+          # Publish the machine-readable results too, so coverage can be trended.
+          sudo cp swagger-coverage-results.json allure-history/${{ github.run_number }}
+
+      - name: Build quality dashboard
+        id: quality
+        if: always()
+        # Reporting layer: a dashboard problem must never turn a green test run red.
+        # The step still shows as failed in the UI, and Telegram degrades to no metrics block.
+        continue-on-error: true
+        run: |
+          # The Allure action writes as root; take ownership so the generator can write.
+          sudo chown -R "$(id -u):$(id -g)" allure-history
+          # Carry the rolling history forward - it outlives Allure's 20-report retention.
+          if [ -d gh-pages/quality ]; then
+            mkdir -p allure-history/quality
+            cp -r gh-pages/quality/. allure-history/quality/
+          fi
+          python3 scripts/build_quality_dashboard.py \
+            --site-dir allure-history \
+            --gates quality-gates.json \
+            --destination quality \
+            --repo ${{ github.repository }} \
+            --run-number ${{ github.run_number }} \
+            --swagger-results swagger-coverage-results.json \
+            --pages-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" \
+            --markdown-out quality-summary.md \
+            --github-output "$GITHUB_OUTPUT"
+          cat quality-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
@@ -99,7 +133,10 @@ jobs:
             Branch: <code>${{ github.ref_name }}</code>
             Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
 
+            ${{ needs.run_tests.outputs.telegram_block }}
+
             <b>📊 Reports:</b>
+            Quality Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/quality/">Summary dashboard</a>
             Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
             Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
