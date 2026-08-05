@@ -111,6 +111,14 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
+      # 1. Копируем дашборд метрик в папку выкачанной ветки gh-pages
+      - name: Copy Quality Dashboard to gh-pages
+        if: always()
+        run: |
+          sudo mkdir -p gh-pages/quality
+          sudo cp -r target/quality-dashboard/* gh-pages/quality/
+
+      # 2. Генерируем Allure Report на основе актуальной папки gh-pages
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.15
         if: always()
@@ -119,12 +127,7 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
-      - name: Copy Quality Dashboard to Allure History Folder
-        if: always()
-        run: |
-          mkdir -p allure-history/quality
-          cp -r target/quality-dashboard/* allure-history/quality/
-
+      # 3. Публикуем собранную папку allure-history в gh-pages
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         if: always()
