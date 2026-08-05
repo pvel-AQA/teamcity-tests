@@ -8,6 +8,9 @@ import lombok.Getter;
 import ui.pages.BuildConfigurationPage;
 import ui.pages.SetupYourBuildPage;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
@@ -27,8 +30,8 @@ public class ProjectElement extends BaseElement {
         projectItem.hover();
 
         SelenideElement projectPlusButton = projectItem.find(Selectors.byXpath(".//button[@data-create-entity-button='true']"));
-        projectPlusButton.shouldBe(Condition.visible)
-                .click();
+        projectPlusButton.shouldBe(Condition.visible);
+        projectPlusButton.click();
 
         return this;
     }

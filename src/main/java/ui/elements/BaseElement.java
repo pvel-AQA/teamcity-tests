@@ -3,6 +3,7 @@ package ui.elements;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.RetryUtils;
 import org.openqa.selenium.By;
 import ui.pages.BasePage;
 
@@ -20,6 +21,16 @@ public abstract class BaseElement {
     protected ElementsCollection findAll(By selector) {return element.findAll(selector);}
 
     protected ElementsCollection findAll(String cssSelector) {return element.findAll(cssSelector);}
+
+    protected void retryUntilElementIsDisplayed(SelenideElement element) {
+        RetryUtils.retry(
+                "Wait until web element is displayed",
+                () -> element.isDisplayed() && element.isEnabled(),
+                visible -> visible,
+                60,
+                1000
+        );
+    }
 
     public <T extends BasePage> T getPage(Class<T> pageClass) {
         return Selenide.page(pageClass);

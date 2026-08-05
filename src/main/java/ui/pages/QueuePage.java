@@ -1,6 +1,5 @@
 package ui.pages;
 
-import api.steps.UserSteps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
