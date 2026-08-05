@@ -124,9 +124,9 @@ jobs:
       - name: Inject Quality Dashboard into Allure History
         if: always()
         run: |
-          mkdir -p allure-history/quality
-          cp -r target/quality-dashboard/* allure-history/quality/
-          touch allure-history/.nojekyll
+          sudo mkdir -p allure-history/quality
+          sudo cp -r target/quality-dashboard/* allure-history/quality/
+          sudo touch allure-history/.nojekyll
 
       # 3. Публикуем итоговую директорию allure-history со всеми отчетами и дашбордом
       - name: Publish test report
