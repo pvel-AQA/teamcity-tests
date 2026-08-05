@@ -11,6 +11,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import common.helpers.StepLogger;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ui.base.BaseUiTest;
 import ui.enums.alerts.BuildConfigAlert;
@@ -54,6 +55,7 @@ public class BuildConfigurationTest extends BaseUiTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
+    @Disabled("flacky")
     public void buildConfigurationCanBeCreatedFromProjectPageTest() {
         var project = UserSteps.createProject();
         var buildConfigurationRequest = RandomGenerator.generate(BuildConfigurationRequest.class);

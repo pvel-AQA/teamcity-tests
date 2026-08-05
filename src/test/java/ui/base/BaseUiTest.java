@@ -30,11 +30,11 @@ public class BaseUiTest extends BaseTest {
         );
     }
 
-    @BeforeEach
-    public void setupTestAllureParams() {
-        // Записываем параметр именно перед СТАРТОМ КАЖДОГО ТЕСТА
-        Allure.parameter("Browser", Configuration.browser);
-    }
+//    @BeforeEach
+//    public void setupTestAllureParams() {
+//        // Записываем параметр именно перед СТАРТОМ КАЖДОГО ТЕСТА
+//        Allure.parameter("Browser", Configuration.browser);
+//    }
 
     @AfterEach
     public void tearDown() {
