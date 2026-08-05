@@ -86,9 +86,15 @@ jobs:
         # The step still shows as failed in the UI, and Telegram degrades to no metrics block.
         continue-on-error: true
         run: |
+          # One dashboard per branch, so a teammate's push cannot overwrite yours.
+          # feature/foo -> feature-foo; anything outside [alnum]._- is dropped.
+          SLUG=$(echo "${{ github.ref_name }}" | tr '/' '-' | tr -cd '[:alnum:]._-')
+          SLUG=${SLUG:-unnamed}
           # The Allure action writes as root; take ownership so the generator can write.
           sudo chown -R "$(id -u):$(id -g)" allure-history
           # Carry the rolling history forward - it outlives Allure's 20-report retention.
+          # Copying the whole quality/ tree also keeps sibling branches' dashboards alive:
+          # the publish step prunes anything absent from allure-history.
           if [ -d gh-pages/quality ]; then
             mkdir -p allure-history/quality
             cp -r gh-pages/quality/. allure-history/quality/
@@ -96,7 +102,7 @@ jobs:
           python3 scripts/build_quality_dashboard.py \
             --site-dir allure-history \
             --gates quality-gates.json \
-            --destination quality \
+            --destination "quality/$SLUG" \
             --repo ${{ github.repository }} \
             --run-number ${{ github.run_number }} \
             --swagger-results swagger-coverage-results.json \
@@ -137,7 +143,7 @@ jobs:
             ${{ needs.run_tests.outputs.telegram_block }}
 
             <b>📊 Reports:</b>
-            Quality Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/quality/">Summary dashboard</a>
+            Quality Report: <a href="${{ needs.run_tests.outputs.dashboard_url }}">Summary dashboard</a>
             Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
             Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
