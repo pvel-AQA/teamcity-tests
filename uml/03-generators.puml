@@ -1,0 +1,26 @@
+@startuml
+title Generators layer
+hide empty members
+
+annotation GeneratingRule
+class RandomGenerator
+class TeamCityDataGenerator
+
+class BuildStepCommand #LightGray ##[dashed] {
+  .. Enums ..
+}
+class ProjectResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class PropertyItem #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserSteps #LightGray ##[dashed] {
+  .. Steps ..
+}
+
+TeamCityDataGenerator ..> ProjectResponse
+TeamCityDataGenerator ..> PropertyItem
+TeamCityDataGenerator ..> UserSteps
+TeamCityDataGenerator ..> BuildStepCommand
+@enduml

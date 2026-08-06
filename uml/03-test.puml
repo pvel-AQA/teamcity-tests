@@ -1,0 +1,359 @@
+@startuml
+title Test layer
+hide empty members
+
+class AgentTest
+class AuthenticationTest
+class AuthorizationUserTest
+class BaseTest
+class BaseUiTest
+class BuildConfigurationTest
+class BuildConfigurationTest
+class ConfigStepsTest
+class CreateProjectTest
+class DeleteProjectTest
+class GetProjectTest
+class LoginTest
+class PostProjectTest
+class RegularBuildRunTest
+class RegularBuildRunTest
+class SingleThreadBaseTest
+class UsersEnterWithoutLoginTest
+class nk_Test_Ideas
+
+class AuthAgentAfterTest #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class AuthErrorMessage #LightGray ##[dashed] {
+  .. Enums ..
+}
+class AuthUser #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class AuthUserExtension #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class AuthorizeAgentRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class AuthorizeAgentResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildConfigAlert #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildConfigDropdown #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildConfigErrorMessage #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildConfigTypeDropdown #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildConfigurationRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildConfigurationResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildState #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildStatus #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildStatusText #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildStepCommand #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildTypeStepsList #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildTypeStepsModel #LightGray ##[dashed] {
+  .. Models ..
+}
+class Config #LightGray ##[dashed] {
+  .. Config ..
+}
+class ConnectVCSPage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class CopyBuildConfigurationRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class CreateProjectPage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class CrudRequester #LightGray ##[dashed] {
+  .. Transport ..
+}
+class EditBuildGeneralPage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class Endpoint #LightGray ##[dashed] {
+  .. Transport ..
+}
+class EntityStorage #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class GetAgentsResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class InititateBuildRun #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class LocatorType #LightGray ##[dashed] {
+  .. Enums ..
+}
+class LoginPage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class ModelAssertions #LightGray ##[dashed] {
+  .. Comparison ..
+}
+class PauseBuildQueue #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class ProjectElement #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class ProjectRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class ProjectResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class ProjectsPage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class QueuePage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class RandomGenerator #LightGray ##[dashed] {
+  .. Generators ..
+}
+class RequestSpec #LightGray ##[dashed] {
+  .. Transport ..
+}
+class ResponseSpec #LightGray ##[dashed] {
+  .. Transport ..
+}
+class ResumeBuildQueueAfterTest #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class StepErrors #LightGray ##[dashed] {
+  .. Enums ..
+}
+class StepLogger #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class SuperUserSteps #LightGray ##[dashed] {
+  .. Steps ..
+}
+class TeamCityDataGenerator #LightGray ##[dashed] {
+  .. Generators ..
+}
+class TimingExtension #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class UISuccessMessage #LightGray ##[dashed] {
+  .. Enums ..
+}
+class UnauthorizeAgentRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserRoles #LightGray ##[dashed] {
+  .. Enums ..
+}
+class UserSteps #LightGray ##[dashed] {
+  .. Steps ..
+}
+class ValidatedCrudRequester #LightGray ##[dashed] {
+  .. Transport ..
+}
+class WaitUtils #LightGray ##[dashed] {
+  .. Helpers ..
+}
+
+SingleThreadBaseTest <|-- AgentTest
+AgentTest ..> LocatorType
+AgentTest ..> RandomGenerator
+AgentTest ..> AuthorizeAgentRequest
+AgentTest ..> AuthorizeAgentResponse
+AgentTest ..> GetAgentsResponse
+AgentTest ..> UnauthorizeAgentRequest
+AgentTest ..> Endpoint
+AgentTest ..> CrudRequester
+AgentTest ..> ValidatedCrudRequester
+AgentTest ..> RequestSpec
+AgentTest ..> ResponseSpec
+AgentTest ..> UserSteps
+AgentTest ..> AuthAgentAfterTest
+AgentTest ..> AuthUser
+AgentTest ..> UserRoles
+BaseUiTest <|-- AuthenticationTest
+AuthenticationTest ..> Endpoint
+AuthenticationTest ..> CrudRequester
+AuthenticationTest ..> RequestSpec
+AuthenticationTest ..> ResponseSpec
+AuthenticationTest ..> AuthUser
+AuthenticationTest ..> UserRoles
+AuthenticationTest ..> ProjectsPage
+BaseTest <|-- AuthorizationUserTest
+AuthorizationUserTest ..> AuthErrorMessage
+AuthorizationUserTest ..> TeamCityDataGenerator
+AuthorizationUserTest ..> Endpoint
+AuthorizationUserTest ..> CrudRequester
+AuthorizationUserTest ..> RequestSpec
+AuthorizationUserTest ..> ResponseSpec
+AuthorizationUserTest ..> AuthUser
+AuthorizationUserTest ..> UserRoles
+BaseTest ..> SuperUserSteps
+BaseTest ..> AuthUserExtension
+BaseTest ..> TimingExtension
+BaseTest ..> EntityStorage
+BaseTest <|-- BaseUiTest
+BaseUiTest ..> Config
+BaseTest <|-- BuildConfigurationTest
+BuildConfigurationTest ..> ModelAssertions
+BuildConfigurationTest ..> LocatorType
+BuildConfigurationTest ..> RandomGenerator
+BuildConfigurationTest ..> TeamCityDataGenerator
+BuildConfigurationTest ..> BuildConfigurationRequest
+BuildConfigurationTest ..> BuildConfigurationResponse
+BuildConfigurationTest ..> CopyBuildConfigurationRequest
+BuildConfigurationTest ..> Endpoint
+BuildConfigurationTest ..> CrudRequester
+BuildConfigurationTest ..> ValidatedCrudRequester
+BuildConfigurationTest ..> RequestSpec
+BuildConfigurationTest ..> ResponseSpec
+BuildConfigurationTest ..> UserSteps
+BuildConfigurationTest ..> AuthUser
+BuildConfigurationTest ..> UserRoles
+BaseUiTest <|-- BuildConfigurationTest
+BuildConfigurationTest ..> ModelAssertions
+BuildConfigurationTest ..> BuildConfigDropdown
+BuildConfigurationTest ..> BuildConfigTypeDropdown
+BuildConfigurationTest ..> RandomGenerator
+BuildConfigurationTest ..> TeamCityDataGenerator
+BuildConfigurationTest ..> BuildConfigurationRequest
+BuildConfigurationTest ..> UserSteps
+BuildConfigurationTest ..> AuthUser
+BuildConfigurationTest ..> UserRoles
+BuildConfigurationTest ..> StepLogger
+BuildConfigurationTest ..> BuildConfigAlert
+BuildConfigurationTest ..> BuildConfigErrorMessage
+BuildConfigurationTest ..> UISuccessMessage
+BaseTest <|-- ConfigStepsTest
+ConfigStepsTest ..> ModelAssertions
+ConfigStepsTest ..> StepErrors
+ConfigStepsTest ..> RandomGenerator
+ConfigStepsTest ..> TeamCityDataGenerator
+ConfigStepsTest ..> BuildTypeStepsList
+ConfigStepsTest ..> BuildTypeStepsModel
+ConfigStepsTest ..> Endpoint
+ConfigStepsTest ..> CrudRequester
+ConfigStepsTest ..> ValidatedCrudRequester
+ConfigStepsTest ..> RequestSpec
+ConfigStepsTest ..> ResponseSpec
+ConfigStepsTest ..> UserSteps
+ConfigStepsTest ..> AuthUser
+ConfigStepsTest ..> UserRoles
+BaseUiTest <|-- CreateProjectTest
+CreateProjectTest ..> ModelAssertions
+CreateProjectTest ..> RandomGenerator
+CreateProjectTest ..> TeamCityDataGenerator
+CreateProjectTest ..> ProjectRequest
+CreateProjectTest ..> ProjectResponse
+CreateProjectTest ..> UserSteps
+CreateProjectTest ..> AuthUser
+CreateProjectTest ..> UserRoles
+CreateProjectTest ..> ProjectElement
+CreateProjectTest ..> ConnectVCSPage
+CreateProjectTest ..> CreateProjectPage
+BaseTest <|-- DeleteProjectTest
+DeleteProjectTest ..> RandomGenerator
+DeleteProjectTest ..> ProjectRequest
+DeleteProjectTest ..> ProjectResponse
+DeleteProjectTest ..> Endpoint
+DeleteProjectTest ..> CrudRequester
+DeleteProjectTest ..> RequestSpec
+DeleteProjectTest ..> ResponseSpec
+DeleteProjectTest ..> UserSteps
+DeleteProjectTest ..> AuthUser
+DeleteProjectTest ..> UserRoles
+BaseTest <|-- GetProjectTest
+GetProjectTest ..> RandomGenerator
+GetProjectTest ..> ProjectRequest
+GetProjectTest ..> ProjectResponse
+GetProjectTest ..> Endpoint
+GetProjectTest ..> CrudRequester
+GetProjectTest ..> RequestSpec
+GetProjectTest ..> ResponseSpec
+GetProjectTest ..> UserSteps
+GetProjectTest ..> AuthUser
+GetProjectTest ..> UserRoles
+BaseUiTest <|-- LoginTest
+LoginTest ..> UserRequest
+LoginTest ..> RequestSpec
+LoginTest ..> UserSteps
+LoginTest ..> AuthUser
+LoginTest ..> Config
+LoginTest ..> UserRoles
+LoginTest ..> AuthUserExtension
+LoginTest ..> LoginPage
+LoginTest ..> ProjectsPage
+BaseTest <|-- PostProjectTest
+PostProjectTest ..> RandomGenerator
+PostProjectTest ..> ProjectRequest
+PostProjectTest ..> ProjectResponse
+PostProjectTest ..> Endpoint
+PostProjectTest ..> CrudRequester
+PostProjectTest ..> RequestSpec
+PostProjectTest ..> ResponseSpec
+PostProjectTest ..> UserSteps
+PostProjectTest ..> AuthUser
+PostProjectTest ..> UserRoles
+SingleThreadBaseTest <|-- RegularBuildRunTest
+RegularBuildRunTest ..> BuildState
+RegularBuildRunTest ..> BuildStatusText
+RegularBuildRunTest ..> LocatorType
+RegularBuildRunTest ..> TeamCityDataGenerator
+RegularBuildRunTest ..> Endpoint
+RegularBuildRunTest ..> CrudRequester
+RegularBuildRunTest ..> ValidatedCrudRequester
+RegularBuildRunTest ..> RequestSpec
+RegularBuildRunTest ..> ResponseSpec
+RegularBuildRunTest ..> AuthUser
+RegularBuildRunTest ..> BuildStatus
+RegularBuildRunTest ..> BuildStepCommand
+RegularBuildRunTest ..> UserRoles
+RegularBuildRunTest ..> WaitUtils
+SingleThreadBaseTest <|-- RegularBuildRunTest
+RegularBuildRunTest ..> ModelAssertions
+RegularBuildRunTest ..> BuildState
+RegularBuildRunTest ..> BuildConfigurationResponse
+RegularBuildRunTest ..> UserSteps
+RegularBuildRunTest ..> AuthUser
+RegularBuildRunTest ..> InititateBuildRun
+RegularBuildRunTest ..> PauseBuildQueue
+RegularBuildRunTest ..> ResumeBuildQueueAfterTest
+RegularBuildRunTest ..> BuildStepCommand
+RegularBuildRunTest ..> UserRoles
+RegularBuildRunTest ..> EntityStorage
+RegularBuildRunTest ..> CreateProjectPage
+RegularBuildRunTest ..> EditBuildGeneralPage
+RegularBuildRunTest ..> QueuePage
+BaseUiTest <|-- SingleThreadBaseTest
+BaseUiTest <|-- UsersEnterWithoutLoginTest
+UsersEnterWithoutLoginTest ..> RequestSpec
+UsersEnterWithoutLoginTest ..> AuthUser
+UsersEnterWithoutLoginTest ..> UserRoles
+UsersEnterWithoutLoginTest ..> ProjectsPage
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+title Comparison layer
+hide empty members
+
+class ModelAssertions
+class ModelComparator
+class ModelComparisonConfigLoader
+
+
+@enduml

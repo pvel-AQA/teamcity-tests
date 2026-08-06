@@ -1,0 +1,61 @@
+@startuml
+title TeamCity Test Framework - Layer Dependencies
+skinparam componentStyle rectangle
+left to right direction
+
+component "Test" as Test
+component "Hooks" as Hooks
+component "Steps" as Steps
+component "Generators" as Generators
+component "PageObjects" as PageObjects
+component "Transport" as Transport
+component "Models" as Models
+component "Database" as Database
+component "Comparison" as Comparison
+component "Helpers" as Helpers
+component "Config" as Config
+component "Enums" as Enums
+
+Test --> Transport : 42
+Test --> Enums : 30
+Test --> Models : 21
+Test --> Hooks : 21
+Transport --> Models : 16
+Steps --> Models : 16
+Test --> Generators : 14
+PageObjects --> Enums : 12
+Test --> Steps : 11
+Test --> PageObjects : 11
+Steps --> Transport : 10
+Models -[#red,bold]-> Generators : 7
+Hooks --> Steps : 6
+PageObjects --> Helpers : 5
+Test --> Comparison : 5
+Steps --> Enums : 4
+Test --> Helpers : 4
+Generators --> Models : 3
+Models --> Enums : 3
+Transport --> Helpers : 3
+Steps --> Generators : 3
+Hooks --> Models : 3
+Helpers -[#red,bold]-> Transport : 3
+Steps --> Helpers : 2
+Test --> Config : 2
+Database -[#red,bold]-> Models : 1
+Database --> Config : 1
+Generators --> Enums : 1
+Generators -[#red,bold]-> Steps : 1
+Transport --> Config : 1
+Transport -[#red,bold]-> Hooks : 1
+Transport --> Enums : 1
+Steps --> Config : 1
+Hooks --> Enums : 1
+Hooks --> PageObjects : 1
+Hooks --> Helpers : 1
+PageObjects --> Transport : 1
+
+legend right
+  Red = dependency pointing UP the stack (layering violation)
+  Number = count of import statements
+endlegend
+@enduml

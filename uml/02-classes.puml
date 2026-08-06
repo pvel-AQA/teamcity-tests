@@ -1,0 +1,255 @@
+@startuml
+title TeamCity Test Framework - All Classes (inheritance)
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+hide members
+hide circle
+
+package "Test" {
+  class AgentTest
+  class AuthenticationTest
+  class AuthorizationUserTest
+  class BaseTest
+  class BaseUiTest
+  class BuildConfigurationTest
+  class BuildConfigurationTest
+  class ConfigStepsTest
+  class CreateProjectTest
+  class DeleteProjectTest
+  class GetProjectTest
+  class LoginTest
+  class PostProjectTest
+  class RegularBuildRunTest
+  class RegularBuildRunTest
+  class SingleThreadBaseTest
+  class UsersEnterWithoutLoginTest
+  class nk_Test_Ideas
+}
+
+package "Hooks" {
+  annotation AuthAgentAfterTest
+  class AuthAgentAfterTestExtension
+  annotation AuthUser
+  class AuthUserExtension
+  class BrowserMatchExtension
+  annotation Browsers
+  class InitiateBuildRunExtension
+  annotation InititateBuildRun
+  annotation PauseBuildQueue
+  class PauseBuildQueueExtension
+  annotation ResumeBuildQueueAfterTest
+  class ResumeBuildQueueAfterTestExtension
+  class TimingExtension
+}
+
+package "Steps" {
+  class SuperUserSteps
+  class UserSteps
+}
+
+package "Generators" {
+  annotation GeneratingRule
+  class RandomGenerator
+  class TeamCityDataGenerator
+}
+
+package "PageObjects" {
+  class BaseElement
+  class BasePage
+  class BuildConfigurationPage
+  class BuildLogOverlay
+  class BuildRunPage
+  class ConnectVCSPage
+  class CreateBuildConfigurationPage
+  class CreateProjectPage
+  class EditBuildGeneralPage
+  class EditBuildHeaderPage
+  class EditBuildStepsPage
+  class EditBuildTypeVcsRootsPage
+  class EditProjectPage
+  class LoginPage
+  class ProjectElement
+  class ProjectPage
+  class ProjectsPage
+  class QueuePage
+  class SetupYourBuildPage
+}
+
+package "Transport" {
+  interface CrudEndpointInterface
+  class CrudRequester
+  enum Endpoint
+  interface GetAllEndpointInterface
+  class HttpRequest
+  class RequestSpec
+  class ResponseSpec
+  class ValidatedCrudRequester
+}
+
+package "Models" {
+  class Agent
+  class AllProjectsResponse
+  class AuthorizeAgentRequest
+  class AuthorizeAgentResponse
+  class AuthorizedInfo
+  class BaseModel
+  class Build
+  class BuildCancelRequest
+  class BuildCancelResponse
+  class BuildConfigurationRequest
+  class BuildConfigurationResponse
+  class BuildQueuePausedRequest
+  class BuildRequest
+  class BuildRunRequest
+  class BuildRunResponse
+  class BuildTypeModel
+  class BuildTypeStepsList
+  class BuildTypeStepsModel
+  class BuildTypesContainer
+  class CanceledInfo
+  class CopyBuildConfigurationRequest
+  class DeploymentDashboards
+  class EnabledInfo
+  class GetAgentsResponse
+  class Group
+  class GroupsContainer
+  class ParametersContainer
+  class ParentProject
+  class ProjectFeatures
+  class ProjectRequest
+  class ProjectResponse
+  class ProjectsContainer
+  class PropertiesContainer
+  class Property
+  class PropertyItem
+  class Role
+  class Roles
+  class RolesContainer
+  class ServerInfoResponse
+  class StepProperties
+  class TemplatesContainer
+  class TriggeredInfo
+  class UnauthorizeAgentRequest
+  class UserRequest
+  class UserResponse
+  class UserTokenRequest
+  class UserTokenResponse
+  class VcsRoots
+}
+
+package "Database" {
+  class Condition
+  class DBHelper
+  class DBRequest
+  class DBService
+}
+
+package "Comparison" {
+  class ModelAssertions
+  class ModelComparator
+  class ModelComparisonConfigLoader
+}
+
+package "Helpers" {
+  class DockerLogsExtractor
+  class EntityStorage
+  class RecursiveComparator
+  class RetryUtils
+  class StepLogger
+  class WaitUtils
+}
+
+package "Config" {
+  class Config
+}
+
+package "Enums" {
+  enum AuthErrorMessage
+  enum BuildConfigAlert
+  enum BuildConfigDropdown
+  enum BuildConfigErrorMessage
+  enum BuildConfigTypeDropdown
+  enum BuildState
+  enum BuildStatus
+  enum BuildStatusText
+  enum BuildStepCommand
+  enum LocatorType
+  enum ProjectErrors
+  enum ProjectValidationError
+  enum StepErrors
+  enum TeamCityEntity
+  enum UISuccessMessage
+  enum UserErrors
+  enum UserRoles
+}
+
+BaseModel <|-- Agent
+SingleThreadBaseTest <|-- AgentTest
+BaseModel <|-- AllProjectsResponse
+BaseUiTest <|-- AuthenticationTest
+BaseTest <|-- AuthorizationUserTest
+BaseModel <|-- AuthorizeAgentRequest
+BaseModel <|-- AuthorizeAgentResponse
+BaseModel <|-- AuthorizedInfo
+BaseTest <|-- BaseUiTest
+BaseModel <|-- Build
+BaseModel <|-- BuildCancelRequest
+BaseModel <|-- BuildCancelResponse
+BasePage <|-- BuildConfigurationPage
+BaseModel <|-- BuildConfigurationRequest
+BaseModel <|-- BuildConfigurationResponse
+BaseTest <|-- BuildConfigurationTest
+BaseUiTest <|-- BuildConfigurationTest
+BasePage <|-- BuildLogOverlay
+BaseModel <|-- BuildQueuePausedRequest
+BaseModel <|-- BuildRequest
+BasePage <|-- BuildRunPage
+BaseModel <|-- BuildRunRequest
+BaseModel <|-- BuildRunResponse
+BaseModel <|-- BuildTypeModel
+BaseModel <|-- BuildTypeStepsList
+BaseModel <|-- BuildTypeStepsModel
+BaseTest <|-- ConfigStepsTest
+BasePage <|-- ConnectVCSPage
+BaseModel <|-- CopyBuildConfigurationRequest
+BasePage <|-- CreateBuildConfigurationPage
+BasePage <|-- CreateProjectPage
+BaseUiTest <|-- CreateProjectTest
+HttpRequest <|-- CrudRequester
+CrudEndpointInterface <|.. CrudRequester
+GetAllEndpointInterface <|.. CrudRequester
+BaseTest <|-- DeleteProjectTest
+EditBuildHeaderPage <|-- EditBuildGeneralPage
+BasePage <|-- EditBuildHeaderPage
+EditBuildHeaderPage <|-- EditBuildStepsPage
+EditBuildHeaderPage <|-- EditBuildTypeVcsRootsPage
+BasePage <|-- EditProjectPage
+BaseModel <|-- EnabledInfo
+BaseModel <|-- GetAgentsResponse
+BaseTest <|-- GetProjectTest
+BasePage <|-- LoginPage
+BaseUiTest <|-- LoginTest
+BaseTest <|-- PostProjectTest
+BaseElement <|-- ProjectElement
+ProjectsPage <|-- ProjectPage
+BaseModel <|-- ProjectRequest
+BaseModel <|-- ProjectResponse
+BasePage <|-- ProjectsPage
+BasePage <|-- QueuePage
+SingleThreadBaseTest <|-- RegularBuildRunTest
+SingleThreadBaseTest <|-- RegularBuildRunTest
+BaseModel <|-- Role
+BaseModel <|-- Roles
+BaseModel <|-- ServerInfoResponse
+BasePage <|-- SetupYourBuildPage
+BaseUiTest <|-- SingleThreadBaseTest
+BaseModel <|-- UnauthorizeAgentRequest
+BaseModel <|-- UserRequest
+BaseModel <|-- UserResponse
+BaseModel <|-- UserTokenRequest
+BaseModel <|-- UserTokenResponse
+BaseUiTest <|-- UsersEnterWithoutLoginTest
+HttpRequest <|-- ValidatedCrudRequester
+CrudEndpointInterface <|.. ValidatedCrudRequester
+GetAllEndpointInterface <|.. ValidatedCrudRequester
+@enduml

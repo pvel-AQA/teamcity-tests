@@ -1,0 +1,8 @@
+@startuml
+title Config layer
+hide empty members
+
+class Config
+
+
+@enduml

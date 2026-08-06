@@ -1,0 +1,120 @@
+@startuml
+title Models layer
+hide empty members
+
+class Agent
+class AllProjectsResponse
+class AuthorizeAgentRequest
+class AuthorizeAgentResponse
+class AuthorizedInfo
+class BaseModel
+class Build
+class BuildCancelRequest
+class BuildCancelResponse
+class BuildConfigurationRequest
+class BuildConfigurationResponse
+class BuildQueuePausedRequest
+class BuildRequest
+class BuildRunRequest
+class BuildRunResponse
+class BuildTypeModel
+class BuildTypeStepsList
+class BuildTypeStepsModel
+class BuildTypesContainer
+class CanceledInfo
+class CopyBuildConfigurationRequest
+class DeploymentDashboards
+class EnabledInfo
+class GetAgentsResponse
+class Group
+class GroupsContainer
+class ParametersContainer
+class ParentProject
+class ProjectFeatures
+class ProjectRequest
+class ProjectResponse
+class ProjectsContainer
+class PropertiesContainer
+class Property
+class PropertyItem
+class Role
+class Roles
+class RolesContainer
+class ServerInfoResponse
+class StepProperties
+class TemplatesContainer
+class TriggeredInfo
+class UnauthorizeAgentRequest
+class UserRequest
+class UserResponse
+class UserTokenRequest
+class UserTokenResponse
+class VcsRoots
+
+class BuildState #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildStatus #LightGray ##[dashed] {
+  .. Enums ..
+}
+class GeneratingRule #LightGray ##[dashed] {
+  .. Generators ..
+}
+class RandomGenerator #LightGray ##[dashed] {
+  .. Generators ..
+}
+class TeamCityDataGenerator #LightGray ##[dashed] {
+  .. Generators ..
+}
+class UserRoles #LightGray ##[dashed] {
+  .. Enums ..
+}
+
+BaseModel <|-- Agent
+BaseModel <|-- AllProjectsResponse
+BaseModel <|-- AuthorizeAgentRequest
+AuthorizeAgentRequest ..> GeneratingRule
+BaseModel <|-- AuthorizeAgentResponse
+BaseModel <|-- AuthorizedInfo
+BaseModel <|-- Build
+Build ..> Agent
+BaseModel <|-- BuildCancelRequest
+BaseModel <|-- BuildCancelResponse
+BuildCancelResponse ..> Agent
+BaseModel <|-- BuildConfigurationRequest
+BuildConfigurationRequest ..> GeneratingRule
+BaseModel <|-- BuildConfigurationResponse
+BuildConfigurationResponse ..> ParametersContainer
+BuildConfigurationResponse ..> ProjectResponse
+BaseModel <|-- BuildQueuePausedRequest
+BaseModel <|-- BuildRequest
+BaseModel <|-- BuildRunRequest
+BaseModel <|-- BuildRunResponse
+BuildRunResponse ..> BuildState
+BuildRunResponse ..> BuildStatus
+BaseModel <|-- BuildTypeModel
+BaseModel <|-- BuildTypeStepsList
+BaseModel <|-- BuildTypeStepsModel
+CanceledInfo ..> UserResponse
+BaseModel <|-- CopyBuildConfigurationRequest
+CopyBuildConfigurationRequest ..> RandomGenerator
+CopyBuildConfigurationRequest ..> TeamCityDataGenerator
+BaseModel <|-- EnabledInfo
+BaseModel <|-- GetAgentsResponse
+BaseModel <|-- ProjectRequest
+ProjectRequest ..> GeneratingRule
+BaseModel <|-- ProjectResponse
+BaseModel <|-- Role
+Role ..> UserRoles
+BaseModel <|-- Roles
+BaseModel <|-- ServerInfoResponse
+StepProperties ..> PropertyItem
+TriggeredInfo ..> UserResponse
+BaseModel <|-- UnauthorizeAgentRequest
+UnauthorizeAgentRequest ..> GeneratingRule
+BaseModel <|-- UserRequest
+UserRequest ..> GeneratingRule
+BaseModel <|-- UserResponse
+BaseModel <|-- UserTokenRequest
+BaseModel <|-- UserTokenResponse
+@enduml

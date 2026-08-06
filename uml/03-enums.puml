@@ -1,0 +1,24 @@
+@startuml
+title Enums layer
+hide empty members
+
+enum AuthErrorMessage
+enum BuildConfigAlert
+enum BuildConfigDropdown
+enum BuildConfigErrorMessage
+enum BuildConfigTypeDropdown
+enum BuildState
+enum BuildStatus
+enum BuildStatusText
+enum BuildStepCommand
+enum LocatorType
+enum ProjectErrors
+enum ProjectValidationError
+enum StepErrors
+enum TeamCityEntity
+enum UISuccessMessage
+enum UserErrors
+enum UserRoles
+
+
+@enduml

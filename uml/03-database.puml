@@ -1,0 +1,19 @@
+@startuml
+title Database layer
+hide empty members
+
+class Condition
+class DBHelper
+class DBRequest
+class DBService
+
+class BaseModel #LightGray ##[dashed] {
+  .. Models ..
+}
+class Config #LightGray ##[dashed] {
+  .. Config ..
+}
+
+DBHelper ..> BaseModel
+DBRequest ..> Config
+@enduml

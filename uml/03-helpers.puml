@@ -1,0 +1,25 @@
+@startuml
+title Helpers layer
+hide empty members
+
+class DockerLogsExtractor
+class EntityStorage
+class RecursiveComparator
+class RetryUtils
+class StepLogger
+class WaitUtils
+
+class CrudRequester #LightGray ##[dashed] {
+  .. Transport ..
+}
+class Endpoint #LightGray ##[dashed] {
+  .. Transport ..
+}
+class RequestSpec #LightGray ##[dashed] {
+  .. Transport ..
+}
+
+EntityStorage ..> Endpoint
+EntityStorage ..> CrudRequester
+EntityStorage ..> RequestSpec
+@enduml

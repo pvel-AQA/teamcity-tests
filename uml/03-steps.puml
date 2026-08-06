@@ -1,0 +1,116 @@
+@startuml
+title Steps layer
+hide empty members
+
+class SuperUserSteps
+class UserSteps
+
+class Agent #LightGray ##[dashed] {
+  .. Models ..
+}
+class AllProjectsResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class AuthorizeAgentRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildStepCommand #LightGray ##[dashed] {
+  .. Enums ..
+}
+class Config #LightGray ##[dashed] {
+  .. Config ..
+}
+class CrudRequester #LightGray ##[dashed] {
+  .. Transport ..
+}
+class Endpoint #LightGray ##[dashed] {
+  .. Transport ..
+}
+class GetAgentsResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class LocatorType #LightGray ##[dashed] {
+  .. Enums ..
+}
+class ProjectRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class ProjectResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class RandomGenerator #LightGray ##[dashed] {
+  .. Generators ..
+}
+class RequestSpec #LightGray ##[dashed] {
+  .. Transport ..
+}
+class ResponseSpec #LightGray ##[dashed] {
+  .. Transport ..
+}
+class Role #LightGray ##[dashed] {
+  .. Models ..
+}
+class Roles #LightGray ##[dashed] {
+  .. Models ..
+}
+class StepLogger #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class TeamCityDataGenerator #LightGray ##[dashed] {
+  .. Generators ..
+}
+class UserRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserRoles #LightGray ##[dashed] {
+  .. Enums ..
+}
+class UserTokenRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserTokenResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class ValidatedCrudRequester #LightGray ##[dashed] {
+  .. Transport ..
+}
+
+SuperUserSteps ..> LocatorType
+SuperUserSteps ..> RandomGenerator
+SuperUserSteps ..> AuthorizeAgentRequest
+SuperUserSteps ..> GetAgentsResponse
+SuperUserSteps ..> Role
+SuperUserSteps ..> Roles
+SuperUserSteps ..> UserRequest
+SuperUserSteps ..> UserResponse
+SuperUserSteps ..> Endpoint
+SuperUserSteps ..> CrudRequester
+SuperUserSteps ..> ValidatedCrudRequester
+SuperUserSteps ..> RequestSpec
+SuperUserSteps ..> ResponseSpec
+SuperUserSteps ..> Config
+SuperUserSteps ..> UserRoles
+SuperUserSteps ..> StepLogger
+UserSteps ..> LocatorType
+UserSteps ..> RandomGenerator
+UserSteps ..> TeamCityDataGenerator
+UserSteps ..> UserTokenRequest
+UserSteps ..> UserTokenResponse
+UserSteps ..> Agent
+UserSteps ..> AuthorizeAgentRequest
+UserSteps ..> GetAgentsResponse
+UserSteps ..> AllProjectsResponse
+UserSteps ..> ProjectRequest
+UserSteps ..> ProjectResponse
+UserSteps ..> UserRequest
+UserSteps ..> Endpoint
+UserSteps ..> CrudRequester
+UserSteps ..> ValidatedCrudRequester
+UserSteps ..> RequestSpec
+UserSteps ..> ResponseSpec
+UserSteps ..> BuildStepCommand
+UserSteps ..> StepLogger
+@enduml

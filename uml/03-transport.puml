@@ -1,0 +1,102 @@
+@startuml
+title Transport layer
+hide empty members
+
+interface CrudEndpointInterface
+class CrudRequester
+enum Endpoint
+interface GetAllEndpointInterface
+class HttpRequest
+class RequestSpec
+class ResponseSpec
+class ValidatedCrudRequester
+
+class Agent #LightGray ##[dashed] {
+  .. Models ..
+}
+class AllProjectsResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class AuthErrorMessage #LightGray ##[dashed] {
+  .. Enums ..
+}
+class AuthUserExtension #LightGray ##[dashed] {
+  .. Hooks ..
+}
+class AuthorizeAgentRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class AuthorizeAgentResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class BaseModel #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildConfigurationRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class BuildConfigurationResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class Config #LightGray ##[dashed] {
+  .. Config ..
+}
+class DockerLogsExtractor #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class EntityStorage #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class GetAgentsResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class ProjectRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class ProjectResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class StepLogger #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class UserRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+
+CrudEndpointInterface ..> BaseModel
+HttpRequest <|-- CrudRequester
+CrudEndpointInterface <|.. CrudRequester
+GetAllEndpointInterface <|.. CrudRequester
+CrudRequester ..> BaseModel
+CrudRequester ..> Endpoint
+CrudRequester ..> CrudEndpointInterface
+CrudRequester ..> GetAllEndpointInterface
+CrudRequester ..> EntityStorage
+CrudRequester ..> StepLogger
+Endpoint ..> Agent
+Endpoint ..> AuthorizeAgentRequest
+Endpoint ..> AuthorizeAgentResponse
+Endpoint ..> GetAgentsResponse
+Endpoint ..> BuildConfigurationRequest
+Endpoint ..> BuildConfigurationResponse
+Endpoint ..> AllProjectsResponse
+Endpoint ..> ProjectRequest
+Endpoint ..> ProjectResponse
+Endpoint ..> UserRequest
+Endpoint ..> UserResponse
+RequestSpec ..> Endpoint
+RequestSpec ..> Config
+RequestSpec ..> AuthUserExtension
+RequestSpec ..> DockerLogsExtractor
+ResponseSpec ..> AuthErrorMessage
+HttpRequest <|-- ValidatedCrudRequester
+CrudEndpointInterface <|.. ValidatedCrudRequester
+GetAllEndpointInterface <|.. ValidatedCrudRequester
+ValidatedCrudRequester ..> BaseModel
+ValidatedCrudRequester ..> Endpoint
+ValidatedCrudRequester ..> CrudEndpointInterface
+ValidatedCrudRequester ..> GetAllEndpointInterface
+@enduml

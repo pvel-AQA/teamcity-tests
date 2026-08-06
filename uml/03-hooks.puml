@@ -1,0 +1,69 @@
+@startuml
+title Hooks layer
+hide empty members
+
+annotation AuthAgentAfterTest
+class AuthAgentAfterTestExtension
+annotation AuthUser
+class AuthUserExtension
+class BrowserMatchExtension
+annotation Browsers
+class InitiateBuildRunExtension
+annotation InititateBuildRun
+annotation PauseBuildQueue
+class PauseBuildQueueExtension
+annotation ResumeBuildQueueAfterTest
+class ResumeBuildQueueAfterTestExtension
+class TimingExtension
+
+class BasePage #LightGray ##[dashed] {
+  .. PageObjects ..
+}
+class BuildConfigurationResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+class EntityStorage #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class SuperUserSteps #LightGray ##[dashed] {
+  .. Steps ..
+}
+class UserRequest #LightGray ##[dashed] {
+  .. Models ..
+}
+class UserRoles #LightGray ##[dashed] {
+  .. Enums ..
+}
+class UserSteps #LightGray ##[dashed] {
+  .. Steps ..
+}
+class UserTokenResponse #LightGray ##[dashed] {
+  .. Models ..
+}
+
+AuthAgentAfterTest ..> AuthAgentAfterTestExtension
+AuthAgentAfterTestExtension ..> UserSteps
+AuthAgentAfterTestExtension ..> AuthAgentAfterTest
+AuthUser ..> UserRoles
+AuthUser ..> AuthUserExtension
+AuthUserExtension ..> UserTokenResponse
+AuthUserExtension ..> UserRequest
+AuthUserExtension ..> SuperUserSteps
+AuthUserExtension ..> UserSteps
+AuthUserExtension ..> AuthUser
+AuthUserExtension ..> BasePage
+BrowserMatchExtension ..> Browsers
+InitiateBuildRunExtension ..> BuildConfigurationResponse
+InitiateBuildRunExtension ..> UserSteps
+InitiateBuildRunExtension ..> InititateBuildRun
+InitiateBuildRunExtension ..> EntityStorage
+InititateBuildRun ..> InitiateBuildRunExtension
+PauseBuildQueue ..> InitiateBuildRunExtension
+PauseBuildQueue ..> PauseBuildQueueExtension
+PauseBuildQueueExtension ..> UserSteps
+PauseBuildQueueExtension ..> PauseBuildQueue
+ResumeBuildQueueAfterTest ..> AuthAgentAfterTestExtension
+ResumeBuildQueueAfterTest ..> ResumeBuildQueueAfterTestExtension
+ResumeBuildQueueAfterTestExtension ..> UserSteps
+ResumeBuildQueueAfterTestExtension ..> ResumeBuildQueueAfterTest
+@enduml

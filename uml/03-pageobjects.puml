@@ -1,0 +1,94 @@
+@startuml
+title PageObjects layer
+hide empty members
+
+class BaseElement
+class BasePage
+class BuildConfigurationPage
+class BuildLogOverlay
+class BuildRunPage
+class ConnectVCSPage
+class CreateBuildConfigurationPage
+class CreateProjectPage
+class EditBuildGeneralPage
+class EditBuildHeaderPage
+class EditBuildStepsPage
+class EditBuildTypeVcsRootsPage
+class EditProjectPage
+class LoginPage
+class ProjectElement
+class ProjectPage
+class ProjectsPage
+class QueuePage
+class SetupYourBuildPage
+
+class BuildConfigDropdown #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildConfigErrorMessage #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildConfigTypeDropdown #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildStatus #LightGray ##[dashed] {
+  .. Enums ..
+}
+class BuildStepCommand #LightGray ##[dashed] {
+  .. Enums ..
+}
+class ProjectValidationError #LightGray ##[dashed] {
+  .. Enums ..
+}
+class RequestSpec #LightGray ##[dashed] {
+  .. Transport ..
+}
+class RetryUtils #LightGray ##[dashed] {
+  .. Helpers ..
+}
+class UISuccessMessage #LightGray ##[dashed] {
+  .. Enums ..
+}
+
+BaseElement ..> RetryUtils
+BaseElement ..> BasePage
+BasePage ..> RequestSpec
+BasePage ..> RetryUtils
+BasePage ..> BaseElement
+BasePage <|-- BuildConfigurationPage
+BasePage <|-- BuildLogOverlay
+BuildLogOverlay ..> BuildStatus
+BuildLogOverlay ..> BuildStepCommand
+BasePage <|-- BuildRunPage
+BuildRunPage ..> BuildStatus
+BuildRunPage ..> BuildStepCommand
+BuildRunPage ..> RetryUtils
+BasePage <|-- ConnectVCSPage
+BasePage <|-- CreateBuildConfigurationPage
+BasePage <|-- CreateProjectPage
+CreateProjectPage ..> ProjectValidationError
+EditBuildHeaderPage <|-- EditBuildGeneralPage
+EditBuildGeneralPage ..> UISuccessMessage
+BasePage <|-- EditBuildHeaderPage
+EditBuildHeaderPage <|-- EditBuildStepsPage
+EditBuildHeaderPage <|-- EditBuildTypeVcsRootsPage
+BasePage <|-- EditProjectPage
+EditProjectPage ..> ProjectElement
+EditProjectPage ..> UISuccessMessage
+BasePage <|-- LoginPage
+BaseElement <|-- ProjectElement
+ProjectElement ..> BuildConfigurationPage
+ProjectElement ..> SetupYourBuildPage
+ProjectsPage <|-- ProjectPage
+ProjectPage ..> BuildStatus
+ProjectPage ..> RetryUtils
+BasePage <|-- ProjectsPage
+ProjectsPage ..> RetryUtils
+ProjectsPage ..> ProjectElement
+BasePage <|-- QueuePage
+QueuePage ..> BuildStatus
+BasePage <|-- SetupYourBuildPage
+SetupYourBuildPage ..> BuildConfigDropdown
+SetupYourBuildPage ..> BuildConfigTypeDropdown
+SetupYourBuildPage ..> BuildConfigErrorMessage
+@enduml
