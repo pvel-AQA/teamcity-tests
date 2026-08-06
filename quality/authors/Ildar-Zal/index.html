@@ -28,17 +28,17 @@
         <p style="color: #94a3b8;">Качество автотестов и метрики прогона (GitHub Actions Run)</p>
 
         <div class="grid">
-            <div class="card"><div class="lbl">Pass Rate</div><div class="val pass">73.65%</div></div>
-            <div class="card"><div class="lbl">Fail Rate</div><div class="val fail">0.68%</div></div>
+            <div class="card"><div class="lbl">Pass Rate</div><div class="val pass">72.97%</div></div>
+            <div class="card"><div class="lbl">Fail Rate</div><div class="val fail">1.35%</div></div>
             <div class="card"><div class="lbl">Flaky Rate</div><div class="val warn">0.0%</div></div>
-            <div class="card"><div class="lbl">Avg UI Duration</div><div class="val">17.65s</div></div>
-            <div class="card"><div class="lbl">Avg API Duration</div><div class="val">1.07s</div></div>
+            <div class="card"><div class="lbl">Avg UI Duration</div><div class="val">19.24s</div></div>
+            <div class="card"><div class="lbl">Avg API Duration</div><div class="val">1.29s</div></div>
         </div>
 
         <h2>🚦 Quality Gates</h2>
         <table>
             <thead><tr><th>Metric</th><th>Current Value</th><th>Target</th><th>Status</th></tr></thead>
-            <tbody><tr><td>Average Pass Rate</td><td>73.65%</td><td>>= 98.0%</td><td class='status-fail'>FAIL</td></tr><tr><td>Average Fail Rate</td><td>0.68%</td><td><= 2.0%</td><td class='status-ok'>OK</td></tr><tr><td>Average Broken Rate</td><td>0.0%</td><td><= 1.0%</td><td class='status-ok'>OK</td></tr><tr><td>Flaky Rate</td><td>0.0%</td><td><= 1.0%</td><td class='status-ok'>OK</td></tr><tr><td>Avg UI Test Duration</td><td>17.65s</td><td><= 12.0s</td><td class='status-fail'>FAIL</td></tr></tbody>
+            <tbody><tr><td>Average Pass Rate</td><td>72.97%</td><td>>= 98.0%</td><td class='status-fail'>FAIL</td></tr><tr><td>Average Fail Rate</td><td>1.35%</td><td><= 2.0%</td><td class='status-ok'>OK</td></tr><tr><td>Average Broken Rate</td><td>0.0%</td><td><= 1.0%</td><td class='status-ok'>OK</td></tr><tr><td>Flaky Rate</td><td>0.0%</td><td><= 1.0%</td><td class='status-ok'>OK</td></tr><tr><td>Avg UI Test Duration</td><td>19.24s</td><td><= 12.0s</td><td class='status-fail'>FAIL</td></tr></tbody>
         </table>
 
         <div class="chart-container">
@@ -51,7 +51,7 @@
         <h2>🐌 Top-5 Slowest Tests</h2>
         <table>
             <thead><tr><th>Browser</th><th>Test Name</th><th>Duration</th><th>Status</th></tr></thead>
-            <tbody><tr><td>Chrome</td><td><code>ui.buildRun.RegularBuildRunTest.failedBuildStatusIsDisplayedTest</code></td><td>75.73s</td><td class='status-passed'>PASSED</td></tr><tr><td>Chrome</td><td><code>ui.buildRun.RegularBuildRunTest.failedBuildStatusIsDisplayedTest</code></td><td>55.56s</td><td class='status-passed'>PASSED</td></tr><tr><td>Chrome</td><td><code>ui.project.CreateProjectTest.userCannotCreateProjectWithEmptyNameTest</code></td><td>52.9s</td><td class='status-passed'>PASSED</td></tr><tr><td>Chrome</td><td><code>ui.buildconfiguration.BuildConfigurationTest.buildConfigurationCanBeCreatedTest</code></td><td>48.86s</td><td class='status-failed'>FAILED</td></tr><tr><td>Chrome</td><td><code>ui.project.CreateProjectTest.userCannotCreateProjectWithEmptyNameTest</code></td><td>44.73s</td><td class='status-passed'>PASSED</td></tr></tbody>
+            <tbody><tr><td>Chrome</td><td><code>ui.buildRun.RegularBuildRunTest.failedBuildStatusIsDisplayedTest</code></td><td>86.66s</td><td class='status-passed'>PASSED</td></tr><tr><td>Chrome</td><td><code>ui.buildRun.RegularBuildRunTest.failedBuildStatusIsDisplayedTest</code></td><td>59.67s</td><td class='status-passed'>PASSED</td></tr><tr><td>Chrome</td><td><code>ui.LoginTest.adminUserCanLoginTest</code></td><td>53.91s</td><td class='status-passed'>PASSED</td></tr><tr><td>Chrome</td><td><code>ui.buildconfiguration.BuildConfigurationTest.buildConfigurationCanBeCreatedTest</code></td><td>49.91s</td><td class='status-failed'>FAILED</td></tr><tr><td>Chrome</td><td><code>ui.AuthenticationTest.adminSessionSeedsAuthenticatedBrowserTest</code></td><td>48.64s</td><td class='status-passed'>PASSED</td></tr></tbody>
         </table>
     </div>
 
@@ -62,7 +62,7 @@
             data: {
                 labels: ['Passed', 'Failed', 'Broken'],
                 datasets: [{
-                    data: [73.65, 0.68, 0.0],
+                    data: [72.97, 1.35, 0.0],
                     backgroundColor: ['#22c55e', '#ef4444', '#eab308']
                 }]
             },
