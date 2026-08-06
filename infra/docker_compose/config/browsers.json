@@ -23,7 +23,7 @@
     "default": "17.4",
     "versions": {
       "17.4": {
-        "image": "ghcr.io/browsers/webkit:17.4",
+        "image": "browsers/webkit:17.4",
         "port": "4444",
         "path": "/"
       }
