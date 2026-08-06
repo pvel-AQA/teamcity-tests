@@ -12,41 +12,48 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class BaseUiTest extends BaseTest {
 
     @BeforeAll
     public static void setupSelenoid() {
-        String browser = System.getProperty("browser", Config.getProperty("browser"));
-        String remoteUrl = System.getProperty("uiRemote", Config.getProperty("uiRemote"));
-
-        // Задаем remote только если URL передан и не пустой
-        if (remoteUrl != null && !remoteUrl.isBlank()) {
-            Configuration.remote = remoteUrl;
-        }
-
-        Configuration.baseUrl = System.getProperty("uiBaseUrl", Config.getProperty("uiBaseUrl"));
-        Configuration.browser = browser;
+        Configuration.baseUrl = Config.getProperty("uiBaseUrl");
+        Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
+//        String browser = System.getProperty("browser", Config.getProperty("browser"));
+//        String remoteUrl = System.getProperty("uiRemote", Config.getProperty("uiRemote"));
 
-        Configuration.timeout = 10000;
+//        // Задаем remote только если URL передан и не пустой
+//        if (remoteUrl != null && !remoteUrl.isBlank()) {
+//            Configuration.remote = remoteUrl;
+//        }
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true));
+//        Configuration.baseUrl = System.getProperty("uiBaseUrl", Config.getProperty("uiBaseUrl"));
+//        Configuration.browser = browser;
+//        Configuration.browserSize = Config.getProperty("browserSize");
+
+//        Configuration.timeout = 10000;
+
+//        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+//                .screenshots(true)
+//                .savePageSource(true));
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         // Настройка selenoid:options
-        Map<String, Object> selenoidOptions = new HashMap<>();
-        selenoidOptions.put("enableLog", true);
+//        Map<String, Object> selenoidOptions = new HashMap<>();
+//        selenoidOptions.put("enableLog", true);
+//
+//        // VNC включаем только для Chrome/Firefox, у WebKit VNC отсутствует
+//        if (!"webkit".equalsIgnoreCase(browser)) {
+//            selenoidOptions.put("enableVNC", true);
+//        }
+//
+//        Configuration.browserCapabilities.setCapability("selenoid:options", selenoidOptions);
 
-        // VNC включаем только для Chrome/Firefox, у WebKit VNC отсутствует
-        if (!"webkit".equalsIgnoreCase(browser)) {
-            selenoidOptions.put("enableVNC", true);
-        }
-
-        Configuration.browserCapabilities.setCapability("selenoid:options", selenoidOptions);
+        Configuration.browserCapabilities.setCapability("selenoid:options",
+                Map.of("enableVNC", true, "enableLog", true));
     }
 
     @BeforeEach
