@@ -24,7 +24,9 @@ jobs:
       - name: Cache Maven repository
         uses: actions/cache@v5
         with:
-          path: ~/.m2/repository
+          path: |
+            ~/.m2/repository
+            ~/.mvn/wrapper
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
@@ -125,14 +127,13 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
-      # Надежное копирование Swagger отчета
+      # Возвращаем права пользователю runner и копируем отчет
       - name: Copy Swagger Coverage to Allure Run Dir
         if: always()
         run: |
+          sudo chown -R $USER:$USER allure-history
           mkdir -p allure-history/${{ github.run_number }}
-          # Копируем любая .html из скачанного артефакта в нужную папку
-          cp target/swagger-temp/*.html allure-history/${{ github.run_number }}/swagger-coverage-report.html || \
-          cp target/swagger-temp/*/*.html allure-history/${{ github.run_number }}/swagger-coverage-report.html || true
+          cp target/swagger-temp/swagger-coverage-report.html allure-history/${{ github.run_number }}/swagger-coverage-report.html 2>/dev/null || true
           touch allure-history/.nojekyll
 
       - name: Publish test report

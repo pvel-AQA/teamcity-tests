@@ -18,5 +18,15 @@
         "path": "/wd/hub"
       }
     }
+  },
+  "safari": {
+    "default": "17.0",
+    "versions": {
+      "17.0": {
+        "image": "browsers/safari:17.0",
+        "port": "4444",
+        "path": "/"
+      }
+    }
   }
 }
