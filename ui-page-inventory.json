@@ -1,0 +1,124 @@
+{
+  "_comment": "Declared inventory of TeamCity's UI pages -- the product-level denominator for UI coverage. Consumed by scripts/build_route_coverage.py. 'modeled_by' names a page object under src/main/java/ui/pages, or null if the page has no page object yet. Update this file when the product changes or a live crawl refines it.",
+  "server": "TeamCity 2026.1.1 (build 222577)",
+  "compiled": "2026-08-05",
+  "areas": [
+    {
+      "name": "Core navigable pages",
+      "source": "measured",
+      "note": "Top-level Sakura UI destinations and the create-project wizard. Routes for the modeled ones are taken from the page objects themselves; the unmodeled routes follow TeamCity's documented URL scheme and are marked unverified until a live crawl confirms them.",
+      "pages": [
+        {"name": "Login", "route": "/login.html", "modeled_by": "LoginPage"},
+        {"name": "Projects overview (favorites)", "route": "/favorite/projects", "modeled_by": "ProjectsPage"},
+        {"name": "Project home", "route": "/project/<projectId>", "modeled_by": "ProjectPage"},
+        {"name": "Build configuration home", "route": "/buildConfiguration/<btId>", "modeled_by": "BuildConfigurationPage"},
+        {"name": "Build queue", "route": "/queue", "modeled_by": "QueuePage"},
+        {"name": "Create project (wizard)", "route": "/projects/create?projectId=_Root", "modeled_by": "CreateProjectPage"},
+        {"name": "Connect VCS (wizard)", "route": null, "modeled_by": "ConnectVCSPage"},
+        {"name": "Setup your build (wizard)", "route": "/projects/create?projectId=<id>&setup=build", "modeled_by": "SetupYourBuildPage"},
+        {"name": "Create build configuration (wizard)", "route": null, "modeled_by": "CreateBuildConfigurationPage"},
+        {"name": "Agents list", "route": "/agents", "modeled_by": null, "unverified_route": true},
+        {"name": "Agent details", "route": "/agents/<agentId>", "modeled_by": null, "unverified_route": true},
+        {"name": "Agent pools", "route": "/agents?tab=pools", "modeled_by": null, "unverified_route": true},
+        {"name": "Changes list", "route": "/changes", "modeled_by": null, "unverified_route": true},
+        {"name": "Change details", "route": "/change/<changeId>", "modeled_by": null, "unverified_route": true},
+        {"name": "My Settings & Tools (profile)", "route": "/profile.html", "modeled_by": null, "unverified_route": true},
+        {"name": "Administration root", "route": "/admin/admin.html", "modeled_by": null},
+        {"name": "Global search results", "route": "/search.html?query=", "modeled_by": null, "unverified_route": true}
+      ]
+    },
+    {
+      "name": "Administration sidebar",
+      "source": "measured",
+      "note": "All 25 items measured against the live server on 2026-07-28 and recorded in admin-side-menu-test-strategy.md. Every item is the same URL shape with a different item= parameter, so one parameterized page object plus an enum covers navigation and RBAC across the whole area. Heavily RBAC-gated: PROJECT_ADMIN sees 8 of 25, PROJECT_DEVELOPER and PROJECT_VIEWER are denied the page entirely.",
+      "route_template": "/admin/admin.html?item=<tabId>",
+      "pages": [
+        {"name": "Projects", "tab_id": "projects", "group": "Project related", "modeled_by": null},
+        {"name": "Build Time", "tab_id": "buildTime", "group": "Project related", "modeled_by": null},
+        {"name": "Disk Usage", "tab_id": "diskUsage", "group": "Project related", "modeled_by": null},
+        {"name": "Server Health", "tab_id": "healthStatus", "group": "Project related", "modeled_by": null},
+        {"name": "Audit", "tab_id": "audit", "group": "Project related", "modeled_by": null},
+        {"name": "Users", "tab_id": "users", "group": "User Management", "modeled_by": null},
+        {"name": "Groups", "tab_id": "groups", "group": "User Management", "modeled_by": null},
+        {"name": "Roles", "tab_id": "roles", "group": "User Management", "modeled_by": null},
+        {"name": "Tools", "tab_id": "toolInstallTab", "group": "Integrations", "modeled_by": null},
+        {"name": "Global Settings", "tab_id": "serverConfigGeneral", "group": "Server Administration", "modeled_by": null},
+        {"name": "Authentication", "tab_id": "auth", "group": "Server Administration", "modeled_by": null},
+        {"name": "Updates", "tab_id": "update", "group": "Server Administration", "modeled_by": null},
+        {"name": "Nodes Configuration", "tab_id": "nodesConfiguration", "group": "Server Administration", "modeled_by": null},
+        {"name": "Configs Repository", "tab_id": "configsInGit", "group": "Server Administration", "modeled_by": null},
+        {"name": "Email Notifier", "tab_id": "email", "group": "Server Administration", "modeled_by": null},
+        {"name": "Diagnostics", "tab_id": "diagnostics", "group": "Server Administration", "modeled_by": null},
+        {"name": "Backup", "tab_id": "backup", "group": "Server Administration", "modeled_by": null},
+        {"name": "Projects Import", "tab_id": "import", "group": "Server Administration", "modeled_by": null},
+        {"name": "Licenses", "tab_id": "license", "group": "Server Administration", "modeled_by": null},
+        {"name": "Clean-up Settings", "tab_id": "cleanup", "group": "Server Administration", "modeled_by": null},
+        {"name": "HTTPS Settings", "tab_id": "https", "group": "Server Administration", "modeled_by": null},
+        {"name": "Agent JDKs", "tab_id": "includedJdkTab", "group": "Server Administration", "modeled_by": null},
+        {"name": "DSL Libraries", "tab_id": "dslLibraries", "group": "Server Administration", "modeled_by": null},
+        {"name": "Usage Statistics", "tab_id": "usageStatistics", "group": "Server Administration", "modeled_by": null},
+        {"name": "Plugins", "tab_id": "plugins", "group": "Server Administration", "modeled_by": null}
+      ]
+    },
+    {
+      "name": "Project settings tabs",
+      "source": "docs",
+      "note": "From the 2026.1 documentation. Several tabs are conditional -- they appear only on the Root project, only when a feature is enabled, or are hidden by default -- so the practically reachable count is lower than the raw total.",
+      "route_template": "/admin/editProject.html?projectId=<id>&tab=<tab>",
+      "pages": [
+        {"name": "General", "modeled_by": "EditProjectPage"},
+        {"name": "VCS Roots", "modeled_by": null},
+        {"name": "Parameters", "modeled_by": null},
+        {"name": "Recipes (formerly Meta-Runners)", "modeled_by": null},
+        {"name": "Versioned Settings", "modeled_by": null},
+        {"name": "Connections", "modeled_by": null},
+        {"name": "Maven Settings", "modeled_by": null},
+        {"name": "Issue Trackers", "modeled_by": null},
+        {"name": "Cloud Profiles", "modeled_by": null, "conditional": "requires a cloud integration"},
+        {"name": "Artifacts Storage", "modeled_by": null},
+        {"name": "SSL / HTTPS Certificates", "modeled_by": null, "conditional": "Root project only"},
+        {"name": "VCS Auth Tokens", "modeled_by": null},
+        {"name": "Untrusted Builds", "modeled_by": null},
+        {"name": "Project Isolation", "modeled_by": null},
+        {"name": "SSH Keys", "modeled_by": null},
+        {"name": "Report Tabs", "modeled_by": null},
+        {"name": "Usages Report", "modeled_by": null, "conditional": "hidden by default"},
+        {"name": "Clean-up Rules", "modeled_by": null},
+        {"name": "Shared Resources", "modeled_by": null},
+        {"name": "NuGet Feed", "modeled_by": null, "conditional": "requires the NuGet feed to be enabled"},
+        {"name": "Suggestions", "modeled_by": null}
+      ]
+    },
+    {
+      "name": "Build configuration settings tabs",
+      "source": "docs",
+      "note": "Routes for the three modeled tabs are taken from the page objects; the remaining six follow the same /admin/edit*.html?id=buildType:<id> scheme.",
+      "pages": [
+        {"name": "General Settings", "route": "/admin/editBuild.html?id=buildType:<id>", "modeled_by": "EditBuildGeneralPage"},
+        {"name": "Version Control Settings", "route": "/admin/editBuildTypeVcsRoots.html?id=buildType:<id>", "modeled_by": "EditBuildTypeVcsRootsPage"},
+        {"name": "Build Steps", "route": "/admin/editBuildRunners.html?id=buildType:<id>", "modeled_by": "EditBuildStepsPage"},
+        {"name": "Triggers", "route": null, "modeled_by": null},
+        {"name": "Failure Conditions", "route": null, "modeled_by": null},
+        {"name": "Build Features", "route": null, "modeled_by": null},
+        {"name": "Dependencies", "route": null, "modeled_by": null},
+        {"name": "Parameters", "route": null, "modeled_by": null},
+        {"name": "Agent Requirements", "route": null, "modeled_by": null}
+      ]
+    },
+    {
+      "name": "Build results tabs",
+      "source": "docs",
+      "note": "Overview, Changes, Build Log and Artifacts are always present; Tests, Dependencies and Parameters are contextual and appear only when the build produced the corresponding data.",
+      "route_template": "/buildConfiguration/<btId>/<buildId>",
+      "pages": [
+        {"name": "Overview", "modeled_by": "BuildRunPage"},
+        {"name": "Changes", "modeled_by": null},
+        {"name": "Build Log", "modeled_by": "BuildLogOverlay"},
+        {"name": "Tests", "modeled_by": null, "conditional": "shown when the build reported tests"},
+        {"name": "Artifacts", "modeled_by": null},
+        {"name": "Dependencies", "modeled_by": null, "conditional": "shown when the build has dependencies"},
+        {"name": "Parameters", "modeled_by": null}
+      ]
+    }
+  ]
+}
