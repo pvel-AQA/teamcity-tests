@@ -4,7 +4,7 @@ on: [ push, workflow_dispatch ]
 
 jobs:
   run_tests:
-    name: Set up services (review apps) run tests on ${{ matrix.browser }}
+    name: Set up services (review apps) and run tests on ${{ matrix.browser }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
