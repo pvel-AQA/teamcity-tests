@@ -20,10 +20,10 @@
     }
   },
   "safari": {
-    "default": "17.0",
+    "default": "15.0",
     "versions": {
-      "17.0": {
-        "image": "browsers/safari:17.0",
+      "15.0": {
+        "image": "selenoid/vnc:safari_15.0",
         "port": "4444",
         "path": "/"
       }
