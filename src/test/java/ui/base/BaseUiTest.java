@@ -19,7 +19,13 @@ public class BaseUiTest extends BaseTest {
     @BeforeAll
     public static void setupSelenoid() {
         String browser = System.getProperty("browser", Config.getProperty("browser"));
-        Configuration.remote = System.getProperty("uiRemote", Config.getProperty("uiRemote"));
+        String remoteUrl = System.getProperty("uiRemote", Config.getProperty("uiRemote"));
+
+        // Задаем remote только если URL передан и не пустой
+        if (remoteUrl != null && !remoteUrl.isBlank()) {
+            Configuration.remote = remoteUrl;
+        }
+
         Configuration.baseUrl = System.getProperty("uiBaseUrl", Config.getProperty("uiBaseUrl"));
         Configuration.browser = browser;
         Configuration.browserSize = Config.getProperty("browserSize");

@@ -5,11 +5,20 @@ on: [ push, workflow_dispatch ]
 jobs:
   run_tests:
     name: Run tests on ${{ matrix.browser }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        browser: [ chrome, firefox, safari ]
+        include:
+          - browser: chrome
+            os: ubuntu-latest
+            use_selenoid: true
+          - browser: firefox
+            os: ubuntu-latest
+            use_selenoid: true
+          - browser: safari
+            os: macos-latest
+            use_selenoid: false
 
     steps:
       - name: Checkout repository
@@ -31,7 +40,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      # Докер-образы скачиваем только для Chrome и Firefox
       - name: Pull and cache browser images
+        if: matrix.use_selenoid == true
         uses: ./.github/actions/pull-and-cache-browsers
 
       - name: Setup TeamCity for CI
@@ -44,15 +55,21 @@ jobs:
       - name: Wait for agent synchronization
         run: sleep 300
 
+      # Включаем нативный safaridriver только для macOS
+      - name: Enable Safari Driver
+        if: matrix.browser == 'safari'
+        run: sudo safaridriver --enable
+
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
           UIBASEURL: http://teamcity-server:8111
-          UIREMOTE: http://localhost:4444/wd/hub
+          UIREMOTE: ${{ matrix.use_selenoid && 'http://localhost:4444/wd/hub' || '' }}
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
+      # Запускаем Swagger Coverage только на chrome-раннере, чтобы не дублировать отчет
       - name: Run Swagger Coverage
         if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
@@ -65,6 +82,7 @@ jobs:
           path: target/allure-results
           retention-days: 1
 
+      # Загружаем артефакт Swagger Coverage
       - name: Upload Swagger Coverage Artifact
         if: always() && matrix.browser == 'chrome'
         uses: actions/upload-artifact@v4
@@ -125,6 +143,7 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
+      # Сбрасываем root-права перед копированием, чтобы избежать Permission denied
       - name: Copy Swagger Coverage to Allure Run Dir
         if: always()
         run: |
