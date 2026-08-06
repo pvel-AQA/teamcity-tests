@@ -51,7 +51,7 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
-      # Запускаем Swagger Coverage только на одном ноде (chrome), чтобы не дублировать отчет
+      # Запускаем Swagger Coverage только на chrome-раннере, чтобы не дублировать отчет
       - name: Run Swagger Coverage
         if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
@@ -64,7 +64,7 @@ jobs:
           path: target/allure-results
           retention-days: 1
 
-      # Загружаем артефакт Swagger Coverage единично
+      # Загружаем артефакт Swagger Coverage
       - name: Upload Swagger Coverage Artifact
         if: always() && matrix.browser == 'chrome'
         uses: actions/upload-artifact@v4
@@ -78,7 +78,7 @@ jobs:
         run: cd infra/docker_compose && docker compose -p teamcity down
 
   publish_report:
-    name: Generate and Publish Allure Report & QA Dashboard
+    name: Generate and Publish Allure Report
     needs: [ run_tests ]
     runs-on: ubuntu-latest
     if: always()
@@ -110,16 +110,6 @@ jobs:
           echo "UI browsers=Chrome, Firefox" >> target/allure-results/environment.properties
           echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        if: always()
-        with:
-          python-version: '3.11'
-
-      - name: Generate QA Quality Metrics Dashboard
-        if: always()
-        run: python .github/scripts/generate_metrics.py
-
       - name: Load test report history
         uses: actions/checkout@v7
         if: always()
@@ -135,24 +125,15 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
+      # Надежное копирование Swagger отчета
       - name: Copy Swagger Coverage to Allure Run Dir
         if: always()
         run: |
           mkdir -p allure-history/${{ github.run_number }}
-          cp target/swagger-temp/swagger-coverage-report.html allure-history/${{ github.run_number }}/swagger-coverage-report.html 2>/dev/null || true
-
-      - name: Inject Quality Dashboard into Allure History
-        if: always()
-        run: |
-          sudo mkdir -p allure-history/quality/authors/${{ github.actor }}
-          sudo cp -r target/quality-dashboard/* allure-history/quality/authors/${{ github.actor }}/
-
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            sudo mkdir -p allure-history/quality
-            sudo cp -r target/quality-dashboard/* allure-history/quality/
-          fi
-
-          sudo touch allure-history/.nojekyll
+          # Копируем любая .html из скачанного артефакта в нужную папку
+          cp target/swagger-temp/*.html allure-history/${{ github.run_number }}/swagger-coverage-report.html || \
+          cp target/swagger-temp/*/*.html allure-history/${{ github.run_number }}/swagger-coverage-report.html || true
+          touch allure-history/.nojekyll
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
@@ -180,7 +161,6 @@ jobs:
             Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
             
             <b>📊 Reports:</b>
-            • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/quality/authors/${{ github.actor }}/">Quality Dashboard (${{ github.actor }})</a>
             • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">Allure Report #${{ github.run_number }}</a>
             • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
             

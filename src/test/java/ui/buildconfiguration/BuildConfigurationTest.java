@@ -55,7 +55,6 @@ public class BuildConfigurationTest extends BaseUiTest {
 
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
-    @Disabled("flacky")
     public void buildConfigurationCanBeCreatedFromProjectPageTest() {
         var project = UserSteps.createProject();
         var buildConfigurationRequest = RandomGenerator.generate(BuildConfigurationRequest.class);
