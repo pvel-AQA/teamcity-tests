@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [ chrome, firefox, edge ]
+        browser: [ chrome, firefox ]
 
     steps:
       - name: Checkout repository
@@ -109,7 +109,7 @@ jobs:
       - name: Create Allure Environment properties
         if: always()
         run: |
-          echo "UI browsers=Chrome, Firefox, Edge" >> target/allure-results/environment.properties
+          echo "UI browsers=Chrome, Firefox" >> target/allure-results/environment.properties
           echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
 
       - name: Load test report history
