@@ -342,6 +342,51 @@ def load_coverage(path):
     }
 
 
+def load_ui_coverage(path):
+    """Extract UI page/route coverage from scripts/build_route_coverage.py's JSON.
+
+    That script derives the denominator statically from the page objects under
+    src/main/java/ui/pages, since a UI has no swagger.json to measure against. It
+    grades each page object:
+        opened     a test navigates to it by URL      (new X().open(...))
+        reached    a test lands on it some other way  (getPage(X.class), transition)
+        untouched  no test reaches it at all
+    """
+    data = read_json(path)
+    if not isinstance(data, dict) or not data.get("pages_total"):
+        return None
+
+    total = int(data.get("pages_total") or 0)
+    opened = int(data.get("pages_opened") or 0)
+    reached = int(data.get("pages_reached") or 0)
+    # Derive rather than trust len(pages_untouched): that list excludes abstract base
+    # classes, which are reported separately but still count against the denominator.
+    untouched = max(total - opened - reached, 0)
+
+    routes_total = int(data.get("routes_total") or 0)
+    routes_hit = int(data.get("routes_hit") or 0)
+
+    return {
+        "pages_total": total,
+        "pages_opened": opened,
+        "pages_reached": reached,
+        "pages_touched": int(data.get("pages_touched") or (opened + reached)),
+        "pages_untouched_count": untouched,
+        "pages_untouched": list(data.get("pages_untouched") or []),
+        "pages_untouched_base_classes": list(data.get("pages_untouched_base_classes") or []),
+        "page_coverage": pct(opened + reached, total),
+        "routes_total": routes_total,
+        "routes_hit": routes_hit,
+        "route_coverage": pct(routes_hit, routes_total),
+        "routes_missing": list(data.get("routes_missing") or []),
+        "pages_without_route": list(data.get("pages_without_route") or []),
+        "test_classes": int(data.get("test_classes") or 0),
+        "test_cases": int(data.get("test_cases") or 0),
+        "pages": [p for p in (data.get("pages") or []) if isinstance(p, dict)],
+        "generated_at": data.get("generated"),
+    }
+
+
 def discover_runs(site_dir, limit):
     numbers = []
     if os.path.isdir(site_dir):
@@ -772,16 +817,15 @@ def svg_status_columns(runs, height=230):
     return "".join(out)
 
 
-def svg_coverage_bar(coverage, height=92):
-    """One horizontal stacked bar: full / partial / empty operations.
+def svg_stacked_bar(segs, total, aria_label, noun, light_ink_keys=(), height=92):
+    """One horizontal stacked bar for a part-to-whole split on an *ordered* scale.
 
-    Part-to-whole on an *ordered* scale, so the color job is an ordinal one-hue ramp
-    (validated: ALL CHECKS PASS in both modes), not categorical hues.
+    Shared by API operation coverage and UI page coverage: both grade the same way
+    (best -> worst), so both use the ordinal one-hue ramp rather than categorical hues.
+
+    segs           (key, label, count, css_color) in best-to-worst order
+    light_ink_keys segment keys whose fill is pale enough to need dark ink
     """
-    if not coverage or not coverage["operations_all"]:
-        return '<p class="empty">No swagger-coverage results published for this run.</p>'
-
-    total = coverage["operations_all"]
     pad_l, pad_r = 4, 4
     width = 720
     bar_w = width - pad_l - pad_r
@@ -789,23 +833,18 @@ def svg_coverage_bar(coverage, height=92):
     y = 16
     gap = 2.0
 
-    segs = [
-        ("full", "Full", coverage["full"], "var(--cov-full)"),
-        ("partial", "Partial", coverage["partial"], "var(--cov-partial)"),
-        ("empty", "Empty", coverage["empty"], "var(--cov-empty)"),
-    ]
     drawn = [s for s in segs if s[2] > 0]
 
     out = [f'<svg class="chart" viewBox="0 0 {width} {height}" role="img" '
            f'preserveAspectRatio="xMidYMid meet" '
-           f'aria-label="API operation coverage: full, partial and empty">']
+           f'aria-label="{e(aria_label)}">']
     cursor = float(pad_l)
     for order, (key, label, count, color) in enumerate(drawn):
         raw_w = bar_w * count / total
         is_end = order == len(drawn) - 1
         seg_w = raw_w if is_end else max(raw_w - gap, 0.6)
         share = pct(count, total)
-        tip = f"{label}: {count} of {total} operations ({share:.1f}%)"
+        tip = f"{label}: {count} of {total} {noun} ({share:.1f}%)"
         if is_end:
             out.append(f'<path d="{rounded_right_path(cursor, y, seg_w, bar_h, 4)}" fill="{color}" '
                        f'data-tip="{e(tip)}" class="mark"/>')
@@ -815,7 +854,7 @@ def svg_coverage_bar(coverage, height=92):
         # Only label inside when the text comfortably fits (never clip, never overflow).
         text = f"{count}"
         if seg_w >= 34:
-            ink = "var(--on-fill-light)" if key == "empty" else "var(--on-fill-dark)"
+            ink = "var(--on-fill-light)" if key in light_ink_keys else "var(--on-fill-dark)"
             out.append(f'<text x="{cursor + seg_w / 2:.2f}" y="{y + bar_h / 2 + 4.5:.2f}" '
                        f'class="segval" fill="{ink}" text-anchor="middle">{e(text)}</text>')
         out.append(f'<text x="{cursor:.2f}" y="{y + bar_h + 18:.2f}" class="tick">'
@@ -823,6 +862,36 @@ def svg_coverage_bar(coverage, height=92):
         cursor += raw_w
     out.append("</svg>")
     return "".join(out)
+
+
+def svg_coverage_bar(coverage, height=92):
+    """API operations: full / partial / empty."""
+    if not coverage or not coverage["operations_all"]:
+        return '<p class="empty">No swagger-coverage results published for this run.</p>'
+    return svg_stacked_bar(
+        [("full", "Full", coverage["full"], "var(--cov-full)"),
+         ("partial", "Partial", coverage["partial"], "var(--cov-partial)"),
+         ("empty", "Empty", coverage["empty"], "var(--cov-empty)")],
+        coverage["operations_all"],
+        "API operation coverage: full, partial and empty",
+        "operations", light_ink_keys=("empty",), height=height)
+
+
+def svg_ui_coverage_bar(ui, height=92):
+    """UI page objects: opened by URL / reached by transition / untouched.
+
+    Same ordered grading as API coverage (best -> worst), so it reuses the same
+    validated one-hue ramp instead of introducing a second colour language.
+    """
+    if not ui or not ui["pages_total"]:
+        return '<p class="empty">No UI route-coverage results for this run.</p>'
+    return svg_stacked_bar(
+        [("opened", "Opened", ui["pages_opened"], "var(--cov-full)"),
+         ("reached", "Reached", ui["pages_reached"], "var(--cov-partial)"),
+         ("untouched", "Untouched", ui["pages_untouched_count"], "var(--cov-empty)")],
+        ui["pages_total"],
+        "UI page coverage: opened, reached and untouched",
+        "page objects", light_ink_keys=("untouched",), height=height)
 
 
 def svg_hbars(items, height_per=26, unit="s", max_items=8):
@@ -1064,10 +1133,13 @@ def render_gates_table(gates):
             f'<tbody>{"".join(rows)}</tbody></table></div>')
 
 
-def render_runs_table(runs):
+def render_runs_table(runs, pages_base=".."):
     rows = []
     for run in reversed(runs):
-        link = f'<a href="../{run.number}/index.html">#{run.number}</a>'
+        # Must go through pages_base: the dashboard is written at two different depths
+        # (quality/<slug>/index.html and <run>/quality.html), so a hardcoded "../" is
+        # correct for at most one of them.
+        link = f'<a href="{e(pages_base)}/{run.number}/index.html">#{run.number}</a>'
         rows.append(
             f'<tr><td>{link}</td>'
             f'<td class="num">{run.total}</td><td class="num">{run.passed}</td>'
@@ -1141,7 +1213,87 @@ def render_predicates_table(coverage):
             f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div>')
 
 
-def render_page(runs, metrics, coverage, cov_series, context):
+UI_STATUS_META = {
+    "opened":    ("cov-full",    "◉", "Opened"),
+    "reached":   ("cov-partial", "◐", "Reached"),
+    "untouched": ("cov-empty",   "○", "Untouched"),
+}
+
+
+def render_ui_pages_table(ui):
+    """Page objects, worst grade first — the untouched ones are the actionable rows."""
+    order = {"untouched": 0, "reached": 1, "opened": 2}
+    rows = []
+    for page in sorted(ui["pages"], key=lambda p: (order.get(p.get("status"), 9),
+                                                   p.get("name", ""))):
+        status = page.get("status", "untouched")
+        var, icon, label = UI_STATUS_META.get(status, UI_STATUS_META["untouched"])
+        route = page.get("route") or "–"
+        by = page.get("reached_by") or []
+        # Test paths are long; show the class names and keep the full list in the title.
+        names = [os.path.basename(p).replace(".java", "") for p in by]
+        shown = ", ".join(names[:2]) + (f" +{len(names) - 2}" if len(names) > 2 else "")
+        rows.append(
+            f'<tr><td>{e(page.get("name", "?"))}</td>'
+            f'<td class="muted"><code>{e(route)}</code></td>'
+            f'<td><span class="pill" style="background:var(--{var});color:var(--on-fill-'
+            f'{"light" if status == "untouched" else "dark"})">{icon} {label}</span></td>'
+            f'<td class="muted" title="{e(", ".join(by))}">{e(shown or "–")}</td></tr>')
+    return ('<div class="scroll"><table><thead><tr><th>Page object</th><th>Route</th>'
+            '<th>Status</th><th>Reached by</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>')
+
+
+def render_ui_coverage_section(ui):
+    if not ui:
+        return """
+<section class="card">
+  <h2>UI coverage</h2>
+  <p class="empty">No UI route-coverage results for this run. The CI job must run
+     <code>scripts/build_route_coverage.py --json</code> and pass the file to
+     <code>--ui-coverage</code> for page and route coverage to appear here.</p>
+</section>"""
+
+    gaps = []
+    stranded = ui["pages_untouched"] + ui["pages_untouched_base_classes"]
+    if stranded:
+        gaps.append(f'<p class="formula"><strong>Untouched pages:</strong> '
+                    f'{e(", ".join(sorted(stranded)))}</p>')
+    if ui["routes_missing"]:
+        # Escape each route, then join with markup — escaping the joined string would
+        # turn the separating tags into visible text.
+        routes = ", ".join(f"<code>{e(r)}</code>" for r in ui["routes_missing"])
+        gaps.append(f'<p class="formula"><strong>Routes never opened:</strong> {routes}</p>')
+    if ui["pages_without_route"]:
+        gaps.append(f'<p class="formula"><strong>No URL of their own</strong> (wizard steps and '
+                    f'overlays, reachable only by transition): '
+                    f'{e(", ".join(sorted(ui["pages_without_route"])))}</p>')
+
+    return f"""
+<section class="card">
+  <h2>UI coverage</h2>
+  <p class="sub">There is no swagger.json for a UI, so the denominator is derived statically
+     from the page objects under <code>src/main/java/ui/pages</code> and the URL templates their
+     <code>url()</code> methods declare. Measured across {ui["test_cases"]} UI test cases in
+     {ui["test_classes"]} classes. Ordered scale, so one hue: darker means better covered.</p>
+  <div class="scroll">{svg_ui_coverage_bar(ui)}</div>
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--cov-full)"></i>◉ Opened — a test navigates to it by URL</span>
+    <span><i class="swatch" style="background:var(--cov-partial)"></i>◐ Reached — landed on by transition only</span>
+    <span><i class="swatch" style="background:var(--cov-empty)"></i>○ Untouched — no test reaches it</span>
+  </div>
+  <p class="formula">Page coverage = (opened + reached) ÷ all page objects =
+     ({ui["pages_opened"]} + {ui["pages_reached"]}) ÷ {ui["pages_total"]} =
+     {e(fmt_pct(ui["page_coverage"]))}</p>
+  <p class="formula">Route coverage = routes opened ÷ distinct <code>url()</code> templates =
+     {ui["routes_hit"]} ÷ {ui["routes_total"]} = {e(fmt_pct(ui["route_coverage"]))}</p>
+  <h3 style="margin-top:20px">Pages</h3>
+  {render_ui_pages_table(ui)}
+  {"".join(gaps)}
+</section>"""
+
+
+def render_page(runs, metrics, coverage, cov_series, context, ui=None):
     latest = runs[-1]
     labels = [str(r.number) for r in runs]
     tests = metrics["_tests"]
@@ -1266,6 +1418,24 @@ def render_page(runs, metrics, coverage, cov_series, context):
      must copy it next to <code>swagger-coverage-report.html</code> for coverage to be trended here.</p>
 </section>"""
 
+    # ---- UI coverage tiles --------------------------------------------------------------
+    # Independent of the API coverage branch above: the two measure different stacks and
+    # either can be present without the other.
+    tiles_ui = ""
+    if ui:
+        tiles_ui = "".join([
+            tile("UI page coverage", fmt_pct(ui["page_coverage"]),
+                 f'{ui["pages_opened"] + ui["pages_reached"]} of {ui["pages_total"]} page objects reached'),
+            tile("UI route coverage", fmt_pct(ui["route_coverage"]),
+                 f'{ui["routes_hit"]} of {ui["routes_total"]} url() templates opened'),
+            tile("Opened by URL", fmt_int(ui["pages_opened"]),
+                 "a test navigates straight to the page"),
+            tile("Reached by transition", fmt_int(ui["pages_reached"]),
+                 "landed on via getPage() or a navigation return type"),
+            tile("Untouched pages", fmt_int(ui["pages_untouched_count"]),
+                 "no UI test reaches these at all"),
+        ])
+
     # ---- coverage trend ---------------------------------------------------------------
     cov_trend = ""
     api_series = cov_series.get("api_coverage") or []
@@ -1336,6 +1506,9 @@ def render_page(runs, metrics, coverage, cov_series, context):
 
 {coverage_section.replace("</section>", cov_trend + "</section>") if cov_trend else coverage_section}
 
+{f'<div class="grid-kpi">{tiles_ui}</div>' if tiles_ui else ""}
+{render_ui_coverage_section(ui)}
+
 <section class="card">
   <h2>Suites</h2>
   <p class="sub">Latest run, worst pass rate first.</p>
@@ -1352,7 +1525,7 @@ def render_page(runs, metrics, coverage, cov_series, context):
 <section class="card">
   <h2>Run history</h2>
   <p class="sub">Every number above is recomputable from this table.</p>
-  {render_runs_table(runs)}
+  {render_runs_table(runs, pages_base)}
 </section>
 
 <footer>
@@ -1577,6 +1750,8 @@ def main(argv=None):
                              "Allure report, and the run-scoped permalink is written under it.")
     parser.add_argument("--swagger-results", default=None,
                         help="swagger-coverage-results.json for the current run, if not yet published")
+    parser.add_argument("--ui-coverage", default=None,
+                        help="ui-route-coverage.json from scripts/build_route_coverage.py")
     parser.add_argument("--window", type=int, default=25, help="Max runs to display")
     parser.add_argument("--markdown-out", default=None, help="Write the Markdown digest here")
     parser.add_argument("--pages-url", default=None,
@@ -1612,6 +1787,11 @@ def main(argv=None):
         coverage = load_coverage(args.swagger_results)
         latest.coverage = coverage
 
+    ui = load_ui_coverage(args.ui_coverage) if args.ui_coverage else None
+    if args.ui_coverage and ui is None:
+        print(f"warning: {args.ui_coverage} missing or unreadable — UI coverage card will "
+              f"render as unavailable", file=sys.stderr)
+
     metrics = build_metrics(runs, gates, coverage)
 
     dest_dir = os.path.join(args.site_dir, args.destination)
@@ -1630,7 +1810,7 @@ def main(argv=None):
         base = (args.pages_url.rstrip("/") if args.pages_url
                 else ("/".join([".."] * depth) if depth else "."))
         return base, render_page(runs, metrics, coverage, cov_series,
-                                 {"repo": args.repo, "pages_base": base})
+                                 {"repo": args.repo, "pages_base": base}, ui=ui)
 
     dest_depth = len([p for p in args.destination.split("/") if p])
     pages_base, page = render_at(dest_depth)
@@ -1665,6 +1845,11 @@ def main(argv=None):
     public["generated_at"] = datetime.now(timezone.utc).isoformat()
     public["dashboard_url"] = url or None
     public["dashboard_latest_url"] = latest_url or None
+    if ui:
+        public["ui_page_coverage"] = ui["page_coverage"]
+        public["ui_route_coverage"] = ui["route_coverage"]
+        public["ui_pages_total"] = ui["pages_total"]
+        public["ui_pages_untouched"] = ui["pages_untouched_count"]
     with open(os.path.join(dest_dir, "summary.json"), "w", encoding="utf-8") as fh:
         json.dump(public, fh, indent=1, default=str)
 

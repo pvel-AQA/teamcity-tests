@@ -79,6 +79,22 @@ jobs:
           # Publish the machine-readable results too, so coverage can be trended.
           sudo cp swagger-coverage-results.json allure-history/${{ github.run_number }}
 
+      - name: Build UI route coverage
+        if: always()
+        # Reporting layer, same rule as the dashboard: it must never turn a green test
+        # run red. If it fails, the dashboard renders its UI coverage card as
+        # unavailable rather than showing stale numbers.
+        continue-on-error: true
+        # Static analysis over src/, so it needs no test results and cannot be affected
+        # by a failing run. Publishes next to the Swagger report for the same run.
+        run: |
+          python3 scripts/build_route_coverage.py \
+            --out ui-route-coverage.html \
+            --json ui-route-coverage.json
+          # allure-history is created by the Allure action as root, so copy in with sudo
+          # exactly like the Swagger report above. The chown happens a step later.
+          sudo cp ui-route-coverage.html allure-history/${{ github.run_number }}/
+
       - name: Build quality dashboard
         id: quality
         if: always()
@@ -106,10 +122,25 @@ jobs:
             --repo ${{ github.repository }} \
             --run-number ${{ github.run_number }} \
             --swagger-results swagger-coverage-results.json \
+            --ui-coverage ui-route-coverage.json \
             --pages-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" \
             --markdown-out quality-summary.md \
             --github-output "$GITHUB_OUTPUT"
           cat quality-summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Flag dashboard failure
+        # The dashboard step is continue-on-error so a reporting problem never turns a
+        # green test run red. That used to make its failure invisible: the job stayed
+        # green and Telegram rendered an empty href. Surface it explicitly instead.
+        if: always() && steps.quality.outcome == 'failure'
+        run: |
+          echo "::error title=Quality dashboard::The dashboard step failed - no report was \
+          published for run #${{ github.run_number }}. The notification will say so."
+          {
+            echo "## :warning: Quality Report unavailable"
+            echo "The dashboard step failed for run #${{ github.run_number }}."
+            echo "Test results above are unaffected."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
@@ -143,7 +174,7 @@ jobs:
             ${{ needs.run_tests.outputs.telegram_block }}
 
             <b>📊 Reports:</b>
-            Quality Report: <a href="${{ needs.run_tests.outputs.dashboard_url }}">Summary dashboard</a>
+            ${{ needs.run_tests.outputs.dashboard_url && format('Quality Report: <a href="{0}">Summary dashboard</a>', needs.run_tests.outputs.dashboard_url) || '⚠️ Quality Report: unavailable — the dashboard step failed for this run' }}
             Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
             Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
