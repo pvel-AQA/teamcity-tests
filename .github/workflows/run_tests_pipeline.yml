@@ -105,6 +105,12 @@ jobs:
         run: |
           sudo safaridriver --enable
 
+      - name: Setup Docker on macOS
+        run: |
+          brew install docker docker-compose colima
+          colima start
+          docker info
+
       - name: Setup TeamCity for CI
         id: setup_teamcity
         uses: ./.github/actions/setup-teamcity-ci
