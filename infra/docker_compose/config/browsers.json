@@ -18,15 +18,5 @@
         "path": "/wd/hub"
       }
     }
-  },
-  "edge": {
-    "default": "126.0",
-    "versions": {
-      "126.0": {
-        "image": "selenoid/vnc:edge_126.0",
-        "port": "4444",
-        "path": "/"
-      }
-    }
   }
 }

@@ -4,7 +4,7 @@ on: [ push, workflow_dispatch ]
 
 jobs:
   run_tests:
-    name: Run tests on ${{ matrix.browser }}
+    name: Set up services (review apps) run tests on ${{ matrix.browser }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -51,6 +51,7 @@ jobs:
           API_PREFIX: /app/rest
           UIBASEURL: http://teamcity-server:8111
           UIREMOTE: http://localhost:4444/wd/hub
+          HEADLESS: false
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
       - name: Run Swagger Coverage
