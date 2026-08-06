@@ -1437,7 +1437,7 @@ def update_history(dest_dir, runs, coverage):
     return history
 
 
-def write_github_output(path, metrics, coverage, url, runs):
+def write_github_output(path, metrics, coverage, url, runs, latest_url=""):
     """Append step outputs for the workflow to consume (job outputs -> Telegram).
 
     Values are pre-formatted here so the workflow never does arithmetic in bash.
@@ -1477,6 +1477,7 @@ def write_github_output(path, metrics, coverage, url, runs):
         "gates_warning": ", ".join(warn) if warn else "",
         "run_number": str(latest.number),
         "dashboard_url": url or "",
+        "dashboard_latest_url": latest_url or "",
     }
 
     # Telegram HTML. Kept to a handful of lines so the notification stays scannable.
@@ -1514,12 +1515,19 @@ def coverage_series(history, runs):
 # --------------------------------------------------------------------------------------
 # Markdown digest (for $GITHUB_STEP_SUMMARY)
 # --------------------------------------------------------------------------------------
-def render_markdown(metrics, coverage, runs, url):
+def render_markdown(metrics, coverage, runs, url, latest_url=""):
     latest = runs[-1]
+    # `url` is the immutable per-run permalink; `latest_url` is the rolling branch path.
+    # Both are shown so a stale rolling copy is obvious rather than silently misleading.
+    links = []
+    if url:
+        links.append(f"[Open the full dashboard]({url})")
+    if latest_url and latest_url != url:
+        links.append(f"[latest for this branch]({latest_url})")
     lines = [
         f"## Quality Report — run #{latest.number}",
         "",
-        f"[Open the full dashboard]({url})" if url else "",
+        " · ".join(links),
         "",
         "| Metric | Value |",
         "| --- | ---: |",
@@ -1565,7 +1573,8 @@ def main(argv=None):
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""),
                         help="owner/name, used for links")
     parser.add_argument("--run-number", type=int, default=None,
-                        help="Current run number (informational)")
+                        help="Current run number. The build fails if this run has no usable "
+                             "Allure report, and the run-scoped permalink is written under it.")
     parser.add_argument("--swagger-results", default=None,
                         help="swagger-coverage-results.json for the current run, if not yet published")
     parser.add_argument("--window", type=int, default=25, help="Max runs to display")
@@ -1584,6 +1593,19 @@ def main(argv=None):
     if not runs:
         raise SystemExit(f"No Allure reports found under {args.site_dir!r} — nothing to build.")
 
+    # The dashboard must describe *this* run. When a build fails before Maven writes
+    # allure-results, the run directory is absent or carries no widgets/summary.json,
+    # load_run() drops it, and runs[-1] silently becomes the PREVIOUS run — publishing
+    # last run's numbers under this run's notification. Fail loudly: no dashboard is
+    # better than a stale one that looks current.
+    if args.run_number is not None and runs[-1].number != args.run_number:
+        seen = ", ".join(f"#{r.number}" for r in runs[-5:]) or "none"
+        raise SystemExit(
+            f"Run #{args.run_number} has no usable Allure report under {args.site_dir!r} "
+            f"(newest usable: #{runs[-1].number}; last discovered: {seen}). "
+            f"Refusing to publish a dashboard that would describe an older run."
+        )
+
     latest = runs[-1]
     coverage = latest.coverage
     if coverage is None and args.swagger_results:
@@ -1598,28 +1620,61 @@ def main(argv=None):
     history = update_history(dest_dir, runs, coverage)
     cov_series = coverage_series(history, runs)
 
-    pages_base = (args.pages_url.rstrip("/") if args.pages_url else "..")
-    page = render_page(runs, metrics, coverage, cov_series,
-                       {"repo": args.repo, "pages_base": pages_base})
+    def render_at(depth):
+        """Render the page for a location `depth` directories below the site root.
+
+        With --pages-url the base is absolute and depth is irrelevant; without it the
+        page has to reach the Allure reports relatively, and the two copies we write
+        sit at different depths.
+        """
+        base = (args.pages_url.rstrip("/") if args.pages_url
+                else ("/".join([".."] * depth) if depth else "."))
+        return base, render_page(runs, metrics, coverage, cov_series,
+                                 {"repo": args.repo, "pages_base": base})
+
+    dest_depth = len([p for p in args.destination.split("/") if p])
+    pages_base, page = render_at(dest_depth)
     with open(os.path.join(dest_dir, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page)
+
+    # Run-scoped permalink. <destination> is stable per branch, so it always serves
+    # "whatever was published last" — a notification linking it can show an older run
+    # when this run's Pages deploy lags, or when a sibling branch's deploy prunes the
+    # tree. The copy under <run>/ is immutable and lives inside the run directory the
+    # Allure action already retains.
+    run_url = ""
+    if args.run_number is not None:
+        run_dir = os.path.join(args.site_dir, str(args.run_number))
+        if os.path.isdir(run_dir):
+            _, run_page = render_at(1)
+            with open(os.path.join(run_dir, "quality.html"), "w", encoding="utf-8") as fh:
+                fh.write(run_page)
+            if args.pages_url:
+                run_url = f"{pages_base}/{args.run_number}/quality.html"
+        else:
+            print(f"warning: {run_dir} missing — no run-scoped permalink written",
+                  file=sys.stderr)
+
+    latest_url = f"{pages_base}/{args.destination}/" if args.pages_url else ""
+    # Prefer the immutable permalink for notifications; fall back to the rolling path.
+    url = run_url or latest_url
 
     public = {k: v for k, v in metrics.items() if not k.startswith("_") and k != "gates"}
     public["gates"] = [{k: g[k] for k in ("key", "name", "actual", "target", "state")}
                        for g in metrics["gates"]]
     public["generated_at"] = datetime.now(timezone.utc).isoformat()
-    public["dashboard_url"] = f"{pages_base}/{args.destination}/" if args.pages_url else None
+    public["dashboard_url"] = url or None
+    public["dashboard_latest_url"] = latest_url or None
     with open(os.path.join(dest_dir, "summary.json"), "w", encoding="utf-8") as fh:
         json.dump(public, fh, indent=1, default=str)
 
-    url = f"{pages_base}/{args.destination}/" if args.pages_url else ""
-    markdown = render_markdown(metrics, coverage, runs, url)
+    markdown = render_markdown(metrics, coverage, runs, url, latest_url)
     if args.markdown_out:
         with open(args.markdown_out, "w", encoding="utf-8") as fh:
             fh.write(markdown + "\n")
 
     if args.github_output:
-        write_github_output(args.github_output, metrics, coverage, url, runs)
+        write_github_output(args.github_output, metrics, coverage, url, runs, latest_url)
 
     breaches = [g["name"] for g in metrics["gates"] if g["state"] == "bad"]
     print(f"Quality Report written to {dest_dir}/index.html", file=sys.stderr)
