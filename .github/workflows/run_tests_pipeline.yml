@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [ chrome, firefox ]
+        browser: [ chrome, firefox, opera ]
 
     steps:
       - name: Checkout repository
@@ -53,6 +53,7 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
+      # Запускаем Swagger Coverage только на chrome-раннере, чтобы не дублировать отчет
       - name: Run Swagger Coverage
         if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
@@ -65,6 +66,7 @@ jobs:
           path: target/allure-results
           retention-days: 1
 
+      # Загружаем артефакт Swagger Coverage
       - name: Upload Swagger Coverage Artifact
         if: always() && matrix.browser == 'chrome'
         uses: actions/upload-artifact@v4
@@ -77,75 +79,9 @@ jobs:
         if: always()
         run: cd infra/docker_compose && docker compose -p teamcity down
 
-  run_tests_safari:
-    name: Run tests on Safari (macOS)
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'corretto'
-          java-version: '21'
-
-      - name: Cache Maven repository
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.m2/repository
-            ~/.mvn/wrapper
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Enable SafariDriver
-        run: |
-          sudo safaridriver --enable
-
-      - name: Setup Docker on macOS
-        run: |
-          brew install docker docker-compose colima qemu
-          mkdir -p ~/.docker/cli-plugins
-          ln -sfn $(brew --prefix)/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-          colima start --vm-type qemu --cpu 2 --memory 4
-          docker info
-
-      - name: Setup TeamCity for CI
-        id: setup_teamcity
-        uses: ./.github/actions/setup-teamcity-ci
-        with:
-          teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
-          docker-compose-dir: infra/docker_compose
-
-      - name: Wait for agent synchronization
-        run: sleep 300
-
-      - name: Run Safari tests
-        run: ./mvnw test -P all -q -Dbrowser=safari
-        env:
-          APIBASEURL: http://localhost:8111
-          API_PREFIX: /app/rest
-          UIBASEURL: http://localhost:8111
-          TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
-
-      - name: Upload Allure Results Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results-safari
-          path: target/allure-results
-          retention-days: 1
-
-      - name: Clean up services
-        if: always()
-        run: cd infra/docker_compose && docker compose -p teamcity down
-
   publish_report:
     name: Generate and Publish Allure Report
-    needs: [ run_tests, run_tests_safari ]
+    needs: [ run_tests ]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -173,7 +109,7 @@ jobs:
       - name: Create Allure Environment properties
         if: always()
         run: |
-          echo "UI browsers=Chrome, Firefox, Safari" >> target/allure-results/environment.properties
+          echo "UI browsers=Chrome, Firefox, Opera" >> target/allure-results/environment.properties
           echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
 
       - name: Load test report history
@@ -191,6 +127,7 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
+      # Возвращаем права пользователю runner и копируем отчет
       - name: Copy Swagger Coverage to Allure Run Dir
         if: always()
         run: |
@@ -209,7 +146,7 @@ jobs:
 
   notify:
     name: Telegram notification
-    needs: [ run_tests, run_tests_safari, publish_report ]
+    needs: [ run_tests, publish_report ]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -220,7 +157,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>${{ (needs.run_tests.result == 'success' && needs.run_tests_safari.result == 'success') && '✅ Passed' || '❌ Failed' }}</b> — TeamCity tests
+            <b>${{ needs.run_tests.result == 'success' && '✅ Passed' || '❌ Failed' }}</b> — TeamCity tests
             Branch: <code>${{ github.ref_name }}</code>
             Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
             
