@@ -30,18 +30,13 @@ runs:
 
           docker pull selenoid/vnc:chrome_128.0
           docker pull selenoid/vnc:firefox_125.0
-          docker pull browsers/webkit:17.4 || docker pull browsers/webkit:17.0
+          docker pull selenoid/vnc:playwright-1.42.0
 
-          # Определяем какой именно тег скачался
-          if docker image inspect browsers/webkit:17.4 >/dev/null 2>&1; then
-            docker image save browsers/webkit:17.4 --output "${CACHE_DIR}/webkit_17.4.tar"
-          else
-            docker image save browsers/webkit:17.0 --output "${CACHE_DIR}/webkit_17.4.tar"
-            docker tag browsers/webkit:17.0 browsers/webkit:17.4
-          fi
+          docker tag selenoid/vnc:playwright-1.42.0 selenoid/vnc:webkit_17.4
 
           docker image save selenoid/vnc:chrome_128.0 --output "${CACHE_DIR}/chrome_128.0.tar"
           docker image save selenoid/vnc:firefox_125.0 --output "${CACHE_DIR}/firefox_125.0.tar"
+          docker image save selenoid/vnc:webkit_17.4 --output "${CACHE_DIR}/webkit_17.4.tar"
 
           echo "Browser images saved to cache"
         fi

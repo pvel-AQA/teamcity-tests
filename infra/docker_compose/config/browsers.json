@@ -5,7 +5,7 @@
       "128.0": {
         "image": "selenoid/vnc:chrome_128.0",
         "port": "4444",
-        "path": "/"
+        "path": "@chrome"
       }
     }
   },
@@ -23,7 +23,7 @@
     "default": "17.4",
     "versions": {
       "17.4": {
-        "image": "browsers/webkit:17.4",
+        "image": "selenoid/vnc:webkit_17.4",
         "port": "4444",
         "path": "/"
       }
