@@ -18,15 +18,5 @@
         "path": "/wd/hub"
       }
     }
-  },
-  "webkit": {
-    "default": "17.4",
-    "versions": {
-      "17.4": {
-        "image": "selenoid/vnc:webkit_17.4",
-        "port": "4444",
-        "path": "/"
-      }
-    }
   }
 }
