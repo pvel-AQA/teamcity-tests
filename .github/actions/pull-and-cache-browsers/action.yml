@@ -30,11 +30,11 @@ runs:
 
           docker pull selenoid/vnc:chrome_128.0
           docker pull selenoid/vnc:firefox_125.0
-          docker pull browsers/webkit:17.4
+          docker pull ghcr.io/browsers/webkit:17.4
 
           docker image save selenoid/vnc:chrome_128.0 --output "${CACHE_DIR}/chrome_128.0.tar"
           docker image save selenoid/vnc:firefox_125.0 --output "${CACHE_DIR}/firefox_125.0.tar"
-          docker image save browsers/webkit:17.4 --output "${CACHE_DIR}/webkit_17.4.tar"
+          docker image save ghcr.io/browsers/webkit:17.4 --output "${CACHE_DIR}/webkit_17.4.tar"
 
           echo "Browser images saved to cache"
         fi
