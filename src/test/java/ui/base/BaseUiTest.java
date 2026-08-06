@@ -18,17 +18,12 @@ public class BaseUiTest extends BaseTest {
 
     @BeforeAll
     public static void setupSelenoid() {
-        String browser = System.getProperty("browser", Config.getProperty("browser"));
-        Configuration.remote = System.getProperty("uiRemote", Config.getProperty("uiRemote"));
-        Configuration.baseUrl = System.getProperty("uiBaseUrl", Config.getProperty("uiBaseUrl"));
-        Configuration.browser = browser;
+        Configuration.remote = Config.getProperty("uiRemote");
+        Configuration.baseUrl = Config.getProperty("uiBaseUrl");
+        Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
 
-//        Configuration.timeout = 10000;
-
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true));
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
@@ -48,12 +43,6 @@ public class BaseUiTest extends BaseTest {
 
         Allure.parameter("Browser", browser);
     }
-
-//    @BeforeEach
-//    public void setupTestAllureParams() {
-//        // Записываем параметр именно перед СТАРТОМ КАЖДОГО ТЕСТА
-//        Allure.parameter("Browser", Configuration.browser);
-//    }
 
     @AfterEach
     public void tearDown() {
