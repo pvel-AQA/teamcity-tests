@@ -51,8 +51,9 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
+      # Запускаем Swagger Coverage только на одном ноде (chrome), чтобы не дублировать отчет
       - name: Run Swagger Coverage
-        if: always()
+        if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
 
       - name: Upload Allure Results Artifact
@@ -61,6 +62,15 @@ jobs:
         with:
           name: allure-results-${{ matrix.browser }}
           path: target/allure-results
+          retention-days: 1
+
+      # Загружаем артефакт Swagger Coverage единично
+      - name: Upload Swagger Coverage Artifact
+        if: always() && matrix.browser == 'chrome'
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger-coverage
+          path: swagger-coverage-report.html
           retention-days: 1
 
       - name: Clean up services
@@ -82,12 +92,18 @@ jobs:
           pattern: allure-results-*
           path: target/allure-results-temp
 
+      - name: Download Swagger artifact
+        uses: actions/download-artifact@v4
+        if: always()
+        with:
+          name: swagger-coverage
+          path: target/swagger-temp
+
       - name: Merge Allure results
         run: |
           mkdir -p target/allure-results
           cp -r target/allure-results-temp/*/* target/allure-results/ 2>/dev/null || true
 
-      # Добавлен единый шаг генерации окружения для отчета
       - name: Create Allure Environment properties
         if: always()
         run: |
@@ -118,6 +134,12 @@ jobs:
           gh_pages: gh-pages
           allure_results: target/allure-results
           allure_history: allure-history
+
+      - name: Copy Swagger Coverage to Allure Run Dir
+        if: always()
+        run: |
+          mkdir -p allure-history/${{ github.run_number }}
+          cp target/swagger-temp/swagger-coverage-report.html allure-history/${{ github.run_number }}/swagger-coverage-report.html 2>/dev/null || true
 
       - name: Inject Quality Dashboard into Allure History
         if: always()
@@ -160,5 +182,6 @@ jobs:
             <b>📊 Reports:</b>
             • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/quality/authors/${{ github.actor }}/">Quality Dashboard (${{ github.actor }})</a>
             • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">Allure Report #${{ github.run_number }}</a>
+            • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
             
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
