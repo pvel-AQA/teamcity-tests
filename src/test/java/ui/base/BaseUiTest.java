@@ -23,7 +23,7 @@ public class BaseUiTest extends BaseTest {
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide())
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.browserCapabilities.setCapability("selenoid:options",
                 Map.of("enableVNC", true, "enableLog", true)
