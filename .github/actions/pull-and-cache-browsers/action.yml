@@ -1,5 +1,5 @@
 name: 'Pull and Cache Browser Images'
-description: 'Pull selenoid/vnc browser images and cache them via actions/cache'
+description: 'Pull selenoid/vnc and safari browser images and cache them via actions/cache'
 
 runs:
   using: 'composite'
@@ -19,20 +19,23 @@ runs:
         mkdir -p "$CACHE_DIR"
 
         # Check cache files
-        if [ -f "${CACHE_DIR}/chrome_128.0.tar" ] && [ -f "${CACHE_DIR}/firefox_125.0.tar" ]; then
+        if [ -f "${CACHE_DIR}/chrome_128.0.tar" ] && [ -f "${CACHE_DIR}/firefox_125.0.tar" ] && [ -f "${CACHE_DIR}/safari_17.0.tar" ]; then
           echo "cache_hit=true" >> $GITHUB_OUTPUT
           echo "Cache hit: loading browser images from cache"
           docker image load --input "${CACHE_DIR}/chrome_128.0.tar"
           docker image load --input "${CACHE_DIR}/firefox_125.0.tar"
+          docker image load --input "${CACHE_DIR}/safari_17.0.tar"
         else
           echo "cache_hit=false" >> $GITHUB_OUTPUT
           echo "Cache miss: pulling browser images"
 
           docker pull selenoid/vnc:chrome_128.0
           docker pull selenoid/vnc:firefox_125.0
+          docker pull browsers/safari:17.0
 
           docker image save selenoid/vnc:chrome_128.0 --output "${CACHE_DIR}/chrome_128.0.tar"
           docker image save selenoid/vnc:firefox_125.0 --output "${CACHE_DIR}/firefox_125.0.tar"
+          docker image save browsers/safari:17.0 --output "${CACHE_DIR}/safari_17.0.tar"
 
           echo "Browser images saved to cache"
         fi
