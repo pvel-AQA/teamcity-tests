@@ -13,12 +13,15 @@ jobs:
           - browser: chrome
             os: ubuntu-latest
             use_selenoid: true
+            setup_docker: false
           - browser: firefox
             os: ubuntu-latest
             use_selenoid: true
+            setup_docker: false
           - browser: safari
             os: macos-latest
             use_selenoid: false
+            setup_docker: true
 
     steps:
       - name: Checkout repository
@@ -40,7 +43,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Докер-образы скачиваем только для Chrome и Firefox
+      # Поднимаем Docker Engine на macOS с помощью Colima
+      - name: Setup Docker on macOS
+        if: matrix.setup_docker == true
+        run: |
+          brew install docker docker-compose colima
+          colima start
+          # Проверяем, что docker command доступен и сокет поднялся
+          docker info
+
+      # Докер-образы браузеров скачиваем только для Chrome и Firefox
       - name: Pull and cache browser images
         if: matrix.use_selenoid == true
         uses: ./.github/actions/pull-and-cache-browsers
@@ -69,7 +81,6 @@ jobs:
           UIREMOTE: ${{ matrix.use_selenoid && 'http://localhost:4444/wd/hub' || '' }}
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
-      # Запускаем Swagger Coverage только на chrome-раннере, чтобы не дублировать отчет
       - name: Run Swagger Coverage
         if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
@@ -82,7 +93,6 @@ jobs:
           path: target/allure-results
           retention-days: 1
 
-      # Загружаем артефакт Swagger Coverage
       - name: Upload Swagger Coverage Artifact
         if: always() && matrix.browser == 'chrome'
         uses: actions/upload-artifact@v4
@@ -143,7 +153,6 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
-      # Сбрасываем root-права перед копированием, чтобы избежать Permission denied
       - name: Copy Swagger Coverage to Allure Run Dir
         if: always()
         run: |
