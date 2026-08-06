@@ -51,13 +51,6 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
-      - name: Create Allure Environment properties
-        if: always()
-        run: |
-          mkdir -p target/allure-results
-          echo "Browser=${{ matrix.browser }}" >> target/allure-results/environment.properties
-          echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
-
       - name: Run Swagger Coverage
         if: always()
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
@@ -94,6 +87,13 @@ jobs:
           mkdir -p target/allure-results
           cp -r target/allure-results-temp/*/* target/allure-results/ 2>/dev/null || true
 
+      # Добавлен единый шаг генерации окружения для отчета
+      - name: Create Allure Environment properties
+        if: always()
+        run: |
+          echo "UI browsers=Chrome, Firefox" >> target/allure-results/environment.properties
+          echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
+
       - name: Set up Python
         uses: actions/setup-python@v5
         if: always()
@@ -111,7 +111,6 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      # 1. Сначала Allure генерирует папку allure-history
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.15
         if: always()
@@ -120,15 +119,12 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
-      # 2. Помещаем дашборд в персональную папку автора и в общую (для ветки main)
       - name: Inject Quality Dashboard into Allure History
         if: always()
         run: |
-          # Персональный дашборд (не перезаписывает чужие отчеты)
           sudo mkdir -p allure-history/quality/authors/${{ github.actor }}
           sudo cp -r target/quality-dashboard/* allure-history/quality/authors/${{ github.actor }}/
 
-          # При пуше в main обновляем также и общий коренной дашборд
           if [ "${{ github.ref_name }}" = "main" ]; then
             sudo mkdir -p allure-history/quality
             sudo cp -r target/quality-dashboard/* allure-history/quality/
@@ -136,7 +132,6 @@ jobs:
 
           sudo touch allure-history/.nojekyll
 
-      # 3. Публикуем итоговую директорию allure-history
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         if: always()
