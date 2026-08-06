@@ -5,23 +5,11 @@ on: [ push, workflow_dispatch ]
 jobs:
   run_tests:
     name: Run tests on ${{ matrix.browser }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - browser: chrome
-            os: ubuntu-latest
-            use_selenoid: true
-            setup_docker: false
-          - browser: firefox
-            os: ubuntu-latest
-            use_selenoid: true
-            setup_docker: false
-          - browser: safari
-            os: macos-latest
-            use_selenoid: false
-            setup_docker: true
+        browser: [ chrome, firefox, webkit ]
 
     steps:
       - name: Checkout repository
@@ -43,18 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Поднимаем Docker Engine на macOS с помощью Colima
-      - name: Setup Docker on macOS
-        if: matrix.setup_docker == true
-        run: |
-          brew install docker docker-compose colima
-          colima start
-          # Проверяем, что docker command доступен и сокет поднялся
-          docker info
-
-      # Докер-образы браузеров скачиваем только для Chrome и Firefox
       - name: Pull and cache browser images
-        if: matrix.use_selenoid == true
         uses: ./.github/actions/pull-and-cache-browsers
 
       - name: Setup TeamCity for CI
@@ -67,18 +44,13 @@ jobs:
       - name: Wait for agent synchronization
         run: sleep 300
 
-      # Включаем нативный safaridriver только для macOS
-      - name: Enable Safari Driver
-        if: matrix.browser == 'safari'
-        run: sudo safaridriver --enable
-
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
           UIBASEURL: http://teamcity-server:8111
-          UIREMOTE: ${{ matrix.use_selenoid && 'http://localhost:4444/wd/hub' || '' }}
+          UIREMOTE: http://localhost:4444/wd/hub
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
       - name: Run Swagger Coverage
@@ -135,7 +107,7 @@ jobs:
       - name: Create Allure Environment properties
         if: always()
         run: |
-          echo "UI browsers=Chrome, Firefox, Safari" >> target/allure-results/environment.properties
+          echo "UI browsers=Chrome, Firefox, WebKit" >> target/allure-results/environment.properties
           echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
 
       - name: Load test report history

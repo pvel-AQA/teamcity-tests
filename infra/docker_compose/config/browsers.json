@@ -19,11 +19,11 @@
       }
     }
   },
-  "safari": {
-    "default": "15.0",
+  "webkit": {
+    "default": "17.4",
     "versions": {
-      "15.0": {
-        "image": "selenoid/vnc:safari_15.0",
+      "17.4": {
+        "image": "browsers/webkit:17.4",
         "port": "4444",
         "path": "/"
       }

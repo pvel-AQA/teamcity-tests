@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class BaseUiTest extends BaseTest {
@@ -36,9 +37,16 @@ public class BaseUiTest extends BaseTest {
                 .screenshots(true)
                 .savePageSource(true));
 
-        Configuration.browserCapabilities.setCapability("selenoid:options",
-                Map.of("enableVNC", true, "enableLog", true)
-        );
+        // Настройка selenoid:options
+        Map<String, Object> selenoidOptions = new HashMap<>();
+        selenoidOptions.put("enableLog", true);
+
+        // VNC включаем только для Chrome/Firefox, у WebKit VNC отсутствует
+        if (!"webkit".equalsIgnoreCase(browser)) {
+            selenoidOptions.put("enableVNC", true);
+        }
+
+        Configuration.browserCapabilities.setCapability("selenoid:options", selenoidOptions);
     }
 
     @BeforeEach
