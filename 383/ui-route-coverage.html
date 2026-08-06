@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UI route coverage — TeamCity Selenide suite</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:light;
+  --surface-0:#f4f3f0; --surface-1:#fcfcfb; --border:#e2e0da;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#83817a;
+  --accent:#2a78d6; --deemph:#c9c7c0;
+  --cov-full:#1c5cab; --cov-partial:#3987e5; --cov-empty:#86b6ef;
+  --good:#0ca30c; --warn:#fab219; --bad:#d03b3b;
+  --good-ink:#0a7a0a; --warn-ink:#8a6100; --bad-ink:#b32f2f;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --surface-0:#121211; --surface-1:#1a1a19; --border:#333330;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#96958c;
+    --accent:#3987e5; --deemph:#4a4a46;
+    --cov-full:#184f95; --cov-partial:#2a78d6; --cov-empty:#6da7ec;
+    --good-ink:#48c048; --warn-ink:#fab219; --bad-ink:#e66767;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --surface-0:#121211; --surface-1:#1a1a19; --border:#333330;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#96958c;
+  --accent:#3987e5; --deemph:#4a4a46;
+  --cov-full:#184f95; --cov-partial:#2a78d6; --cov-empty:#6da7ec;
+  --good-ink:#48c048; --warn-ink:#fab219; --bad-ink:#e66767;
+}
+html,body{margin:0;padding:0}
+body{
+  background:var(--surface-0); color:var(--text-primary);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px; line-height:1.5; overflow-x:hidden;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 64px}
+a{color:var(--accent)}
+h1{font-size:26px;line-height:1.2;margin:0 0 4px;font-weight:650;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:18px;margin:0 0 4px;font-weight:620;letter-spacing:-.005em;text-wrap:balance}
+.sub{color:var(--text-secondary);font-size:13.5px;margin:0;max-width:74ch}
+.muted{color:var(--text-muted)}
+p.note{font-size:13.5px;color:var(--text-secondary);margin:10px 0 0;max-width:74ch}
+header.page{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;
+  border:1px solid var(--border);background:var(--surface-1);color:var(--text-primary);
+  font-size:13px;text-decoration:none;cursor:pointer;font-family:inherit
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:18px}
+.chart{width:100%;height:auto;display:block;overflow:visible;margin-top:12px}
+.scroll{overflow-x:auto;max-width:100%}
+.grid-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin-bottom:18px}
+.tile{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:0}
+.tile .label{font-size:12.5px;color:var(--text-secondary);margin-bottom:6px}
+.tile .value{font-size:27px;font-weight:640;letter-spacing:-.02em;line-height:1.1;overflow-wrap:anywhere}
+.tile .note{font-size:12px;color:var(--text-muted);margin-top:5px}
+.hero{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:18px;
+  display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between}
+.hero .figure{font-size:56px;font-weight:660;letter-spacing:-.03em;line-height:1}
+.hero .caption{font-size:13.5px;color:var(--text-secondary);margin-top:6px;max-width:56ch}
+.hero .aside{display:flex;gap:26px;flex-wrap:wrap}
+.hero .aside div{min-width:88px}
+.hero .aside .v{font-size:20px;font-weight:620;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.hero .aside .k{font-size:12px;color:var(--text-secondary)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12.5px;color:var(--text-secondary)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.swatch{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+th{font-weight:600;color:var(--text-secondary);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:hover{background:var(--surface-0)}
+td.wrapname{white-space:normal;min-width:200px;overflow-wrap:anywhere}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;border:1px solid var(--border)}
+.pill.good{color:var(--good-ink)} .pill.warn{color:var(--warn-ink)} .pill.bad{color:var(--bad-ink)} .pill.none{color:var(--text-muted)}
+.callout{border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:8px;
+  background:var(--surface-0);padding:13px 16px;margin-top:14px;font-size:13.5px;color:var(--text-secondary);max-width:82ch}
+.callout strong{color:var(--text-primary)}
+.rowlabel{fill:var(--text-secondary);font-size:12.5px}
+.barval{fill:var(--text-primary);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.mark{cursor:pointer}
+.mark:hover{opacity:.82}
+.empty{color:var(--text-muted);font-size:13px;margin:10px 0 0}
+details{border-top:1px solid var(--border);padding:9px 0}
+details summary{cursor:pointer;font-size:13.5px;color:var(--text-secondary);list-style-position:outside}
+details summary:hover{color:var(--accent)}
+details summary strong{color:var(--text-primary)}
+details[open] summary{margin-bottom:8px}
+details table td{vertical-align:top}
+details .pill{margin-right:4px}
+#tip{
+  position:fixed;pointer-events:none;opacity:0;transition:opacity .1s;z-index:50;
+  background:var(--text-primary);color:var(--surface-1);font-size:12.5px;
+  padding:5px 9px;border-radius:6px;max-width:340px;line-height:1.35
+}
+footer{margin-top:30px;font-size:12.5px;color:var(--text-muted);line-height:1.7;max-width:82ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){.hero .figure{font-size:44px}.wrap{padding:18px 14px 48px}}
+</style></head>
+<body><div class="wrap">
+
+<header class="page">
+  <div>
+    <h1>UI route coverage</h1>
+    <p class="sub">Which page objects and URL templates the Selenide suite actually exercises,
+    derived statically from <code>src/main/java/ui/pages</code> and <code>src/test/java</code>.</p>
+  </div>
+  <button class="btn" id="theme" type="button">Toggle theme</button>
+</header>
+
+<div class="hero">
+  <div>
+    <div class="figure">81%</div>
+    <div class="caption">of concrete page objects are reached by at least one test
+    (13 of 16). 6 are opened directly by URL; the rest are only
+    ever arrived at by clicking through another page.</div>
+  </div>
+  <div class="aside">
+    <div><div class="v">78%</div><div class="k">route templates hit</div></div>
+    <div><div class="v">23</div><div class="k">test cases</div></div>
+    <div><div class="v">3</div><div class="k">untouched pages</div></div>
+  </div>
+</div>
+
+
+
+<h2 style="margin:26px 0 10px">Inside the suite</h2>
+<p class="sub" style="margin-bottom:14px">Everything below measures the suite against
+<strong>its own page objects</strong> (16 of them), not against the product. A page object
+can be 100% reached here while most of TeamCity has no page object at all — which is why the section
+above exists.</p>
+
+<div class="grid-kpi"><div class="tile"><div class="label">Page objects</div><div class="value">16</div><div class="note">concrete classes under ui/pages</div></div><div class="tile"><div class="label">Opened by URL</div><div class="value">6</div><div class="note">37.5% of page objects</div></div><div class="tile"><div class="label">Reached by navigation</div><div class="value">7</div><div class="note">landed on without a direct open()</div></div><div class="tile"><div class="label">Never touched</div><div class="value">3</div><div class="note">no test path reaches these</div></div><div class="tile"><div class="label">Distinct routes</div><div class="value">7/9</div><div class="note">URL templates declared by url()</div></div><div class="tile"><div class="label">Test cases scanned</div><div class="value">23</div><div class="note">across 6 test classes</div></div></div>
+
+<div class="card">
+  <h2>Test pressure per page object</h2>
+  <p class="sub">Bar length is the number of test files that reach the page. A short grey bar is a page
+  the suite never visits.</p>
+  <div class="scroll"><svg class="chart" viewBox="0 0 1000 440" role="img" aria-label="Tests touching each page object"><text class="rowlabel" x="200" y="15.0" text-anchor="end">ProjectsPage</text><rect class="mark" x="210" y="0" width="730.0" height="22" rx="4" fill="var(--cov-full)" data-tip="ProjectsPage — opened by URL; 5 test file(s); route: none declared"></rect><text class="barval" x="948.0" y="15.0">5</text><text class="rowlabel" x="200" y="42.0" text-anchor="end">CreateProjectPage</text><rect class="mark" x="210" y="27" width="292.0" height="22" rx="4" fill="var(--cov-full)" data-tip="CreateProjectPage — opened by URL; 2 test file(s); route: /projects/create?projectId=_Root&amp;cameFromUrl=/favorite/projects"></rect><text class="barval" x="510.0" y="42.0">2</text><text class="rowlabel" x="200" y="69.0" text-anchor="end">EditBuildGeneralPage</text><rect class="mark" x="210" y="54" width="292.0" height="22" rx="4" fill="var(--cov-full)" data-tip="EditBuildGeneralPage — opened by URL; 2 test file(s); route: /admin/editBuild.html?id=buildType:%s"></rect><text class="barval" x="510.0" y="69.0">2</text><text class="rowlabel" x="200" y="96.0" text-anchor="end">EditProjectPage</text><rect class="mark" x="210" y="81" width="292.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="EditProjectPage — reached by navigation; 2 test file(s); route: none declared"></rect><text class="barval" x="510.0" y="96.0">2</text><text class="rowlabel" x="200" y="123.0" text-anchor="end">BuildLogOverlay</text><rect class="mark" x="210" y="108" width="146.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="BuildLogOverlay — reached by navigation; 1 test file(s); route: none declared"></rect><text class="barval" x="364.0" y="123.0">1</text><text class="rowlabel" x="200" y="150.0" text-anchor="end">BuildRunPage</text><rect class="mark" x="210" y="135" width="146.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="BuildRunPage — reached by navigation; 1 test file(s); route: /buildConfiguration/%s/%s"></rect><text class="barval" x="364.0" y="150.0">1</text><text class="rowlabel" x="200" y="177.0" text-anchor="end">ConnectVCSPage</text><rect class="mark" x="210" y="162" width="146.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="ConnectVCSPage — reached by navigation; 1 test file(s); route: none declared"></rect><text class="barval" x="364.0" y="177.0">1</text><text class="rowlabel" x="200" y="204.0" text-anchor="end">CreateBuildConfigurationPage</text><rect class="mark" x="210" y="189" width="146.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="CreateBuildConfigurationPage — reached by navigation; 1 test file(s); route: none declared"></rect><text class="barval" x="364.0" y="204.0">1</text><text class="rowlabel" x="200" y="231.0" text-anchor="end">EditBuildTypeVcsRootsPage</text><rect class="mark" x="210" y="216" width="146.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="EditBuildTypeVcsRootsPage — reached by navigation; 1 test file(s); route: /admin/editBuildTypeVcsRoots.html?id=buildType:%s"></rect><text class="barval" x="364.0" y="231.0">1</text><text class="rowlabel" x="200" y="258.0" text-anchor="end">LoginPage</text><rect class="mark" x="210" y="243" width="146.0" height="22" rx="4" fill="var(--cov-full)" data-tip="LoginPage — opened by URL; 1 test file(s); route: /login.html"></rect><text class="barval" x="364.0" y="258.0">1</text><text class="rowlabel" x="200" y="285.0" text-anchor="end">ProjectPage</text><rect class="mark" x="210" y="270" width="146.0" height="22" rx="4" fill="var(--cov-partial)" data-tip="ProjectPage — reached by navigation; 1 test file(s); route: none declared"></rect><text class="barval" x="364.0" y="285.0">1</text><text class="rowlabel" x="200" y="312.0" text-anchor="end">QueuePage</text><rect class="mark" x="210" y="297" width="146.0" height="22" rx="4" fill="var(--cov-full)" data-tip="QueuePage — opened by URL; 1 test file(s); route: /queue"></rect><text class="barval" x="364.0" y="312.0">1</text><text class="rowlabel" x="200" y="339.0" text-anchor="end">SetupYourBuildPage</text><rect class="mark" x="210" y="324" width="146.0" height="22" rx="4" fill="var(--cov-full)" data-tip="SetupYourBuildPage — opened by URL; 1 test file(s); route: /projects/create?projectId=%s&amp;setup=build"></rect><text class="barval" x="364.0" y="339.0">1</text><text class="rowlabel" x="200" y="366.0" text-anchor="end">BuildConfigurationPage</text><rect class="mark" x="210" y="351" width="3.0" height="22" rx="4" fill="var(--deemph)" data-tip="BuildConfigurationPage — never touched; 0 test file(s); route: /buildConfiguration/%s"></rect><text class="barval" x="221.0" y="366.0">0</text><text class="rowlabel" x="200" y="393.0" text-anchor="end">EditBuildHeaderPage</text><rect class="mark" x="210" y="378" width="3.0" height="22" rx="4" fill="var(--deemph)" data-tip="EditBuildHeaderPage — never touched; 0 test file(s); route: /admin/editBuild.html?id=buildType:%s"></rect><text class="barval" x="221.0" y="393.0">0</text><text class="rowlabel" x="200" y="420.0" text-anchor="end">EditBuildStepsPage</text><rect class="mark" x="210" y="405" width="3.0" height="22" rx="4" fill="var(--deemph)" data-tip="EditBuildStepsPage — never touched; 0 test file(s); route: /admin/editBuildRunners.html?id=buildType:%s"></rect><text class="barval" x="221.0" y="420.0">0</text></svg></div>
+  <div class="legend"><span><i class="swatch" style="background:var(--cov-full)"></i>opened by URL</span><span><i class="swatch" style="background:var(--cov-partial)"></i>reached by navigation</span><span><i class="swatch" style="background:var(--deemph)"></i>never touched</span></div>
+</div>
+
+<div class="card">
+  <h2>Page inventory</h2>
+  <p class="sub">The denominator, in full. <code>url()</code> values are resolved through the
+  <code>extends</code> chain, so subclasses inherit their parent's route.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Page object</th><th>Route</th><th>Status</th><th class="num">Tests</th><th>Reached by</th></tr></thead>
+    <tbody><tr><td class="wrapname"><strong>BuildConfigurationPage</strong></td><td><code>/buildConfiguration/%s</code></td><td><span class="pill none">never touched</span></td><td class="num">0</td><td class="wrapname"><span class="muted">—</span></td></tr><tr><td class="wrapname"><strong>BuildLogOverlay</strong></td><td><span class="muted">— navigation-only</span></td><td><span class="pill warn">reached by navigation</span></td><td class="num">1</td><td class="wrapname">RegularBuildRunTest.java</td></tr><tr><td class="wrapname"><strong>BuildRunPage</strong></td><td><code>/buildConfiguration/%s/%s</code></td><td><span class="pill warn">reached by navigation</span></td><td class="num">1</td><td class="wrapname">RegularBuildRunTest.java</td></tr><tr><td class="wrapname"><strong>ConnectVCSPage</strong></td><td><span class="muted">— navigation-only</span></td><td><span class="pill warn">reached by navigation</span></td><td class="num">1</td><td class="wrapname">CreateProjectTest.java</td></tr><tr><td class="wrapname"><strong>CreateBuildConfigurationPage</strong></td><td><span class="muted">— navigation-only</span></td><td><span class="pill warn">reached by navigation</span></td><td class="num">1</td><td class="wrapname">CreateProjectTest.java</td></tr><tr><td class="wrapname"><strong>CreateProjectPage</strong></td><td><code>/projects/create?projectId=_Root&amp;cameFromUrl=/favorite/projects</code></td><td><span class="pill good">opened by URL</span></td><td class="num">2</td><td class="wrapname">CreateProjectTest.java, RegularBuildRunTest.java</td></tr><tr><td class="wrapname"><strong>EditBuildGeneralPage</strong></td><td><code>/admin/editBuild.html?id=buildType:%s</code> <span class="muted">(from EditBuildHeaderPage)</span></td><td><span class="pill good">opened by URL</span></td><td class="num">2</td><td class="wrapname">BuildConfigurationTest.java, RegularBuildRunTest.java</td></tr><tr><td class="wrapname"><strong>EditBuildHeaderPage</strong></td><td><code>/admin/editBuild.html?id=buildType:%s</code></td><td><span class="pill none">never touched</span></td><td class="num">0</td><td class="wrapname"><span class="muted">—</span></td></tr><tr><td class="wrapname"><strong>EditBuildStepsPage</strong></td><td><code>/admin/editBuildRunners.html?id=buildType:%s</code></td><td><span class="pill none">never touched</span></td><td class="num">0</td><td class="wrapname"><span class="muted">—</span></td></tr><tr><td class="wrapname"><strong>EditBuildTypeVcsRootsPage</strong></td><td><code>/admin/editBuildTypeVcsRoots.html?id=buildType:%s</code></td><td><span class="pill warn">reached by navigation</span></td><td class="num">1</td><td class="wrapname">BuildConfigurationTest.java</td></tr><tr><td class="wrapname"><strong>EditProjectPage</strong></td><td><span class="muted">— navigation-only</span></td><td><span class="pill warn">reached by navigation</span></td><td class="num">2</td><td class="wrapname">BuildConfigurationTest.java, CreateProjectTest.java</td></tr><tr><td class="wrapname"><strong>LoginPage</strong></td><td><code>/login.html</code></td><td><span class="pill good">opened by URL</span></td><td class="num">1</td><td class="wrapname">LoginTest.java</td></tr><tr><td class="wrapname"><strong>ProjectPage</strong></td><td><span class="muted">— navigation-only</span> <span class="muted">(from ProjectsPage)</span></td><td><span class="pill warn">reached by navigation</span></td><td class="num">1</td><td class="wrapname">RegularBuildRunTest.java</td></tr><tr><td class="wrapname"><strong>ProjectsPage</strong></td><td><span class="muted">— navigation-only</span></td><td><span class="pill good">opened by URL</span></td><td class="num">5</td><td class="wrapname">AuthenticationTest.java, BuildConfigurationTest.java, LoginTest.java, RegularBuildRunTest.java, UsersEnterWithoutLoginTest.java</td></tr><tr><td class="wrapname"><strong>QueuePage</strong></td><td><code>/queue</code></td><td><span class="pill good">opened by URL</span></td><td class="num">1</td><td class="wrapname">RegularBuildRunTest.java</td></tr><tr><td class="wrapname"><strong>SetupYourBuildPage</strong></td><td><code>/projects/create?projectId=%s&amp;setup=build</code></td><td><span class="pill good">opened by URL</span></td><td class="num">1</td><td class="wrapname">BuildConfigurationTest.java</td></tr></tbody>
+  </table></div>
+</div>
+
+<div class="card">
+  <h2>Coverage gaps</h2>
+  <p class="note"><strong>Page objects no test reaches.</strong> Each is either an untested area of the product or dead code that should be deleted.</p><ul><li><code>BuildConfigurationPage</code> — declares <code>/buildConfiguration/%s</code></li><li><code>EditBuildStepsPage</code> — declares <code>/admin/editBuildRunners.html?id=buildType:%s</code></li></ul><p class="note"><strong>Never used directly, but subclassed.</strong> These behave as base classes: no test names them, yet their route and behaviour are exercised through a subclass. Not a coverage gap — but if a class is only ever a base, it belongs in the hierarchy as <code>abstract</code>, which would take it out of this denominator.</p><ul><li><code>EditBuildHeaderPage</code> — extended by <code>EditBuildGeneralPage</code>, <code>EditBuildStepsPage</code>, <code>EditBuildTypeVcsRootsPage</code></li></ul><p class="note"><strong>Page objects with an empty <code>url()</code>.</strong> These cannot be opened directly, so they are only ever reachable through another page. Giving them a real route makes them independently testable and shrinks setup time.</p><ul><li><code>BuildLogOverlay</code></li><li><code>ConnectVCSPage</code></li><li><code>CreateBuildConfigurationPage</code></li><li><code>EditProjectPage</code></li><li><code>ProjectPage</code></li><li><code>ProjectsPage</code></li></ul>
+  
+</div>
+
+<div class="card">
+  <h2>Per-test-class reach</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Test class</th><th class="num">@Test</th><th class="num">Pages</th><th>Pages reached</th></tr></thead>
+    <tbody><tr><td class="wrapname"><code>src/test/java/ui/AuthenticationTest.java</code></td><td class="num">1</td><td class="num">1</td><td class="wrapname">ProjectsPage</td></tr><tr><td class="wrapname"><code>src/test/java/ui/LoginTest.java</code></td><td class="num">2</td><td class="num">2</td><td class="wrapname">LoginPage, ProjectsPage</td></tr><tr><td class="wrapname"><code>src/test/java/ui/UsersEnterWithoutLoginTest.java</code></td><td class="num">4</td><td class="num">1</td><td class="wrapname">ProjectsPage</td></tr><tr><td class="wrapname"><code>src/test/java/ui/buildRun/RegularBuildRunTest.java</code></td><td class="num">6</td><td class="num">7</td><td class="wrapname">BuildLogOverlay, BuildRunPage, CreateProjectPage, EditBuildGeneralPage, ProjectPage, ProjectsPage, QueuePage</td></tr><tr><td class="wrapname"><code>src/test/java/ui/buildconfiguration/BuildConfigurationTest.java</code></td><td class="num">5</td><td class="num">5</td><td class="wrapname">EditBuildGeneralPage, EditBuildTypeVcsRootsPage, EditProjectPage, ProjectsPage, SetupYourBuildPage</td></tr><tr><td class="wrapname"><code>src/test/java/ui/project/CreateProjectTest.java</code></td><td class="num">5</td><td class="num">4</td><td class="wrapname">ConnectVCSPage, CreateBuildConfigurationPage, CreateProjectPage, EditProjectPage</td></tr></tbody>
+  </table></div>
+  <p class='note'>Files under the test tree with no <code>@Test</code> at all (drafts, helpers): <code>BaseUiTest.java</code>, <code>SingleThreadBaseTest.java</code>.</p>
+</div>
+
+<div class="callout">
+  <strong>What this number is not.</strong> Reaching a page is not the same as testing it — a page can be
+  opened with no assertion made against it. Route coverage is a floor, not a quality measure: it tells you
+  where the suite has never been, which is reliable, and says nothing about the depth of what it does when
+  it gets there. Pair it with the declared feature inventory for a number worth reporting.
+</div>
+
+<footer>
+  Generated 2026-08-06 05:55 UTC by <code>scripts/build_route_coverage.py</code>.
+  Static analysis of Java sources: comments are stripped before scanning, so commented-out drafts and
+  references to deleted classes are excluded. Pages are credited as reached when a test constructs them,
+  passes them to <code>getPage(...)</code>, or calls a page-object method whose declared return type is
+  that page.
+</footer>
+
+</div><div id="tip"></div><script>
+(function(){
+  var root=document.documentElement, tip=document.getElementById('tip');
+  var stored=null; try{stored=localStorage.getItem('qr-theme');}catch(e){}
+  if(stored){root.setAttribute('data-theme',stored);}
+  var btn=document.getElementById('theme');
+  if(btn){btn.addEventListener('click',function(){
+    var dark=getComputedStyle(root).getPropertyValue('--surface-1').trim()==='#1a1a19';
+    var next=dark?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('qr-theme',next);}catch(e){}
+  });}
+  function show(el,x,y){
+    tip.textContent=el.getAttribute('data-tip');
+    tip.style.opacity='1';
+    var r=tip.getBoundingClientRect();
+    var left=Math.min(Math.max(8,x+12),window.innerWidth-r.width-8);
+    var top=Math.max(8,y-r.height-10);
+    tip.style.left=left+'px'; tip.style.top=top+'px';
+  }
+  document.addEventListener('mousemove',function(ev){
+    var el=ev.target.closest?ev.target.closest('[data-tip]'):null;
+    if(el){show(el,ev.clientX,ev.clientY);} else {tip.style.opacity='0';}
+  });
+})();
+</script></body></html>

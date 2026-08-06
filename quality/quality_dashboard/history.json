@@ -336,5 +336,24 @@
   "full_coverage": 0,
   "partial_coverage": 14,
   "empty_coverage": 6
+ },
+ {
+  "run": 383,
+  "total": 74,
+  "passed": 56,
+  "failed": 0,
+  "broken": 0,
+  "skipped": 18,
+  "pass_rate": 100.0,
+  "test_coverage": 75.67567567567568,
+  "avg_duration_sec": 10.330142857142858,
+  "suite_duration_sec": 222.411,
+  "critical_failures": 0,
+  "started_at": "2026-08-06T05:52:00.735000+00:00",
+  "api_coverage": 70.0,
+  "conditions_coverage": 32.758620689655174,
+  "full_coverage": 0,
+  "partial_coverage": 14,
+  "empty_coverage": 6
  }
 ]

@@ -1,7 +1,7 @@
 {
  "pass_rate": 100.0,
  "total_tests": 74,
- "avg_duration_sec": 8.512839285714286,
+ "avg_duration_sec": 10.330142857142858,
  "critical_failures": 0,
  "skipped_tests": 18,
  "test_coverage": 75.67567567567568,
@@ -16,15 +16,15 @@
  "skip_rate": 24.324324324324323,
  "flaky_rate": 3.7735849056603774,
  "flaky_count": 4,
- "suite_duration_sec": 200.611,
+ "suite_duration_sec": 222.411,
  "passed_tests": 56,
  "failed_tests": 0,
  "broken_tests": 0,
  "executed_tests": 56,
- "avg_api_duration_sec": 3.2901621621621624,
- "avg_ui_duration_sec": 18.683263157894736,
- "p95_duration_sec": 24.338749999999997,
- "run_number": 382,
+ "avg_api_duration_sec": 3.66672972972973,
+ "avg_ui_duration_sec": 23.306210526315787,
+ "p95_duration_sec": 33.03775,
+ "run_number": 383,
  "runs_in_window": 20,
  "window": {
   "pass_rate": 99.54241071428571,
@@ -32,14 +32,14 @@
   "broken_rate": 0.078125,
   "skip_rate": 22.568591318591317,
   "test_coverage": 77.43140868140868,
-  "avg_duration_sec": 11.934597169237014,
-  "suite_duration_sec": 238.1645
+  "avg_duration_sec": 11.909315919237013,
+  "suite_duration_sec": 238.4669375
  },
  "gates": [
   {
    "key": "avg_duration_sec",
    "name": "Average test duration",
-   "actual": 11.934597169237014,
+   "actual": 11.909315919237013,
    "target": 12.0,
    "state": "warn"
   },
@@ -60,7 +60,7 @@
   {
    "key": "suite_duration_sec",
    "name": "Suite duration",
-   "actual": 238.1645,
+   "actual": 238.4669375,
    "target": 260.0,
    "state": "warn"
   },
@@ -114,7 +114,11 @@
    "state": "good"
   }
  ],
- "generated_at": "2026-08-06T05:15:41.767468+00:00",
- "dashboard_url": "https://pvel-AQA.github.io/teamcity-tests/382/quality.html",
- "dashboard_latest_url": "https://pvel-AQA.github.io/teamcity-tests/quality/quality_dashboard/"
+ "generated_at": "2026-08-06T05:55:53.771495+00:00",
+ "dashboard_url": "https://pvel-AQA.github.io/teamcity-tests/383/quality.html",
+ "dashboard_latest_url": "https://pvel-AQA.github.io/teamcity-tests/quality/quality_dashboard/",
+ "ui_page_coverage": 81.25,
+ "ui_route_coverage": 77.77777777777777,
+ "ui_pages_total": 16,
+ "ui_pages_untouched": 3
 }
