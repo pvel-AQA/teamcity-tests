@@ -30,7 +30,7 @@ public class BaseTest {
     @AfterEach
     public void afterEach() {
         this.softly.assertAll();
-        EntityStorage.clear()
+        EntityStorage.clear();
     }
 
 }
