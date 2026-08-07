@@ -1,0 +1,124 @@
+{
+ "pass_rate": 100.0,
+ "total_tests": 74,
+ "avg_duration_sec": 10.269339285714285,
+ "critical_failures": 0,
+ "skipped_tests": 18,
+ "test_coverage": 75.67567567567568,
+ "api_coverage": 70.0,
+ "conditions_coverage": 32.758620689655174,
+ "full_coverage": 0,
+ "partial_coverage": 14,
+ "empty_coverage": 6,
+ "full_coverage_rate": 0.0,
+ "fail_rate": 0.0,
+ "broken_rate": 0.0,
+ "skip_rate": 24.324324324324323,
+ "flaky_rate": 28.703703703703702,
+ "flaky_count": 31,
+ "suite_duration_sec": 214.091,
+ "passed_tests": 56,
+ "failed_tests": 0,
+ "broken_tests": 0,
+ "executed_tests": 56,
+ "avg_api_duration_sec": 3.6885405405405405,
+ "avg_ui_duration_sec": 23.084263157894735,
+ "p95_duration_sec": 35.06425,
+ "run_number": 448,
+ "runs_in_window": 20,
+ "window": {
+  "pass_rate": 92.92682926829268,
+  "fail_rate": 1.6463414634146343,
+  "broken_rate": 5.426829268292683,
+  "skip_rate": 18.316216216216215,
+  "test_coverage": 81.68378378378378,
+  "avg_duration_sec": 16.601413915505226,
+  "suite_duration_sec": 307.81285
+ },
+ "gates": [
+  {
+   "key": "avg_duration_sec",
+   "name": "Average test duration",
+   "actual": 16.601413915505226,
+   "target": 12.0,
+   "state": "bad"
+  },
+  {
+   "key": "broken_rate",
+   "name": "Broken rate",
+   "actual": 5.426829268292683,
+   "target": 2.0,
+   "state": "bad"
+  },
+  {
+   "key": "flaky_rate",
+   "name": "Flaky rate",
+   "actual": 28.703703703703702,
+   "target": 5.0,
+   "state": "bad"
+  },
+  {
+   "key": "pass_rate",
+   "name": "Pass rate",
+   "actual": 92.92682926829268,
+   "target": 98.0,
+   "state": "bad"
+  },
+  {
+   "key": "suite_duration_sec",
+   "name": "Suite duration",
+   "actual": 307.81285,
+   "target": 260.0,
+   "state": "bad"
+  },
+  {
+   "key": "fail_rate",
+   "name": "Fail rate",
+   "actual": 1.6463414634146343,
+   "target": 2.0,
+   "state": "warn"
+  },
+  {
+   "key": "full_coverage_rate",
+   "name": "Fully covered operations",
+   "actual": 0.0,
+   "target": 0.0,
+   "state": "warn"
+  },
+  {
+   "key": "api_coverage",
+   "name": "API coverage",
+   "actual": 70.0,
+   "target": 30.0,
+   "state": "good"
+  },
+  {
+   "key": "conditions_coverage",
+   "name": "Conditions coverage",
+   "actual": 32.758620689655174,
+   "target": 13.0,
+   "state": "good"
+  },
+  {
+   "key": "critical_failures",
+   "name": "Critical failures",
+   "actual": 0,
+   "target": 0.0,
+   "state": "good"
+  },
+  {
+   "key": "skip_rate",
+   "name": "Skip rate",
+   "actual": 18.316216216216215,
+   "target": 26.0,
+   "state": "good"
+  }
+ ],
+ "generated_at": "2026-08-07T11:54:09.406500+00:00",
+ "dashboard_url": "https://pvel-AQA.github.io/teamcity-tests/448/quality.html",
+ "dashboard_latest_url": "https://pvel-AQA.github.io/teamcity-tests/quality/quality_dashboard/",
+ "ui_page_coverage": 81.25,
+ "ui_route_coverage": 77.77777777777777,
+ "ui_pages_total": 16,
+ "ui_pages_untouched": 3
+}
