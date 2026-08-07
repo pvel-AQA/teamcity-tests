@@ -20,12 +20,4 @@ export default defineConfig({
                 labels.some(l => l.name === "browser" && l.value.toLowerCase().includes("safari")),
         },
     },
-    plugins: {
-        awesome: {
-            options: {
-                singleFile: true,
-                reportLanguage: "ru",
-            },
-        },
-    },
 });
