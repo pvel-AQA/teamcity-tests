@@ -4,10 +4,15 @@ import api.specs.RequestSpec;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.RetryUtils;
+import org.openqa.selenium.Alert;
 import ui.elements.BaseElement;
 
 import java.util.List;
 import java.util.function.Function;
+
+import static com.codeborne.selenide.Selenide.switchTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static com.codeborne.selenide.Condition.visible;
 
@@ -34,6 +39,24 @@ public abstract class BasePage<T extends BasePage> {
 
     public <T extends BasePage> T getPage(Class<T> pageClass) {
         return Selenide.page(pageClass);
+    }
+
+    public T checkAlertMessageAndAccept(String bankAlert) {
+        Alert alert = switchTo().alert();
+        assertThat(alert.getText()).isEqualTo(bankAlert);
+        alert.accept();
+
+        return (T) this;
+    }
+
+    protected void retryUntilElementIsDisplayed(SelenideElement element) {
+        RetryUtils.retry(
+                "Wait until web element is displayed",
+                () -> element.isDisplayed() && element.isEnabled(),
+                visible -> visible,
+                60,
+                1000
+        );
     }
 
     public <T extends BaseElement> List<T> generatePageElements(ElementsCollection elementsCollection, Function<SelenideElement, T> constructor) {

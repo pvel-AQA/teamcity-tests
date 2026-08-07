@@ -12,19 +12,15 @@ import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
 import api.steps.UserSteps;
-import base.BaseTest;
 import common.annotations.AuthAgentAfterTest;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Isolated;
+import ui.base.SingleThreadBaseTest;
 
-@Isolated
-public class AgentTest extends BaseTest {
+public class AgentTest extends SingleThreadBaseTest {
 
-    @Disabled("flacky")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN)
     public void agentCanBeConnectedToTheServerTest() {
@@ -39,7 +35,7 @@ public class AgentTest extends BaseTest {
                 .locatorEqualsConnectedTrue()
                 .build());
 
-        softly.assertThat(getAgentsResponse.getCount()).isEqualTo(2);
+        softly.assertThat(getAgentsResponse.getCount()).isEqualTo(1);
         softly.assertThat(getAgentsResponse.getAgent().getFirst().getId()).isOne();
         softly.assertThat(getAgentsResponse.getAgent().getFirst().getName()).isEqualTo(expectedAgentName);
     }

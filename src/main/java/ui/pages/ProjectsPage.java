@@ -1,15 +1,16 @@
 package ui.pages;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import common.helpers.RetryUtils;
+import ui.elements.ProjectElement;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 
 public class ProjectsPage extends BasePage<ProjectsPage> {
+
+    private ProjectElement projectElement;
 
     private static final String LOGIN_PAGE_MARKER = "login.html";
     private static final String PROJECTS_ICON_VALUE = "Projects";
@@ -18,9 +19,10 @@ public class ProjectsPage extends BasePage<ProjectsPage> {
     private final SelenideElement header = $(Selectors.byXpath("//header[@data-test-main-nav]"));
     private final SelenideElement projectsHeaderIcon = $(Selectors.byXpath("//span[text()='Projects']"));
 
+
     @Override
     public String url() {
-        return "/favorite/projects";
+        return "";
     }
 
     public ProjectsPage checkItIsCorrectPage() {
@@ -36,6 +38,18 @@ public class ProjectsPage extends BasePage<ProjectsPage> {
                 3,
                 3000);
         header.shouldBe(Condition.visible);
+
         return this;
+    }
+
+    public ProjectElement getProjectsSideBar() {
+        return new ProjectElement($(".SidebarPanel-module__sidebar--G7"));
+    }
+
+    public ProjectPage clickOnProject(String projectName) {
+        ElementsCollection rows = $$(".ProjectsTreeItem-module__row--h3:has([data-test-itemtype='project'])")
+                .shouldHave(CollectionCondition.sizeGreaterThan(0));
+        rows.findBy(Condition.text(projectName)).shouldBe(Condition.visible).click();
+        return getPage(ProjectPage.class);
     }
 }

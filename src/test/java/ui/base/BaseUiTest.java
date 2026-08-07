@@ -24,6 +24,7 @@ public class BaseUiTest extends BaseTest {
         Configuration.remote = Config.getProperty("uiRemote");
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browserSize = Config.getProperty("browserSize");
+        Configuration.headless = Boolean.parseBoolean(Config.getProperty("headless"));
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.browserCapabilities.setCapability("selenoid:options",

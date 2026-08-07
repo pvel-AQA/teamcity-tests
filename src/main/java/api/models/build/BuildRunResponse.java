@@ -1,7 +1,7 @@
 package api.models.build;
 
 import api.enums.build.BuildState;
-import api.enums.build.BuildStatus;
+import common.enums.BuildStatus;
 import api.models.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

@@ -7,7 +7,6 @@ import api.generators.TeamCityDataGenerator;
 import api.models.project.ProjectRequest;
 import api.models.project.ProjectResponse;
 import api.steps.UserSteps;
-import com.codeborne.selenide.Condition;
 import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.assertj.core.api.Assertions;
