@@ -94,6 +94,25 @@ jobs:
           echo "❌ Timeout ($TIMEOUT sec) reached. Agent status dump:"
           echo "$AGENTS_JSON" | jq .
           exit 1
+          
+      - name: Wait and Warm-up TeamCity Server
+        run: |
+          echo "⏳ Waiting for TeamCity server to be fully ready..."
+          
+          # 1. Ждем, пока REST API /app/rest/server станет доступен (до 120 секунд)
+          timeout 120s bash -c '
+          until curl -s -u "admin:admin" "http://localhost:8111/app/rest/server" | grep -q "version"; do
+           echo "TeamCity is initializing plugins..."
+           sleep 3
+          done
+          '
+          
+          echo "🔥 Warming up TeamCity UI and JSP compilation..."
+          # 2. Прогреваем тяжелые страницы UI, чтобы скомпилировались JSP и закешировалась админка
+          curl -s -o /dev/null "http://localhost:8111/login.html"
+          curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
+          
+          echo "✅ TeamCity is fully ready and warmed up!"
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
