@@ -50,11 +50,11 @@ jobs:
           INTERVAL=10
 
           while [ $ELAPSED -lt $TIMEOUT ]; do
-            # 1. Запрашиваем актуальный статус агента с принудительным сбросом кэша сервера
+            # 1. Request the current agent status, forcing a server cache refresh.
             AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
               "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading,enabled)" || echo "{}")
-
-            # 2. Извлекаем параметры агента
+          
+            # 2. Extracting agent parameters
             AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
             CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
             AUTHORIZED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].authorized // false')
@@ -64,8 +64,8 @@ jobs:
               echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
             else
               echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | authorized: $AUTHORIZED | upgrading: $UPGRADING"
-
-              # 3. Авторизуем агент сразу, как только он подключился (пока докачивает плагины)
+          
+              # 3. Authorize the agent as soon as it connects (while it is still downloading plugins).
               if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "false" ]; then
                 echo "🔑 Authorizing Agent #$AGENT_ID via REST API..."
                 curl -s -X PUT -u "admin:admin" \
@@ -75,11 +75,11 @@ jobs:
                 echo ""
               fi
 
-              # 4. Условие полной готовности
+              # 4. Condition of full readiness
               if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
                 echo "✅ Agent flags are READY! Waiting 100s for pool assignment and capabilities discovery..."
-
-                # Пауза, чтобы TeamCity успел разместить агент в пуле и зарегистрировать его инструменты
+          
+                # Pause to allow TeamCity time to place the agent in the pool and register its tools
                 sleep 100
 
                 echo "🚀 TeamCity Agent #$AGENT_ID is FULLY READY for build runs!"
