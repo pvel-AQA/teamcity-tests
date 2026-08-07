@@ -43,39 +43,39 @@ jobs:
 
       - name: Wait for TeamCity Agent to finish upgrading
         run: |
-            echo "Starting TeamCity Agent status check..."
-            
-            TIMEOUT=100
-            ELAPSED=0
-            INTERVAL=10
-            
-            while [ $ELAPSED -lt $TIMEOUT ]; do
-              # GET-запрос сбрасывает кэш сервера и запрашивает реальный статус
-              AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
-                "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,upgrading)" || echo "{}")
-            
-              AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
-              CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
-              UPGRADING=$(echo "$AGENTS_JSON" | jq -r '.agent[0].upgrading // false')
-            
-              if [ -z "$AGENT_ID" ]; then
-                echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
-              else
-                echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | upgrading: $UPGRADING"
-            
-                # Ждем ТОЛЬКО подключение и окончание загрузки плагинов
-                if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ]; then
-                  echo "✅ Agent is connected and plugins are updated! Handing over to Java @BeforeAll..."
-                  exit 0
-                fi
+          echo "Starting TeamCity Agent status check..."
+          
+          TIMEOUT=100
+          ELAPSED=0
+          INTERVAL=10
+          
+          while [ $ELAPSED -lt $TIMEOUT ]; do
+          # The GET request clears the server cache and requests the actual status.          
+          AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
+              "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,upgrading)" || echo "{}")
+          
+            AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
+            CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
+            UPGRADING=$(echo "$AGENTS_JSON" | jq -r '.agent[0].upgrading // false')
+          
+            if [ -z "$AGENT_ID" ]; then
+              echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
+            else
+              echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | upgrading: $UPGRADING"
+          
+              # Waiting ONLY for connection and plugin loading to complete
+              if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ]; then
+                echo "✅ Agent is connected and plugins are updated! Handing over to Java @BeforeAll..."
+                exit 0
               fi
-            
-              sleep $INTERVAL
-              ELAPSED=$((ELAPSED + INTERVAL))
-            done
-            
-            echo "❌ Timeout reached waiting for agent readiness."
-            exit 1
+            fi
+          
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+          
+          echo "❌ Timeout reached waiting for agent readiness."
+          exit 1
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
