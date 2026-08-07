@@ -20,7 +20,7 @@ public class BaseTest {
 //        int agentId = SuperUserSteps.getAgentId();
 //        SuperUserSteps.authorizeAgent(agentId);
 //    }
-
+/
     @BeforeEach
     public void beforeEach() {
         this.softly = new SoftAssertions();
