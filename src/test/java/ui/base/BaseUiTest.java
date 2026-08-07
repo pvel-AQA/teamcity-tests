@@ -44,6 +44,7 @@ public class BaseUiTest extends BaseTest {
 
         Allure.getLifecycle().updateTestCase(testResult -> {
             testResult.setName(testResult.getName() + " [" + browser + "]");
+            testResult.setHistoryId(testResult.getHistoryId() + "-" + browser);
             testResult.getLabels().add(new io.qameta.allure.model.Label()
                     .setName("browser")
                     .setValue(browser));
