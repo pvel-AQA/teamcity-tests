@@ -105,27 +105,6 @@ jobs:
           HEADLESS: false
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
-      - name: Debug stuck TeamCity builds on failure
-        if: failure()
-        run: |
-            echo "===================================================="
-            echo "⚠️ Tests failed! Fetching TeamCity build queue status..."
-            echo "===================================================="
-            
-            # 1. Причина задержки билдов в очереди
-            curl -s -H "Authorization: Bearer ${{ steps.setup_teamcity.outputs.teamcity_token }}" \
-              -H "Accept: application/json" \
-              "http://localhost:8111/app/rest/buildQueue?fields=build(id,buildTypeId,state,waitReason)" | jq .
-            
-            echo "===================================================="
-            echo "🤖 Fetching TeamCity Agents status..."
-            echo "===================================================="
-            
-            # 2. Текущий статус агентов (connected, authorized, enabled)
-            curl -s -H "Authorization: Bearer ${{ steps.setup_teamcity.outputs.teamcity_token }}" \
-              -H "Accept: application/json" \
-              "http://localhost:8111/app/rest/agents?fields=agent(id,name,connected,authorized,enabled)" | jq .
-
       - name: Run Swagger Coverage
         if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output

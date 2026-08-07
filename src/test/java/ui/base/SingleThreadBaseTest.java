@@ -6,8 +6,11 @@ import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.ValidatedCrudRequester;
 import api.specs.RequestSpec;
 import api.specs.ResponseSpec;
+import common.annotations.InititateBuildRun;
+import common.annotations.PauseBuildQueue;
 import common.helpers.RetryUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.parallel.Isolated;
@@ -18,7 +21,23 @@ import java.util.Map;
 public class SingleThreadBaseTest extends BaseUiTest {
 
     @BeforeEach
-    public void waitForQueueAndAgentReady() {
+    public void waitForQueueAndAgentReady(TestInfo testInfo) {
+        // 1. Агента проверяем всегда перед любым тестом
+        waitForAgentReady();
+
+        // 2. Проверяем, есть ли на вызываемом тесте аннотации, управлющие очередью
+        boolean hasQueueControlAnnotations = testInfo.getTestMethod()
+                .map(method -> method.isAnnotationPresent(PauseBuildQueue.class)
+                        || method.isAnnotationPresent(InititateBuildRun.class))
+                .orElse(false);
+
+        // 3. Ждем пустую очередь ТОЛЬКО если тест сам не управляет очередью/паузой через экстеншены
+        if (!hasQueueControlAnnotations) {
+            waitForBuildQueueEmpty();
+        }
+    }
+
+    private void waitForAgentReady() {
         RetryUtils.retry(
                 "Wait until TeamCity agent is connected and ready",
                 () -> {
@@ -39,7 +58,9 @@ public class SingleThreadBaseTest extends BaseUiTest {
                 30,
                 1000
         );
+    }
 
+    private void waitForBuildQueueEmpty() {
         RetryUtils.retry(
                 "Wait until build queue is empty",
                 () -> {
