@@ -149,6 +149,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+          # gh-pages is shared: teammates run this pipeline from their own branches and
+          # publish their own allure-history. The default (replace the branch contents)
+          # means their deploy deletes anything absent from it - which is how the
+          # quality/ dashboard tree and <run>/quality.html kept disappearing hours after
+          # a green run published them. Merging in leaves siblings' files alone.
+          keep_files: true
 
       - name: Clean up services
         if: always()
