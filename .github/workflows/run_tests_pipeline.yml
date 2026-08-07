@@ -90,22 +90,33 @@ jobs:
           echo "$AGENTS_JSON" | jq .
           exit 1
           
-      - name: Wait and Warm-up TeamCity Server
+      - name: Wait for TeamCity Restoration & Warm-up
         run: |
-            echo "⏳ Waiting for TeamCity server state to become RUNNING..."
+            echo "⏳ Waiting for TeamCity server to restore from backup..."
             
-            # Увеличиваем таймаут до 300s (5 минут) для слабых CI-раннеров
+            # 1. Сначала ждем, пока web-сервер начнет отдавать 200 OK (до 300 сек)
             timeout 300s bash -c '
-              until status=$(curl -s -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" | grep -o "\"state\":\"[^\"]*\"" | cut -d"\"" -f4); [ "$status" = "RUNNING" ]; do
-                echo "Current TeamCity state: ${status:-STARTING_UP}..."
+              until [ "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8111/login.html")" -eq 200 ]; do
+                echo "TeamCity is restoring database/datadir from backup..."
                 sleep 5
               done
             '
             
-            echo "🔥 Warming up TeamCity UI and JSP compilation..."
+            echo "✅ TeamCity Web UI is accessible!"
+            echo "⏳ Waiting for REST API authorization and readiness..."
+            
+            # 2. Теперь ждем, пока REST API отдаст HTTP 200 с авторизацией admin:admin
+            timeout 60s bash -c '
+              until [ "$(curl -s -o /dev/null -w "%{http_code}" -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server")" -eq 200 ]; do
+                echo "Initializing REST API & Admin context..."
+                sleep 3
+              done
+            '
+            
+            echo "🔥 Warming up Admin UI..."
             curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
             
-            echo "✅ TeamCity is FULLY ready!"
+            echo "🚀 TeamCity is FULLY ready!"
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
