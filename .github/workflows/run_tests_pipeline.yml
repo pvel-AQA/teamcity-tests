@@ -35,7 +35,7 @@ jobs:
         uses: ./.github/actions/pull-and-cache-browsers
 
       - name: Setup TeamCity for CI
-        id: setup_teamcity
+        id: setup_teamcit
         uses: ./.github/actions/setup-teamcity-ci
         with:
           teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
