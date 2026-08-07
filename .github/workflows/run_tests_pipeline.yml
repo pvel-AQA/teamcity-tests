@@ -42,7 +42,25 @@ jobs:
           docker-compose-dir: infra/docker_compose
 
       - name: Wait for agent synchronization
-        run: sleep 300
+        run: |
+          echo "Waiting for TeamCity Agent to become connected and authorized..."
+          
+          # Устанавливаем таймаут ожидания (например, максимум 300 секунд)
+          TIMEOUT=300
+          ELAPSED=0
+          INTERVAL=10
+          
+          until curl -s -u "admin:admin" "http://localhost:8111/app/rest/agents?locator=authorized:true,connected:true" | grep -q 'count="[1-9]'; do
+            if [ $ELAPSED -ge $TIMEOUT ]; then
+              echo "❌ Timeout reached ($TIMEOUT sec). TeamCity agent is not ready."
+              exit 1
+            fi
+            echo "Agent is still upgrading/synchronizing... waiting ${INTERVAL}s (${ELAPSED}s elapsed)"
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+          
+          echo "✅ TeamCity Agent is connected, authorized, and ready to execute builds!"
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
