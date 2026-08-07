@@ -12,6 +12,8 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.parallel.Isolated;
 
+import java.util.Map;
+
 @Execution(ExecutionMode.SAME_THREAD)
 public class SingleThreadBaseTest extends BaseUiTest {
 
@@ -24,7 +26,7 @@ public class SingleThreadBaseTest extends BaseUiTest {
                             RequestSpec.withAuthExtensionUser(),
                             Endpoint.AGENTS,
                             ResponseSpec.returnsOk()
-                    ).get();
+                    ).get(Map.of("fields", "agent(id,name,connected,authorized,enabled)"));
 
                     if (response.getAgent() == null || response.getAgent().isEmpty()) {
                         return false;
