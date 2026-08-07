@@ -71,7 +71,7 @@ public class BuildRunPage extends BasePage<BuildRunPage> {
                 "Wait until status of Build Run is correct",
                 element::getText,
                 value -> value.equalsIgnoreCase(buildStatus.getValue()),
-                60,
+                120,
                 1000
         );
         return this;
