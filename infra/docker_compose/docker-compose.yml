@@ -58,11 +58,10 @@ services:
     image: aerokube/selenoid:latest-release
     ports:
       - "4444:4444"
-    volumes://
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/:/etc/selenoid/:ro
     command: [ "-container-network", "teamcity-net",
-    "-limit", "2" ]
+    "-limit", "1" ]
     depends_on:
       - teamcity-server
     networks:
