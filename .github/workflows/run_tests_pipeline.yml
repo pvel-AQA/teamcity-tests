@@ -41,26 +41,53 @@ jobs:
           teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
           docker-compose-dir: infra/docker_compose
 
-      - name: Wait for agent synchronization
+      - name: Wait for agent synchronization and readiness
         run: |
-          echo "Waiting for TeamCity Agent to become connected and authorized..."
-          
-          # Устанавливаем таймаут ожидания (например, максимум 300 секунд)
-          TIMEOUT=300
-          ELAPSED=0
-          INTERVAL=10
-          
-          until curl -s -u "admin:admin" "http://localhost:8111/app/rest/agents?locator=authorized:true,connected:true" | grep -q 'count="[1-9]'; do
-            if [ $ELAPSED -ge $TIMEOUT ]; then
-              echo "❌ Timeout reached ($TIMEOUT sec). TeamCity agent is not ready."
-              exit 1
-            fi
-            echo "Agent is still upgrading/synchronizing... waiting ${INTERVAL}s (${ELAPSED}s elapsed)"
-            sleep $INTERVAL
-            ELAPSED=$((ELAPSED + INTERVAL))
-          done
-          
-          echo "✅ TeamCity Agent is connected, authorized, and ready to execute builds!"
+            echo "Starting TeamCity Agent status check..."
+            
+            TIMEOUT=300
+            ELAPSED=0
+            INTERVAL=10
+            
+            while [ $ELAPSED -lt $TIMEOUT ]; do
+              # 1. Получаем список всех агентов в формате JSON
+              AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
+                "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading,enabled)" || echo "{}")
+            
+              # 2. Извлекаем параметры первого агента (если он есть)
+              AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
+              CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
+              AUTHORIZED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].authorized // false')
+              UPGRADING=$(echo "$AGENTS_JSON" | jq -r '.agent[0].upgrading // false')
+            
+              if [ -z "$AGENT_ID" ]; then
+                echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
+              else
+                echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | authorized: $AUTHORIZED | upgrading: $UPGRADING"
+            
+                # Если агент подключен, но не авторизован — авторизуем его через API
+                if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "false" ]; then
+                  echo "🔑 Agent #$AGENT_ID is not authorized. Authorizing now via REST API..."
+                  curl -s -X PUT -u "admin:admin" \
+                    -H "Content-Type: text/plain" \
+                    -d "true" \
+                    "http://localhost:8111/app/rest/agents/id:$AGENT_ID/authorized"
+                fi
+            
+                # Условие успешности: Подключен, Авторизован, НЕ обновляется
+                if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
+                  echo "✅ TeamCity Agent #$AGENT_ID is FULLY READY for builds!"
+                  exit 0
+                fi
+              fi
+            
+              sleep $INTERVAL
+              ELAPSED=$((ELAPSED + INTERVAL))
+            done
+            
+            echo "❌ Timeout ($TIMEOUT sec) reached. Agent status dump:"
+            echo "$AGENTS_JSON" | jq .
+            exit 1
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
