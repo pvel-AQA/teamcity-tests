@@ -41,19 +41,20 @@ jobs:
           teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
           docker-compose-dir: infra/docker_compose
 
-      - name: Wait for agent readiness and authorize
+      - name: Wait for agent synchronization and readiness
         run: |
-            echo "Starting TeamCity Agent readiness check..."
+            echo "Starting TeamCity Agent status check..."
             
             TIMEOUT=300
             ELAPSED=0
             INTERVAL=10
             
             while [ $ELAPSED -lt $TIMEOUT ]; do
-              # GET сброс кэша сервера
+              # 1. Получаем список всех агентов в формате JSON
               AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
-                "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading)" || echo "{}")
+                "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading,enabled)" || echo "{}")
             
+              # 2. Извлекаем параметры первого агента (если он есть)
               AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
               CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
               AUTHORIZED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].authorized // false')
@@ -64,18 +65,17 @@ jobs:
               else
                 echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | authorized: $AUTHORIZED | upgrading: $UPGRADING"
             
-                # Авторизуем сразу, как только докачались плагины
-                if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ] && [ "$AUTHORIZED" = "false" ]; then
-                  echo "🔑 Authorizing Agent #$AGENT_ID via REST API..."
+                # Если агент подключен, но не авторизован — авторизуем его через API
+                if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "false" ]; then
+                  echo "🔑 Agent #$AGENT_ID is not authorized. Authorizing now via REST API..."
                   curl -s -X PUT -u "admin:admin" \
                     -H "Content-Type: text/plain" \
                     -d "true" \
                     "http://localhost:8111/app/rest/agents/id:$AGENT_ID/authorized"
-                  echo ""
                 fi
             
-                # Ждем полного статуса готовности
-                if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ] && [ "$AUTHORIZED" = "true" ]; then
+                # Условие успешности: Подключен, Авторизован, НЕ обновляется
+                if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
                   echo "✅ TeamCity Agent #$AGENT_ID is FULLY READY for builds!"
                   exit 0
                 fi
@@ -85,7 +85,8 @@ jobs:
               ELAPSED=$((ELAPSED + INTERVAL))
             done
             
-            echo "❌ Timeout reached waiting for agent readiness."
+            echo "❌ Timeout ($TIMEOUT sec) reached. Agent status dump:"
+            echo "$AGENTS_JSON" | jq .
             exit 1
 
       - name: Run tests
