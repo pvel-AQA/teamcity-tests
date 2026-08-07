@@ -94,7 +94,7 @@ jobs:
         run: |
             echo "⏳ Waiting for TeamCity server restoration..."
             
-            # 1. Проверяем, что /login.html содержит реальный HTML страницы логина, а не заглушку
+            # 1. Проверяем, что /login.html отдаёт реальный HTML страницы логина
             timeout 300s bash -c '
               until curl -s "http://localhost:8111/login.html" | grep -q "loginPage"; do
                 echo "TeamCity is restoring/starting up..."
@@ -102,11 +102,11 @@ jobs:
               done
             '
             
-            # 2. Проверяем, что REST API авторизует админа и сервер в состоянии RUNNING
-            timeout 60s bash -c '
+            # 2. Ждём перехода REST API в статус RUNNING (увеличено до 300s)
+            timeout 300s bash -c '
               until curl -s -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" | grep -q "\"state\":\"RUNNING\""; do
                 echo "Waiting for REST API to become RUNNING..."
-                sleep 3
+                sleep 5
               done
             '
             
