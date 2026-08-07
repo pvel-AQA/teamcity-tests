@@ -30,26 +30,32 @@ public final class RetryUtils {
             final int currentAttempt = attempts;
 
             try {
-                // 1. Оборачиваем И action.get(), И проверку condition внутри шага Allure
+                // Оборачиваем вызов и проверку внутри одного шага Allure
                 result = StepLogger.log("Attempt " + currentAttempt + ": " + title, () -> {
-                    T actResult = action.get();
+                    T actResult;
+                    try {
+                        actResult = action.get();
+                    } catch (Throwable t) {
+                        // Если упал сам action.get() (например, Selenide не нашел элемент)
+                        attachScreenshot("Screenshot - Exception in Attempt " + currentAttempt);
+                        throw t;
+                    }
 
                     if (!condition.test(actResult)) {
-                        // Если условие не выполнено — кидаем ошибку ВНУТРИ шага Allure,
-                        // чтобы этот шаг в отчете стал КРАСНЫМ
+                        // 1. Делаем скриншот ВНУТРИ шага Allure ДО того, как бросим AssertionError
+                        attachScreenshot("Screenshot - Attempt " + currentAttempt);
+
+                        // 2. Бросаем ошибку — шаг в Allure окрашивается в красный цвет
                         throw new AssertionError("Condition not met. Current state: " + actResult);
                     }
                     return actResult;
                 });
 
-                // Если шаг прошел без ошибок — значит условие выполнено, возвращаем результат
+                // Если условие выполнено — возвращаем результат
                 return result;
 
             } catch (Throwable e) {
-                // 2. Если попытка упала — снимаем скриншот (если браузер запущен)
-                attachScreenshot("Screenshot - Attempt " + currentAttempt);
-
-                // Если это была последняя попытка — пробрасываем ошибку дальше
+                // Если это была последняя попытка — пробрасываем итоговое исключение
                 if (currentAttempt == maxAttempts) {
                     throw new AssertionError("Retry failed: " + title + " after " + maxAttempts + " attempts", e);
                 }

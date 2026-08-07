@@ -97,18 +97,17 @@ jobs:
           
       - name: Wait and Warm-up TeamCity Server
         run: |
-            echo "⏳ Waiting for TeamCity server to be fully ready..."
+            echo "⏳ Waiting for TeamCity server state to become RUNNING..."
             
-            # Ждем HTTP 200 от REST API с заголовком application/json (до 120 секунд)
+            # Ждем, пока эндпоинт вернет state: RUNNING (до 120 секунд)
             timeout 120s bash -c '
-              until [ "$(curl -s -o /dev/null -w "%{http_code}" -H "Accept: application/json" -u "admin:admin" "http://localhost:8111/app/rest/server")" -eq 200 ]; do
+              until curl -s -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" | grep -q "\"state\":\"RUNNING\""; do
                 echo "TeamCity is still initializing plugins..."
                 sleep 3
               done
             '
             
             echo "🔥 Warming up TeamCity UI and JSP compilation..."
-            # Загружаем тяжелые UI-страницы для компиляции фронтенда
             curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
             
             echo "✅ TeamCity is FULLY ready!"
