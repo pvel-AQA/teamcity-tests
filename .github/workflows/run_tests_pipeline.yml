@@ -7,7 +7,7 @@ jobs:
     name: Set up services (review apps) and run tests on ${{ matrix.browser }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: fals
+      fail-fast: false
       matrix:
         browser: [ chrome, firefox ]
 
