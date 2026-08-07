@@ -47,13 +47,13 @@ jobs:
 
           TIMEOUT=300
           ELAPSED=0
-          INTERVAL=10
+          INTERVAL=5
 
           while [ $ELAPSED -lt $TIMEOUT ]; do
-            # 1. Request the current agent status, forcing a server cache refresh.
+            # 1. Request current agent status
             AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
               "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading,enabled)" || echo "{}")
-          
+
             # 2. Extracting agent parameters
             AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
             CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
@@ -64,8 +64,8 @@ jobs:
               echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
             else
               echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | authorized: $AUTHORIZED | upgrading: $UPGRADING"
-          
-              # 3. Authorize the agent as soon as it connects (while it is still downloading plugins).
+
+              # 3. Authorize the agent as soon as it connects
               if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "false" ]; then
                 echo "🔑 Authorizing Agent #$AGENT_ID via REST API..."
                 curl -s -X PUT -u "admin:admin" \
@@ -75,13 +75,8 @@ jobs:
                 echo ""
               fi
 
-              # 4. Condition of full readiness
+              # 4. Full readiness condition
               if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
-                echo "✅ Agent flags are READY! Waiting 25s for pool assignment and capabilities discovery..."
-          
-                # Pause to allow TeamCity time to place the agent in the pool and register its tools
-                sleep 25
-
                 echo "🚀 TeamCity Agent #$AGENT_ID is FULLY READY for build runs!"
                 exit 0
               fi
@@ -99,11 +94,11 @@ jobs:
         run: |
             echo "⏳ Waiting for TeamCity server state to become RUNNING..."
             
-            # Ждем, пока эндпоинт вернет state: RUNNING (до 120 секунд)
-            timeout 120s bash -c '
-              until curl -s -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" | grep -q "\"state\":\"RUNNING\""; do
-                echo "TeamCity is still initializing plugins..."
-                sleep 3
+            # Увеличиваем таймаут до 300s (5 минут) для слабых CI-раннеров
+            timeout 300s bash -c '
+              until status=$(curl -s -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" | grep -o "\"state\":\"[^\"]*\"" | cut -d"\"" -f4); [ "$status" = "RUNNING" ]; do
+                echo "Current TeamCity state: ${status:-STARTING_UP}..."
+                sleep 5
               done
             '
             
