@@ -91,40 +91,40 @@ jobs:
           echo "$AGENTS_JSON" | jq .
           exit 1
           
-      - name: Wait for TeamCity Restoration & Warm-up
-        run: |
-            echo "⏳ Checking TeamCity REST API availability..."
-            
-            TIMEOUT=180
-            ELAPSED=0
-            INTERVAL=5
-            
-            while [ $ELAPSED -lt $TIMEOUT ]; do
-              # Запрашиваем REST API
-              HTTP_CODE=$(curl -s -o /tmp/tc_resp.txt -w "%{http_code}" -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" || echo "000")
-            
-              # Если 200 OK и в ответе есть инфа о версии сервера — сервер готов!
-              if [ "$HTTP_CODE" -eq 200 ] && grep -q "version" /tmp/tc_resp.txt; then
-                echo "🚀 [$ELAPSED s] TeamCity REST API is fully UP and RUNNING!"
-                break
-              else
-                echo "⏳ [$ELAPSED s] Waiting for REST API... (HTTP Code: $HTTP_CODE)"
-              fi
-            
-              sleep $INTERVAL
-              ELAPSED=$((ELAPSED + INTERVAL))
-            done
-            
-            if [ $ELAPSED -ge $TIMEOUT ]; then
-              echo "❌ Timeout waiting for TeamCity! Dump:"
-              cat /tmp/tc_resp.txt
-              exit 1
-            fi
-            
-            echo "🔥 Warming up Admin UI..."
-            curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
-            
-            echo "✅ TeamCity is FULLY ready!"
+#      - name: Wait for TeamCity Restoration & Warm-up
+#        run: |
+#            echo "⏳ Checking TeamCity REST API availability..."
+#
+#            TIMEOUT=180
+#            ELAPSED=0
+#            INTERVAL=5
+#
+#            while [ $ELAPSED -lt $TIMEOUT ]; do
+#              # Запрашиваем REST API
+#              HTTP_CODE=$(curl -s -o /tmp/tc_resp.txt -w "%{http_code}" -u "admin:admin" -H "Accept: application/json" "http://localhost:8111/app/rest/server" || echo "000")
+#
+#              # Если 200 OK и в ответе есть инфа о версии сервера — сервер готов!
+#              if [ "$HTTP_CODE" -eq 200 ] && grep -q "version" /tmp/tc_resp.txt; then
+#                echo "🚀 [$ELAPSED s] TeamCity REST API is fully UP and RUNNING!"
+#                break
+#              else
+#                echo "⏳ [$ELAPSED s] Waiting for REST API... (HTTP Code: $HTTP_CODE)"
+#              fi
+#
+#              sleep $INTERVAL
+#              ELAPSED=$((ELAPSED + INTERVAL))
+#            done
+#
+#            if [ $ELAPSED -ge $TIMEOUT ]; then
+#              echo "❌ Timeout waiting for TeamCity! Dump:"
+#              cat /tmp/tc_resp.txt
+#              exit 1
+#            fi
+#
+#            echo "🔥 Warming up Admin UI..."
+#            curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
+#
+#            echo "✅ TeamCity is FULLY ready!"
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
