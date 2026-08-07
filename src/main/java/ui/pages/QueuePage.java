@@ -62,7 +62,17 @@ public class QueuePage extends BasePage<QueuePage> {
     }
 
     public QueuePage checkThereIsNoBuildsInQueue() {
-        noBuildsInQueueText.shouldBe(Condition.visible).shouldHave(Condition.text("No builds in queue"));
+        RetryUtils.retry(
+                "Wait until build queue is empty",
+                () -> {
+                    noBuildsInQueueText.shouldBe(Condition.visible)
+                            .shouldHave(Condition.text("No builds in queue"));
+                    return true;
+                },
+                Boolean::booleanValue,
+                45,
+                1000
+        );
         return this;
     }
 }
