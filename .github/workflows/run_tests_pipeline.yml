@@ -50,6 +50,12 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           HEADLESS: false
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
+        #пробуем сделать репорт для Allure 2  через environment.properties
+      - name: Create Allure Environment Properties
+        if: always()
+        run: |
+          mkdir -p target/allure-results
+          echo "Browser=${{ matrix.browser }}" >> target/allure-results/environment.properties
 
       - name: Run Swagger Coverage
         if: always()
