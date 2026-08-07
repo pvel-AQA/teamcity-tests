@@ -108,6 +108,11 @@ public enum Endpoint {
             BuildRunRequest.class,
             BuildRunResponse.class
     ),
+    BUILD_QUEUE_GET(
+        "/buildQueue",
+        BaseModel.class,
+        BuildQueueResponse.class
+    ),
     BUILD(
             "/builds/{buildLocator}",
             BuildRunRequest.class,

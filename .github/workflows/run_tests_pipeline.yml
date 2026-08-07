@@ -80,7 +80,7 @@ jobs:
                 echo "✅ Agent flags are READY! Waiting 100s for pool assignment and capabilities discovery..."
           
                 # Pause to allow TeamCity time to place the agent in the pool and register its tools
-                sleep 100
+                sleep 25
 
                 echo "🚀 TeamCity Agent #$AGENT_ID is FULLY READY for build runs!"
                 exit 0
