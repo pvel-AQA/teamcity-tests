@@ -44,53 +44,41 @@ jobs:
       - name: Wait for agent synchronization and readiness
         run: |
           echo "Starting TeamCity Agent status check..."
-          
+
           TIMEOUT=300
           ELAPSED=0
           INTERVAL=10
-          
+
           while [ $ELAPSED -lt $TIMEOUT ]; do
-            # 1. Получаем список всех агентов в формате JSON
+            # 1. Получаем список всех агентов в формате JSON с принудительным сбросом кэша
             AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
-              "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading,enabled)" || echo "{}")
-          
+              "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,upgrading,enabled)" || echo "{}")
+
             # 2. Извлекаем параметры первого агента (если он есть)
             AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
             CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
-            AUTHORIZED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].authorized // false')
             UPGRADING=$(echo "$AGENTS_JSON" | jq -r '.agent[0].upgrading // false')
-          
+
             if [ -z "$AGENT_ID" ]; then
               echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
             else
-              echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | authorized: $AUTHORIZED | upgrading: $UPGRADING"
-          
-              # Если агент подключен, но не авторизован — авторизуем его через API
-              if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "false" ]; then
-                echo "🔑 Agent #$AGENT_ID is not authorized. Authorizing now via REST API..."
-                curl -s -X PUT -u "admin:admin" \
-                  -H "Content-Type: text/plain" \
-                  -d "true" \
-                  "http://localhost:8111/app/rest/agents/id:$AGENT_ID/authorized"
-              fi
-          
-              # Условие успешности: Подключен, Авторизован, НЕ обновляется
-              if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
-                echo "✅ Flags are ready! Waiting 20s for TeamCity runner initialization and capabilities discovery..."
-          
-                # --- ВОТ СЮДА ВСТАВЛЯЕМ ПАУЗУ ---
-                sleep 20
-                # -------------------------------
-          
-                echo "🚀 Agent is FULLY READY for builds!"
+              echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | upgrading: $UPGRADING"
+
+              # Условие успешности: Подключен и НЕ обновляется
+              if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ]; then
+                echo "✅ Agent connected and plugins updated! Waiting 20s for runner initialization..."
+
+                sleep 50
+
+                echo "🚀 Agent is ready for Java @BeforeAll authorization and builds!"
                 exit 0
               fi
             fi
-          
+
             sleep $INTERVAL
             ELAPSED=$((ELAPSED + INTERVAL))
           done
-          
+
           echo "❌ Timeout ($TIMEOUT sec) reached. Agent status dump:"
           echo "$AGENTS_JSON" | jq .
           exit 1
