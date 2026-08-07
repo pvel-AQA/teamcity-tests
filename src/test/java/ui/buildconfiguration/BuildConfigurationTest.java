@@ -11,6 +11,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import common.helpers.StepLogger;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ui.base.BaseUiTest;
 import ui.enums.alerts.BuildConfigAlert;

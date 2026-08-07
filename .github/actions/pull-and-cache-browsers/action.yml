@@ -17,7 +17,7 @@ runs:
 
         CACHE_DIR="./docker_cache"
         mkdir -p "$CACHE_DIR"
-
+        
         # Check cache files
         if [ -f "${CACHE_DIR}/chrome_128.0.tar" ] && [ -f "${CACHE_DIR}/firefox_125.0.tar" ]; then
           echo "cache_hit=true" >> $GITHUB_OUTPUT

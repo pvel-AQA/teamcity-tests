@@ -2,11 +2,15 @@ name: Run tests
 
 on: [ push, workflow_dispatch ]
 
-# stages analogy
 jobs:
   run_tests:
-    name: Set up services (review apps) and run tests
+    name: Set up services (review apps) and run tests on ${{ matrix.browser }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [ chrome, firefox ]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -20,7 +24,9 @@ jobs:
       - name: Cache Maven repository
         uses: actions/cache@v5
         with:
-          path: ~/.m2/repository
+          path: |
+            ~/.m2/repository
+            ~/.mvn/wrapper
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
@@ -39,7 +45,7 @@ jobs:
         run: sleep 300
 
       - name: Run tests
-        run: ./mvnw clean test -P all -q
+        run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
@@ -49,8 +55,61 @@ jobs:
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
 
       - name: Run Swagger Coverage
-        if: always()
+        if: always() && matrix.browser == 'chrome'
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s teamcity-swagger-filtered_p1.json -i target/swagger-coverage-output
+
+      - name: Upload Allure Results Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.browser }}
+          path: target/allure-results
+          retention-days: 1
+
+      - name: Upload Swagger Coverage Artifact
+        if: always() && matrix.browser == 'chrome'
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger-coverage
+          path: swagger-coverage-report.html
+          retention-days: 1
+
+      - name: Clean up services
+        if: always()
+        run: cd infra/docker_compose && docker compose -p teamcity down
+
+  publish_report:
+    name: Generate and Publish Allure Report
+    needs: [ run_tests ]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download all Allure artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: target/allure-results-temp
+
+      - name: Download Swagger artifact
+        uses: actions/download-artifact@v4
+        if: always()
+        with:
+          name: swagger-coverage
+          path: target/swagger-temp
+
+      - name: Merge Allure results
+        run: |
+          mkdir -p target/allure-results
+          cp -r target/allure-results-temp/*/* target/allure-results/ 2>/dev/null || true
+
+      - name: Create Allure Environment properties
+        if: always()
+        run: |
+          echo "UI browsers=Chrome, Firefox" >> target/allure-results/environment.properties
+          echo "Runner=GitHub Actions" >> target/allure-results/environment.properties
 
       - name: Load test report history
         uses: actions/checkout@v7
@@ -67,9 +126,13 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history
 
-      - name: Build Swagger Coverage report
+      - name: Copy Swagger Coverage to Allure Run Dir
         if: always()
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+        run: |
+          sudo chown -R $USER:$USER allure-history
+          mkdir -p allure-history/${{ github.run_number }}
+          cp target/swagger-temp/swagger-coverage-report.html allure-history/${{ github.run_number }}/swagger-coverage-report.html 2>/dev/null || true
+          touch allure-history/.nojekyll
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
@@ -79,13 +142,9 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
-      - name: Clean up services
-        if: always()
-        run: cd infra/docker_compose && docker compose -p teamcity down
-
   notify:
     name: Telegram notification
-    needs: [ run_tests ]
+    needs: [ run_tests, publish_report ]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -96,11 +155,12 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>${{ needs.run_tests.result == 'success' && '✅ Passed' || '❌ Failed' }}</b> — Teamcity tests
+            <b>${{ needs.run_tests.result == 'success' && '✅ Passed' || '❌ Failed' }}</b> — TeamCity tests
             Branch: <code>${{ github.ref_name }}</code>
             Commit: ${{ github.actor }} — ${{ github.event.head_commit.message }}
-
+            
             <b>📊 Reports:</b>
-            Allure Report: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">${{ github.event.repository.name }} Allure</a>
-            Swagger Coverage: <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
+            • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/index.html">Allure Report #${{ github.run_number }}</a>
+            • <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_number }}/swagger-coverage-report.html">Swagger Coverage</a>
+            
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View run &amp; logs</a>
