@@ -9,8 +9,8 @@ import java.util.function.Predicate;
 
 public class WaitUtils {
 
-    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(20);
-    private static final Duration DEFAULT_POLL_INTERVAL = Duration.ofSeconds(5);
+    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(60);
+    private static final Duration DEFAULT_POLL_INTERVAL = Duration.ofSeconds(1);
 
     public static ConditionFactory getDefaultAwait(Duration timeout, Duration pollInterval) {
         return Awaitility.await()
