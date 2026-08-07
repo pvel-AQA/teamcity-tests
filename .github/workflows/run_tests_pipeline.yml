@@ -68,7 +68,7 @@ jobs:
               if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ]; then
                 echo "✅ Agent connected and plugins updated! Waiting 20s for runner initialization..."
 
-                sleep 50
+                sleep 100
 
                 echo "🚀 Agent is ready for Java @BeforeAll authorization and builds!"
                 exit 0
