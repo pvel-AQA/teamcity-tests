@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 
 public class WaitUtils {
 
-    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(60);
+    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(6#0);
     private static final Duration DEFAULT_POLL_INTERVAL = Duration.ofSeconds(1);
 
     public static ConditionFactory getDefaultAwait(Duration timeout, Duration pollInterval) {
