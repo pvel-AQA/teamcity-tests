@@ -41,7 +41,7 @@ jobs:
           teamcity-backup-url: ${{ secrets.TEAMCITY_BACKUP_URL }}
           docker-compose-dir: infra/docker_compose
 
-      - name: Wait for agent synchronization and readiness
+      - name: Wait for TeamCity Agent synchronization and readiness
         run: |
           echo "Starting TeamCity Agent status check..."
 
@@ -50,27 +50,39 @@ jobs:
           INTERVAL=10
 
           while [ $ELAPSED -lt $TIMEOUT ]; do
-            # 1. Получаем список всех агентов в формате JSON с принудительным сбросом кэша
+            # 1. Запрашиваем актуальный статус агента с принудительным сбросом кэша сервера
             AGENTS_JSON=$(curl -s -H "Accept: application/json" -u "admin:admin" \
-              "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,upgrading,enabled)" || echo "{}")
+              "http://localhost:8111/app/rest/agents?locator=defaultFilter:false&fields=agent(id,name,connected,authorized,upgrading,enabled)" || echo "{}")
 
-            # 2. Извлекаем параметры первого агента (если он есть)
+            # 2. Извлекаем параметры агента
             AGENT_ID=$(echo "$AGENTS_JSON" | jq -r '.agent[0].id // empty')
             CONNECTED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].connected // false')
+            AUTHORIZED=$(echo "$AGENTS_JSON" | jq -r '.agent[0].authorized // false')
             UPGRADING=$(echo "$AGENTS_JSON" | jq -r '.agent[0].upgrading // false')
 
             if [ -z "$AGENT_ID" ]; then
               echo "⏳ [$ELAPSED s] No agents found yet in TeamCity..."
             else
-              echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | upgrading: $UPGRADING"
+              echo "⏳ [$ELAPSED s] Agent #$AGENT_ID -> connected: $CONNECTED | authorized: $AUTHORIZED | upgrading: $UPGRADING"
 
-              # Условие успешности: Подключен и НЕ обновляется
-              if [ "$CONNECTED" = "true" ] && [ "$UPGRADING" = "false" ]; then
-                echo "✅ Agent connected and plugins updated! Waiting 20s for runner initialization..."
+              # 3. Авторизуем агент сразу, как только он подключился (пока докачивает плагины)
+              if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "false" ]; then
+                echo "🔑 Authorizing Agent #$AGENT_ID via REST API..."
+                curl -s -X PUT -u "admin:admin" \
+                  -H "Content-Type: text/plain" \
+                  -d "true" \
+                  "http://localhost:8111/app/rest/agents/id:$AGENT_ID/authorized"
+                echo ""
+              fi
 
-                sleep 100
+              # 4. Условие полной готовности
+              if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
+                echo "✅ Agent flags are READY! Waiting 15s for pool assignment and capabilities discovery..."
 
-                echo "🚀 Agent is ready for Java @BeforeAll authorization and builds!"
+                # Пауза, чтобы TeamCity успел разместить агент в пуле и зарегистрировать его инструменты
+                sleep 50
+
+                echo "🚀 TeamCity Agent #$AGENT_ID is FULLY READY for build runs!"
                 exit 0
               fi
             fi
