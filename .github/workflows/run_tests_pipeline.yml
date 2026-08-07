@@ -97,22 +97,21 @@ jobs:
           
       - name: Wait and Warm-up TeamCity Server
         run: |
-          echo "⏳ Waiting for TeamCity server to be fully ready..."
-          
-          # 1. Ждем, пока REST API /app/rest/server станет доступен (до 120 секунд)
-          timeout 120s bash -c '
-          until curl -s -u "admin:admin" "http://localhost:8111/app/rest/server" | grep -q "version"; do
-           echo "TeamCity is initializing plugins..."
-           sleep 3
-          done
-          '
-          
-          echo "🔥 Warming up TeamCity UI and JSP compilation..."
-          # 2. Прогреваем тяжелые страницы UI, чтобы скомпилировались JSP и закешировалась админка
-          curl -s -o /dev/null "http://localhost:8111/login.html"
-          curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
-          
-          echo "✅ TeamCity is fully ready and warmed up!"
+            echo "⏳ Waiting for TeamCity server to be fully ready..."
+            
+            # Ждем HTTP 200 от REST API с заголовком application/json (до 120 секунд)
+            timeout 120s bash -c '
+              until [ "$(curl -s -o /dev/null -w "%{http_code}" -H "Accept: application/json" -u "admin:admin" "http://localhost:8111/app/rest/server")" -eq 200 ]; do
+                echo "TeamCity is still initializing plugins..."
+                sleep 3
+              done
+            '
+            
+            echo "🔥 Warming up TeamCity UI and JSP compilation..."
+            # Загружаем тяжелые UI-страницы для компиляции фронтенда
+            curl -s -o /dev/null -u "admin:admin" "http://localhost:8111/admin/admin.html"
+            
+            echo "✅ TeamCity is FULLY ready!"
 
       - name: Run tests
         run: ./mvnw test -P all -q -Dbrowser=${{ matrix.browser }}
