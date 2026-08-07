@@ -77,7 +77,7 @@ jobs:
 
               # 4. Condition of full readiness
               if [ "$CONNECTED" = "true" ] && [ "$AUTHORIZED" = "true" ] && [ "$UPGRADING" = "false" ]; then
-                echo "✅ Agent flags are READY! Waiting 100s for pool assignment and capabilities discovery..."
+                echo "✅ Agent flags are READY! Waiting 25s for pool assignment and capabilities discovery..."
           
                 # Pause to allow TeamCity time to place the agent in the pool and register its tools
                 sleep 25

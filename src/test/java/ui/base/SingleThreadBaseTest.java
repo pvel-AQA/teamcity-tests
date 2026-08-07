@@ -1,5 +1,6 @@
 package ui.base;
 
+import api.models.agent.GetAgentsResponse;
 import api.models.build.BuildQueueResponse;
 import api.request.skelethon.Endpoint;
 import api.request.skelethon.requester.ValidatedCrudRequester;
@@ -16,6 +17,27 @@ public class SingleThreadBaseTest extends BaseUiTest {
 
     @BeforeEach
     public void waitForQueueAndAgentReady() {
+        RetryUtils.retry(
+                "Wait until TeamCity agent is connected and ready",
+                () -> {
+                    GetAgentsResponse response = new ValidatedCrudRequester<GetAgentsResponse>(
+                            RequestSpec.withAuthExtensionUser(),
+                            Endpoint.AGENTS,
+                            ResponseSpec.returnsOk()
+                    ).get();
+
+                    if (response.getAgent() == null || response.getAgent().isEmpty()) {
+                        return false;
+                    }
+
+                    var agent = response.getAgent().get(0);
+                    return agent.isConnected() && agent.isAuthorized() && agent.isEnabled();
+                },
+                isReady -> isReady,
+                30,
+                1000
+        );
+
         RetryUtils.retry(
                 "Wait until build queue is empty",
                 () -> {
