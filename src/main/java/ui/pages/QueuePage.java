@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import common.enums.BuildStatus;
+import common.helpers.RetryUtils;
 import lombok.Getter;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -46,7 +47,17 @@ public class QueuePage extends BasePage<QueuePage> {
     }
 
     public QueuePage checkPausedStatusIsHiddenForBuild() {
-        buildStateText.shouldBe(Condition.hidden);
+
+        RetryUtils.retry(
+                "Wait until paused status is hidden for build",
+                () -> {
+                    buildStateText.shouldBe(Condition.hidden);
+                    return true;
+                },
+                Boolean::booleanValue,
+                20,
+                1000
+        );
         return this;
     }
 
