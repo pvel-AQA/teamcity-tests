@@ -22,16 +22,13 @@ public class SingleThreadBaseTest extends BaseUiTest {
 
     @BeforeEach
     public void waitForQueueAndAgentReady(TestInfo testInfo) {
-        // 1. Агента проверяем всегда перед любым тестом
         waitForAgentReady();
 
-        // 2. Проверяем, есть ли на вызываемом тесте аннотации, управлющие очередью
         boolean hasQueueControlAnnotations = testInfo.getTestMethod()
                 .map(method -> method.isAnnotationPresent(PauseBuildQueue.class)
                         || method.isAnnotationPresent(InititateBuildRun.class))
                 .orElse(false);
 
-        // 3. Ждем пустую очередь ТОЛЬКО если тест сам не управляет очередью/паузой через экстеншены
         if (!hasQueueControlAnnotations) {
             waitForBuildQueueEmpty();
         }
