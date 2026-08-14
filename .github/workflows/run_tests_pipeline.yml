@@ -42,7 +42,17 @@ jobs:
         run: sleep 300
 
       - name: Run tests
-        run: ./mvnw clean test -P all -q -Dbrowser=${{ matrix.browser }}
+        run: |
+          # По умолчанию запускаем UI-тесты для текущего браузера из матрицы
+          MAVEN_ARGS="-Dbrowser=${{ matrix.browser }}"
+          
+          # Если это Firefox (или любой другой отличный от chrome), исключаем пакет с API-тестами
+          if [ "${{ matrix.browser }}" != "chrome" ]; then
+            MAVEN_ARGS="$MAVEN_ARGS -Dtest=!api.**"
+          fi
+          
+          # Запускаем тесты с сформированными аргументами
+          ./mvnw clean test -P all -q $MAVEN_ARGS
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
@@ -132,13 +142,11 @@ jobs:
           fi
 
       # 7. Генерируем отчет Allure 3 с использованием вашего JS-конфига
-      # Флаг --config указывает на ваш файл.
-      # Флаг -o переопределяет дефолтный путь вывода из конфига на папку с номером текущего рана.
+      # Передаем папку результатов сразу после слова generate
       - name: Build Allure 3 test report
         run: |
           allure generate combined-allure-results \
             --config allurerc.js \
-            --clean \
             -o allure-history/${{ github.run_number }}
 
       # 8. Скачиваем Swagger отчет (например, от chrome) для публикации
@@ -156,7 +164,6 @@ jobs:
       # чтобы не стереть прошлую историю на сайте
       - name: Copy existing runs to deployment directory
         run: |
-          # Копируем всё, кроме файла истории (мы его обновили на шаге 7)
           rsync -av --exclude='history.jsonl' gh-pages/ allure-history/
           rm -rf allure-history/gh-pages 2>/dev/null || true
 
