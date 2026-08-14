@@ -9,6 +9,11 @@ import api.models.UserTokenResponse;
 import api.models.agent.Agent;
 import api.models.agent.AuthorizeAgentRequest;
 import api.models.agent.GetAgentsResponse;
+import api.models.build.BuildConfigurationRequest;
+import api.models.build.BuildConfigurationResponse;
+import api.models.build.BuildRunResponse;
+import api.models.build.BuildTypeStepsList;
+import api.models.build.BuildTypeStepsModel;
 import api.models.build.*;
 import api.models.project.AllProjectsResponse;
 import api.models.project.ProjectRequest;
@@ -131,6 +136,18 @@ public class UserSteps {
                 ResponseSpec.returnsOk())
                 .get(configName, stepId);
     }
+
+    public static BuildTypeStepsList getBuildTypeStepList(String configName) {
+        return new ValidatedCrudRequester<BuildTypeStepsList>(
+                RequestSpec.withAuthExtensionUser(),
+                Endpoint.BUILD_STEPS_READ,
+                ResponseSpec.returnsOk())
+                .get(configName);
+    }
+
+
+
+
 
     public static BuildTypeStepsModel createBuildTypeStep(RequestSpecification spec, String configName, BuildTypeStepsModel stepRequest) {
         return new ValidatedCrudRequester<BuildTypeStepsModel>(

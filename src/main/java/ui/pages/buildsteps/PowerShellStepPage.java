@@ -7,32 +7,31 @@ import common.helpers.CodeMirrorHelper;
 import lombok.Getter;
 import ui.models.PowerShellUiModel;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.ScrollIntoViewOptions.instant;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
 public class PowerShellStepPage extends BuildStepsPage {
 
-    private final SelenideElement saveBtn = $(Selectors.byValue("Save"));
+    private final SelenideElement saveBtn = $(Selectors.byName("submitButton"));
     private final SelenideElement buildStepNameFieldInput = $(Selectors.byId("buildStepName"));
+    private final SelenideElement runnerIdFieldInput = $(Selectors.byId("newRunnerId"));
     private final SelenideElement powerShellFieldOption = $(Selectors.byId("powershell_option"));
     private final SelenideElement stepIdFieldInput = $(Selectors.byId("newRunnerId"));
     private final SelenideElement scriptFileFieldInput = $(Selectors.byId("jetbrains_powershell_script_file"));
     private final SelenideElement runStepWithinContainerFieldInput = $(Selectors.byId("plugin.docker.imageId"));
     private final SelenideElement codeMirrorFieldForCodeOption = $x("//div[@class='CodeMirror-scroll']");
 
-    @Override
-    public String url() {
-        return "";
-    }
-
     public PowerShellStepPage addBuildStep(PowerShellUiModel model) {
-        editStepNameField(model.getStepName());
+        setStepNameValue(model.getStepName());
         sendKeysIfNotNull(stepIdFieldInput, model.getStepId());
         setPowerShellOptionAndValue(model);
         sendKeysIfNotNull(runStepWithinContainerFieldInput, model.getRunStepWithinContainer());
-        saveBuildStep();
+        clickSaveButton();
         return this;
     }
 
@@ -48,18 +47,23 @@ public class PowerShellStepPage extends BuildStepsPage {
     }
 
     public PowerShellStepPage enterPowerShellScriptContent(String value) {
-        codeMirrorFieldForCodeOption.shouldBe(visible);
+        codeMirrorFieldForCodeOption.shouldBe(visible, Duration.ofSeconds(5));
         CodeMirrorHelper.setValue(value);
         return this;
     }
 
-    public PowerShellStepPage saveBuildStep() {
-        saveBtn.shouldBe(visible).click();
+    public PowerShellStepPage setStepNameValue(String value) {
+        sendKeysIfNotNull(buildStepNameFieldInput, value);
         return this;
     }
 
-    public PowerShellStepPage editStepNameField(String stepName) {
-        sendKeysIfNotNull(buildStepNameFieldInput, stepName);
+    public PowerShellStepPage setRunnerIdValue(String value) {
+        sendKeysIfNotNull(runnerIdFieldInput, value);
+        return this;
+    }
+
+    public PowerShellStepPage clickSaveButton() {
+        saveBtn.scrollIntoView(instant()).shouldBe(visible).click();
         return this;
     }
 
