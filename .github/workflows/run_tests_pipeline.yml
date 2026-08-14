@@ -132,22 +132,19 @@ jobs:
       # 6. Подготавливаем структуру папок перед генерацией отчета
       - name: Prepare History and Directories
         run: |
-          # Создаем целевую структуру папок
-          mkdir -p allure-history/${{ github.run_number }}
-
-          # Переносим старый файл истории в рабочую папку allure-history,
-          # чтобы Allure 3 прочитал его согласно свойству historyPath из вашего js-файла
-          if [ -f gh-pages/history.jsonl ]; then
-            cp gh-pages/history.jsonl allure-history/
+          mkdir -p allure-history
+          # Если в сохраненных отчетах gh-pages уже есть история, копируем её для сохранения трендов
+          if [ -f gh-pages/allure-history/history.jsonl ]; then
+            cp gh-pages/allure-history/history.jsonl allure-history/history.jsonl
           fi
 
       # 7. Генерируем отчет Allure 3 с использованием вашего JS-конфига
       # Передаем папку результатов сразу после слова generate
-      - name: Build Allure 3 test report
+      - name: Generate Allure Report
         run: |
-          allure generate combined-allure-results \
-            --config allurerc.js \
-            -o allure-history/${{ github.run_number }}
+          allure generate combined-allure-results --config allurerc.js
+        env:
+          ALLURE_OUTPUT_DIR: allure-history/${{ github.run_number }}
 
       # 8. Скачиваем Swagger отчет (например, от chrome) для публикации
       - name: Download Swagger Report
