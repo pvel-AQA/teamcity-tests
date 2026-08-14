@@ -50,12 +50,6 @@ jobs:
           UIREMOTE: http://localhost:4444/wd/hub
           HEADLESS: false
           TEAMCITY_AUTH_TOKEN: ${{ steps.setup_teamcity.outputs.teamcity_token }}
-        #пробуем сделать репорт для Allure 2  через environment.properties
-      - name: Create Allure Environment Properties
-        if: always()
-        run: |
-          mkdir -p target/allure-results
-          echo "Browser=${{ matrix.browser }}" >> target/allure-results/environment.properties
 
       - name: Run Swagger Coverage
         if: always()
@@ -84,7 +78,7 @@ jobs:
         run: cd infra/docker_compose && docker compose -p teamcity down
 
   generate_report:
-    name: Build & Publish Consolidated Allure Report
+    name: Build & Publish Consolidated Allure 3 Report
     needs: [ run_tests ]
     runs-on: ubuntu-latest
     if: always()
@@ -92,11 +86,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      # Создаем чистую папку для результатов
+      # 1. Создаем чистую папку для результатов матрицы
       - name: Create Results Directory
         run: mkdir -p combined-allure-results
 
-      # Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
+      # 2. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
       - name: Download All Allure Results
         uses: actions/download-artifact@v4
         with:
@@ -104,30 +98,69 @@ jobs:
           path: combined-allure-results
           merge-multiple: true
 
+      # 3. Скачиваем текущую историю и прошлые отчеты из ветки gh-pages
       - name: Load test report history
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
         with:
           ref: gh-pages
           path: gh-pages
 
-      # Строим один общий отчёт для Allure 3 по всем браузерам
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.15
+      # 4. Настраиваем Node.js (нужен для Allure 3 CLI и вашего JS-конфига)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          gh_pages: gh-pages
-          allure_results: combined-allure-results
-          allure_history: allure-history
+          node-version: '20'
 
-      # Скачиваем любой из Swagger отчетов (например, от chrome) для публикации
+      # 5. Устанавливаем Allure 3 глобально и локально для работы ES-модулей в конфиге
+      # npm install allure --no-save Позволит вашему allurerc.js успешно импортировать 'defineConfig'
+      - name: Install Allure 3 CLI
+        run: |
+          npm install -g allure
+          npm install allure --no-save
+
+
+      # 6. Подготавливаем структуру папок перед генерацией отчета
+      - name: Prepare History and Directories
+        run: |
+          # Создаем целевую структуру папок
+          mkdir -p allure-history/${{ github.run_number }}
+
+          # Переносим старый файл истории в рабочую папку allure-history,
+          # чтобы Allure 3 прочитал его согласно свойству historyPath из вашего js-файла
+          if [ -f gh-pages/history.jsonl ]; then
+            cp gh-pages/history.jsonl allure-history/
+          fi
+
+      # 7. Генерируем отчет Allure 3 с использованием вашего JS-конфига
+      # Флаг --config указывает на ваш файл.
+      # Флаг -o переопределяет дефолтный путь вывода из конфига на папку с номером текущего рана.
+      - name: Build Allure 3 test report
+        run: |
+          allure generate combined-allure-results \
+            --config allurerc.js \
+            --clean \
+            -o allure-history/${{ github.run_number }}
+
+      # 8. Скачиваем Swagger отчет (например, от chrome) для публикации
       - name: Download Swagger Report
         uses: actions/download-artifact@v4
         with:
           name: swagger-report-chrome
           path: .
 
+      # 9. Копируем Swagger отчет в папку текущего запуска рядом с индексом Allure
       - name: Build Swagger Coverage report
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}/
 
+      # 10. Копируем все старые папки запусков из gh-pages в allure-history,
+      # чтобы не стереть прошлую историю на сайте
+      - name: Copy existing runs to deployment directory
+        run: |
+          # Копируем всё, кроме файла истории (мы его обновили на шаге 7)
+          rsync -av --exclude='history.jsonl' gh-pages/ allure-history/
+          rm -rf allure-history/gh-pages 2>/dev/null || true
+
+      # 11. Публикуем обновленную папку (все раны + свежий отчет + файл истории) на GitHub Pages
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         with:

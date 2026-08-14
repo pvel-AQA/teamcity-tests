@@ -2,6 +2,8 @@ import { defineConfig } from "allure";
 
 export default defineConfig({
     name: "Cross-Browser Test Report",
+    // Указываем Allure 3, где хранить сквозную историю для трендов
+    historyPath: "allure-history/history.jsonl",
     output: "./allure-report",
     environments: {
         chrome: {
