@@ -22,7 +22,7 @@ public class BuildStepTest extends BaseUiTest {
         ProjectResponse projectResponse = UserSteps.createProject();
         BuildConfigurationResponse buildConfigurationResponse = UserSteps.createBuildConfiguration(projectResponse);
         PowerShellUiModel uiPowerShellStep = RandomGenerator.generate(PowerShellUiModel.class);
-        uiPowerShellStep.setStepId(null); // stepId = stepName after entering stepName field
+        uiPowerShellStep.setStepId(null); // stepId = stepName after entering the name field
         new SetupYourBuildPage()
                 .open(projectResponse.getId());
         new BuildStepsPage()
@@ -38,7 +38,7 @@ public class BuildStepTest extends BaseUiTest {
         Assertions.assertThat(apiBuildStepResponse)
                 .as("Assert that ui model fields equals to the api models")
                 .matches(m -> m.getId().equals(uiPowerShellStep.getStepId()) &&
-                        m.getName().equals(uiPowerShellStep.getStepName()));
+                        m.getName().equals(uiPowerShellStep.getStepName()) );
     }
 
 }
