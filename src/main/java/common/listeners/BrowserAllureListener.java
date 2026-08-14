@@ -1,4 +1,4 @@
-package common.extensions;
+package common.listeners;
 
 import common.configs.Config;
 import io.qameta.allure.listener.TestLifecycleListener;
