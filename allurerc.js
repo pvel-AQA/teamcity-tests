@@ -16,7 +16,7 @@ export default defineConfig({
         api: {
             name: "API Tests",
             matcher: ({ labels }) =>
-                labels.some(l => l.name === "package" && l.value.contains("api")) ||
+                labels.some(l => l.name === "package" && l.value.toLowerCase().includes("api")) ||
                 labels.some(l => l.name === "testClass" && l.value.toLowerCase().includes("api"))
         },
         chrome: {
