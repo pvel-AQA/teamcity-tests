@@ -12,7 +12,6 @@ import ui.pages.ProjectsPage;
 
 public class AuthenticationTest extends BaseUiTest {
 
-    //@Disabled("Assertion needs to be added!")
     @Test
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     void adminSessionSeedsAuthenticatedBrowserTest() {
