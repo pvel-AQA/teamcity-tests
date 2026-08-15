@@ -133,6 +133,7 @@ jobs:
       - name: Prepare History and Directories
         run: |
           mkdir -p allure-history
+          mkdir -p allure-history/${{ github.run_number }}/awesome
           # Если в сохраненных отчетах gh-pages уже есть история, копируем её для сохранения трендов
           if [ -f gh-pages/allure-history/history.jsonl ]; then
             cp gh-pages/allure-history/history.jsonl allure-history/history.jsonl
@@ -144,7 +145,19 @@ jobs:
         run: |
           allure generate combined-allure-results \
           --config allurerc.js \
-          --output allure-history/${{ github.run_number }}
+          --output allure-history/${{ github.run_number }} || {
+            echo "Allure report generation failed!"
+            echo "Looking for latest log file..."
+            LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
+            if [ -n "$LATEST_LOG" ]; then
+              echo "=== Allure Log Content ==="
+              cat "$LATEST_LOG"
+              echo "=========================="
+            else
+              echo "No log file found!"
+            fi
+            exit 1
+          }
         env:
           ALLURE_OUTPUT_DIR: allure-history/${{ github.run_number }}
 
