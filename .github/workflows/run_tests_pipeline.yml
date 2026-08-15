@@ -129,22 +129,21 @@ jobs:
           npm install allure --no-save
           npm install allure @allurereport/plugin-awesome --no-save
 
-      # 6. Подготавливаем структуру папок перед генерацией отчета
+      # 6. Подготавливаем базовую структуру (БЕЗ создания вложенной папки awesome)
       - name: Prepare History and Directories
         run: |
           mkdir -p allure-history
-          mkdir -p allure-history/${{ github.run_number }}/awesome
           # Если в сохраненных отчетах gh-pages уже есть история, копируем её для сохранения трендов
           if [ -f gh-pages/allure-history/history.jsonl ]; then
             cp gh-pages/allure-history/history.jsonl allure-history/history.jsonl
           fi
 
-      # 7. Генерируем отчет Allure 3 с использованием вашего JS-конфига
-      # Передаем папку результатов сразу после слова generate
+      # 7. Генерируем отчет с флагом --clean
       - name: Generate Allure Report
         run: |
           allure generate combined-allure-results \
           --config allurerc.js \
+          --clean \
           --output allure-history/${{ github.run_number }} || {
             echo "Allure report generation failed!"
             echo "Looking for latest log file..."
