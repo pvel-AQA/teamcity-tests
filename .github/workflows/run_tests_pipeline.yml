@@ -155,7 +155,7 @@ jobs:
       # 7. Генерируем отчет с флагом --clean
       - name: Generate Allure Report
         run: |
-          rm -rf allure-history \
+          rm -rf allure-history
           allure generate combined-allure-results \
           --config allurerc.js \
           --output allure-allure-report || {
