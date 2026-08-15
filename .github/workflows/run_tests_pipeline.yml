@@ -147,7 +147,6 @@ jobs:
       # 6. Подготавливаем базовую структуру (БЕЗ создания вложенной папки awesome)
       - name: Prepare History and Directories
         run: |
-          mkdir -p allure-history
           # Если в сохраненных отчетах gh-pages уже есть история, копируем её для сохранения трендов
           if [ -f gh-pages/allure-history/history.jsonl ]; then
             cp gh-pages/allure-history/history.jsonl allure-history/history.jsonl
@@ -156,9 +155,10 @@ jobs:
       # 7. Генерируем отчет с флагом --clean
       - name: Generate Allure Report
         run: |
+          rm -rf allure-history \
           allure generate combined-allure-results \
           --config allurerc.js \
-          --output allure-history || {
+          --output allure-allure-report || {
             echo "Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
