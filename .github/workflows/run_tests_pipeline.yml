@@ -142,7 +142,9 @@ jobs:
       # Передаем папку результатов сразу после слова generate
       - name: Generate Allure Report
         run: |
-          allure generate combined-allure-results --config allurerc.js
+          allure generate combined-allure-results \
+          --config allurerc.js \
+          --output allure-history/${{ github.run_number }}
         env:
           ALLURE_OUTPUT_DIR: allure-history/${{ github.run_number }}
 
