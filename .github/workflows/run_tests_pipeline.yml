@@ -132,7 +132,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: allure-history/history.jsonl
-          key: allure3-history-${{ github.run_id }}
+          key: allure3-history-${{ github.ref_name }}
           restore-keys: |
             allure3-history-
 
@@ -158,8 +158,7 @@ jobs:
         run: |
           allure generate combined-allure-results \
           --config allurerc.js \
-          --historyPath allure-history/history.jsonl || {
-        #--output allure-history/${{ github.run_number }} || {
+          --output allure-history || {
             echo "Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
