@@ -109,17 +109,32 @@ jobs:
           merge-multiple: true
 
       # 3. Скачиваем текущую историю и прошлые отчеты из ветки gh-pages
-      - name: Load test report history
-        uses: actions/checkout@v6
-        with:
-          ref: gh-pages
-          path: gh-pages
+      #- name: Load test report history
+      #  uses: actions/checkout@v6
+      #  with:
+      #    ref: gh-pages
+      #    path: gh-pages
 
       # 4. Настраиваем Node.js (нужен для Allure 3 CLI и вашего JS-конфига)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # Инициализируем пустой файл истории, если кэш еще не создан
+      - name: Initialize history file
+        run: |
+          mkdir -p allure-history
+          touch allure-history/history.jsonl
+
+      # Восстанавливаем или сохраняем файл истории Allure 3
+      - name: Allure 3 History Cache
+        uses: actions/cache@v4
+        with:
+          path: allure-history/history.jsonl
+          key: allure3-history-${{ github.run_id }}
+          restore-keys: |
+            allure3-history-
 
       # 5. Устанавливаем Allure 3 глобально и локально для работы ES-модулей в конфиге
       # npm install allure --no-save Позволит вашему allurerc.js успешно импортировать 'defineConfig'
@@ -143,7 +158,8 @@ jobs:
         run: |
           allure generate combined-allure-results \
           --config allurerc.js \
-          --output allure-history/${{ github.run_number }} || {
+          --historyPath allure-history/history.jsonl || {
+        #--output allure-history/${{ github.run_number }} || {
             echo "Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
