@@ -1,0 +1,304 @@
+<html lang="en" class=" ua-js"><head>
+        <title>TeamCity</title>
+
+        
+
+        
+
+
+
+
+
+
+
+
+        
+
+
+
+<link rel="Shortcut Icon" href="/img/icons/favicon.ico?v10" type="image/x-icon" sizes="16x16 32x32">
+<meta charset="UTF-8">
+
+<meta name="format-detection" content="telephone=no">
+
+<meta name="application-name" content="TeamCity ()">
+<meta name="description" content="Powerful Continuous Integration and Build Server">
+<meta name="viewport" content="width=1000">
+
+<link rel="apple-touch-icon" sizes="57x57" href="/img/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/img/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/img/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/img/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/img/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/img/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/img/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon-180x180.png">
+
+<meta name="msapplication-TileColor" content="#000000">
+
+<meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="/img/icons/mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="/img/icons/mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="/img/icons/mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="/img/icons/mstile-310x310.png">
+<meta name="tc-csrf-token" content="5b76ff78-b9b4-44d4-a5f2-c0190d3ea713">
+<meta name="robots" content="noindex">
+
+
+        
+
+
+
+<script type="text/javascript" src="/res/-6060474511570324796.js?v=1786820168467"></script>
+
+
+
+        
+
+
+
+
+<style id="1a006c87d9d" type="text/css">
+    @import "/res/459560978433157637.css?v=1786820168467";
+  
+</style>
+
+
+
+
+
+<script type="text/javascript" src="/res/5833290380196265600.js?v=1786820168467"></script>
+
+
+<script type="text/javascript">
+  window.$j = jQuery.noConflict();
+</script>
+
+
+
+
+<script type="text/javascript" src="/res/-5410233700357870077.js?v=1786820168467"></script>
+
+
+        <script>
+          (function() {
+            const Theme = {DARK: 'dark', LIGHT: 'light'}
+            const storageKey = 'tc:lastTheme'
+            const darkClass = 'ring-ui-theme-dark'
+            const getStored = () => {
+              try {
+                return window.localStorage.getItem(storageKey)
+              } catch {
+                return null
+              }
+            }
+            const prefersDark = () => {
+              try {
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              } catch {
+                return false
+              }
+            }
+            const stored = getStored()
+            const theme = stored === Theme.DARK || stored === Theme.LIGHT ? stored : prefersDark() ? Theme.DARK : Theme.LIGHT
+            document.documentElement.classList.toggle(darkClass, theme === Theme.DARK)
+          })();
+        </script>
+        
+
+
+<style id="1a006c87da0" type="text/css">
+    @import "/res/-5770894604672683989.css?v=1786820168467";
+  
+</style>
+
+
+        
+
+
+<script type="text/javascript" src="/res/-3603535750726916660.js?v=1786820168467"></script>
+
+
+        <script type="text/javascript">
+  var base_uri=window.location.protocol+"//"+window.location.host+"";
+</script>
+
+        
+
+        
+
+
+
+<script type="text/javascript" src="/res/-4735258447288317237.js?v=1786820168467"></script>
+
+        
+
+
+
+<script type="text/javascript" src="/res/-4985008087834695917.js?v=1786820168467"></script>
+
+
+
+        
+<script type="text/javascript">
+  var internalProps = [];
+
+  internalProps['teamcity.ui.experimental'] = 'enableDefault';
+  internalProps['teamcity.ui.useServiceWorkers'] =  true;
+
+  internalProps['teamcity.cloud.enabled'] =  false;
+
+  internalProps['teamcity.ui.dormOnly.enabled'] =  false;
+
+  internalProps['teamcity.ui.websocket.connectTimeout'] =  3000;
+  internalProps['teamcity.ui.webSocket.logToConsole'] =  false;
+
+  internalProps['teamcity.ui.pollInterval'] = 6;
+  internalProps['teamcity.ui.serverAvailability.pollInterval'] = 3;
+
+  internalProps['teamcity.ui.events.pollInterval'] = 6;
+  internalProps['teamcity.ui.systemProblems.pollInterval'] = 40;
+  internalProps['teamcity.ui.problemsSummary.pollInterval'] = 8;
+  internalProps['teamcity.ui.buildQueueEstimates.pollInterval'] = 10;
+  internalProps['teamcity.ui.subscriptions.debounceInterval'] = 3000;
+
+  // Doesn't use BS.SubscriptionManager and standard subscription mechanism
+  internalProps['teamcity.ui.cleanupNotificatorProgress.pollInterval'] = 6;
+
+  internalProps['teamcity.ui.serverRestart.warningDelay'] = 120;
+  internalProps['teamcity.ui.serverUpdate.warningDelay'] = 120;
+
+  internalProps['teamcity.ui.editSettings.showResolveValueIcon'] = false;
+
+  internalProps['teamcity.internal.buildChangesPopupLimit'] = '100';
+
+  internalProps['teamcity.internal.agent.distribution.jdk.bundle.enabled'] = true; // disabled in cloud, see TCCI-4497 Enable "Agent Distributions" page in Cloud
+
+  internalProps['teamcity.development.mode'] = false;
+
+  internalProps['teamcity.ui.showObligatoryHints'] = false;
+
+  internalProps['teamcity.ui.showLicenseAgreementToAllUsers'] = true;
+
+  internalProps['teamcity.ui.showDownloadAllArtifactsLink'] = true; // disabled in cloud
+
+  internalProps['teamcity.ui.newInvestigationsPage'] = false;
+
+  internalProps['teamcity.ui.customWelcomeTitle'] = ''; // overridden in cloud
+
+  internalProps['teamcity.ui.sakuraInvestigationsTab'] = false;
+
+  internalProps['teamcity.ui.sakuraProblemsTab'] = true;
+
+  internalProps['teamcity.ui.requestPoolSize'] = 5;
+
+  internalProps['teamcity.ui.newAgentCompatibleConfigurationsTab'] = false;
+
+  internalProps['teamcity.ui.agentPoolsFavoriteLimit'] = 30;
+
+  internalProps['teamcity.overviewPage.buildTypes.limit'] = 200;
+
+  internalProps['teamcity.ui.agentPreviewsUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.agentDataUpdateTimeout'] = 8000;
+
+  internalProps['teamcity.ui.statuses.throttleInterval'] = -1;
+
+  internalProps['teamcity.ui.sidebar.saveSearchState'] = false;
+  internalProps['teamcity.ui.sidebar.skipWSEventsSubscription'] = true;
+  internalProps['teamcity.ui.createProject.newui.enabled'] = true;
+  internalProps['teamcity.ui.createBuildType.newui.enabled'] = true;
+  internalProps['teamcity.ui.createConnection.newui.enabled'] = true;
+  internalProps['teamcity.ui.chainPanning.enabled'] = true;
+  internalProps['teamcity.ui.fromAnyGitURL.enabled'] = false;
+
+  internalProps['teamcity.cloudProfiles.hiddenCloudTypes'] = '';
+
+  internalProps['teamcity.feedback.csat.enabled'] = true;
+  internalProps['teamcity.feedback.csat.testing.enabled'] = false;
+  internalProps['teamcity.feedback.csat.testing.delayInSecondsToShow'] = -1;
+
+  internalProps['teamcity.pipelines.enabled'] = true;
+  internalProps['teamcity.pipelines.creation.enabled'] = false;
+  internalProps['teamcity.pipelines.creation.prohibitedVcsTypes'] = 'svn,mercurial,tfs';
+  internalProps['teamcity.pipelines.projects.enabled'] = true;
+  internalProps['teamcity.pipelines.jobCountSoftLimit'] = 20;
+  internalProps['teamcity.pipelines.jobCountHardLimit'] = 30;
+  internalProps['teamcity.pipelines.testNpmConnection.enabled'] = false;
+  internalProps['teamcity.pipelines.unity.enabled'] = false;
+  internalProps['teamcity.pipelines.dependencyCache.enabled'] = false;
+  internalProps['teamcity.pipelines.customAgentsNames'] = '';
+  internalProps['teamcity.pipelines.feature.smoothParameterReplacement.enabled'] = false;
+  internalProps['teamcity.pipelines.agentPage.enabled'] = false;
+  internalProps['teamcity.pipelines.muteInvestigateButton.enabled'] = true;
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.enabled'] = false;
+  internalProps['teamcity.pipelines.interviewRecruitmentPopup.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.notifications.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.pipeline.notifications.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.compatibilityAgents.enabled'] = true;
+  internalProps['teamcity.pipelines.runOn.enabled'] = false;
+  internalProps['teamcity.pipelines.feedbackForm.enabled'] = false;
+  internalProps['teamcity.pipelines.statusPublishing.configuration.enabled'] = true;
+  internalProps['teamcity.pipelines.feature.withoutVcs.enabled'] = true;
+  internalProps['teamcity.pipelines.welcomePopup.enabled'] = true;
+  internalProps['teamcity.pipelines.earlyAccessLabel.enabled'] = true;
+  internalProps['teamcity.pipelines.feature.testDriveJob'] = false;
+  internalProps['teamcity.pipelines.classicUIBanner.enabled'] = false;
+  internalProps['teamcity.pipelines.feature.pullRequests.enabled'] = true;
+  internalProps['teamcity.pipelines.tryPipelinesLink.enabled'] = true;
+  internalProps['teamcity.pipelines.buildFeatures.enabled'] = true;
+  internalProps['teamcity.ai.assistant.grazietoken'] = 'none';
+  internalProps['teamcity.internal.ai.assistant.buildsServerFeedbackLink'] = false;
+  internalProps['teamcity.internal.ai.assistant.feedbackNonprod'] = false;
+  internalProps['teamcity.internal.ai.assistant.streamProcessingDelay'] = 100;
+  internalProps['teamcity.internal.ai.assistant.minRandomStatusChangeDelay'] = 300;
+  internalProps['teamcity.internal.ai.assistant.maxRandomStatusChangeDelay'] = 800;
+  internalProps['teamcity.pipelines.runActions.enabled'] = true;
+  internalProps['teamcity.ui.buildPage.headerActions.enabled'] = false;
+  internalProps['teamcity.pipelines.integrations.newui.enabled'] = true;
+  internalProps['teamcity.pipelines.parameterInheritance.enabled'] = false;
+  internalProps['teamcity.pipelines.buildChains.enabled'] = true;
+  internalProps['teamcity.pipelines.buildChains.view.enabled'] = true;
+  internalProps['teamcity.pipelines.buildChains.snapshotDependencies.downstream.enabled'] = true;
+  internalProps['teamcity.pipelines.pipelineRunClassicRedirect.enabled'] = false;
+  internalProps['teamcity.pipelines.kotlinDSL.enabled'] = true;
+
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.link'] = 'https://surveys.jetbrains.com/s3/teamcity-pipelines-feedback-survey';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.buttonName'] = 'Take the survey';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.mainMessage'] = 'Help Shape the Future of Pipelines! ';
+  internalProps['teamcity.pipelines.interviewRecruitmentBanner.additionalMessage'] = 'Take a 5-minute survey about your experience, share your ideas, and get a chance to win a prize!';
+
+  internalProps['teamcity.ui.sakura.releaseBanner.enabled'] = true;
+
+  internalProps['teamcity.hidden.artifacts.use.extended.names'] = true;
+
+  internalProps['teamcity.ui.darkTheme.allowed'] = true;
+  internalProps['teamcity.ui.darkTheme.adapter.enabled'] = true;
+  internalProps['teamcity.ui.compositeBuildsOnTimeline.enabled'] = false; // TW-87696
+
+  internalProps['teamcity.ui.buildStepSelector.enabled'] = true;
+  internalProps['teamcity.ui.buildStepSelector.privateRecipeList.pageSize'] = 8;
+  internalProps['teamcity.ui.buildStepSelector.publicRecipeList.pageSize'] = 20;
+  internalProps['teamcity.recipes.public.enabled'] = true;
+  internalProps['teamcity.recipes.public.marketplace.url'] = 'https://plugins.jetbrains.com';
+  internalProps['teamcity.internal.nightly'] = false;
+  internalProps['teamcity.properties.automaticallyMarkImportantBuildsAsFavorite.enabled'] = false
+
+  internalProps['teamcity.ui.stopAutocompleteForPrivateDockerIntegrations.enabled'] = true
+
+  internalProps['teamcity.pipelines.runCustomActions.enabled'] = true;
+  internalProps['teamcity.pipelines.lastRun.enabled'] = false;
+  internalProps['teamcity.pipelines.overview.enabled'] = true;
+  internalProps['teamcity.pipelines.outputParameters.enabled'] = true;
+  internalProps['teamcity.pipelines.addRepository.existingVcsRoot.enabled'] = false;
+  internalProps['teamcity.pipelines.creationFlow.pipelineFirst.enabled'] = false;
+  internalProps['teamcity.pipelines.addRepository.existingVcsRoot.enabled'] = true;
+
+</script>
+
+
+        
+
+
+<script type="text/javascript" src="/res/5349962729000901236.js?v=1786820168467"></script></head></html>
