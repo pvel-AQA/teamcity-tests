@@ -143,7 +143,6 @@ jobs:
         run: |
           allure generate combined-allure-results \
           --config allurerc.js \
-          --clean \
           --output allure-history/${{ github.run_number }} || {
             echo "Allure report generation failed!"
             echo "Looking for latest log file..."
@@ -157,8 +156,6 @@ jobs:
             fi
             exit 1
           }
-        env:
-          ALLURE_OUTPUT_DIR: allure-history/${{ github.run_number }}
 
       # 8. Скачиваем Swagger отчет (например, от chrome) для публикации
       - name: Download Swagger Report

@@ -1,14 +1,10 @@
 import { defineConfig } from "allure";
 
-// Динамически определяем папку вывода:
-// Если запущено в CI, пишем в allure-history/<номер_ранга>, иначе в локальный ./allure-report
-const outputDir = process.env.ALLURE_OUTPUT_DIR || "./allure-report";
-
 export default defineConfig({
     name: "Cross-Browser Test Report",
     // Указываем Allure 3, где хранить сквозную историю для трендов
     historyPath: "allure-history/history.jsonl",
-    output: outputDir, // <-- Теперь Allure сам гарантирует создание этой папки и подпапок плагинов
+    output: "./allure-report", // <-- Это дефолт для локального запуска. В CI он перекроется флагом --output
     plugins: {
         awesome: {
             options: {
