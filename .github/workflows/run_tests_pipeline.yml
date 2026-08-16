@@ -182,7 +182,7 @@ jobs:
       # 9. Копируем Swagger отчет в папку текущего запуска рядом с индексом Allure
       - name: Build Swagger Coverage report
         run: |
-          mkdir -p allure-history/${{ github.run_number }} \
+          mkdir -p allure-history/${{ github.run_number }}
           sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}/
 
       # 10. Копируем все старые папки запусков из gh-pages в allure-history,
