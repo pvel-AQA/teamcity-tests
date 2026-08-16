@@ -158,7 +158,7 @@ jobs:
           rm -rf allure-history
           allure generate combined-allure-results \
           --config allurerc.js \
-          --output allure-allure-report || {
+          --output allure-report || {
             echo "Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
