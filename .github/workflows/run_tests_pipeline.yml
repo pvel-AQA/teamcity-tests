@@ -112,7 +112,7 @@ jobs:
           mkdir -p combined-allure-results
           echo '{"history": []}' > allure-history/history.jsonl
           echo "✅ Cleanup completed"
-          continue-on-error: true
+        continue-on-error: true
 
       # 1. Создаем чистую папку для результатов матрицы
       - name: Create Results Directory
