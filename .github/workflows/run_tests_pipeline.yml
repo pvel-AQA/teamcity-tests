@@ -189,6 +189,7 @@ jobs:
       # чтобы не стереть прошлую историю на сайте
       - name: Copy existing runs to deployment directory
         run: |
+          mkdir -p gh-pages
           rsync -av --exclude='history.jsonl' gh-pages/ allure-history/
           rm -rf allure-history/gh-pages 2>/dev/null || true
 
