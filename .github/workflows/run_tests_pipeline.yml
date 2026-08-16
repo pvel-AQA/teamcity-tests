@@ -119,7 +119,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24.19.0'
 
       # Инициализируем пустой файл истории, если кэш еще не создан
       - name: Initialize history file
