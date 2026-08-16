@@ -154,6 +154,13 @@ jobs:
       # 7. Генерируем отчет с флагом --clean
       - name: Generate Allure Report
         run: |
+          # Очищаем папку текущего запуска, если она существует
+          if [ -d "allure-history/${{ github.run_number }}" ]; then
+            echo "⚠️ Directory allure-history/${{ github.run_number }} already exists, cleaning..."
+            rm -rf "allure-history/${{ github.run_number }}"
+          fi
+          mkdir -p allure-history/${{ github.run_number }}
+    
           rm -rf allure-report
           rm -rf /home/runner/.allure
           allure generate combined-allure-results \
