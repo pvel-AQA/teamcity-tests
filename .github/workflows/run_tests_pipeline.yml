@@ -142,7 +142,7 @@ jobs:
         run: |
           npm install -g allure
           npm install allure --no-save
-          npm install allure @allurereport/plugin-awesome --no-save
+        # npm install allure @allurereport/plugin-awesome --no-save
 
       # 6. Подготавливаем базовую структуру (БЕЗ создания вложенной папки awesome)
       - name: Prepare History and Directories
