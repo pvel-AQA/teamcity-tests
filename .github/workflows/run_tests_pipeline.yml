@@ -96,6 +96,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      # Полная очистка перед всем остальным
+      - name: Clean All Allure Artifacts
+        run: |
+          echo "🧹 Cleaning all Allure artifacts from previous runs..."
+          rm -rf allure-history
+          rm -rf allure-report
+          rm -rf combined-allure-results
+          rm -rf /home/runner/.allure
+          rm -rf /home/runner/.cache/allure
+          rm -rf /tmp/allure-*
+          rm -rf .allure
+          rm -f *.lock
+          mkdir -p allure-history
+          mkdir -p combined-allure-results
+          echo '{"history": []}' > allure-history/history.jsonl
+          echo "✅ Cleanup completed"
+          continue-on-error: true
+
       # 1. Создаем чистую папку для результатов матрицы
       - name: Create Results Directory
         run: mkdir -p combined-allure-results
@@ -163,6 +181,7 @@ jobs:
     
           rm -rf allure-report
           rm -rf /home/runner/.allure
+          
           allure generate combined-allure-results \
           --config allurerc.js \
           --output allure-history/${{ github.run_number }} || {
