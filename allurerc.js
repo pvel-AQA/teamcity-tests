@@ -5,13 +5,6 @@ export default defineConfig({
     // Указываем Allure 3, где хранить сквозную историю для трендов
     historyPath: "allure-history/history.jsonl",
     output: "./allure-report", // <-- Это дефолт для локального запуска. В CI он перекроется флагом --output
-    /*plugins: {
-        awesome: {
-            options: {
-                reportName: "Cross-Browser & API Test Report"
-            }
-        }
-    },*/
     environments: {
         api: {
             name: "API Tests",
