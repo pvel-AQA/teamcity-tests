@@ -96,6 +96,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Install Allure 3 CLI
+        run: |
+          npm install -g allure
+          npm install allure --no-save
+
       # 1. Создаем структуру для истории, если её нет
       - name: Prepare history directory
         run: |
@@ -109,13 +114,6 @@ jobs:
           rm -rf .allure
           rm -f *.lock
           mkdir -p allure-history
-          # Если истории нет, создаем пустой файл
-          if [ ! -f "allure-history/history.jsonl" ]; then
-            echo '{"history": []}' > allure-history/history.jsonl
-            echo "✅ Created new history file"
-          else
-            echo "✅ History file loaded from artifacts"
-          fi
         continue-on-error: true
 
       # 2. Загружаем историю из артефактов предыдущего запуска
@@ -144,13 +142,7 @@ jobs:
         with:
           node-version: '24.19.0'
 
-      # 6. Устанавливаем Allure 3 CLI
-      - name: Install Allure 3 CLI
-        run: |
-          npm install -g allure
-          npm install allure --no-save
-
-      # 7. Генерируем отчет с сохранением истории
+      # 6. Генерируем отчет с сохранением истории
       - name: Generate Allure Report
         run: |
           # Создаем папку для текущего запуска
@@ -184,7 +176,7 @@ jobs:
             exit 1
           fi
 
-      # 8. Скачиваем Swagger отчет (например, от chrome) для публикации
+      # 7. Скачиваем Swagger отчет (например, от chrome) для публикации
       - name: Download Swagger Report
         uses: actions/download-artifact@v4
         with:
@@ -192,17 +184,13 @@ jobs:
           path: .
           continue-on-error: true
 
-      # 9. Копируем Swagger отчет в папку текущего запуска
+      # 8. Копируем Swagger отчет в папку текущего запуска
       - name: Copy Swagger Coverage report
         run: |
-          if [ -f "swagger-coverage-report.html" ]; then
-            cp swagger-coverage-report.html allure-history/${{ github.run_number }}/
-            echo "✅ Swagger report copied"
-          else
-            echo "⚠️ Swagger report not found, skipping"
-          fi
+          mkdir -p allure-history/${{ github.run_number }}
+          sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
 
-      # 10. Обновляем файл истории с текущим запуском
+      # 9. Обновляем файл истории с текущим запуском
       - name: Update history file
         run: |
           cd allure-history
@@ -218,7 +206,7 @@ jobs:
           fi
           echo "✅ History updated with run ${{ github.run_number }}"
 
-      # 11. Сохраняем историю как артефакт для следующего запуска
+      # 10. Сохраняем историю как артефакт для следующего запуска
       - name: Save Allure history
         uses: actions/upload-artifact@v4
         with:
@@ -226,7 +214,7 @@ jobs:
           path: allure-history/
           retention-days: 10
 
-      # 12. Публикуем обновленную папку на GitHub Pages
+      # 11. Публикуем обновленную папку на GitHub Pages
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         with:
