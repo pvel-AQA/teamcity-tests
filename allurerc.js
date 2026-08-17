@@ -6,14 +6,7 @@ export default defineConfig({
     historyPath: "allure-history/history.jsonl",
     appendHistory: true,
     output: "./allure-report", // <-- Это дефолт для локального запуска. В CI он перекроется флагом --output
-    widgets: [
-        {
-            type: "testBaseGrowthDynamics",
-            title: "Test base growth dynamics",
-            statuses: ["passed", "failed", "broken", "skipped", "unknown"],
-            limit: 10,
-        }
-    ],
+
     // Quality Gates - автоматическая проверка качества тестового прогона
     qualityGate: {
         rules: [
