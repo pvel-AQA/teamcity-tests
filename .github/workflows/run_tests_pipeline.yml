@@ -96,29 +96,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      # Полная очистка перед всем остальным
-      - name: Clean All Allure Artifacts
-        run: |
-          echo "🧹 Cleaning all Allure artifacts from previous runs..."
-          rm -rf allure-history
-          rm -rf allure-report
-          rm -rf combined-allure-results
-          rm -rf /home/runner/.allure
-          rm -rf /home/runner/.cache/allure
-          rm -rf /tmp/allure-*
-          rm -rf .allure
-          rm -f *.lock
-          mkdir -p allure-history
-          mkdir -p combined-allure-results
-          echo '{"history": []}' > allure-history/history.jsonl
-          echo "✅ Cleanup completed"
-        continue-on-error: true
+      # 1. Загружаем историю из артефактов предыдущего запуска
+      - name: Download previous history
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-history
+          path: allure-history/
+          continue-on-error: true
 
-      # 1. Создаем чистую папку для результатов матрицы
+      # 2. Создаем структуру для истории, если её нет
+      - name: Prepare history directory
+        run: |
+          mkdir -p allure-history
+          # Если истории нет, создаем пустой файл
+          if [ ! -f "allure-history/history.jsonl" ]; then
+            echo '{"history": []}' > allure-history/history.jsonl
+            echo "✅ Created new history file"
+          else
+            echo "✅ History file loaded from artifacts"
+          fi
+
+      # 3. Создаем папку для результатов матрицы
       - name: Create Results Directory
         run: mkdir -p combined-allure-results
 
-      # 2. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
+      # 4. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
       - name: Download All Allure Results
         uses: actions/download-artifact@v4
         with:
@@ -126,50 +128,32 @@ jobs:
           path: combined-allure-results
           merge-multiple: true
 
-      # 4. Настраиваем Node.js (нужен для Allure 3 CLI и вашего JS-конфига)
+      # 5. Настраиваем Node.js (нужен для Allure 3 CLI)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24.19.0'
 
-      # Инициализируем пустой файл истории, если кэш еще не создан
-      - name: Initialize history file
-        run: |
-          mkdir -p allure-history
-          touch allure-history/history.jsonl
-
-      # 5. Устанавливаем Allure 3 глобально и локально для работы ES-модулей в конфиге
-      # npm install allure --no-save Позволит вашему allurerc.js успешно импортировать 'defineConfig'
+      # 6. Устанавливаем Allure 3 CLI
       - name: Install Allure 3 CLI
         run: |
           npm install -g allure
           npm install allure --no-save
 
-      # 6. Подготавливаем базовую структуру (БЕЗ создания вложенной папки awesome)
-      - name: Prepare History and Directories
-        run: |
-          # Если в сохраненных отчетах gh-pages уже есть история, копируем её для сохранения трендов
-          if [ -f gh-pages/allure-history/history.jsonl ]; then
-            cp gh-pages/allure-history/history.jsonl allure-history/history.jsonl
-          fi
-
-      # 7. Генерируем отчет с флагом --clean
+      # 7. Генерируем отчет с сохранением истории
       - name: Generate Allure Report
         run: |
-          # Очищаем папку текущего запуска, если она существует
-          if [ -d "allure-history/${{ github.run_number }}" ]; then
-            echo "⚠️ Directory allure-history/${{ github.run_number }} already exists, cleaning..."
-            rm -rf "allure-history/${{ github.run_number }}"
-          fi
+          # Создаем папку для текущего запуска
           mkdir -p allure-history/${{ github.run_number }}
-    
-          rm -rf allure-report
-          rm -rf /home/runner/.allure
           
+          # Удаляем старый отчет, если есть
+          rm -rf allure-report
+          
+          # Генерируем отчет
           allure generate combined-allure-results \
-          --config allurerc.js \
-          --output allure-history/${{ github.run_number }} || {
-            echo "Allure report generation failed!"
+            --config allurerc.js \
+            --output allure-history/${{ github.run_number }} || {
+            echo "❌ Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
             if [ -n "$LATEST_LOG" ]; then
@@ -196,28 +180,50 @@ jobs:
         with:
           name: swagger-report-chrome
           path: .
+          continue-on-error: true
 
-      # 9. Копируем Swagger отчет в папку текущего запуска рядом с индексом Allure
-      - name: Build Swagger Coverage report
+      # 9. Копируем Swagger отчет в папку текущего запуска
+      - name: Copy Swagger Coverage report
         run: |
-          mkdir -p allure-history/${{ github.run_number }}
-          sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}/
+          if [ -f "swagger-coverage-report.html" ]; then
+            cp swagger-coverage-report.html allure-history/${{ github.run_number }}/
+            echo "✅ Swagger report copied"
+          else
+            echo "⚠️ Swagger report not found, skipping"
+          fi
 
-      # 10. Копируем все старые папки запусков из gh-pages в allure-history,
-      # чтобы не стереть прошлую историю на сайте
-      - name: Copy existing runs to deployment directory
+      # 10. Обновляем файл истории с текущим запуском
+      - name: Update history file
         run: |
-          mkdir -p gh-pages
-          rsync -av --exclude='history.jsonl' gh-pages/ allure-history/
-          rm -rf allure-history/gh-pages 2>/dev/null || true
+          cd allure-history
+          # Добавляем информацию о текущем запуске в историю
+          RUN_INFO="{\"runNumber\": ${{ github.run_number }}, \"timestamp\": \"$(date -Iseconds)\", \"branch\": \"${{ github.ref_name }}\"}"
+          
+          if [ -f "history.jsonl" ]; then
+            # Если файл существует, добавляем новую запись
+            echo "$RUN_INFO" >> history.jsonl
+          else
+            # Если файла нет, создаем новый
+            echo "$RUN_INFO" > history.jsonl
+          fi
+          echo "✅ History updated with run ${{ github.run_number }}"
 
-      # 11. Публикуем обновленную папку (все раны + свежий отчет + файл истории) на GitHub Pages
+      # 11. Сохраняем историю как артефакт для следующего запуска
+      - name: Save Allure history
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-history
+          path: allure-history/
+          retention-days: 10
+
+      # 12. Публикуем обновленную папку на GitHub Pages
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+          keep_files: true
 
   notify:
     name: Telegram notification
