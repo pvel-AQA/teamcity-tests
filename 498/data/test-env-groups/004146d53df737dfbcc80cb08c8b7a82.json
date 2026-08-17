@@ -1,0 +1,1 @@
+{"id":"004146d53df737dfbcc80cb08c8b7a82","fullName":"api.authorization.AuthorizationUserTest.basicAuthInvalidDataTest","name":"basicAuthInvalidDataTest(String, String, String) Negative tests: all wrong [chrome]","status":"passed","testResultsByEnv":{"api":"7f0be732631bb704947b6b57a3b9b428"}}
