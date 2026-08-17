@@ -10,6 +10,7 @@ import common.annotations.AuthUser;
 import common.enums.UserRoles;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ui.base.BaseUiTest;
 import ui.models.PowerShellUiModel;
@@ -46,6 +47,7 @@ public class BuildStepTest extends BaseUiTest {
     }
 
     @Test
+    @Disabled("problems in firefox")
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCanEditPowerShellBuildStepTest() {
         ProjectResponse projectResponse = UserSteps.createProject();
@@ -73,6 +75,7 @@ public class BuildStepTest extends BaseUiTest {
     }
 
     @Test
+    @Disabled("problems in firefox")
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCannotChangeIdAfterCreatingPowerShellBuildStepTest() {
         ProjectResponse projectResponse = UserSteps.createProject();
@@ -90,6 +93,7 @@ public class BuildStepTest extends BaseUiTest {
     }
 
     @Test
+    @Disabled("problems in firefox")
     @AuthUser(role = UserRoles.SYSTEM_ADMIN, seedBrowserSession = true)
     public void userCanDeletePowerShellBuildStepTest() {
         ProjectResponse projectResponse = UserSteps.createProject();

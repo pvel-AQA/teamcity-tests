@@ -126,13 +126,6 @@ jobs:
           path: combined-allure-results
           merge-multiple: true
 
-      # 3. Скачиваем текущую историю и прошлые отчеты из ветки gh-pages
-      #- name: Load test report history
-      #  uses: actions/checkout@v6
-      #  with:
-      #    ref: gh-pages
-      #    path: gh-pages
-
       # 4. Настраиваем Node.js (нужен для Allure 3 CLI и вашего JS-конфига)
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -144,15 +137,6 @@ jobs:
         run: |
           mkdir -p allure-history
           touch allure-history/history.jsonl
-
-      # Восстанавливаем или сохраняем файл истории Allure 3
-      - name: Allure 3 History Cache
-        uses: actions/cache@v4
-        with:
-          path: allure-history/history.jsonl
-          key: allure3-history-${{ github.ref_name }}
-          restore-keys: |
-            allure3-history-
 
       # 5. Устанавливаем Allure 3 глобально и локально для работы ES-модулей в конфиге
       # npm install allure --no-save Позволит вашему allurerc.js успешно импортировать 'defineConfig'
