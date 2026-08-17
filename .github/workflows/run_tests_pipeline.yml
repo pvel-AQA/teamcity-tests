@@ -102,7 +102,7 @@ jobs:
         with:
           name: allure-history
           path: allure-history/
-          continue-on-error: true
+        continue-on-error: true
 
       # 2. Создаем структуру для истории, если её нет
       - name: Prepare history directory
