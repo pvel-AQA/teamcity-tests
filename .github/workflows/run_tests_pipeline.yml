@@ -98,8 +98,8 @@ jobs:
 
       - name: Install Allure 3 CLI
         run: |
-          npm install -g @allure/cli
-          npm install @allure/cli --no-save
+          npm install -g allure
+          npm install allure --no-save
 
       # 1. Создаем структуру для истории, если её нет
       - name: Prepare history directory
@@ -142,19 +142,17 @@ jobs:
         with:
           node-version: '24.19.0'
 
-      # 6. Генерируем отчет с сохранением истории
+      # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета, а не сразу в историю
       - name: Generate Allure Report
         run: |
-          # Создаем папку для текущего запуска
-          mkdir -p allure-history/${{ github.run_number }}
-          
-          # Удаляем старый отчет, если есть
+          # Гарантируем чистоту временной папки генерации
           rm -rf allure-report
           
-          # Генерируем отчет
+          # Генерируем отчет встроенными средствами Allure 3
+          # В качестве истории передаем ЕЙ ЖЕ архив allure-history (если он есть)
           allure generate combined-allure-results \
             --config allurerc.js \
-            --output allure-history/${{ github.run_number }} || {
+            --output allure-report || {
             echo "❌ Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
@@ -167,14 +165,6 @@ jobs:
             fi
             exit 1
           }
-          
-          # Проверяем результат
-          if [ -f "allure-history/${{ github.run_number }}/index.html" ]; then
-            echo "✅ Report generated successfully"
-          else
-            echo "❌ Report generation failed - index.html not found"
-            exit 1
-          fi
 
       # 7. Скачиваем Swagger отчет (например, от chrome) для публикации
       - name: Download Swagger Report
@@ -184,11 +174,31 @@ jobs:
           path: .
           continue-on-error: true
 
-      # 8. Копируем Swagger отчет в папку текущего запуска
+      # 8. Интегрируем Swagger отчет в сгенерированный Allure-отчет до переноса в историю
       - name: Copy Swagger Coverage report
         run: |
+          if [ -f "swagger-coverage-report.html" ]; then
+            cp swagger-coverage-report.html allure-report/
+            echo "✅ Swagger coverage added to allure-report"
+          fi
+
+      # 8.5 Переносим ГОТОВЫЙ отчет со всеми плагинами в дерево истории средствами bash
+      - name: Move Generated Report to History Tree
+        run: |
+          # Создаем изолированную директорию для текущего запуска
           mkdir -p allure-history/${{ github.run_number }}
-          sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+          
+          # Переносим всё содержимое (включая awesome и swagger)
+          # Bash сделает это атомарно, Node.js процессы уже завершены и папки не заблокированы
+          cp -R allure-report/* allure-history/${{ github.run_number }}/
+          
+          # Проверяем результат в целевой папке
+          if [ -f "allure-history/${{ github.run_number }}/index.html" ]; then
+            echo "✅ Report successfully moved to history"
+          else
+            echo "❌ Report migration failed"
+            exit 1
+          fi
 
       # 9. Обновляем файл истории с текущим запуском
       - name: Update history file
