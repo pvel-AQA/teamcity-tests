@@ -155,9 +155,6 @@ jobs:
             touch allure-history/history.jsonl
           fi
           
-          ls
-          pwd
-          ls allure-history
           cat allure-history/history.jsonl
           
           # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
