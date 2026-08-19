@@ -149,6 +149,7 @@ jobs:
         run: |
           # 1. Полностью сносим старую папку перед генерацией
           rm -rf allure-report
+          ls lah ./allure-history/
           
           # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
           # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.js
