@@ -144,6 +144,8 @@ jobs:
 
       # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета
       - name: Generate Allure Report
+        env:
+          ALLURE_HISTORY_PATH: ${{ github.workspace }}/allure-history/history.jsonl
         run: |
           # 1. Полностью сносим старую папку перед генерацией
           rm -rf allure-report
@@ -181,7 +183,7 @@ jobs:
             echo "✅ Swagger coverage added to allure-report"
           fi
 
-      # 8.5 Переносим ГОТОВЫЙ отчет со всеми плагинами в дерево истории средствами bash
+      # 9 Переносим ГОТОВЫЙ отчет со всеми плагинами в дерево истории средствами bash
       - name: Move Generated Report to History Tree
         run: |
           # Создаем изолированную директорию для текущего запуска
@@ -198,22 +200,6 @@ jobs:
             echo "❌ Report migration failed"
             exit 1
           fi
-
-      # 9. Обновляем файл истории с текущим запуском
-      - name: Update history file
-        run: |
-          cd allure-history
-          # Добавляем информацию о текущем запуске в историю
-          RUN_INFO="{\"runNumber\": ${{ github.run_number }}, \"timestamp\": \"$(date -Iseconds)\", \"branch\": \"${{ github.ref_name }}\"}"
-          
-          if [ -f "history.jsonl" ]; then
-            # Если файл существует, добавляем новую запись
-            echo "$RUN_INFO" >> history.jsonl
-          else
-            # Если файла нет, создаем новый
-            echo "$RUN_INFO" > history.jsonl
-          fi
-          echo "✅ History updated with run ${{ github.run_number }}"
 
       # 10. Сохраняем историю как артефакт для следующего запуска
       - name: Save Allure history

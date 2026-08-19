@@ -3,7 +3,7 @@ import { defineConfig } from "allure";
 export default defineConfig({
     name: "Cross-Browser Test Report",
     // Указываем Allure 3, где хранить сквозную историю для трендов
-    historyPath: "allure-history/history.jsonl",
+    historyPath: process.env.ALLURE_HISTORY_PATH || "./allure-history/history.jsonl",
     appendHistory: true,
     output: "./allure-report", // <-- Это дефолт для локального запуска. В CI он перекроется флагом --output
 
