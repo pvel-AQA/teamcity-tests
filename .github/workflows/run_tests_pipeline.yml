@@ -98,8 +98,8 @@ jobs:
 
       - name: Install Allure 3 CLI
         run: |
-          npm install -g allure
-          npm install allure --no-save
+          npm uninstall -g allure || true
+          npm install -g @allure/cli
 
       # 1. Создаем структуру для истории, если её нет
       - name: Prepare history directory
