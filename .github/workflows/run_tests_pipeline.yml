@@ -52,7 +52,7 @@ jobs:
           fi
           
           # Запускаем тесты с сформированными аргументами
-          ./mvnw clean test -P api -q -Dsurefire.rerunFailingTestsCount=3 $MAVEN_ARGS
+          ./mvnw clean test -P all -q -Dsurefire.rerunFailingTestsCount=3 $MAVEN_ARGS
         env:
           APIBASEURL: http://localhost:8111
           API_PREFIX: /app/rest
