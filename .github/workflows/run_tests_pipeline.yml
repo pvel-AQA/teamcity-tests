@@ -151,6 +151,8 @@ jobs:
           rm -rf allure-report
           ls
           pwd
+          ls allure-report
+          cat allure-report/history.jsonl
           
           # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
           # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.js
