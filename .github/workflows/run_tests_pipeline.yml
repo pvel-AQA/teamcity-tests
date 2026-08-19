@@ -98,8 +98,8 @@ jobs:
 
       - name: Install Allure 3 CLI
         run: |
-          npm uninstall -g allure || true
-          npm install -g @allure/cli
+          npm uninstall allure
+          npm install allure --no-save
 
       # 1. Создаем структуру для истории, если её нет
       - name: Prepare history directory
@@ -142,17 +142,16 @@ jobs:
         with:
           node-version: '24.19.0'
 
-      # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета, а не сразу в историю
+      # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета
       - name: Generate Allure Report
         run: |
-          # Гарантируем чистоту временной папки генерации
+          # 1. Полностью сносим старую папку перед генерацией
           rm -rf allure-report
           
-          # Генерируем отчет встроенными средствами Allure 3
-          # В качестве истории передаем ЕЙ ЖЕ архив allure-history (если он есть)
-          allure generate combined-allure-results \
-            --config allurerc.js \
-            --output allure-report || {
+          # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
+          # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.js
+          npx allure generate combined-allure-results \
+            --config allurerc.js || {
             echo "❌ Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
