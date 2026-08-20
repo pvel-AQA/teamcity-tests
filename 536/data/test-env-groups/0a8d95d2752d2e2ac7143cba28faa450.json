@@ -1,1 +1,0 @@
-{"id":"0a8d95d2752d2e2ac7143cba28faa450","fullName":"ui.project.CreateProjectTest.userCannotCreateProjectWithAlreadyExistingNameTest","name":"userCannotCreateProjectWithAlreadyExistingNameTest() [firefox]","status":"passed","testResultsByEnv":{"firefox":"39c2451591b01b5fe6faab721d8275fd","chrome":"61737135b032b157a49a9f92a3df8c16"}}
