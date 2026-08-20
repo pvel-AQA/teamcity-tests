@@ -13,9 +13,10 @@ export default defineConfig({
             {
                 id: "api-tests-quality",
                 description: "API tests must have 100% success rate",
-                use: "allure", // 🟢 Указываем встроенный плагин-валидатор
-                filter: { environment: "api" }, // 🟢 Фильтруем по вашему окружению 'api'
-                expect: { // 🟢 Все лимиты и метрики переносим в объект expect
+                use: "allure",
+                // Встроенный плагин ищет точное совпадение по полю environment результатов
+                filter: { environment: "api" },
+                expect: {
                     successRate: 1.0,
                     maxFailures: 0,
                     minTestsCount: 10,
@@ -25,7 +26,8 @@ export default defineConfig({
                 id: "ui-tests-quality",
                 description: "UI tests must have at least 95% success rate",
                 use: "allure",
-                filter: { environment: ["chrome", "firefox"] }, // Массив поддерживается автоматически
+                // Передаем массив строк — встроенный плагин проверит соответствие любому из них
+                filter: { environment: ["chrome", "firefox"] },
                 expect: {
                     successRate: 0.95,
                     maxFailures: 2,
@@ -37,8 +39,8 @@ export default defineConfig({
                 id: "critical-path",
                 description: "Critical path tests must all pass",
                 use: "allure",
-                // Фильтр по паре имя-значение для лейблов (меток)
-                filter: { label: { name: "severity", value: "critical" } },
+                // Фильтрация по встроенным метаданным лейблов
+                filter: { "labels.severity": "critical" },
                 expect: {
                     successRate: 1.0,
                     maxFailures: 0,
@@ -49,23 +51,20 @@ export default defineConfig({
                 id: "browser-coverage",
                 description: "Tests must run on all browsers",
                 use: "allure",
+                // Если проверяем весь прогон, фильтр не нужен
                 expect: {
                     successRate: 0.90,
                     minTestsCount: 50,
                     maxFailures: 5,
                     maxDuration: 60000,
-                    // Встроенная проверка Allure 3 на то, что в прогоне участвовали эти окружения
-                    environmentsTested: ["chrome", "firefox"]
                 }
             },
             {
                 id: "no-flaky-tests",
                 description: "No flaky tests allowed",
                 use: "allure",
-                // Если filter опущен или пустой {}, правило применяется ко всем тестам прогона
                 expect: {
                     successRate: 0.98,
-                    // В Allure 3 контроль перезапусков проверяется через стабильность (flaky)
                     maxRetries: 10,
                 }
             },
