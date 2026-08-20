@@ -256,7 +256,6 @@ jobs:
           path: allure-history/
           retention-days: 10
 
-      # debug
       - name: Copy new history for artifact
         run: |
           mkdir -p history-artifact
