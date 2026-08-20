@@ -1,10 +1,5 @@
 import { defineConfig } from "allure";
-import {
-    maxFailuresRule,
-    minTestsCountRule,
-    successRateRule,
-    maxDurationRule,
-} from "allure/rules";
+import { qualityGateDefaultRules } from "allure/rules";
 
 export default defineConfig({
     name: "Cross-Browser Test Report",
