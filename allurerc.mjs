@@ -3,7 +3,7 @@ import {
     maxFailuresRule,
     minTestsCountRule,
     successRateRule,
-    maxDurationRule
+    maxDurationRule,
 } from "allure/rules";
 
 export default defineConfig({
