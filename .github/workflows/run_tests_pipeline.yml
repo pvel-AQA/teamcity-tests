@@ -154,19 +154,12 @@ jobs:
       # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета
       - name: Generate Allure Report
         env:
-          ALLURE_HISTORY_PATH: ${{ github.workspace }}/allure-history/history.jsonl
+          ALLURE_HISTORY_PATH: ${{ github.workspace }}/combined-allure-results/history.jsonl
         run: |
           # 1. Полностью сносим старую папку перед генерацией
           rm -rf allure-report
           mkdir -p allure-history
-          
-          # Гарантируем наличие файла history.jsonl, чтобы cat и Allure 3 не падали, если это первый запуск
-          if [ ! -f "allure-history/history.jsonl" ]; then
-            echo "📝 history.jsonl not found. Creating fresh history file..."
-            touch allure-history/history.jsonl
-          fi
-          
-          cat allure-history/history.jsonl
+          cat combined-allure-results/history.jsonl
           
           # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
           # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.js
