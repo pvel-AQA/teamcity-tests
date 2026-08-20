@@ -202,6 +202,23 @@ jobs:
             exit 1
           }
           
+          # ✅ ДЕДУПЛИКАЦИЯ ИСТОРИИ
+          echo "🧹 Removing duplicates from history.jsonl..."
+          if [ -f "combined-allure-results/history.jsonl" ]; then
+            BEFORE=$(wc -l < combined-allure-results/history.jsonl)
+            echo "📊 Before dedup: $BEFORE entries"
+
+            # Оставляем только уникальные записи по runId
+            cat combined-allure-results/history.jsonl | \
+              jq -c --slurp 'group_by(.runId) | map(.[0]) | sort_by(.timestamp) | .[]' > combined-allure-results/history.jsonl.clean
+    
+            mv combined-allure-results/history.jsonl.clean combined-allure-results/history.jsonl
+    
+            AFTER=$(wc -l < combined-allure-results/history.jsonl)
+            echo "✅ After dedup: $AFTER entries"
+            echo "🧹 Removed: $((BEFORE - AFTER)) duplicates"
+          fi
+          
           # 3. Запускаем проверку Quality Gate на основе сгенерированных результатов
           echo "🛡️ Checking Quality Gate rules..."
           npx allure quality-gate combined-allure-results --config allurerc.mjs || {
