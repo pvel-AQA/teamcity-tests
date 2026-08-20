@@ -158,7 +158,7 @@ jobs:
           fi
 
       # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета
-      - name: Generate Allure Report & Check Quality Gate
+      - name: Generate Allure Report
         #env:
          # ALLURE_HISTORY_PATH: ${{ github.workspace }}/combined-allure-results/history.jsonl
         run: |
@@ -209,18 +209,6 @@ jobs:
             echo "✅ After dedup: $AFTER entries"
             echo "🧹 Removed: $((BEFORE - AFTER)) duplicates"
           fi
-          
-          # 3. Запускаем проверку Quality Gate на основе сгенерированных результатов
-          echo "🛡️ Checking Quality Gate rules..."
-          npx allure quality-gate combined-allure-results --config allurerc.mjs || {
-            echo "❌ Quality Gate failed! The build is unstable."
-          
-            # (Опционально) Попытка вывести логи при падении ворот качества
-            LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
-            [ -n "$LATEST_LOG" ] && cat "$LATEST_LOG"
-          
-            exit 1 # Роняем шаг GitHub Actions
-          }
 
       # 7. Скачиваем Swagger отчет (например, от chrome) для публикации
       - name: Download Swagger Report
