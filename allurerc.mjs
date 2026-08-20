@@ -20,6 +20,14 @@ export default defineConfig({
                     minTestsCount: 10,
                     maxDuration: 60000,
                 }
+            },
+            {
+                id: "api gate",
+                description: "Prohibition on crashing API tests",
+                maxFailures: 0,
+                fastFail: true,
+                filter: (tr) =>
+                    tr.labels.some((label) => label.name === "package" && label.value.toLowerCase().includes("api")),
             }
         ]
     },

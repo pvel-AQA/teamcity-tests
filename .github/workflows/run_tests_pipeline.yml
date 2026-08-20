@@ -217,22 +217,22 @@ jobs:
           fi
 
       # 9 Переносим ГОТОВЫЙ отчет со всеми плагинами в дерево истории средствами bash
-        #- name: Move Generated Report to History Tree
-          #run: |
-          ## Создаем изолированную директорию для текущего запуска
-          #mkdir -p allure-history/${{ github.run_number }}
+      - name: Move Generated Report to History Tree
+        run: |
+          # Создаем изолированную директорию для текущего запуска
+          mkdir -p allure-history/${{ github.run_number }}
           
           # Переносим всё содержимое (включая awesome и swagger)
           # Bash сделает это атомарно, Node.js процессы уже завершены и папки не заблокированы
-          #cp -R allure-report/* allure-history/${{ github.run_number }}/
+          cp -R allure-report/* allure-history/${{ github.run_number }}/
           
           # Проверяем результат в целевой папке
-          #if [ -f "allure-history/${{ github.run_number }}/index.html" ]; then
-          # echo "✅ Report successfully moved to history"
-          #else
-          # echo "❌ Report migration failed"
-          # exit 1
-        #fi
+          if [ -f "allure-history/${{ github.run_number }}/index.html" ]; then
+            echo "✅ Report successfully moved to history"
+          else
+            echo "❌ Report migration failed"
+            exit 1
+          fi
 
       # 10. Сохраняем историю как артефакт для следующего запуска
       - name: Save Allure history
