@@ -1,1 +1,0 @@
-{"id":"004146d53df737dfbcc80cb08c8b7a82","fullName":"api.authorization.AuthorizationUserTest.basicAuthInvalidDataTest","name":"basicAuthInvalidDataTest(String, String, String) Negative tests: wrong username [chrome]","status":"passed","testResultsByEnv":{"api":"ce43120a962b8b036eafed702064b10f"}}
