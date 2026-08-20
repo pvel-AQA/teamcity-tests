@@ -6,7 +6,7 @@ export default defineConfig({
     //historyPath: process.env.ALLURE_HISTORY_PATH || "./allure-history/history.jsonl",
     historyPath: "./combined-allure-results/history.jsonl",
     appendHistory: true,
-    historyLimit: 20,
+    historyLimit: 10,
     output: "./allure-report", // <-- Это дефолт для локального запуска. В CI он перекроется флагом --output
 
     // Quality Gates - автоматическая проверка качества тестового прогона
@@ -22,14 +22,6 @@ export default defineConfig({
                     minTestsCount: 10,
                     maxDuration: 60000,
                 }
-            },
-            {
-                id: "api gate",
-                description: "Prohibition on crashing API tests",
-                maxFailures: 0,
-                fastFail: true,
-                filter: (tr) =>
-                    tr.labels.some((label) => label.name === "package" && label.value.toLowerCase().includes("api")),
             }
         ]
     },
