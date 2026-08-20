@@ -77,10 +77,7 @@ export default defineConfig({
             }
         ],
         use: [
-            maxFailuresRule,
-            minTestsCountRule,
-            successRateRule,
-            maxDurationRule,
+            qualityGateDefaultRules,
             // Если вы хотите использовать кастомное правило maxTotalDuration,
             // его также нужно импортировать и добавить сюда.
         ],
