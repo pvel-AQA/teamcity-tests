@@ -46,15 +46,6 @@ jobs:
           # По умолчанию запускаем UI-тесты для текущего браузера из матрицы
           MAVEN_ARGS="-Dbrowser=${{ matrix.browser }}"
           
-          mkdir -p target/allure-results
-          echo '{
-            "name": "GitHub Actions",
-            "type": "github",
-            "runId": "${{ github.run_id }}",
-            "buildOrder": "${{ github.run_number }}",
-            "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }' > target/allure-results/executor.json
-          
           # Если это Firefox (или любой другой отличный от chrome), исключаем пакет с API-тестами
           if [ "${{ matrix.browser }}" != "chrome" ]; then
             MAVEN_ARGS="$MAVEN_ARGS -Dtest=!api.**"
