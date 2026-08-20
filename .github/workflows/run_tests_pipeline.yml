@@ -101,11 +101,17 @@ jobs:
           npm uninstall allure
           npm install allure --no-save
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+
       # 1. Чистим мусор
       - name: Prepare history directory
         run: |
           echo "🧹 Cleaning all Allure artifacts from previous runs..."
           rm -rf allure-report
+          rm -rf gh-pages-history
           rm -rf combined-allure-results
           rm -rf /home/runner/.allure
           rm -rf /home/runner/.cache/allure
@@ -132,18 +138,7 @@ jobs:
           sparse-checkout-cone-mode: false
           path: gh-pages-history
 
-      # 3. Создаем папку для результатов матрицы
-      - name: Move history to results
-        run: |
-          mkdir -p combined-allure-results
-          if [ -f "gh-pages-history/history.jsonl" ]; then
-          cp gh-pages-history/history.jsonl combined-allure-results/history.jsonl
-          echo "✅ History loaded from gh-pages"
-          else
-          echo "⚠️ No history found, starting fresh"
-          fi
-
-      # 4. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
+      # 3. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
       - name: Download All Allure Results
         uses: actions/download-artifact@v4
         with:
@@ -151,11 +146,16 @@ jobs:
           path: combined-allure-results
           merge-multiple: true
 
-      # 5. Настраиваем Node.js (нужен для Allure 3 CLI)
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.19.0'
+      # 4. Создаем папку для результатов матрицы
+      - name: Move history to results
+        run: |
+          # mkdir -p combined-allure-results
+          if [ -f "gh-pages-history/history.jsonl" ]; then
+          cp gh-pages-history/history.jsonl combined-allure-results/history.jsonl
+          echo "✅ History loaded from gh-pages"
+          else
+          echo "⚠️ No history found, starting fresh"
+          fi
 
       # 6. Генерируем отчет во ВРЕМЕННУЮ папку отчета
       - name: Generate Allure Report & Check Quality Gate
@@ -251,6 +251,7 @@ jobs:
       - name: Copy new history for artifact
         run: |
           mkdir -p history-artifact
+          cat combined-allure-results/history.jsonl
           cp combined-allure-results/history.jsonl history-artifact/
 
       - name: Deploy history back to gh-pages
