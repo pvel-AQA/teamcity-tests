@@ -13,8 +13,6 @@ export default defineConfig({
             {
                 id: "api-tests-quality",
                 description: "API tests must have 100% success rate",
-                use: "allure",
-                // Правильный формат - функция фильтрации
                 filter: (test) => test.package && test.package.includes("api"),
                 expect: {
                     successRate: 1.0,
@@ -25,7 +23,6 @@ export default defineConfig({
             {
                 id: "ui-tests-quality",
                 description: "UI tests must have at least 95% success rate",
-                use: "allure",
                 filter: (test) => {
                     const env = test.environment || test.env;
                     return env && (env === "chrome" || env === "firefox");
@@ -40,7 +37,6 @@ export default defineConfig({
             {
                 id: "critical-path",
                 description: "Critical path tests must all pass",
-                use: "allure",
                 filter: (test) => {
                     return test.labels && test.labels.some(label =>
                         label.name === "severity" && label.value === "critical"
@@ -55,7 +51,6 @@ export default defineConfig({
             {
                 id: "browser-coverage",
                 description: "Tests must run on all browsers",
-                use: "allure",
                 // Без фильтрации - проверяем все тесты
                 expect: {
                     successRate: 0.90,
@@ -67,7 +62,6 @@ export default defineConfig({
             {
                 id: "no-flaky-tests",
                 description: "No flaky tests allowed",
-                use: "allure",
                 expect: {
                     successRate: 0.98,
                     maxRetries: 10,
@@ -76,7 +70,6 @@ export default defineConfig({
             {
                 id: "performance-check",
                 description: "Tests should not be too slow",
-                use: "allure",
                 expect: {
                     maxDuration: 60000,
                     maxTotalDuration: 600000,
