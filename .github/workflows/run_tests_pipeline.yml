@@ -159,12 +159,11 @@ jobs:
           # 1. Полностью сносим старую папку перед генерацией
           rm -rf allure-report
           mkdir -p allure-history
-          cat combined-allure-results/history.jsonl
           
           # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
-          # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.js
+          # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.mjs
           npx allure generate combined-allure-results \
-            --config allurerc.js || {
+            --config allurerc.mjs || {
             echo "❌ Allure report generation failed!"
             echo "Looking for latest log file..."
             LATEST_LOG=$(ls -t /home/runner/.allure/logs/*.log 2>/dev/null | head -1)
@@ -180,7 +179,7 @@ jobs:
           
           # 3. Запускаем проверку Quality Gate на основе сгенерированных результатов
           echo "🛡️ Checking Quality Gate rules..."
-          npx allure quality-gate combined-allure-results --config allurerc.js || {
+          npx allure quality-gate combined-allure-results --config allurerc.mjs || {
             echo "❌ Quality Gate failed! The build is unstable."
           
             # (Опционально) Попытка вывести логи при падении ворот качества
@@ -236,7 +235,6 @@ jobs:
       - name: Copy new history for artifact
         run: |
           mkdir -p history-artifact
-          cat combined-allure-results/history.jsonl
           cp combined-allure-results/history.jsonl history-artifact/
 
       - name: Deploy history back to gh-pages
