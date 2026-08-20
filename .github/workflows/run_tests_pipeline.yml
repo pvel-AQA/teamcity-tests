@@ -122,9 +122,20 @@ jobs:
           path: allure-history/
         continue-on-error: true
 
+      # debug
+      - name: Download history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          sparse-checkout: history.jsonl
+          sparse-checkout-cone-mode: false
+          path: gh-pages-history
+
       # 3. Создаем папку для результатов матрицы
-      - name: Create Results Directory
-        run: mkdir -p combined-allure-results
+      - name: Move history to results
+        run: |
+          mkdir -p combined-allure-results
+          [ -f gh-pages-history/history.jsonl ] && cp gh-pages-history/history.jsonl mkdir -p combined-allure-results/ || true
 
       # 4. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
       - name: Download All Allure Results
@@ -215,6 +226,21 @@ jobs:
           name: allure-history
           path: allure-history/
           retention-days: 10
+
+      # debug
+      - name: Copy new history for artifact
+        run: |
+          mkdir -p history-artifact
+          cat combined-allure-results/history.jsonl
+          cp combined-allure-results/history.jsonl history-artifact/
+
+      - name: Deploy history back to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: history-artifact # Папка, содержимое которой нужно залить
+          branch: gh-pages         # Целевая ветка
+          target-folder: .         # Залить в корень ветки (не затирая остальные файлы отчета, если они там есть)
+          single-commit: false     # Сохранять историю коммитов
 
       # 11. Публикуем обновленную папку на GitHub Pages
       - name: Publish test report
