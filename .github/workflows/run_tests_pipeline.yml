@@ -161,6 +161,16 @@ jobs:
           rm -rf allure-report
           mkdir -p allure-history
           
+          # 1.5 Создаем файл executor.json, чтобы у каждого запуска был строго ОДИН 
+          # уникальный ID в истории (пробуем избавиться от дублеи отчетов в аллюр 3)
+          echo '{
+            "name": "GitHub Actions",
+            "type": "github",
+            "runId": "${{ github.run_id }}",
+            "buildOrder": "${{ github.run_number }}",
+            "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }' > combined-allure-results/executor.json
+          
           # 2. Вызываем официальный Allure 3 через npx (это гарантирует использование @allure/cli)
           # Убираем флаг --output, так как путь "./allure-report" уже прописан в вашем allurerc.mjs
           npx allure generate combined-allure-results \

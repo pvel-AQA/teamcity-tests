@@ -14,8 +14,8 @@ export default defineConfig({
                 id: "api-tests-quality",
                 description: "API tests must have 100% success rate",
                 use: "allure",
-                // Встроенный плагин ищет точное совпадение по полю environment результатов
-                filter: { environment: "api" },
+                // Правильный формат - функция фильтрации
+                filter: (test) => test.package && test.package.includes("api"),
                 expect: {
                     successRate: 1.0,
                     maxFailures: 0,
@@ -26,8 +26,10 @@ export default defineConfig({
                 id: "ui-tests-quality",
                 description: "UI tests must have at least 95% success rate",
                 use: "allure",
-                // Передаем массив строк — встроенный плагин проверит соответствие любому из них
-                filter: { environment: ["chrome", "firefox"] },
+                filter: (test) => {
+                    const env = test.environment || test.env;
+                    return env && (env === "chrome" || env === "firefox");
+                },
                 expect: {
                     successRate: 0.95,
                     maxFailures: 2,
@@ -39,8 +41,11 @@ export default defineConfig({
                 id: "critical-path",
                 description: "Critical path tests must all pass",
                 use: "allure",
-                // Фильтрация по встроенным метаданным лейблов
-                filter: { "labels.severity": "critical" },
+                filter: (test) => {
+                    return test.labels && test.labels.some(label =>
+                        label.name === "severity" && label.value === "critical"
+                    );
+                },
                 expect: {
                     successRate: 1.0,
                     maxFailures: 0,
@@ -51,7 +56,7 @@ export default defineConfig({
                 id: "browser-coverage",
                 description: "Tests must run on all browsers",
                 use: "allure",
-                // Если проверяем весь прогон, фильтр не нужен
+                // Без фильтрации - проверяем все тесты
                 expect: {
                     successRate: 0.90,
                     minTestsCount: 50,
