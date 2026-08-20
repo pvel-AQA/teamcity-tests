@@ -4,7 +4,7 @@ export default defineConfig({
     name: "Cross-Browser Test Report",
     // Указываем Allure 3, где хранить сквозную историю для трендов
     historyPath: process.env.ALLURE_HISTORY_PATH || "./allure-history/history.jsonl",
-    appendHistory: true,
+    //appendHistory: true,
     output: "./allure-report", // <-- Это дефолт для локального запуска. В CI он перекроется флагом --output
 
     // Quality Gates - автоматическая проверка качества тестового прогона

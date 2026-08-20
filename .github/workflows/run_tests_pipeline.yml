@@ -115,12 +115,13 @@ jobs:
         continue-on-error: true
 
       # 2. Загружаем историю из артефактов предыдущего запуска
-      - name: Download previous history
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-history
-          path: allure-history/
-        continue-on-error: true
+
+        #- name: Download previous history
+        #  uses: actions/download-artifact@v4
+          #with:
+          #  name: allure-history
+        #  path: allure-history/
+        #continue-on-error: true
 
       # debug
       - name: Download history
