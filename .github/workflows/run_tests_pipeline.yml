@@ -46,6 +46,7 @@ jobs:
           # По умолчанию запускаем UI-тесты для текущего браузера из матрицы
           MAVEN_ARGS="-Dbrowser=${{ matrix.browser }}"
           
+          mkdir -p target/allure-results
           echo '{
             "name": "GitHub Actions",
             "type": "github",
