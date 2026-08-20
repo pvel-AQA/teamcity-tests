@@ -1,4 +1,10 @@
 import { defineConfig } from "allure";
+import {
+    maxFailuresRule,
+    minTestsCountRule,
+    successRateRule,
+    maxDurationRule
+} from "allure/rules";
 
 export default defineConfig({
     name: "Cross-Browser Test Report",
@@ -72,10 +78,17 @@ export default defineConfig({
                 description: "Tests should not be too slow",
                 expect: {
                     maxDuration: 60000,
-                    maxTotalDuration: 600000,
                 }
             }
-        ]
+        ],
+        use: [
+            maxFailuresRule,
+            minTestsCountRule,
+            successRateRule,
+            maxDurationRule,
+            // Если вы хотите использовать кастомное правило maxTotalDuration,
+            // его также нужно импортировать и добавить сюда.
+        ],
     },
 
     environments: {
