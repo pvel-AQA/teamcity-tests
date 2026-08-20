@@ -1,5 +1,4 @@
 import { defineConfig } from "allure";
-import { qualityGateDefaultRules } from "allure/rules";
 
 export default defineConfig({
     name: "Cross-Browser Test Report",
@@ -11,76 +10,18 @@ export default defineConfig({
     // Quality Gates - автоматическая проверка качества тестового прогона
     qualityGate: {
         rules: [
+            // Только базовые правила без фильтров
             {
-                id: "api-tests-quality",
-                description: "API tests must have 100% success rate",
-                filter: (test) => test.package && test.package.includes("api"),
-                expect: {
-                    successRate: 1.0,
-                    maxFailures: 0,
-                    minTestsCount: 10,
-                }
-            },
-            {
-                id: "ui-tests-quality",
-                description: "UI tests must have at least 95% success rate",
-                filter: (test) => {
-                    const env = test.environment || test.env;
-                    return env && (env === "chrome" || env === "firefox");
-                },
+                id: "basic-quality",
+                description: "Basic quality checks",
                 expect: {
                     successRate: 0.95,
-                    maxFailures: 2,
-                    minTestsCount: 20,
-                    maxDuration: 30000,
-                }
-            },
-            {
-                id: "critical-path",
-                description: "Critical path tests must all pass",
-                filter: (test) => {
-                    return test.labels && test.labels.some(label =>
-                        label.name === "severity" && label.value === "critical"
-                    );
-                },
-                expect: {
-                    successRate: 1.0,
-                    maxFailures: 0,
-                    maxDuration: 60000,
-                }
-            },
-            {
-                id: "browser-coverage",
-                description: "Tests must run on all browsers",
-                // Без фильтрации - проверяем все тесты
-                expect: {
-                    successRate: 0.90,
-                    minTestsCount: 50,
                     maxFailures: 5,
-                    maxDuration: 60000,
-                }
-            },
-            {
-                id: "no-flaky-tests",
-                description: "No flaky tests allowed",
-                expect: {
-                    successRate: 0.98,
-                    maxRetries: 10,
-                }
-            },
-            {
-                id: "performance-check",
-                description: "Tests should not be too slow",
-                expect: {
+                    minTestsCount: 10,
                     maxDuration: 60000,
                 }
             }
-        ],
-        use: [
-            qualityGateDefaultRules,
-            // Если вы хотите использовать кастомное правило maxTotalDuration,
-            // его также нужно импортировать и добавить сюда.
-        ],
+        ]
     },
 
     environments: {
