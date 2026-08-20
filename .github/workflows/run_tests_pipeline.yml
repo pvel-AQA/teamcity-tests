@@ -136,7 +136,12 @@ jobs:
       - name: Move history to results
         run: |
           mkdir -p combined-allure-results
-          [ -f gh-pages-history/history.jsonl ] && cp gh-pages-history/history.jsonl mkdir -p combined-allure-results/ || true
+          if [ -f "gh-pages-history/history.jsonl" ]; then
+          cp gh-pages-history/history.jsonl combined-allure-results/history.jsonl
+          echo "✅ History loaded from gh-pages"
+          else
+          echo "⚠️ No history found, starting fresh"
+          fi
 
       # 4. Скачиваем результаты ВСЕХ браузеров из матрицы в одну папку
       - name: Download All Allure Results
