@@ -201,7 +201,7 @@ jobs:
 
             # Оставляем только уникальные записи по runId
             cat combined-allure-results/history.jsonl | \
-              jq -c --slurp 'group_by(.runId) | map(.[0]) | sort_by(.timestamp) | .[]' > combined-allure-results/history.jsonl.clean
+              jq -c --slurp 'group_by(.runId) | map(last) | sort_by(.timestamp) | .[]' > combined-allure-results/history.jsonl.clean
     
             mv combined-allure-results/history.jsonl.clean combined-allure-results/history.jsonl
     
